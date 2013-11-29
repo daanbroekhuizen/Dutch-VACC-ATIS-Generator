@@ -35,14 +35,6 @@
             this.metarTextBox = new System.Windows.Forms.TextBox();
             this.lastLabel = new System.Windows.Forms.Label();
             this.processMetarButton = new System.Windows.Forms.Button();
-            this.outputTextBox = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.RWY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.XWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DREF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.COMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.nextATISLetterButton = new System.Windows.Forms.Button();
             this.previousATISLetterButton = new System.Windows.Forms.Button();
@@ -67,15 +59,18 @@
             this.generateATISButton = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.outputTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -86,6 +81,8 @@
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox12.SuspendLayout();
             this.SuspendLayout();
             // 
             // getMetarButton
@@ -140,97 +137,6 @@
             this.processMetarButton.Text = "Process Metar";
             this.processMetarButton.UseVisualStyleBackColor = true;
             this.processMetarButton.Click += new System.EventHandler(this.processMetarButton_Click);
-            // 
-            // outputTextBox
-            // 
-            this.outputTextBox.Location = new System.Drawing.Point(969, 397);
-            this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(100, 20);
-            this.outputTextBox.TabIndex = 5;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.RWY,
-            this.XWIND,
-            this.TWIND,
-            this.DREF,
-            this.NPRF,
-            this.COMPLY});
-            this.dataGridView1.Location = new System.Drawing.Point(692, 516);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 50;
-            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(602, 336);
-            this.dataGridView1.TabIndex = 6;
-            this.dataGridView1.Visible = false;
-            // 
-            // RWY
-            // 
-            this.RWY.Frozen = true;
-            this.RWY.HeaderText = "RWY";
-            this.RWY.Name = "RWY";
-            this.RWY.ReadOnly = true;
-            this.RWY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.RWY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // XWIND
-            // 
-            this.XWIND.Frozen = true;
-            this.XWIND.HeaderText = "XWIND";
-            this.XWIND.Name = "XWIND";
-            this.XWIND.ReadOnly = true;
-            this.XWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.XWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // TWIND
-            // 
-            this.TWIND.Frozen = true;
-            this.TWIND.HeaderText = "TWIND";
-            this.TWIND.Name = "TWIND";
-            this.TWIND.ReadOnly = true;
-            this.TWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.TWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // DREF
-            // 
-            this.DREF.Frozen = true;
-            this.DREF.HeaderText = "DREF";
-            this.DREF.Name = "DREF";
-            this.DREF.ReadOnly = true;
-            this.DREF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DREF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // NPRF
-            // 
-            this.NPRF.Frozen = true;
-            this.NPRF.HeaderText = "NPRF";
-            this.NPRF.Name = "NPRF";
-            this.NPRF.ReadOnly = true;
-            this.NPRF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.NPRF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // COMPLY
-            // 
-            this.COMPLY.Frozen = true;
-            this.COMPLY.HeaderText = "COMPLY";
-            this.COMPLY.Name = "COMPLY";
-            this.COMPLY.ReadOnly = true;
-            this.COMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.COMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // groupBox1
             // 
@@ -544,47 +450,6 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Additional Options";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(107, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "APP callsign only";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 42);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(109, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "ARR callsign only";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 88);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(80, 17);
-            this.checkBox3.TabIndex = 3;
-            this.checkBox3.Text = "checkBox3";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Visible = false;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 65);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(142, 17);
-            this.checkBox4.TabIndex = 2;
-            this.checkBox4.Text = "APP + ARR callsign only";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
@@ -629,11 +494,90 @@
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.Visible = false;
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(6, 88);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(80, 17);
+            this.checkBox3.TabIndex = 3;
+            this.checkBox3.Text = "checkBox3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Visible = false;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 65);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(142, 17);
+            this.checkBox4.TabIndex = 2;
+            this.checkBox4.Text = "APP + ARR callsign only";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 42);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(109, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "ARR callsign only";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(107, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "APP callsign only";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // copyOutputCheckBox
+            // 
+            this.copyOutputCheckBox.AutoSize = true;
+            this.copyOutputCheckBox.Location = new System.Drawing.Point(6, 11);
+            this.copyOutputCheckBox.Name = "copyOutputCheckBox";
+            this.copyOutputCheckBox.Size = new System.Drawing.Size(141, 17);
+            this.copyOutputCheckBox.TabIndex = 0;
+            this.copyOutputCheckBox.Text = "Copy output to clipboard";
+            this.copyOutputCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.copyOutputCheckBox);
+            this.groupBox11.Location = new System.Drawing.Point(371, 355);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(157, 112);
+            this.groupBox11.TabIndex = 16;
+            this.groupBox11.TabStop = false;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.outputTextBox);
+            this.groupBox12.Location = new System.Drawing.Point(12, 473);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(516, 100);
+            this.groupBox12.TabIndex = 17;
+            this.groupBox12.TabStop = false;
+            // 
+            // outputTextBox
+            // 
+            this.outputTextBox.Location = new System.Drawing.Point(6, 13);
+            this.outputTextBox.Multiline = true;
+            this.outputTextBox.Name = "outputTextBox";
+            this.outputTextBox.Size = new System.Drawing.Size(504, 80);
+            this.outputTextBox.TabIndex = 0;
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 499);
+            this.ClientSize = new System.Drawing.Size(813, 649);
+            this.Controls.Add(this.groupBox12);
+            this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.generateATISButton);
@@ -641,13 +585,10 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.outputTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DutchVACCATISGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -665,8 +606,11 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -678,14 +622,6 @@
         private System.Windows.Forms.TextBox metarTextBox;
         private System.Windows.Forms.Label lastLabel;
         private System.Windows.Forms.Button processMetarButton;
-        private System.Windows.Forms.TextBox outputTextBox;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RWY;
-        private System.Windows.Forms.DataGridViewTextBoxColumn XWIND;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TWIND;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DREF;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NPRF;
-        private System.Windows.Forms.DataGridViewTextBoxColumn COMPLY;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button previousATISLetterButton;
         private System.Windows.Forms.Button nextATISLetterButton;
@@ -718,6 +654,10 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox copyOutputCheckBox;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.TextBox outputTextBox;
     }
 }
 

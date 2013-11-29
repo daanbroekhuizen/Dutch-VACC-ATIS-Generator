@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
 {
+    /// <summary>
+    /// DutchVACCATISGenerator class.
+    /// </summary>
     public partial class DutchVACCATISGenerator : Form
     {
         private String metar { get; set; }
@@ -25,6 +28,9 @@ namespace DutchVACCATISGenerator
 
         //private DataTable dataTable;
         
+        /// <summary>
+        /// Constructor of DutchVACCATISGenerator.
+        /// </summary>
         public DutchVACCATISGenerator()
         {
             InitializeComponent();
@@ -32,8 +38,6 @@ namespace DutchVACCATISGenerator
             metar = String.Empty;
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-            buildDataTable();
 
             atisIndex = 25;
 
@@ -43,7 +47,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when get metar button is clicked. Starts a background worker which pulls the metar from the VATSIM metar website.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -57,29 +61,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when metar background workers is started. Pulls metar from VATSIM metar website.
         /// </summary>
-        private void buildDataTable()
-        {
-            dataGridView1.Rows.Add("04", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("06", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("09", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("18L", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("18C", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("18R", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("22", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("24", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("27", "..", "..", "..", "..", "..");      
-            dataGridView1.Rows.Add("36L", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("36C", "..", "..", "..", "..", "..");
-            dataGridView1.Rows.Add("36R", "..", "..", "..", "..", "..");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void metarBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             WebRequest request = WebRequest.Create("http://metar.vatsim.net/metar.php?id=" + e.Argument);
@@ -91,10 +76,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when metar background worker has completed its task. Sets pulled metar from VATSIM metar website into the metarTextBox.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void metarBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             metarTextBox.Text = metar;
@@ -103,10 +88,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when process metar button is clicked. Initiates a MetarProcessor which will proces the metar inputted into easy accessible fields.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void processMetarButton_Click(object sender, EventArgs e)
         {
             if (metar.Equals(String.Empty) && metarTextBox.Text.Equals(String.Empty))
@@ -132,10 +117,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when previous arrow (ATIS letter) is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void previousATISLetterButton_Click(object sender, EventArgs e)
         {
             if(atisIndex == 0) atisIndex = 25;
@@ -145,10 +130,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when next arrow (ATIS letter) is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void nextATISLetterButton_Click(object sender, EventArgs e)
         {
             if(atisIndex == 25) atisIndex = 0;
@@ -158,10 +143,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when main landing runway checkbox check status changes.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void mainLandingRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if(mainLandingRunwayCheckBox.Checked) mainLandingRunwayComboBox.Enabled = true;
@@ -169,10 +154,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when secondary landing runway checkbox check status changes.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void secondaryLandingRunway_CheckedChanged(object sender, EventArgs e)
         {
             if (secondaryLandingRunwayCheckBox.Checked) secondaryLandingRunwayComboBox.Enabled = true;
@@ -180,10 +165,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when main departure runway checkbox check status changes.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void mainDepartureRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (mainDepartureRunwayCheckBox.Checked) mainDepartureRunwayComboBox.Enabled = true;
@@ -191,10 +176,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when secondary departure runway checkbox check status changes.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void secondaryDepartureRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (secondaryDepartureRunwayCheckBox.Checked) secondaryDepartureRunwayComboBox.Enabled = true;
@@ -202,10 +187,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method to parse runway identifier letter to ATIS output text.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Runway identifier letter (L, C, R)</param>
+        /// <returns>Runway identifier AITS output</returns>
         private String getRunwayMarker(String input)
         {
             switch (input)
@@ -224,16 +209,17 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called when generate ATIS button is clicked. Processes field from MetarProcessor to output string.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void generateATISButton_Click(object sender, EventArgs e)
         {
-            //generateATISButton.Enabled = false;
+            generateATISButton.Enabled = false;
 
             String output = String.Empty;
 
+            //TODO REGIONAL AIRPORTS
             #region ICAO
             switch(metarProcessor.metar.ICAO)
             {
@@ -242,7 +228,7 @@ namespace DutchVACCATISGenerator
                     break;
 
                 case "EHRD":
-
+                    
                     break;
 
             }
@@ -310,11 +296,11 @@ namespace DutchVACCATISGenerator
             }
             #endregion
 
-
-            //TL
+            //TODO TL
+            #region TL
             output += "[trl]";
+            #endregion
 
-            
             output += "[pause]";
 
             #region WIND
@@ -326,10 +312,12 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.winds.First().Value.windVariableLeft != null) output += "[vrbbtn]" + metarProcessor.metar.winds.First().Value.windVariableLeft + "[and]" + metarProcessor.metar.winds.First().Value.windVariableRight + "[deg]";
             #endregion
 
+            #region CAVOK
             if (metarProcessor.metar.CAVOK) output += "[cavok]";
- 
-            #region VISIBILITY          
-            if(metarProcessor.metar.Visibility.Count > 0 && metarProcessor.metar.Visibility.First().Value > 0)
+            #endregion
+
+            #region VISIBILITY
+            if (metarProcessor.metar.Visibility.Count > 0 && metarProcessor.metar.Visibility.First().Value > 0)
             {
                 output += "[vis]";
 
@@ -399,6 +387,7 @@ namespace DutchVACCATISGenerator
             }
             #endregion
 
+            //TODO VV < 1000?
             #region Vertical visibility
             if(metarProcessor.metar.verticalVisibility != null)
             {
@@ -423,7 +412,6 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region DEWPOINT
-            //DEWPOINT
             output += "[dp]";
             if (metarProcessor.metar.Dewpoint.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString().Substring(1,2));
             else output += Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString());
@@ -439,6 +427,7 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.NOSIG) output += "[nosig]";
             #endregion
 
+            //TODO FINISH TEMPO AND BECMG
             #region TEMPO || BECMG
             if (metarProcessor.metar.TEMPO || metarProcessor.metar.BECMG)
             {
@@ -480,17 +469,9 @@ namespace DutchVACCATISGenerator
             output += phoneticAlphabet[atisIndex];
             #endregion
 
+            if (copyOutputCheckBox.Checked) Clipboard.SetText(output);
 
-            //Clipboard.SetText(output);
-
-
-            System.Diagnostics.Debug.WriteLine(output);
-
-               //[ehamatis]C[pause][mlrwy][trl]50[pause]180[deg]10[kt][vrbbtn]150[and]210[deg][cavok][few]2[thousand]7[hundred][ft][cb][bkn]4[thousand]4[hundred][ft][tcu][temp]7[dp]5[qnh]995[hpa][nosig][end]C
-
-            //[trl]45    [pause]180[deg]9[kt][vrbbtn]150[and]210[deg]   [vis]10[km]    [few]9[hundred][ft][sct]1[thousand]3[hundred][ft][temp]10[dp]9[qnh]1007[hpa][becmg][bkn]1[thousand]3[hundred][ft][end]A
-
-            //[trl]45[opr][independend][pause]250[deg]13[max]24[kt][vrbbtn]210[and]280[deg][vis]10[km][-][shra][few]2[thousand][ft][few]2[thousand]5[hundred][ft][cb][temp]10[dp]6[qnh]998[hpa][tempo][vis]7[km][end]D
+            outputTextBox.Text = output;
 
             //[ehamatis]E[pause][mlrwy]18[right][slrwy]06[mtrwy]18[center][strwy]18[center][trl]50[pause]250[deg]13[max]24[kt][vrbbtn]210[and]280[deg][vis]10[km][-][shra][few]2[thousand][ft][few]2[thousand]5[hundred][ft][cb][temp][minus]10[dp]6[qnh]998[hpa][tempo][vis]7[km][end]E
         }
