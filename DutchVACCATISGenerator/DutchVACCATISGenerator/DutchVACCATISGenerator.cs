@@ -235,7 +235,7 @@ namespace DutchVACCATISGenerator
             //    MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return;
             //}
 
-            generateATISButton.Enabled = false;      
+            //generateATISButton.Enabled = false;      
 
             String output = String.Empty;
 
@@ -316,9 +316,16 @@ namespace DutchVACCATISGenerator
             }
             #endregion
 
-            //TODO TL
             #region TL
             output += "[trl]";
+
+            int temp = 0;
+
+            if(metarProcessor.metar.Temperature.StartsWith("M")) temp = Convert.ToInt32(metarProcessor.metar.Temperature.Substring(1)) * -1;
+      
+            else temp = Convert.ToInt32(metarProcessor.metar.Temperature);
+
+            output += (Math.Ceiling((307.8 - (0.13986 * temp) - (0.26224 * metarProcessor.metar.QNH)) / 5) * 5).ToString();
             #endregion
 
             output += "[pause]";
@@ -427,14 +434,14 @@ namespace DutchVACCATISGenerator
 
             #region TEMPERATURE
             output += "[temp]";
-            if (metarProcessor.metar.Temperature.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Temperature.ToString().Substring(1,2));
-            else output += Convert.ToInt32(metarProcessor.metar.Temperature.ToString());
+            //if (metarProcessor.metar.Temperature.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Temperature.ToString().Substring(1,2));
+            //else output += Convert.ToInt32(metarProcessor.metar.Temperature.ToString());
             #endregion
 
             #region DEWPOINT
             output += "[dp]";
-            if (metarProcessor.metar.Dewpoint.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString().Substring(1,2));
-            else output += Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString());
+            //if (metarProcessor.metar.Dewpoint.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString().Substring(1,2));
+            //else output += Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString());
             #endregion
 
             #region QNH
