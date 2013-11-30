@@ -99,7 +99,7 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("No metar fetched or entered.", "Error"); return;
             }
             else metar = metarTextBox.Text;
-              
+                    
             metarProcessor = new MetarProcessor(metar.Split(' '));
 
             if (metarProcessor.parseComplete)
@@ -215,7 +215,27 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void generateATISButton_Click(object sender, EventArgs e)
         {
-            generateATISButton.Enabled = false;
+            //if (!mainLandingRunwayCheckBox.Checked || mainLandingRunwayComboBox.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("No main landing runway selected.", "Error"); return;
+            //}
+
+            //if(!mainDepartureRunwayCheckBox.Checked || mainDepartureRunwayComboBox.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("No main departure runway selected.", "Error"); return;
+            //}
+
+            //if(secondaryLandingRunwayCheckBox.Checked && secondaryLandingRunwayComboBox.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Error"); return;
+            //}
+
+            //if (secondaryDepartureRunwayCheckBox.Checked && secondaryDepartureRunwayComboBox.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return;
+            //}
+
+            generateATISButton.Enabled = false;      
 
             String output = String.Empty;
 
@@ -304,12 +324,12 @@ namespace DutchVACCATISGenerator
             output += "[pause]";
 
             #region WIND
-            if (metarProcessor.metar.winds.First().Value.VRB) output += "[vrb]" + metarProcessor.metar.winds.First().Value.windKnots + "[kt]";
-            else if (metarProcessor.metar.winds.First().Value.windGustMin != null) output += metarProcessor.metar.winds.First().Value.windHeading + "[deg]" + metarProcessor.metar.winds.First().Value.windGustMin + "[max]" + metarProcessor.metar.winds.First().Value.windGustMax + "[kt]";
-            else output += metarProcessor.metar.winds.First().Value.windHeading + "[deg]" + metarProcessor.metar.winds.First().Value.windKnots + "[kt]";
+            if (metarProcessor.metar.Winds.First().Value.VRB) output += "[vrb]" + metarProcessor.metar.Winds.First().Value.windKnots + "[kt]";
+            else if (metarProcessor.metar.Winds.First().Value.windGustMin != null) output += metarProcessor.metar.Winds.First().Value.windHeading + "[deg]" + metarProcessor.metar.Winds.First().Value.windGustMin + "[max]" + metarProcessor.metar.Winds.First().Value.windGustMax + "[kt]";
+            else output += metarProcessor.metar.Winds.First().Value.windHeading + "[deg]" + metarProcessor.metar.Winds.First().Value.windKnots + "[kt]";
 
             /*Variable wind*/
-            if (metarProcessor.metar.winds.First().Value.windVariableLeft != null) output += "[vrbbtn]" + metarProcessor.metar.winds.First().Value.windVariableLeft + "[and]" + metarProcessor.metar.winds.First().Value.windVariableRight + "[deg]";
+            if (metarProcessor.metar.Winds.First().Value.windVariableLeft != null) output += "[vrbbtn]" + metarProcessor.metar.Winds.First().Value.windVariableLeft + "[and]" + metarProcessor.metar.Winds.First().Value.windVariableRight + "[deg]";
             #endregion
 
             #region CAVOK
@@ -331,11 +351,11 @@ namespace DutchVACCATISGenerator
             
             //TODO 4 CHAR OPTIONS
             #region PHENOMENA
-            if(metarProcessor.metar.phenomena.Count > 0)
+            if(metarProcessor.metar.Phenomena.Count > 0)
             {
-                int _index = metarProcessor.metar.phenomena.Keys.ElementAt(0);
+                int _index = metarProcessor.metar.Phenomena.Keys.ElementAt(0);
 
-                foreach (KeyValuePair<int, MetarPhenoma> pair in metarProcessor.metar.phenomena)
+                foreach (KeyValuePair<int, MetarPhenoma> pair in metarProcessor.metar.Phenomena)
                 {
                     if (Math.Abs(_index - pair.Key) == 0)
                     {
@@ -361,11 +381,11 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region CLOUDS
-            if (metarProcessor.metar.clouds.Count > 0)
+            if (metarProcessor.metar.Clouds.Count > 0)
             {
-                int _index = metarProcessor.metar.clouds.Keys.ElementAt(0);
+                int _index = metarProcessor.metar.Clouds.Keys.ElementAt(0);
 
-                foreach (KeyValuePair<int, MetarCloud> pair in metarProcessor.metar.clouds)
+                foreach (KeyValuePair<int, MetarCloud> pair in metarProcessor.metar.Clouds)
                 {
                     if(Math.Abs(_index - pair.Key) == 0)
                     {
@@ -389,15 +409,15 @@ namespace DutchVACCATISGenerator
 
             //TODO VV < 1000?
             #region Vertical visibility
-            if(metarProcessor.metar.verticalVisibility != null)
+            if(metarProcessor.metar.VerticalVisibility != null)
             {
                 output += "[vv]";
                 
-                int visibility = Convert.ToInt32(metarProcessor.metar.verticalVisibility.Substring(2));
+                int visibility = Convert.ToInt32(metarProcessor.metar.VerticalVisibility.Substring(2));
 
                 if(visibility / 100 > 0)
                 {
-                    output += "1" + metarProcessor.metar.verticalVisibility.Substring(2, 1) + "[thousand]";
+                    output += "1" + metarProcessor.metar.VerticalVisibility.Substring(2, 1) + "[thousand]";
                 }
 
                 
@@ -428,39 +448,445 @@ namespace DutchVACCATISGenerator
             #endregion
 
             //TODO FINISH TEMPO AND BECMG
+            //TODO MAKE METHODS FOR OUTPUT 4x SAME CODE NOW
             #region TEMPO || BECMG
             if (metarProcessor.metar.TEMPO || metarProcessor.metar.BECMG)
             {
                 if (metarProcessor.metar.TEMPO && metarProcessor.metar.BECMG)
                 {
-                    if(metarProcessor.metar.trendTEMPOPosition < metarProcessor.metar.trendBECMGPosition)
-                    {
-                        
-                    }
-                    else
-                    {
+                   #region BECMG -> TEMPO
+                    output += "[becmg]";
 
+                    int _index = metarProcessor.metar.TrendBECMGPosition;
+                    int addToIndex = 1;
+
+                    #region BECMG WIND
+                    foreach (KeyValuePair<int, MetarWind> metarWind in metarProcessor.metar.Winds)
+                    {
+                        if (metarWind.Key == _index)
+                        {
+                            _index = metarWind.Key;
+
+                            if (metarWind.Value.VRB) output += "[vrb]" + metarWind.Value.windKnots + "[kt]";
+                            else if (metarWind.Value.windGustMin != null) output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windGustMin + "[max]" + metarWind.Value.windGustMax + "[kt]";
+                            else output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windKnots + "[kt]";
+
+                            /*Variable wind*/
+                            if (metarWind.Value.windVariableLeft != null) output += "[vrbbtn]" + metarWind.Value.windVariableLeft + "[and]" + metarWind.Value.windVariableRight + "[deg]";
+                            addToIndex++;
+                        }
+
+                        _index++;
                     }
+                    #endregion
+
+                    #region BECMG VISIBILITY
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, int> metarVisibility in metarProcessor.metar.Visibility)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarVisibility.Key - _index));
+
+                        if (Math.Abs(metarVisibility.Key - _index) <= 1)
+                        {
+                            output += "[vis]";
+
+                            if (metarVisibility.Value < 1000) output += "1";
+                            else if (metarVisibility.Value >= 9999) output += "10";
+                            else output += Convert.ToString(metarVisibility.Value / 1000);
+
+                            output += "[km]";
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region BECMG PHENOMENA
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarPhenoma> metarPhenoma in metarProcessor.metar.Phenomena)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarPhenoma.Key - _index));
+
+                        if (Math.Abs(metarPhenoma.Key - _index) <= 1)
+                        {
+                            if (metarPhenoma.Value.hasIntensity)
+                            {
+                                output += "[-]";
+
+                                if (metarPhenoma.Value.phenoma.Count() > 2) output += "[" + metarPhenoma.Value.phenoma.Substring(0, 2).ToLower() + "][" + metarPhenoma.Value.phenoma.Substring(2).ToLower() + "]";
+                                else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            }
+                            else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region BECMG CLOUDS
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarCloud> cloudPair in metarProcessor.metar.Clouds)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(cloudPair.Key - _index));
+
+                        if (Math.Abs(_index - cloudPair.Key) <= 1)
+                        {
+                            output += "[" + cloudPair.Value.cloudType.ToLower() + "]";
+
+                            if (cloudPair.Value.altitude / 100 > 0) output += "1" + cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude / 10 > 0) output += cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude % 10 > 0) output += cloudPair.Value.altitude % 10 + "[hundred]";
+
+                            output += "[ft]";
+
+                            if (cloudPair.Value.addition != null) output += "[" + cloudPair.Value.addition.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion                       
+
+                    output += "[tempo]";
+
+                    _index = metarProcessor.metar.TrendTEMPOPosition;
+                    addToIndex = 1;
+
+                    #region TEMPO WIND
+                    foreach (KeyValuePair<int, MetarWind> metarWind in metarProcessor.metar.Winds)
+                    {
+                        if (metarWind.Key == _index)
+                        {
+                            _index = metarWind.Key;
+
+                            if (metarWind.Value.VRB) output += "[vrb]" + metarWind.Value.windKnots + "[kt]";
+                            else if (metarWind.Value.windGustMin != null) output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windGustMin + "[max]" + metarWind.Value.windGustMax + "[kt]";
+                            else output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windKnots + "[kt]";
+
+                            /*Variable wind*/
+                            if (metarWind.Value.windVariableLeft != null) output += "[vrbbtn]" + metarWind.Value.windVariableLeft + "[and]" + metarWind.Value.windVariableRight + "[deg]";
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region TEMPO VISIBILITY
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, int> metarVisibility in metarProcessor.metar.Visibility)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarVisibility.Key - _index));
+
+                        if (Math.Abs(metarVisibility.Key - _index) <= 1)
+                        {
+                            output += "[vis]";
+
+                            if (metarVisibility.Value < 1000) output += "1";
+                            else if (metarVisibility.Value >= 9999) output += "10";
+                            else output += Convert.ToString(metarVisibility.Value / 1000);
+
+                            output += "[km]";
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region TEMPO PHENOMENA
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarPhenoma> metarPhenoma in metarProcessor.metar.Phenomena)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarPhenoma.Key - _index));
+
+                        if (Math.Abs(metarPhenoma.Key - _index) <= 1)
+                        {
+                            if (metarPhenoma.Value.hasIntensity)
+                            {
+                                output += "[-]";
+
+                                if (metarPhenoma.Value.phenoma.Count() > 2) output += "[" + metarPhenoma.Value.phenoma.Substring(0, 2).ToLower() + "][" + metarPhenoma.Value.phenoma.Substring(2).ToLower() + "]";
+                                else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            }
+                            else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region TEMPO CLOUDS
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarCloud> cloudPair in metarProcessor.metar.Clouds)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(cloudPair.Key - _index));
+
+                        if (Math.Abs(_index - cloudPair.Key) <= 1)
+                        {
+                            output += "[" + cloudPair.Value.cloudType.ToLower() + "]";
+
+                            if (cloudPair.Value.altitude / 100 > 0) output += "1" + cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude / 10 > 0) output += cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude % 10 > 0) output += cloudPair.Value.altitude % 10 + "[hundred]";
+
+                            output += "[ft]";
+
+                            if (cloudPair.Value.addition != null) output += "[" + cloudPair.Value.addition.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+                    #endregion
                 }
+
+                #region TEMPO
                 else if (metarProcessor.metar.TEMPO)
                 {
                     output += "[tempo]";
 
-                    int _index = 0;
+                    int _index = metarProcessor.metar.TrendTEMPOPosition;
+                    int addToIndex = 0;
 
-                    foreach(KeyValuePair<int, MetarWind> metarWind in metarProcessor.metar.winds)
+                    #region TEMPO WIND
+                    foreach (KeyValuePair<int, MetarWind> metarWind in metarProcessor.metar.Winds)
                     {
-                        if(metarWind.Key == metarProcessor.metar.trendTEMPOPosition)
+                        if (metarWind.Key == _index)
                         {
                             _index = metarWind.Key;
+                            
+                            if (metarWind.Value.VRB) output += "[vrb]" + metarWind.Value.windKnots + "[kt]";
+                            else if (metarWind.Value.windGustMin != null) output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windGustMin + "[max]" + metarWind.Value.windGustMax + "[kt]";
+                            else output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windKnots + "[kt]";
+
+                            /*Variable wind*/
+                            if (metarWind.Value.windVariableLeft != null) output += "[vrbbtn]" + metarWind.Value.windVariableLeft + "[and]" + metarWind.Value.windVariableRight + "[deg]";
+                            addToIndex++;
                         }
+
+                        _index++;
                     }
+                    #endregion
+
+                    #region TEMPO VISIBILITY
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, int> metarVisibility in metarProcessor.metar.Visibility)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarVisibility.Key - _index) );
+
+                        if(Math.Abs(metarVisibility.Key - _index) <= 1)
+                        {
+                            output += "[vis]";
+
+                            if (metarVisibility.Value < 1000) output += "1";
+                            else if (metarVisibility.Value >= 9999) output += "10";
+                            else output += Convert.ToString(metarVisibility.Value / 1000);
+
+                            output += "[km]";                            
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region TEMPO PHENOMENA
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarPhenoma> metarPhenoma in metarProcessor.metar.Phenomena)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarPhenoma.Key - _index));
+
+                        if(Math.Abs(metarPhenoma.Key - _index) <= 1)
+                        {
+                            if (metarPhenoma.Value.hasIntensity)
+                            {
+                                output += "[-]";
+
+                                if (metarPhenoma.Value.phenoma.Count() > 2) output += "[" + metarPhenoma.Value.phenoma.Substring(0, 2).ToLower() + "][" + metarPhenoma.Value.phenoma.Substring(2).ToLower() + "]";
+                                else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            }
+                            else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region TEMPO CLOUDS
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarCloud> cloudPair in metarProcessor.metar.Clouds)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(cloudPair.Key - _index));
+
+                        if (Math.Abs(_index - cloudPair.Key) <= 1)
+                        {
+                            output += "[" + cloudPair.Value.cloudType.ToLower() + "]";
+
+                            if (cloudPair.Value.altitude / 100 > 0) output += "1" + cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude / 10 > 0) output += cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude % 10 > 0) output += cloudPair.Value.altitude % 10 + "[hundred]";
+
+                            output += "[ft]";
+
+                            if (cloudPair.Value.addition != null) output += "[" + cloudPair.Value.addition.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
 
                 }
+                #endregion
+
+                #region BECMG
                 else
                 {
+                    output += "[becmg]";
 
+                    int _index = metarProcessor.metar.TrendBECMGPosition;
+                    int addToIndex = 0;
+
+                    #region BECMG WIND
+                    foreach (KeyValuePair<int, MetarWind> metarWind in metarProcessor.metar.Winds)
+                    {
+                        if (metarWind.Key == _index)
+                        {
+                            _index = metarWind.Key;
+                            
+                            if (metarWind.Value.VRB) output += "[vrb]" + metarWind.Value.windKnots + "[kt]";
+                            else if (metarWind.Value.windGustMin != null) output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windGustMin + "[max]" + metarWind.Value.windGustMax + "[kt]";
+                            else output += metarWind.Value.windHeading + "[deg]" + metarWind.Value.windKnots + "[kt]";
+
+                            /*Variable wind*/
+                            if (metarWind.Value.windVariableLeft != null) output += "[vrbbtn]" + metarWind.Value.windVariableLeft + "[and]" + metarWind.Value.windVariableRight + "[deg]";
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region BECMG VISIBILITY
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, int> metarVisibility in metarProcessor.metar.Visibility)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarVisibility.Key - _index) );
+
+                        if(Math.Abs(metarVisibility.Key - _index) <= 1)
+                        {
+                            output += "[vis]";
+
+                            if (metarVisibility.Value < 1000) output += "1";
+                            else if (metarVisibility.Value >= 9999) output += "10";
+                            else output += Convert.ToString(metarVisibility.Value / 1000);
+
+                            output += "[km]";                            
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region BECMG PHENOMENA
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarPhenoma> metarPhenoma in metarProcessor.metar.Phenomena)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(metarPhenoma.Key - _index));
+
+                        if(Math.Abs(metarPhenoma.Key - _index) <= 1)
+                        {
+                            if (metarPhenoma.Value.hasIntensity)
+                            {
+                                output += "[-]";
+
+                                if (metarPhenoma.Value.phenoma.Count() > 2) output += "[" + metarPhenoma.Value.phenoma.Substring(0, 2).ToLower() + "][" + metarPhenoma.Value.phenoma.Substring(2).ToLower() + "]";
+                                else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            }
+                            else output += "[" + metarPhenoma.Value.phenoma.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
+
+                    #region BECMG CLOUDS
+                    /* Reset index */
+                    _index = metarProcessor.metar.TrendTEMPOPosition + addToIndex;
+
+                    foreach (KeyValuePair<int, MetarCloud> cloudPair in metarProcessor.metar.Clouds)
+                    {
+                        System.Diagnostics.Debug.WriteLine(Math.Abs(cloudPair.Key - _index));
+
+                        if (Math.Abs(_index - cloudPair.Key) <= 1)
+                        {
+                            output += "[" + cloudPair.Value.cloudType.ToLower() + "]";
+
+                            if (cloudPair.Value.altitude / 100 > 0) output += "1" + cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude / 10 > 0) output += cloudPair.Value.altitude / 10 + "[thousand]";
+
+                            if (cloudPair.Value.altitude % 10 > 0) output += cloudPair.Value.altitude % 10 + "[hundred]";
+
+                            output += "[ft]";
+
+                            if (cloudPair.Value.addition != null) output += "[" + cloudPair.Value.addition.ToLower() + "]";
+
+                            addToIndex++;
+                        }
+
+                        _index++;
+                    }
+                    #endregion
                 }
+                #endregion
             }
             #endregion
 
@@ -476,4 +902,6 @@ namespace DutchVACCATISGenerator
             //[ehamatis]E[pause][mlrwy]18[right][slrwy]06[mtrwy]18[center][strwy]18[center][trl]50[pause]250[deg]13[max]24[kt][vrbbtn]210[and]280[deg][vis]10[km][-][shra][few]2[thousand][ft][few]2[thousand]5[hundred][ft][cb][temp][minus]10[dp]6[qnh]998[hpa][tempo][vis]7[km][end]E
         }
     }
+
+
 }

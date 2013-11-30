@@ -60,21 +60,21 @@ namespace DutchVACCATISGenerator
                     #region WIND
                     if (s.StartsWith("VRB"))
                     {
-                        metar.winds.Add(_index, new MetarWind(true, s.Substring(3, 2))); continue;
+                        metar.Winds.Add(_index, new MetarWind(true, s.Substring(3, 2))); continue;
                     }
 
                     if (stringEndsWith("KT", s))
                     {
-                        if (s.Contains("G")) metar.winds.Add(_index, new MetarWind(s.Substring(0, 3), s.Substring(3, 2), s.Substring(6, 2)));
-                        else metar.winds.Add(_index, new MetarWind(s.Substring(0, 3), s.Substring(3, 2)));
+                        if (s.Contains("G")) metar.Winds.Add(_index, new MetarWind(s.Substring(0, 3), s.Substring(3, 2), s.Substring(6, 2)));
+                        else metar.Winds.Add(_index, new MetarWind(s.Substring(0, 3), s.Substring(3, 2)));
 
                         continue;
                     }
 
                     if (hasVariableWind(s))
                     {
-                        metar.winds[_index - 1].windVariableLeft = s.Substring(0, 3);
-                        metar.winds[_index - 1].windVariableRight = s.Substring(4, 3);
+                        metar.Winds[_index - 1].windVariableLeft = s.Substring(0, 3);
+                        metar.Winds[_index - 1].windVariableRight = s.Substring(4, 3);
                         continue;
                     }
                     #endregion
@@ -112,15 +112,15 @@ namespace DutchVACCATISGenerator
                     /*Vertical visibility*/
                     if(s.StartsWith("VV"))
                     {
-                        metar.verticalVisibility = s; continue;
+                        metar.VerticalVisibility = s; continue;
                     }
                     #endregion
 
                     #region PHENOMENA
                     if (s.StartsWith("-") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
                     {
-                        if (s.StartsWith("-")) metar.phenomena.Add(_index, new MetarPhenoma(true, s.Substring(1)));
-                        else metar.phenomena.Add(_index, new MetarPhenoma(s));
+                        if (s.StartsWith("-")) metar.Phenomena.Add(_index, new MetarPhenoma(true, s.Substring(1)));
+                        else metar.Phenomena.Add(_index, new MetarPhenoma(s));
 
                         continue;
                     }
@@ -129,8 +129,8 @@ namespace DutchVACCATISGenerator
                     #region CLOUDS
                     if (s.StartsWith("FEW") || s.StartsWith("SCT") || s.StartsWith("BKN") || s.StartsWith("OVC"))
                     {
-                        if (s.Substring(3).Count() > 3) metar.clouds.Add(_index, new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
-                        else metar.clouds.Add(_index, new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3))));       
+                        if (s.Substring(3).Count() > 3) metar.Clouds.Add(_index, new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                        else metar.Clouds.Add(_index, new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3))));       
                         
                         continue;
                     }
@@ -189,7 +189,7 @@ namespace DutchVACCATISGenerator
                     if (s.Equals("TEMPO"))
                     {
                         metar.TEMPO = true;
-                        metar.trendTEMPOPosition = _index;
+                        metar.TrendTEMPOPosition = _index;
                         continue;
                     }
                     #endregion
@@ -198,11 +198,15 @@ namespace DutchVACCATISGenerator
                     if (s.Equals("BECMG"))
                     {
                         metar.BECMG = true;
-                        metar.trendBECMGPosition = _index;
+                        metar.TrendBECMGPosition = _index;
                         continue;
                     }
                     #endregion
                     #endregion
+
+                    if(s.Equals("//")) continue;
+
+                    else throw new FormatException();
                 }
                 
                 parseComplete = true;
@@ -270,9 +274,12 @@ namespace DutchVACCATISGenerator
         /// <returns></returns>
         private bool stringEndsWithChar(char c, String input)
         {
-            if (input.Last().Equals(c)) return true;
-
-            return false;
+            if (input.Length > 0)
+            {
+                if (input.Last().Equals(c)) return true;
+                else return false;
+            }
+            else return false;         
         }
 
         /// <summary>

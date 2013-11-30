@@ -39,7 +39,7 @@
             this.nextATISLetterButton = new System.Windows.Forms.Button();
             this.previousATISLetterButton = new System.Windows.Forms.Button();
             this.atisLetterLabel = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.mainRunwaysGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.mainLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.mainLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
@@ -49,7 +49,7 @@
             this.secondaryLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.secondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.secondaryRunwaysGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.secondaryDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.secondaryDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
@@ -57,7 +57,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
@@ -72,14 +72,14 @@
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.mainRunwaysGroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.secondaryRunwaysGroupBox.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.groupBox9.SuspendLayout();
+            this.metarInputGroupBox.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
@@ -180,16 +180,16 @@
             this.atisLetterLabel.Text = "A";
             this.atisLetterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox2
+            // mainRunwaysGroupBox
             // 
-            this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.groupBox7);
-            this.groupBox2.Location = new System.Drawing.Point(12, 151);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(353, 96);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Main Runway(s)";
+            this.mainRunwaysGroupBox.Controls.Add(this.groupBox3);
+            this.mainRunwaysGroupBox.Controls.Add(this.groupBox7);
+            this.mainRunwaysGroupBox.Location = new System.Drawing.Point(12, 151);
+            this.mainRunwaysGroupBox.Name = "mainRunwaysGroupBox";
+            this.mainRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
+            this.mainRunwaysGroupBox.TabIndex = 8;
+            this.mainRunwaysGroupBox.TabStop = false;
+            this.mainRunwaysGroupBox.Text = "Main Runway(s)";
             // 
             // groupBox3
             // 
@@ -232,7 +232,7 @@
             "36R"});
             this.mainLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
             this.mainLandingRunwayComboBox.Name = "mainLandingRunwayComboBox";
-            this.mainLandingRunwayComboBox.Size = new System.Drawing.Size(115, 21);
+            this.mainLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.mainLandingRunwayComboBox.TabIndex = 2;
             // 
             // groupBox7
@@ -276,7 +276,7 @@
             "36R"});
             this.mainDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
             this.mainDepartureRunwayComboBox.Name = "mainDepartureRunwayComboBox";
-            this.mainDepartureRunwayComboBox.Size = new System.Drawing.Size(115, 21);
+            this.mainDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.mainDepartureRunwayComboBox.TabIndex = 2;
             // 
             // secondaryLandingRunwayCheckBox
@@ -310,7 +310,7 @@
             "36R"});
             this.secondaryLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
             this.secondaryLandingRunwayComboBox.Name = "secondaryLandingRunwayComboBox";
-            this.secondaryLandingRunwayComboBox.Size = new System.Drawing.Size(115, 21);
+            this.secondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.secondaryLandingRunwayComboBox.TabIndex = 3;
             // 
             // groupBox4
@@ -323,16 +323,16 @@
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             // 
-            // groupBox5
+            // secondaryRunwaysGroupBox
             // 
-            this.groupBox5.Controls.Add(this.groupBox4);
-            this.groupBox5.Controls.Add(this.groupBox6);
-            this.groupBox5.Location = new System.Drawing.Point(12, 253);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(353, 96);
-            this.groupBox5.TabIndex = 10;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Secondary Runway(s)";
+            this.secondaryRunwaysGroupBox.Controls.Add(this.groupBox4);
+            this.secondaryRunwaysGroupBox.Controls.Add(this.groupBox6);
+            this.secondaryRunwaysGroupBox.Location = new System.Drawing.Point(12, 253);
+            this.secondaryRunwaysGroupBox.Name = "secondaryRunwaysGroupBox";
+            this.secondaryRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
+            this.secondaryRunwaysGroupBox.TabIndex = 10;
+            this.secondaryRunwaysGroupBox.TabStop = false;
+            this.secondaryRunwaysGroupBox.Text = "Secondary Runway(s)";
             // 
             // groupBox6
             // 
@@ -364,7 +364,7 @@
             "36R"});
             this.secondaryDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
             this.secondaryDepartureRunwayComboBox.Name = "secondaryDepartureRunwayComboBox";
-            this.secondaryDepartureRunwayComboBox.Size = new System.Drawing.Size(115, 21);
+            this.secondaryDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.secondaryDepartureRunwayComboBox.TabIndex = 3;
             // 
             // secondaryDepartureRunwayCheckBox
@@ -419,19 +419,19 @@
             this.generateATISButton.UseVisualStyleBackColor = true;
             this.generateATISButton.Click += new System.EventHandler(this.generateATISButton_Click);
             // 
-            // groupBox9
+            // metarInputGroupBox
             // 
-            this.groupBox9.Controls.Add(this.icaoTextBox);
-            this.groupBox9.Controls.Add(this.getMetarButton);
-            this.groupBox9.Controls.Add(this.metarTextBox);
-            this.groupBox9.Controls.Add(this.lastLabel);
-            this.groupBox9.Controls.Add(this.processMetarButton);
-            this.groupBox9.Location = new System.Drawing.Point(12, 12);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(516, 133);
-            this.groupBox9.TabIndex = 13;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Metar";
+            this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
+            this.metarInputGroupBox.Controls.Add(this.getMetarButton);
+            this.metarInputGroupBox.Controls.Add(this.metarTextBox);
+            this.metarInputGroupBox.Controls.Add(this.lastLabel);
+            this.metarInputGroupBox.Controls.Add(this.processMetarButton);
+            this.metarInputGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.metarInputGroupBox.Name = "metarInputGroupBox";
+            this.metarInputGroupBox.Size = new System.Drawing.Size(516, 133);
+            this.metarInputGroupBox.TabIndex = 13;
+            this.metarInputGroupBox.TabStop = false;
+            this.metarInputGroupBox.Text = "Metar";
             // 
             // groupBox10
             // 
@@ -559,51 +559,51 @@
             this.groupBox12.Controls.Add(this.outputTextBox);
             this.groupBox12.Location = new System.Drawing.Point(12, 473);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(516, 100);
+            this.groupBox12.Size = new System.Drawing.Size(516, 93);
             this.groupBox12.TabIndex = 17;
             this.groupBox12.TabStop = false;
             // 
             // outputTextBox
             // 
-            this.outputTextBox.Location = new System.Drawing.Point(6, 13);
+            this.outputTextBox.Location = new System.Drawing.Point(3, 9);
             this.outputTextBox.Multiline = true;
             this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(504, 80);
+            this.outputTextBox.Size = new System.Drawing.Size(510, 81);
             this.outputTextBox.TabIndex = 0;
             // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(813, 649);
+            this.ClientSize = new System.Drawing.Size(538, 578);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
-            this.Controls.Add(this.groupBox9);
+            this.Controls.Add(this.metarInputGroupBox);
             this.Controls.Add(this.generateATISButton);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.secondaryRunwaysGroupBox);
+            this.Controls.Add(this.mainRunwaysGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DutchVACCATISGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.mainRunwaysGroupBox.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
+            this.secondaryRunwaysGroupBox.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox8.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
+            this.metarInputGroupBox.ResumeLayout(false);
+            this.metarInputGroupBox.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -626,14 +626,14 @@
         private System.Windows.Forms.Button previousATISLetterButton;
         private System.Windows.Forms.Button nextATISLetterButton;
         private System.Windows.Forms.Label atisLetterLabel;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox mainRunwaysGroupBox;
         private System.Windows.Forms.ComboBox mainLandingRunwayComboBox;
         private System.Windows.Forms.CheckBox secondaryLandingRunwayCheckBox;
         private System.Windows.Forms.CheckBox mainLandingRunwayCheckBox;
         private System.Windows.Forms.ComboBox secondaryLandingRunwayComboBox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox secondaryRunwaysGroupBox;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.ComboBox secondaryDepartureRunwayComboBox;
         private System.Windows.Forms.CheckBox secondaryDepartureRunwayCheckBox;
@@ -644,7 +644,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button generateATISButton;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.GroupBox metarInputGroupBox;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.CheckBox checkBox6;
