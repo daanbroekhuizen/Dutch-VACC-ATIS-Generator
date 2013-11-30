@@ -35,54 +35,50 @@
             this.metarTextBox = new System.Windows.Forms.TextBox();
             this.lastLabel = new System.Windows.Forms.Label();
             this.processMetarButton = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.atisIndexGroupBox = new System.Windows.Forms.GroupBox();
             this.nextATISLetterButton = new System.Windows.Forms.Button();
             this.previousATISLetterButton = new System.Windows.Forms.Button();
             this.atisLetterLabel = new System.Windows.Forms.Label();
             this.mainRunwaysGroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.mainLandingGroupBox = new System.Windows.Forms.GroupBox();
             this.mainLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.mainLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.mainDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
             this.mainDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.mainDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.secondaryLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.secondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.secondaryLandingRunwayGroupBox = new System.Windows.Forms.GroupBox();
             this.secondaryRunwaysGroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.secondaryDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
             this.secondaryDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.secondaryDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.tlLevelGroupBox = new System.Windows.Forms.GroupBox();
+            this.tlOutLabel = new System.Windows.Forms.Label();
+            this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.markTempCheckBox = new System.Windows.Forms.CheckBox();
+            this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.outputGroupBox = new System.Windows.Forms.GroupBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox1.SuspendLayout();
+            this.atisIndexGroupBox.SuspendLayout();
             this.mainRunwaysGroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.mainLandingGroupBox.SuspendLayout();
+            this.mainDepartureRunwayGroupBox.SuspendLayout();
+            this.secondaryLandingRunwayGroupBox.SuspendLayout();
             this.secondaryRunwaysGroupBox.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox8.SuspendLayout();
+            this.secondaryDepartureRunwayGroupBox.SuspendLayout();
+            this.tlLevelGroupBox.SuspendLayout();
             this.metarInputGroupBox.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox12.SuspendLayout();
+            this.additionalOptionsGroupBox.SuspendLayout();
+            this.outputOptionsGroupBox.SuspendLayout();
+            this.outputGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // getMetarButton
@@ -138,16 +134,16 @@
             this.processMetarButton.UseVisualStyleBackColor = true;
             this.processMetarButton.Click += new System.EventHandler(this.processMetarButton_Click);
             // 
-            // groupBox1
+            // atisIndexGroupBox
             // 
-            this.groupBox1.Controls.Add(this.nextATISLetterButton);
-            this.groupBox1.Controls.Add(this.previousATISLetterButton);
-            this.groupBox1.Controls.Add(this.atisLetterLabel);
-            this.groupBox1.Location = new System.Drawing.Point(12, 355);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(116, 112);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
+            this.atisIndexGroupBox.Controls.Add(this.nextATISLetterButton);
+            this.atisIndexGroupBox.Controls.Add(this.previousATISLetterButton);
+            this.atisIndexGroupBox.Controls.Add(this.atisLetterLabel);
+            this.atisIndexGroupBox.Location = new System.Drawing.Point(12, 355);
+            this.atisIndexGroupBox.Name = "atisIndexGroupBox";
+            this.atisIndexGroupBox.Size = new System.Drawing.Size(116, 112);
+            this.atisIndexGroupBox.TabIndex = 7;
+            this.atisIndexGroupBox.TabStop = false;
             // 
             // nextATISLetterButton
             // 
@@ -182,8 +178,8 @@
             // 
             // mainRunwaysGroupBox
             // 
-            this.mainRunwaysGroupBox.Controls.Add(this.groupBox3);
-            this.mainRunwaysGroupBox.Controls.Add(this.groupBox7);
+            this.mainRunwaysGroupBox.Controls.Add(this.mainLandingGroupBox);
+            this.mainRunwaysGroupBox.Controls.Add(this.mainDepartureRunwayGroupBox);
             this.mainRunwaysGroupBox.Location = new System.Drawing.Point(12, 151);
             this.mainRunwaysGroupBox.Name = "mainRunwaysGroupBox";
             this.mainRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
@@ -191,15 +187,15 @@
             this.mainRunwaysGroupBox.TabStop = false;
             this.mainRunwaysGroupBox.Text = "Main Runway(s)";
             // 
-            // groupBox3
+            // mainLandingGroupBox
             // 
-            this.groupBox3.Controls.Add(this.mainLandingRunwayCheckBox);
-            this.groupBox3.Controls.Add(this.mainLandingRunwayComboBox);
-            this.groupBox3.Location = new System.Drawing.Point(6, 19);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(169, 65);
-            this.groupBox3.TabIndex = 10;
-            this.groupBox3.TabStop = false;
+            this.mainLandingGroupBox.Controls.Add(this.mainLandingRunwayCheckBox);
+            this.mainLandingGroupBox.Controls.Add(this.mainLandingRunwayComboBox);
+            this.mainLandingGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.mainLandingGroupBox.Name = "mainLandingGroupBox";
+            this.mainLandingGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.mainLandingGroupBox.TabIndex = 10;
+            this.mainLandingGroupBox.TabStop = false;
             // 
             // mainLandingRunwayCheckBox
             // 
@@ -235,15 +231,15 @@
             this.mainLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.mainLandingRunwayComboBox.TabIndex = 2;
             // 
-            // groupBox7
+            // mainDepartureRunwayGroupBox
             // 
-            this.groupBox7.Controls.Add(this.mainDepartureRunwayCheckBox);
-            this.groupBox7.Controls.Add(this.mainDepartureRunwayComboBox);
-            this.groupBox7.Location = new System.Drawing.Point(177, 19);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(169, 65);
-            this.groupBox7.TabIndex = 10;
-            this.groupBox7.TabStop = false;
+            this.mainDepartureRunwayGroupBox.Controls.Add(this.mainDepartureRunwayCheckBox);
+            this.mainDepartureRunwayGroupBox.Controls.Add(this.mainDepartureRunwayComboBox);
+            this.mainDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
+            this.mainDepartureRunwayGroupBox.Name = "mainDepartureRunwayGroupBox";
+            this.mainDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.mainDepartureRunwayGroupBox.TabIndex = 10;
+            this.mainDepartureRunwayGroupBox.TabStop = false;
             // 
             // mainDepartureRunwayCheckBox
             // 
@@ -313,20 +309,20 @@
             this.secondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.secondaryLandingRunwayComboBox.TabIndex = 3;
             // 
-            // groupBox4
+            // secondaryLandingRunwayGroupBox
             // 
-            this.groupBox4.Controls.Add(this.secondaryLandingRunwayComboBox);
-            this.groupBox4.Controls.Add(this.secondaryLandingRunwayCheckBox);
-            this.groupBox4.Location = new System.Drawing.Point(6, 19);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(169, 65);
-            this.groupBox4.TabIndex = 11;
-            this.groupBox4.TabStop = false;
+            this.secondaryLandingRunwayGroupBox.Controls.Add(this.secondaryLandingRunwayComboBox);
+            this.secondaryLandingRunwayGroupBox.Controls.Add(this.secondaryLandingRunwayCheckBox);
+            this.secondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.secondaryLandingRunwayGroupBox.Name = "secondaryLandingRunwayGroupBox";
+            this.secondaryLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.secondaryLandingRunwayGroupBox.TabIndex = 11;
+            this.secondaryLandingRunwayGroupBox.TabStop = false;
             // 
             // secondaryRunwaysGroupBox
             // 
-            this.secondaryRunwaysGroupBox.Controls.Add(this.groupBox4);
-            this.secondaryRunwaysGroupBox.Controls.Add(this.groupBox6);
+            this.secondaryRunwaysGroupBox.Controls.Add(this.secondaryLandingRunwayGroupBox);
+            this.secondaryRunwaysGroupBox.Controls.Add(this.secondaryDepartureRunwayGroupBox);
             this.secondaryRunwaysGroupBox.Location = new System.Drawing.Point(12, 253);
             this.secondaryRunwaysGroupBox.Name = "secondaryRunwaysGroupBox";
             this.secondaryRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
@@ -334,15 +330,15 @@
             this.secondaryRunwaysGroupBox.TabStop = false;
             this.secondaryRunwaysGroupBox.Text = "Secondary Runway(s)";
             // 
-            // groupBox6
+            // secondaryDepartureRunwayGroupBox
             // 
-            this.groupBox6.Controls.Add(this.secondaryDepartureRunwayComboBox);
-            this.groupBox6.Controls.Add(this.secondaryDepartureRunwayCheckBox);
-            this.groupBox6.Location = new System.Drawing.Point(177, 19);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(169, 65);
-            this.groupBox6.TabIndex = 11;
-            this.groupBox6.TabStop = false;
+            this.secondaryDepartureRunwayGroupBox.Controls.Add(this.secondaryDepartureRunwayComboBox);
+            this.secondaryDepartureRunwayGroupBox.Controls.Add(this.secondaryDepartureRunwayCheckBox);
+            this.secondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(178, 19);
+            this.secondaryDepartureRunwayGroupBox.Name = "secondaryDepartureRunwayGroupBox";
+            this.secondaryDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.secondaryDepartureRunwayGroupBox.TabIndex = 11;
+            this.secondaryDepartureRunwayGroupBox.TabStop = false;
             // 
             // secondaryDepartureRunwayComboBox
             // 
@@ -378,35 +374,35 @@
             this.secondaryDepartureRunwayCheckBox.UseVisualStyleBackColor = true;
             this.secondaryDepartureRunwayCheckBox.CheckedChanged += new System.EventHandler(this.secondaryDepartureRunwayCheckBox_CheckedChanged);
             // 
-            // groupBox8
+            // tlLevelGroupBox
             // 
-            this.groupBox8.Controls.Add(this.label2);
-            this.groupBox8.Controls.Add(this.label1);
-            this.groupBox8.Location = new System.Drawing.Point(134, 355);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(116, 112);
-            this.groupBox8.TabIndex = 11;
-            this.groupBox8.TabStop = false;
+            this.tlLevelGroupBox.Controls.Add(this.tlOutLabel);
+            this.tlLevelGroupBox.Controls.Add(this.tlHeaderLabel);
+            this.tlLevelGroupBox.Location = new System.Drawing.Point(134, 355);
+            this.tlLevelGroupBox.Name = "tlLevelGroupBox";
+            this.tlLevelGroupBox.Size = new System.Drawing.Size(116, 112);
+            this.tlLevelGroupBox.TabIndex = 11;
+            this.tlLevelGroupBox.TabStop = false;
             // 
-            // label2
+            // tlOutLabel
             // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(19, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 39);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "..";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tlOutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tlOutLabel.Location = new System.Drawing.Point(19, 62);
+            this.tlOutLabel.Name = "tlOutLabel";
+            this.tlOutLabel.Size = new System.Drawing.Size(81, 39);
+            this.tlOutLabel.TabIndex = 1;
+            this.tlOutLabel.Text = "..";
+            this.tlOutLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // tlHeaderLabel
             // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(19, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 39);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "TL:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tlHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tlHeaderLabel.Location = new System.Drawing.Point(19, 17);
+            this.tlHeaderLabel.Name = "tlHeaderLabel";
+            this.tlHeaderLabel.Size = new System.Drawing.Size(81, 39);
+            this.tlHeaderLabel.TabIndex = 0;
+            this.tlHeaderLabel.Text = "TL:";
+            this.tlHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // generateATISButton
             // 
@@ -433,135 +429,90 @@
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
             // 
-            // groupBox10
+            // additionalOptionsGroupBox
             // 
-            this.groupBox10.Controls.Add(this.checkBox5);
-            this.groupBox10.Controls.Add(this.checkBox6);
-            this.groupBox10.Controls.Add(this.checkBox7);
-            this.groupBox10.Controls.Add(this.checkBox8);
-            this.groupBox10.Controls.Add(this.checkBox3);
-            this.groupBox10.Controls.Add(this.checkBox4);
-            this.groupBox10.Controls.Add(this.checkBox2);
-            this.groupBox10.Controls.Add(this.checkBox1);
-            this.groupBox10.Location = new System.Drawing.Point(371, 151);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(157, 198);
-            this.groupBox10.TabIndex = 14;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Additional Options";
+            this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.appOnlyCheckBox);
+            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(371, 151);
+            this.additionalOptionsGroupBox.Name = "additionalOptionsGroupBox";
+            this.additionalOptionsGroupBox.Size = new System.Drawing.Size(157, 198);
+            this.additionalOptionsGroupBox.TabIndex = 14;
+            this.additionalOptionsGroupBox.TabStop = false;
+            this.additionalOptionsGroupBox.Text = "Additional Options";
             // 
-            // checkBox5
+            // markTempCheckBox
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 180);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(80, 17);
-            this.checkBox5.TabIndex = 7;
-            this.checkBox5.Text = "checkBox5";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.Visible = false;
+            this.markTempCheckBox.AutoSize = true;
+            this.markTempCheckBox.Location = new System.Drawing.Point(6, 81);
+            this.markTempCheckBox.Name = "markTempCheckBox";
+            this.markTempCheckBox.Size = new System.Drawing.Size(122, 30);
+            this.markTempCheckBox.TabIndex = 3;
+            this.markTempCheckBox.Text = "Inverted surface-\r\ntemperature warning";
+            this.markTempCheckBox.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // appArrOnlyCheckBox
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 157);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(80, 17);
-            this.checkBox6.TabIndex = 6;
-            this.checkBox6.Text = "checkBox6";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.Visible = false;
+            this.appArrOnlyCheckBox.AutoSize = true;
+            this.appArrOnlyCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.appArrOnlyCheckBox.Name = "appArrOnlyCheckBox";
+            this.appArrOnlyCheckBox.Size = new System.Drawing.Size(142, 17);
+            this.appArrOnlyCheckBox.TabIndex = 2;
+            this.appArrOnlyCheckBox.Text = "APP + ARR callsign only";
+            this.appArrOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.appArrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appArrOnlyCheckBox_CheckedChanged);
             // 
-            // checkBox7
+            // arrOnlyCheckBox
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(6, 134);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(80, 17);
-            this.checkBox7.TabIndex = 5;
-            this.checkBox7.Text = "checkBox7";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.Visible = false;
+            this.arrOnlyCheckBox.AutoSize = true;
+            this.arrOnlyCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.arrOnlyCheckBox.Name = "arrOnlyCheckBox";
+            this.arrOnlyCheckBox.Size = new System.Drawing.Size(109, 17);
+            this.arrOnlyCheckBox.TabIndex = 1;
+            this.arrOnlyCheckBox.Text = "ARR callsign only";
+            this.arrOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.arrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.arrOnlyCheckBox_CheckedChanged);
             // 
-            // checkBox8
+            // appOnlyCheckBox
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 111);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(80, 17);
-            this.checkBox8.TabIndex = 4;
-            this.checkBox8.Text = "checkBox8";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.Visible = false;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 88);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(80, 17);
-            this.checkBox3.TabIndex = 3;
-            this.checkBox3.Text = "checkBox3";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Visible = false;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 65);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(142, 17);
-            this.checkBox4.TabIndex = 2;
-            this.checkBox4.Text = "APP + ARR callsign only";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 42);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(109, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "ARR callsign only";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(107, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "APP callsign only";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.appOnlyCheckBox.AutoSize = true;
+            this.appOnlyCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.appOnlyCheckBox.Name = "appOnlyCheckBox";
+            this.appOnlyCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.appOnlyCheckBox.TabIndex = 0;
+            this.appOnlyCheckBox.Text = "APP callsign only";
+            this.appOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.appOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appOnlyCheckBox_CheckedChanged);
             // 
             // copyOutputCheckBox
             // 
             this.copyOutputCheckBox.AutoSize = true;
-            this.copyOutputCheckBox.Location = new System.Drawing.Point(6, 11);
+            this.copyOutputCheckBox.Location = new System.Drawing.Point(6, 19);
             this.copyOutputCheckBox.Name = "copyOutputCheckBox";
             this.copyOutputCheckBox.Size = new System.Drawing.Size(141, 17);
             this.copyOutputCheckBox.TabIndex = 0;
             this.copyOutputCheckBox.Text = "Copy output to clipboard";
             this.copyOutputCheckBox.UseVisualStyleBackColor = true;
             // 
-            // groupBox11
+            // outputOptionsGroupBox
             // 
-            this.groupBox11.Controls.Add(this.copyOutputCheckBox);
-            this.groupBox11.Location = new System.Drawing.Point(371, 355);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(157, 112);
-            this.groupBox11.TabIndex = 16;
-            this.groupBox11.TabStop = false;
+            this.outputOptionsGroupBox.Controls.Add(this.copyOutputCheckBox);
+            this.outputOptionsGroupBox.Location = new System.Drawing.Point(371, 355);
+            this.outputOptionsGroupBox.Name = "outputOptionsGroupBox";
+            this.outputOptionsGroupBox.Size = new System.Drawing.Size(157, 112);
+            this.outputOptionsGroupBox.TabIndex = 16;
+            this.outputOptionsGroupBox.TabStop = false;
+            this.outputOptionsGroupBox.Text = "Output options";
             // 
-            // groupBox12
+            // outputGroupBox
             // 
-            this.groupBox12.Controls.Add(this.outputTextBox);
-            this.groupBox12.Location = new System.Drawing.Point(12, 473);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(516, 93);
-            this.groupBox12.TabIndex = 17;
-            this.groupBox12.TabStop = false;
+            this.outputGroupBox.Controls.Add(this.outputTextBox);
+            this.outputGroupBox.Location = new System.Drawing.Point(12, 473);
+            this.outputGroupBox.Name = "outputGroupBox";
+            this.outputGroupBox.Size = new System.Drawing.Size(516, 93);
+            this.outputGroupBox.TabIndex = 17;
+            this.outputGroupBox.TabStop = false;
             // 
             // outputTextBox
             // 
@@ -576,40 +527,40 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(538, 578);
-            this.Controls.Add(this.groupBox12);
-            this.Controls.Add(this.groupBox11);
-            this.Controls.Add(this.groupBox10);
+            this.Controls.Add(this.outputGroupBox);
+            this.Controls.Add(this.outputOptionsGroupBox);
+            this.Controls.Add(this.additionalOptionsGroupBox);
             this.Controls.Add(this.metarInputGroupBox);
             this.Controls.Add(this.generateATISButton);
-            this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tlLevelGroupBox);
+            this.Controls.Add(this.atisIndexGroupBox);
             this.Controls.Add(this.secondaryRunwaysGroupBox);
             this.Controls.Add(this.mainRunwaysGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DutchVACCATISGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.atisIndexGroupBox.ResumeLayout(false);
+            this.atisIndexGroupBox.PerformLayout();
             this.mainRunwaysGroupBox.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.mainLandingGroupBox.ResumeLayout(false);
+            this.mainLandingGroupBox.PerformLayout();
+            this.mainDepartureRunwayGroupBox.ResumeLayout(false);
+            this.mainDepartureRunwayGroupBox.PerformLayout();
+            this.secondaryLandingRunwayGroupBox.ResumeLayout(false);
+            this.secondaryLandingRunwayGroupBox.PerformLayout();
             this.secondaryRunwaysGroupBox.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
+            this.secondaryDepartureRunwayGroupBox.ResumeLayout(false);
+            this.secondaryDepartureRunwayGroupBox.PerformLayout();
+            this.tlLevelGroupBox.ResumeLayout(false);
             this.metarInputGroupBox.ResumeLayout(false);
             this.metarInputGroupBox.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
+            this.additionalOptionsGroupBox.ResumeLayout(false);
+            this.additionalOptionsGroupBox.PerformLayout();
+            this.outputOptionsGroupBox.ResumeLayout(false);
+            this.outputOptionsGroupBox.PerformLayout();
+            this.outputGroupBox.ResumeLayout(false);
+            this.outputGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -622,7 +573,7 @@
         private System.Windows.Forms.TextBox metarTextBox;
         private System.Windows.Forms.Label lastLabel;
         private System.Windows.Forms.Button processMetarButton;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox atisIndexGroupBox;
         private System.Windows.Forms.Button previousATISLetterButton;
         private System.Windows.Forms.Button nextATISLetterButton;
         private System.Windows.Forms.Label atisLetterLabel;
@@ -631,32 +582,28 @@
         private System.Windows.Forms.CheckBox secondaryLandingRunwayCheckBox;
         private System.Windows.Forms.CheckBox mainLandingRunwayCheckBox;
         private System.Windows.Forms.ComboBox secondaryLandingRunwayComboBox;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox secondaryLandingRunwayGroupBox;
+        private System.Windows.Forms.GroupBox mainLandingGroupBox;
         private System.Windows.Forms.GroupBox secondaryRunwaysGroupBox;
-        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox secondaryDepartureRunwayGroupBox;
         private System.Windows.Forms.ComboBox secondaryDepartureRunwayComboBox;
         private System.Windows.Forms.CheckBox secondaryDepartureRunwayCheckBox;
-        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox mainDepartureRunwayGroupBox;
         private System.Windows.Forms.CheckBox mainDepartureRunwayCheckBox;
         private System.Windows.Forms.ComboBox mainDepartureRunwayComboBox;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox tlLevelGroupBox;
+        private System.Windows.Forms.Label tlHeaderLabel;
         private System.Windows.Forms.Button generateATISButton;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label tlOutLabel;
         private System.Windows.Forms.GroupBox metarInputGroupBox;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.GroupBox additionalOptionsGroupBox;
+        private System.Windows.Forms.CheckBox markTempCheckBox;
+        private System.Windows.Forms.CheckBox appArrOnlyCheckBox;
+        private System.Windows.Forms.CheckBox arrOnlyCheckBox;
+        private System.Windows.Forms.CheckBox appOnlyCheckBox;
         private System.Windows.Forms.CheckBox copyOutputCheckBox;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.GroupBox outputOptionsGroupBox;
+        private System.Windows.Forms.GroupBox outputGroupBox;
         private System.Windows.Forms.TextBox outputTextBox;
     }
 }
