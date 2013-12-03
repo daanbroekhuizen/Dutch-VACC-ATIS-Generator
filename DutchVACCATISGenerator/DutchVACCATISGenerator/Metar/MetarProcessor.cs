@@ -257,22 +257,10 @@ namespace DutchVACCATISGenerator
                             metar.metarBECMG.Visibility = Convert.ToInt32(s); continue;
                         }
 
-                        /*CAVOK*/
-                        if (s.Equals("CAVOK"))
-                        {
-                            metar.metarBECMG.CAVOK = true; continue;
-                        }
-
                         /*Sky clear*/
                         if (s.StartsWith("SKC"))
                         {
                             metar.metarBECMG.SKC = true; continue;
-                        }
-
-                        /*No significant weather*/
-                        if (s.StartsWith("NSC"))
-                        {
-                            metar.metarBECMG.NSC = true; continue;
                         }
 
                         /*No significant weather*/
@@ -341,22 +329,10 @@ namespace DutchVACCATISGenerator
                             metar.metarTEMPO.Visibility = Convert.ToInt32(s); continue;
                         }
 
-                        /*CAVOK*/
-                        if (s.Equals("CAVOK"))
-                        {
-                            metar.metarTEMPO.CAVOK = true; continue;
-                        }
-
                         /*Sky clear*/
                         if (s.StartsWith("SKC"))
                         {
                             metar.metarTEMPO.SKC = true; continue;
-                        }
-
-                        /*No significant weather*/
-                        if (s.StartsWith("NSC"))
-                        {
-                            metar.metarTEMPO.NSC = true; continue;
                         }
 
                         /*No significant weather*/
@@ -397,7 +373,6 @@ namespace DutchVACCATISGenerator
             }
         }
 
-        
         private MetarWind processCalmWind(String input)
         {
             return new MetarWind(true, input.Substring(3, 2));
@@ -408,8 +383,11 @@ namespace DutchVACCATISGenerator
             MetarWind metarWind = null;
 
             if (input.Contains("G")) metarWind = new MetarWind(input.Substring(0, 3), input.Substring(3, 2), input.Substring(6, 2));
-            else metarWind = new MetarWind(input.Substring(0, 3), input.Substring(3, 2));
 
+            else if ((input.Substring(3, 1)).Equals("0")) metarWind = new MetarWind(input.Substring(0, 3), input.Substring(4, 1));
+
+            else metarWind = new MetarWind(input.Substring(0, 3), input.Substring(3, 2));
+            
             return metarWind;
         }
 
@@ -421,11 +399,6 @@ namespace DutchVACCATISGenerator
             return metarWind;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool hasVariableWind(String input)
         {
             if (input.Length > 5 && input.Substring(0, 3).All(char.IsDigit) && input.Contains('V') && input.Substring(4).All(char.IsDigit)) return true;
@@ -433,11 +406,6 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool stringIsOnlyLetters(String input)
         {
             if (input.All(char.IsLetter)) return true;
@@ -445,11 +413,6 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool stringIsOnlyNumbers(String input)
         {
             if (input.All(char.IsDigit)) return true;
@@ -457,12 +420,6 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="lenght"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool stringIsLength(int lenght, String input)
         {
             if (input.Length == lenght) return true;
@@ -470,12 +427,6 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="c"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool stringEndsWithChar(char c, String input)
         {
             if (input.Length > 0)
@@ -486,12 +437,6 @@ namespace DutchVACCATISGenerator
             else return false;         
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="c"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
         private bool stringEndsWith(String c, String input)
         {
             if (input.EndsWith(c)) return true;

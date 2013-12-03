@@ -40,9 +40,6 @@ namespace DutchVACCATISGenerator
             atisIndex = 25;
 
             atisLetterLabel.Text = phoneticAlphabet[0];
-
-            mainDepartureRunwayComboBox.SelectedIndex = 1;
-            mainLandingRunwayComboBox.SelectedIndex = 2;
         }
 
         /// <summary>
@@ -53,6 +50,11 @@ namespace DutchVACCATISGenerator
         private void getMetarButton_Click(object sender, EventArgs e)
         {
             String _ICAO = icaoTextBox.Text;
+
+            if(_ICAO == String.Empty)
+            {
+                MessageBox.Show("Please enter an ICAO code.", "Error"); return;
+            }
 
             getMetarButton.Enabled = false;
 
@@ -71,7 +73,8 @@ namespace DutchVACCATISGenerator
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
 
             metar = reader.ReadToEnd();
-            metar = metar.Remove(metar.Length - 2);
+
+            if (metar.StartsWith(e.Argument.ToString())) metar = metar.Remove(metar.Length - 2);
         }
 
         /// <summary>
@@ -455,7 +458,7 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return;
             }
 
-            //generateATISButton.Enabled = false;      
+            generateATISButton.Enabled = false;      
 
             String output = String.Empty;
 
@@ -585,8 +588,9 @@ namespace DutchVACCATISGenerator
                 if (metarProcessor.metar.metarTEMPO.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Phenomena);
 
                 if (metarProcessor.metar.metarTEMPO.SKC) output += "[skc]";
-                if (metarProcessor.metar.metarTEMPO.NSC) output += "[nsc]";
 
+                if (metarProcessor.metar.metarTEMPO.NSW) output += "[nsw]";
+                
                 if (metarProcessor.metar.metarTEMPO.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Clouds);
             }
             #endregion
@@ -603,7 +607,8 @@ namespace DutchVACCATISGenerator
                 if (metarProcessor.metar.metarBECMG.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Phenomena);
 
                 if (metarProcessor.metar.metarBECMG.SKC) output += "[skc]";
-                if (metarProcessor.metar.metarBECMG.NSC) output += "[nsc]";
+
+                if (metarProcessor.metar.metarBECMG.NSW) output += "[nsw]";
 
                 if (metarProcessor.metar.metarBECMG.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Clouds);
             }
@@ -624,6 +629,20 @@ namespace DutchVACCATISGenerator
             if (copyOutputCheckBox.Checked) Clipboard.SetText(output);
 
             outputTextBox.Text = output;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM")) icaoTextBox.Text = "EHAM";
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK")) icaoTextBox.Text = "EHBK";
+            else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
+            else icaoTextBox.Text = "EHRD";
         }
     }
 }
