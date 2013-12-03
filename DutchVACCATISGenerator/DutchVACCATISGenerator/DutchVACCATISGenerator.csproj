@@ -60,11 +60,14 @@
     <Compile Include="DutchVACCATISGenerator.Designer.cs">
       <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Metar\MetarBECMG.cs" />
     <Compile Include="Metar\Metar.cs" />
     <Compile Include="Metar\MetarCloud.cs" />
     <Compile Include="Metar\MetarPhenoma.cs" />
     <Compile Include="Metar\MetarProcessor.cs" />
+    <Compile Include="Metar\MetarTEMPO.cs" />
     <Compile Include="Metar\MetarWind.cs" />
+    <Compile Include="Metar\TrendType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DutchVACCATISGenerator.resx">
