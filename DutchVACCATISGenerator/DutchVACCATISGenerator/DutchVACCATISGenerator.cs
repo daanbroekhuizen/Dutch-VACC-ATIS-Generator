@@ -19,11 +19,8 @@ namespace DutchVACCATISGenerator
     public partial class DutchVACCATISGenerator : Form
     {
         private String metar { get; set; }
-
         private MetarProcessor metarProcessor { get; set; }
-
         private List<String> phoneticAlphabet { get; set; }
-
         private int atisIndex { get; set; }
 
         /// <summary>
@@ -108,7 +105,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when process metar button is clicked. Initiates a MetarProcessor which will proces the metar inputted into easy accessible fields.
+        /// Method called when process metar button is clicked. Initiates a MetarProcessor which will process the metar inputted into easy accessible fields.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -144,7 +141,7 @@ namespace DutchVACCATISGenerator
 
             outputTextBox.Clear();
 
-            if (metar.Substring(68).Count() > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
+            if(metar.Length > 136) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
             else if (metar.Length > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68);
             else lastLabel.Text = "Last successful processed metar:\n" + metar;
 
@@ -183,7 +180,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when main landing runway checkbox check status changes.
+        /// Method called when main landing runway check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -194,7 +191,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when secondary landing runway checkbox check status changes.
+        /// Method called when secondary landing runway check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -205,7 +202,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when main departure runway checkbox check status changes.
+        /// Method called when main departure runway check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -216,7 +213,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when secondary departure runway checkbox check status changes.
+        /// Method called when secondary departure runway check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -315,7 +312,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when approach only checkbox check status changes.
+        /// Method called when approach only check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -329,7 +326,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when arrival only checkbox check status changes.
+        /// Method called when arrival only check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -343,7 +340,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when approach + arrival only checkbox check status changes.
+        /// Method called when approach + arrival only check box check status changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -354,7 +351,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Generte output from List<T>
+        /// Generate output from List<T>
         /// </summary>
         /// <typeparam name="T">List type</typeparam>
         /// <param name="input">List<T></param>
@@ -363,18 +360,18 @@ namespace DutchVACCATISGenerator
         {
             String output = String.Empty;
 
-            if(input is List<MetarPhenoma>)
+            if(input is List<MetarPhenomena>)
             {
-                foreach (MetarPhenoma metarPhenoma in input as List<MetarPhenoma>)
+                foreach (MetarPhenomena metarPhenoma in input as List<MetarPhenomena>)
                 {
                     if (metarPhenoma.hasIntensity)
                     {
                         output += "[-]";
 
-                        if (metarPhenoma.phenoma.Count() > 2) output += "[" + metarPhenoma.phenoma.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenoma.Substring(2).ToLower() + "]";
-                        else output += "[" + metarPhenoma.phenoma.ToLower() + "]";
+                        if (metarPhenoma.phenomena.Count() > 2) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2).ToLower() + "]";
+                        else output += "[" + metarPhenoma.phenomena.ToLower() + "]";
                     }
-                    else output += "[" + metarPhenoma.phenoma.ToLower() + "]";
+                    else output += "[" + metarPhenoma.phenomena.ToLower() + "]";
                 }
             }
 

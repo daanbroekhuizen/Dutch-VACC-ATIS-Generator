@@ -158,6 +158,26 @@
             this.atisIndexGroupBox.TabIndex = 0;
             this.atisIndexGroupBox.TabStop = false;
             // 
+            // nextATISLetterButton
+            // 
+            this.nextATISLetterButton.Location = new System.Drawing.Point(68, 63);
+            this.nextATISLetterButton.Name = "nextATISLetterButton";
+            this.nextATISLetterButton.Size = new System.Drawing.Size(40, 40);
+            this.nextATISLetterButton.TabIndex = 19;
+            this.nextATISLetterButton.Text = ">";
+            this.nextATISLetterButton.UseVisualStyleBackColor = true;
+            this.nextATISLetterButton.Click += new System.EventHandler(this.nextATISLetterButton_Click);
+            // 
+            // previousATISLetterButton
+            // 
+            this.previousATISLetterButton.Location = new System.Drawing.Point(7, 63);
+            this.previousATISLetterButton.Name = "previousATISLetterButton";
+            this.previousATISLetterButton.Size = new System.Drawing.Size(40, 40);
+            this.previousATISLetterButton.TabIndex = 18;
+            this.previousATISLetterButton.Text = "<";
+            this.previousATISLetterButton.UseVisualStyleBackColor = true;
+            this.previousATISLetterButton.Click += new System.EventHandler(this.previousATISLetterButton_Click);
+            // 
             // atisLetterLabel
             // 
             this.atisLetterLabel.AutoSize = true;
@@ -389,26 +409,6 @@
             this.tlHeaderLabel.Text = "TL:";
             this.tlHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // nextATISLetterButton
-            // 
-            this.nextATISLetterButton.Location = new System.Drawing.Point(68, 63);
-            this.nextATISLetterButton.Name = "nextATISLetterButton";
-            this.nextATISLetterButton.Size = new System.Drawing.Size(40, 40);
-            this.nextATISLetterButton.TabIndex = 19;
-            this.nextATISLetterButton.Text = ">";
-            this.nextATISLetterButton.UseVisualStyleBackColor = true;
-            this.nextATISLetterButton.Click += new System.EventHandler(this.nextATISLetterButton_Click);
-            // 
-            // previousATISLetterButton
-            // 
-            this.previousATISLetterButton.Location = new System.Drawing.Point(7, 63);
-            this.previousATISLetterButton.Name = "previousATISLetterButton";
-            this.previousATISLetterButton.Size = new System.Drawing.Size(40, 40);
-            this.previousATISLetterButton.TabIndex = 18;
-            this.previousATISLetterButton.Text = "<";
-            this.previousATISLetterButton.UseVisualStyleBackColor = true;
-            this.previousATISLetterButton.Click += new System.EventHandler(this.previousATISLetterButton_Click);
-            // 
             // generateATISButton
             // 
             this.generateATISButton.Enabled = false;
@@ -508,7 +508,7 @@
             this.outputOptionsGroupBox.Size = new System.Drawing.Size(173, 112);
             this.outputOptionsGroupBox.TabIndex = 0;
             this.outputOptionsGroupBox.TabStop = false;
-            this.outputOptionsGroupBox.Text = "Output options";
+            this.outputOptionsGroupBox.Text = "Output Options";
             // 
             // outputGroupBox
             // 
@@ -614,7 +614,7 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -629,7 +629,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // DutchVACCATISGenerator
