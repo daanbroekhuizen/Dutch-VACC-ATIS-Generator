@@ -8,27 +8,27 @@ using System.Windows.Forms;
 namespace DutchVACCATISGenerator
 {
     /// <summary>
-    /// 
+    /// MetarProcessor class. Processes string METAR to usable fields in a METAR instance.
     /// </summary>
     class MetarProcessor
     {
         public Metar metar { get; private set; }
 
         /// <summary>
-        /// 
+        /// Constructor for constructing a METAR with out TEMPO or BECMG trend.
         /// </summary>
-        /// <param name="inputMetar"></param>
+        /// <param name="inputMetar">METAR</param>
         public MetarProcessor(String inputMetar)
         {
             processMetar(inputMetar.Split(' '), MetarType.FULL);
         }
 
         /// <summary>
-        /// 
+        /// Constructor for constructing a METAR which contains TEMPO or BECMG trend.
         /// </summary>
-        /// <param name="inputMetar"></param>
-        /// <param name="inputTrend"></param>
-        /// <param name="trendType"></param>
+        /// <param name="inputMetar">Base METAR</param>
+        /// <param name="inputTrend">Trend part</param>
+        /// <param name="trendType">MetarType</param>
         public MetarProcessor(String inputMetar, String inputTrend, MetarType trendType)
         {
             processMetar(inputMetar.Split(' '), MetarType.FULL);
@@ -46,37 +46,23 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Constructor for constructing a METAR which contains TEMPO and BECMG trends.
         /// </summary>
-        /// <param name="inputMetar"></param>
-        /// <param name="inputBecmg"></param>
-        /// <param name="inputTempo"></param>
-        public MetarProcessor(String inputMetar, String inputTrendPartOne, String inputTrendPartTwo, Boolean order)
+        /// <param name="inputMetar">Base METAR</param>
+        /// <param name="inputTempo">Tempo part</param>
+        /// <param name="inputBecmg">BECMG part</param>
+        public MetarProcessor(String inputMetar, String inputTempo, String inputBecmg)
         {
-            /*
-             * Order:
-             *  - false > BECMG - TEMPO
-             *  - true > TEMPO - BECMG
-             */
             processMetar(inputMetar.Split(' '), MetarType.FULL);
-
-            if(!order)
-            {
-                processMetar(inputTrendPartOne.Split(' '), MetarType.BECMG);
-                processMetar(inputTrendPartTwo.Split(' '), MetarType.TEMPO);
-            }
-            else
-            {
-                processMetar(inputTrendPartOne.Split(' '), MetarType.TEMPO);
-                processMetar(inputTrendPartTwo.Split(' '), MetarType.BECMG);
-            }
+            processMetar(inputTempo.Split(' '), MetarType.TEMPO);
+            processMetar(inputBecmg.Split(' '), MetarType.BECMG);
         }
 
         /// <summary>
-        /// 
+        /// Process string METAR to fields in a METAR instance.
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="metarType"></param>
+        /// <param name="input">METAR</param>
+        /// <param name="metarType">MetarType</param>
         private void processMetar(String[] input, MetarType metarType)
         {
             switch(metarType)
@@ -373,11 +359,21 @@ namespace DutchVACCATISGenerator
             }
         }
 
+        /// <summary>
+        /// Process calm wind string to MetarWind.
+        /// </summary>
+        /// <param name="input">Wind to process</param>
+        /// <returns>MetarWind</returns>
         private MetarWind processCalmWind(String input)
         {
             return new MetarWind(true, input.Substring(3, 2));
         }
 
+        /// <summary>
+        /// Process wind string to MetarWind.
+        /// </summary>
+        /// <param name="input">Wind to process</param>
+        /// <returns>MetarWind</returns>
         private MetarWind processWind(String input)
         {
             MetarWind metarWind = null;
@@ -391,6 +387,12 @@ namespace DutchVACCATISGenerator
             return metarWind;
         }
 
+        /// <summary>
+        /// Process variable wind string to MetarWind.
+        /// </summary>
+        /// <param name="metarWind">MetarWind</param>
+        /// <param name="input">Variable wind to process</param>
+        /// <returns></returns>
         private MetarWind processVariableWind(MetarWind metarWind, String input)
         {
             metarWind.windVariableLeft = input.Substring(0, 3);
@@ -399,6 +401,11 @@ namespace DutchVACCATISGenerator
             return metarWind;
         }
 
+        /// <summary>
+        /// Check if input wind string is a variable wind.
+        /// </summary>
+        /// <param name="input">Wind string</param>
+        /// <returns>Boolean</returns>
         private bool hasVariableWind(String input)
         {
             if (input.Length > 5 && input.Substring(0, 3).All(char.IsDigit) && input.Contains('V') && input.Substring(4).All(char.IsDigit)) return true;
@@ -406,6 +413,11 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
+        /// <summary>
+        /// Check if input string is letters only.
+        /// </summary>
+        /// <param name="input">String</param>
+        /// <returns>Boolean</returns>
         private bool stringIsOnlyLetters(String input)
         {
             if (input.All(char.IsLetter)) return true;
@@ -413,6 +425,11 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
+        /// <summary>
+        /// Check if input string is numbers only.
+        /// </summary>
+        /// <param name="input">String</param>
+        /// <returns>Boolean</returns>
         private bool stringIsOnlyNumbers(String input)
         {
             if (input.All(char.IsDigit)) return true;
@@ -420,6 +437,12 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
+        /// <summary>
+        /// Check if input string is a certain size.
+        /// </summary>
+        /// <param name="lenght">Size to check to</param>
+        /// <param name="input">String</param>
+        /// <returns>Boolean</returns>
         private bool stringIsLength(int lenght, String input)
         {
             if (input.Length == lenght) return true;
@@ -427,6 +450,12 @@ namespace DutchVACCATISGenerator
             return false;
         }
 
+        /// <summary>
+        /// Check if strings end with a specific char.
+        /// </summary>
+        /// <param name="c">Char to check</param>
+        /// <param name="input">String</param>
+        /// <returns>Boolean</returns>
         private bool stringEndsWithChar(char c, String input)
         {
             if (input.Length > 0)
@@ -437,6 +466,12 @@ namespace DutchVACCATISGenerator
             else return false;         
         }
 
+        /// <summary>
+        /// Check if strings ends with a specific string.
+        /// </summary>
+        /// <param name="c">String to check to</param>
+        /// <param name="input">String</param>
+        /// <returns>Boolean</returns>
         private bool stringEndsWith(String c, String input)
         {
             if (input.EndsWith(c)) return true;

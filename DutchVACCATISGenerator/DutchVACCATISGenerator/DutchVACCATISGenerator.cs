@@ -122,9 +122,9 @@ namespace DutchVACCATISGenerator
 
             if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
             {
-                if(metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), false);
+                if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
 
-                else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim(), true);
+                else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
             }
 
             else if (metar.Contains("BECMG")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim(), MetarType.BECMG);
@@ -142,7 +142,10 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Error parsing the METAR, check if METAR is in correct format", "Error"); return;
             }
 
-            if (metar.Length > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68);
+            outputTextBox.Clear();
+
+            if (metar.Substring(68).Count() > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
+            else if (metar.Length > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68);
             else lastLabel.Text = "Last successful processed metar:\n" + metar;
 
             if (atisIndex == 25) atisIndex = 0;
@@ -224,7 +227,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method to parse runway identifier letter to ATIS output text.
+        /// Parse runway identifier letter to ATIS output text.
         /// </summary>
         /// <param name="input">Runway identifier letter (L, C, R)</param>
         /// <returns>Runway identifier AITS output</returns>
@@ -246,7 +249,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method to calculte transition level from QNH and temperature.
+        /// Calculate transition level from QNH and temperature.
         /// </summary>
         /// <returns>Calculated TL</returns>
         private int calculateTransitionLevel()
@@ -261,12 +264,12 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method to generate configuration of runway.
+        /// Generate configuration of runway.
         /// </summary>
         /// <param name="runway"></param>
         /// <param name="runwayComboBox"></param>
         /// <returns></returns>
-        private String generateRunwayOutput(String runway, ComboBox runwayComboBox)
+        private String runwayToOutput(String runway, ComboBox runwayComboBox)
         {
             String output = runway;
 
@@ -279,10 +282,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Generate operational report.
         /// </summary>
-        /// <returns></returns>
-        private String generateOperationalReportOutput()
+        /// <returns>String output</returns>
+        private String operationalReportToOutput()
         {
             if (mainLandingRunwayComboBox.Text.Equals("18R") && secondaryLandingRunwayComboBox.Text.Equals("18C")) return "[opr][independend]";
 
@@ -351,11 +354,11 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Generte output from List<T>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">List type</typeparam>
+        /// <param name="input">List<T></param>
+        /// <returns>String output</returns>
         private String listToOutput<T>(List<T> input)
         {
             String output = String.Empty;
@@ -397,10 +400,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Generate visibility output.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Integer</param>
+        /// <returns>String output</returns>
         private String visibilityToOutput(int input)
         {
             String output = "[vis]";
@@ -413,10 +416,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Generate wind output.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">String</param>
+        /// <returns>String output</returns>
         private String windToOutput(MetarWind input)
         {
             String output = String.Empty;
@@ -458,7 +461,7 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return;
             }
 
-            generateATISButton.Enabled = false;      
+            //generateATISButton.Enabled = false;      
 
             String output = String.Empty;
 
@@ -482,21 +485,21 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region MAIN LANDING RUNWAY
-            if (mainLandingRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += generateRunwayOutput("[mlrwy]", mainLandingRunwayComboBox);
+            if (mainLandingRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mlrwy]", mainLandingRunwayComboBox);
 
-            else output += generateRunwayOutput("[mrwy]", mainLandingRunwayComboBox);
+            else output += runwayToOutput("[mrwy]", mainLandingRunwayComboBox);
             #endregion
 
             #region SECONDARY LANDING RUNWAY
-            if (secondaryLandingRunwayCheckBox.Checked) output += generateRunwayOutput("[slrwy]", secondaryLandingRunwayComboBox);
+            if (secondaryLandingRunwayCheckBox.Checked) output += runwayToOutput("[slrwy]", secondaryLandingRunwayComboBox);
             #endregion
 
             #region MAIN DEPARTURE RUNWAY
-            if (mainDepartureRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += generateRunwayOutput("[mtrwy]", mainDepartureRunwayComboBox);
+            if (mainDepartureRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mtrwy]", mainDepartureRunwayComboBox);
             #endregion
 
             #region SECONDARY DEPARTURE RUNWAY
-            if (secondaryDepartureRunwayCheckBox.Checked) output += generateRunwayOutput("[strwy]", secondaryLandingRunwayComboBox);
+            if (secondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", secondaryLandingRunwayComboBox);
             #endregion
 
             #region TL
@@ -505,7 +508,7 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region OPERATIONAL REPORTS
-            output += generateOperationalReportOutput();
+            output += operationalReportToOutput();
             #endregion
 
             output += "[pause]";
@@ -581,17 +584,29 @@ namespace DutchVACCATISGenerator
             {
                 output += "[tempo]";
 
+                #region TEMPO WIND
                 if (metarProcessor.metar.metarTEMPO.Wind != null) output += windToOutput(metarProcessor.metar.metarTEMPO.Wind);
+                #endregion
 
+                #region TEMPO VISIBILITY
                 if (metarProcessor.metar.metarTEMPO.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.metarTEMPO.Visibility);
+                #endregion
 
+                #region TEMPO PHENOMENA
                 if (metarProcessor.metar.metarTEMPO.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Phenomena);
+                #endregion
 
+                #region TEMPO SKC
                 if (metarProcessor.metar.metarTEMPO.SKC) output += "[skc]";
+                #endregion
 
+                #region TEMPO NSW
                 if (metarProcessor.metar.metarTEMPO.NSW) output += "[nsw]";
-                
+                #endregion
+
+                #region TEMPO CLOUDS
                 if (metarProcessor.metar.metarTEMPO.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Clouds);
+                #endregion
             }
             #endregion
 
@@ -600,17 +615,29 @@ namespace DutchVACCATISGenerator
             {
                 output += "[becmg]";
 
+                #region BECMG WIND
                 if (metarProcessor.metar.metarBECMG.Wind != null) output += windToOutput(metarProcessor.metar.metarBECMG.Wind);
+                #endregion
 
+                #region BECMG VISIBILITY
                 if (metarProcessor.metar.metarBECMG.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.metarBECMG.Visibility);
+                #endregion
 
+                #region BECMG PHENOMENA
                 if (metarProcessor.metar.metarBECMG.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Phenomena);
+                #endregion
 
+                #region BECMG SKC
                 if (metarProcessor.metar.metarBECMG.SKC) output += "[skc]";
+                #endregion
 
+                #region BECMG NSW
                 if (metarProcessor.metar.metarBECMG.NSW) output += "[nsw]";
+                #endregion
 
+                #region BECMG CLOUDS
                 if (metarProcessor.metar.metarBECMG.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Clouds);
+                #endregion
             }
             #endregion
 
@@ -631,11 +658,21 @@ namespace DutchVACCATISGenerator
             outputTextBox.Text = output;
         }
 
+        /// <summary>
+        /// Method called when exit tool strip item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// Method called when ICAO tab is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM")) icaoTextBox.Text = "EHAM";
