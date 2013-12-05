@@ -65,35 +65,35 @@
             this.ICAOTabControl = new System.Windows.Forms.TabControl();
             this.EHAM = new System.Windows.Forms.TabPage();
             this.EHBK = new System.Windows.Forms.TabPage();
+            this.EHBKmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHBKchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHBKmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHBKmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.EHEH = new System.Windows.Forms.TabPage();
+            this.EHEHmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHEHchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHEHmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHEHmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.EHGG = new System.Windows.Forms.TabPage();
+            this.EHGGmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHGGchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHGGmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHGGmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.EHRD = new System.Windows.Forms.TabPage();
+            this.EHRDmainRubwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHRDchildMainRunwyaGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHRDmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHRDmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EHRDmainRubwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHRDchildMainRunwyaGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHRDmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.EHRDmainRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.EHGGmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHGGchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHGGmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.EHGGmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
-            this.EHEHmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHEHchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHEHmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.EHEHmainRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.EHBKmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHBKchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.EHBKmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.EHBKmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -108,19 +108,19 @@
             this.ICAOTabControl.SuspendLayout();
             this.EHAM.SuspendLayout();
             this.EHBK.SuspendLayout();
-            this.EHEH.SuspendLayout();
-            this.EHGG.SuspendLayout();
-            this.EHRD.SuspendLayout();
-            this.menuStrip.SuspendLayout();
-            this.EHRDmainRubwayGroupBox.SuspendLayout();
-            this.EHRDchildMainRunwyaGroupBox.SuspendLayout();
-            this.EHGGmainRunwayGroupBox.SuspendLayout();
-            this.EHGGchildMainRunwayGroupBox.SuspendLayout();
-            this.additionalOptionsGroupBox.SuspendLayout();
-            this.EHEHmainRunwayGroupBox.SuspendLayout();
-            this.EHEHchildMainRunwayGroupBox.SuspendLayout();
             this.EHBKmainRunwayGroupBox.SuspendLayout();
             this.EHBKchildMainRunwayGroupBox.SuspendLayout();
+            this.EHEH.SuspendLayout();
+            this.EHEHmainRunwayGroupBox.SuspendLayout();
+            this.EHEHchildMainRunwayGroupBox.SuspendLayout();
+            this.EHGG.SuspendLayout();
+            this.EHGGmainRunwayGroupBox.SuspendLayout();
+            this.EHGGchildMainRunwayGroupBox.SuspendLayout();
+            this.EHRD.SuspendLayout();
+            this.EHRDmainRubwayGroupBox.SuspendLayout();
+            this.EHRDchildMainRunwyaGroupBox.SuspendLayout();
+            this.menuStrip.SuspendLayout();
+            this.additionalOptionsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // getMetarButton
@@ -535,6 +535,50 @@
             this.EHBK.Text = "EHBK";
             this.EHBK.UseVisualStyleBackColor = true;
             // 
+            // EHBKmainRunwayGroupBox
+            // 
+            this.EHBKmainRunwayGroupBox.Controls.Add(this.EHBKchildMainRunwayGroupBox);
+            this.EHBKmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHBKmainRunwayGroupBox.Name = "EHBKmainRunwayGroupBox";
+            this.EHBKmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHBKmainRunwayGroupBox.TabIndex = 3;
+            this.EHBKmainRunwayGroupBox.TabStop = false;
+            this.EHBKmainRunwayGroupBox.Text = "Main Runway";
+            // 
+            // EHBKchildMainRunwayGroupBox
+            // 
+            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayCheckBox);
+            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayComboBox);
+            this.EHBKchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHBKchildMainRunwayGroupBox.Name = "EHBKchildMainRunwayGroupBox";
+            this.EHBKchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHBKchildMainRunwayGroupBox.TabIndex = 0;
+            this.EHBKchildMainRunwayGroupBox.TabStop = false;
+            // 
+            // EHBKmainRunwayCheckBox
+            // 
+            this.EHBKmainRunwayCheckBox.AutoSize = true;
+            this.EHBKmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHBKmainRunwayCheckBox.Name = "EHBKmainRunwayCheckBox";
+            this.EHBKmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHBKmainRunwayCheckBox.TabIndex = 6;
+            this.EHBKmainRunwayCheckBox.Text = "Main runway";
+            this.EHBKmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHBKmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHBKmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHBKmainRunwayComboBox
+            // 
+            this.EHBKmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHBKmainRunwayComboBox.Enabled = false;
+            this.EHBKmainRunwayComboBox.FormattingEnabled = true;
+            this.EHBKmainRunwayComboBox.Items.AddRange(new object[] {
+            "03",
+            "21"});
+            this.EHBKmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHBKmainRunwayComboBox.Name = "EHBKmainRunwayComboBox";
+            this.EHBKmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHBKmainRunwayComboBox.TabIndex = 7;
+            // 
             // EHEH
             // 
             this.EHEH.Controls.Add(this.EHEHmainRunwayGroupBox);
@@ -545,6 +589,50 @@
             this.EHEH.Text = "EHEH";
             this.EHEH.UseVisualStyleBackColor = true;
             // 
+            // EHEHmainRunwayGroupBox
+            // 
+            this.EHEHmainRunwayGroupBox.Controls.Add(this.EHEHchildMainRunwayGroupBox);
+            this.EHEHmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHEHmainRunwayGroupBox.Name = "EHEHmainRunwayGroupBox";
+            this.EHEHmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHEHmainRunwayGroupBox.TabIndex = 3;
+            this.EHEHmainRunwayGroupBox.TabStop = false;
+            this.EHEHmainRunwayGroupBox.Text = "Main Runway";
+            // 
+            // EHEHchildMainRunwayGroupBox
+            // 
+            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayCheckBox);
+            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayComboBox);
+            this.EHEHchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHEHchildMainRunwayGroupBox.Name = "EHEHchildMainRunwayGroupBox";
+            this.EHEHchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHEHchildMainRunwayGroupBox.TabIndex = 0;
+            this.EHEHchildMainRunwayGroupBox.TabStop = false;
+            // 
+            // EHEHmainRunwayCheckBox
+            // 
+            this.EHEHmainRunwayCheckBox.AutoSize = true;
+            this.EHEHmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHEHmainRunwayCheckBox.Name = "EHEHmainRunwayCheckBox";
+            this.EHEHmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHEHmainRunwayCheckBox.TabIndex = 6;
+            this.EHEHmainRunwayCheckBox.Text = "Main runway";
+            this.EHEHmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHEHmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHEHmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHEHmainRunwayComboBox
+            // 
+            this.EHEHmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHEHmainRunwayComboBox.Enabled = false;
+            this.EHEHmainRunwayComboBox.FormattingEnabled = true;
+            this.EHEHmainRunwayComboBox.Items.AddRange(new object[] {
+            "03",
+            "21"});
+            this.EHEHmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHEHmainRunwayComboBox.Name = "EHEHmainRunwayComboBox";
+            this.EHEHmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHEHmainRunwayComboBox.TabIndex = 7;
+            // 
             // EHGG
             // 
             this.EHGG.Controls.Add(this.EHGGmainRunwayGroupBox);
@@ -554,102 +642,6 @@
             this.EHGG.TabIndex = 3;
             this.EHGG.Text = "EHGG";
             this.EHGG.UseVisualStyleBackColor = true;
-            // 
-            // EHRD
-            // 
-            this.EHRD.Controls.Add(this.EHRDmainRubwayGroupBox);
-            this.EHRD.Location = new System.Drawing.Point(4, 22);
-            this.EHRD.Name = "EHRD";
-            this.EHRD.Size = new System.Drawing.Size(524, 206);
-            this.EHRD.TabIndex = 4;
-            this.EHRD.Text = "EHRD";
-            this.EHRD.UseVisualStyleBackColor = true;
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.infoToolStripMenuItem});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(557, 24);
-            this.menuStrip.TabIndex = 19;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // infoToolStripMenuItem
-            // 
-            this.infoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.infoToolStripMenuItem.Text = "Info";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            // 
-            // EHRDmainRubwayGroupBox
-            // 
-            this.EHRDmainRubwayGroupBox.Controls.Add(this.EHRDchildMainRunwyaGroupBox);
-            this.EHRDmainRubwayGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.EHRDmainRubwayGroupBox.Name = "EHRDmainRubwayGroupBox";
-            this.EHRDmainRubwayGroupBox.Size = new System.Drawing.Size(182, 96);
-            this.EHRDmainRubwayGroupBox.TabIndex = 1;
-            this.EHRDmainRubwayGroupBox.TabStop = false;
-            this.EHRDmainRubwayGroupBox.Text = "Main Runway";
-            // 
-            // EHRDchildMainRunwyaGroupBox
-            // 
-            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayCheckBox);
-            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayComboBox);
-            this.EHRDchildMainRunwyaGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.EHRDchildMainRunwyaGroupBox.Name = "EHRDchildMainRunwyaGroupBox";
-            this.EHRDchildMainRunwyaGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.EHRDchildMainRunwyaGroupBox.TabIndex = 0;
-            this.EHRDchildMainRunwyaGroupBox.TabStop = false;
-            // 
-            // EHRDmainRunwayCheckBox
-            // 
-            this.EHRDmainRunwayCheckBox.AutoSize = true;
-            this.EHRDmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.EHRDmainRunwayCheckBox.Name = "EHRDmainRunwayCheckBox";
-            this.EHRDmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
-            this.EHRDmainRunwayCheckBox.TabIndex = 6;
-            this.EHRDmainRunwayCheckBox.Text = "Main runway";
-            this.EHRDmainRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.EHRDmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHRDmainRunwayCheckBox_CheckedChanged);
-            // 
-            // EHRDmainRunwayComboBox
-            // 
-            this.EHRDmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHRDmainRunwayComboBox.Enabled = false;
-            this.EHRDmainRunwayComboBox.FormattingEnabled = true;
-            this.EHRDmainRunwayComboBox.Items.AddRange(new object[] {
-            "06",
-            "24"});
-            this.EHRDmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.EHRDmainRunwayComboBox.Name = "EHRDmainRunwayComboBox";
-            this.EHRDmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.EHRDmainRunwayComboBox.TabIndex = 7;
             // 
             // EHGGmainRunwayGroupBox
             // 
@@ -696,6 +688,102 @@
             this.EHGGmainRunwayComboBox.Name = "EHGGmainRunwayComboBox";
             this.EHGGmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
             this.EHGGmainRunwayComboBox.TabIndex = 7;
+            // 
+            // EHRD
+            // 
+            this.EHRD.Controls.Add(this.EHRDmainRubwayGroupBox);
+            this.EHRD.Location = new System.Drawing.Point(4, 22);
+            this.EHRD.Name = "EHRD";
+            this.EHRD.Size = new System.Drawing.Size(361, 206);
+            this.EHRD.TabIndex = 4;
+            this.EHRD.Text = "EHRD";
+            this.EHRD.UseVisualStyleBackColor = true;
+            // 
+            // EHRDmainRubwayGroupBox
+            // 
+            this.EHRDmainRubwayGroupBox.Controls.Add(this.EHRDchildMainRunwyaGroupBox);
+            this.EHRDmainRubwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHRDmainRubwayGroupBox.Name = "EHRDmainRubwayGroupBox";
+            this.EHRDmainRubwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHRDmainRubwayGroupBox.TabIndex = 1;
+            this.EHRDmainRubwayGroupBox.TabStop = false;
+            this.EHRDmainRubwayGroupBox.Text = "Main Runway";
+            // 
+            // EHRDchildMainRunwyaGroupBox
+            // 
+            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayCheckBox);
+            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayComboBox);
+            this.EHRDchildMainRunwyaGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHRDchildMainRunwyaGroupBox.Name = "EHRDchildMainRunwyaGroupBox";
+            this.EHRDchildMainRunwyaGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHRDchildMainRunwyaGroupBox.TabIndex = 0;
+            this.EHRDchildMainRunwyaGroupBox.TabStop = false;
+            // 
+            // EHRDmainRunwayCheckBox
+            // 
+            this.EHRDmainRunwayCheckBox.AutoSize = true;
+            this.EHRDmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHRDmainRunwayCheckBox.Name = "EHRDmainRunwayCheckBox";
+            this.EHRDmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHRDmainRunwayCheckBox.TabIndex = 6;
+            this.EHRDmainRunwayCheckBox.Text = "Main runway";
+            this.EHRDmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHRDmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHRDmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHRDmainRunwayComboBox
+            // 
+            this.EHRDmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHRDmainRunwayComboBox.Enabled = false;
+            this.EHRDmainRunwayComboBox.FormattingEnabled = true;
+            this.EHRDmainRunwayComboBox.Items.AddRange(new object[] {
+            "06",
+            "24"});
+            this.EHRDmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHRDmainRunwayComboBox.Name = "EHRDmainRunwayComboBox";
+            this.EHRDmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHRDmainRunwayComboBox.TabIndex = 7;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.infoToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(557, 24);
+            this.menuStrip.TabIndex = 19;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.infoToolStripMenuItem.Text = "Info";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
             // 
             // additionalOptionsGroupBox
             // 
@@ -750,94 +838,6 @@
             this.appOnlyCheckBox.Text = "APP callsign only";
             this.appOnlyCheckBox.UseVisualStyleBackColor = true;
             // 
-            // EHEHmainRunwayGroupBox
-            // 
-            this.EHEHmainRunwayGroupBox.Controls.Add(this.EHEHchildMainRunwayGroupBox);
-            this.EHEHmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.EHEHmainRunwayGroupBox.Name = "EHEHmainRunwayGroupBox";
-            this.EHEHmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
-            this.EHEHmainRunwayGroupBox.TabIndex = 3;
-            this.EHEHmainRunwayGroupBox.TabStop = false;
-            this.EHEHmainRunwayGroupBox.Text = "Main Runway";
-            // 
-            // EHEHchildMainRunwayGroupBox
-            // 
-            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayCheckBox);
-            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayComboBox);
-            this.EHEHchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.EHEHchildMainRunwayGroupBox.Name = "EHEHchildMainRunwayGroupBox";
-            this.EHEHchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.EHEHchildMainRunwayGroupBox.TabIndex = 0;
-            this.EHEHchildMainRunwayGroupBox.TabStop = false;
-            // 
-            // EHEHmainRunwayCheckBox
-            // 
-            this.EHEHmainRunwayCheckBox.AutoSize = true;
-            this.EHEHmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.EHEHmainRunwayCheckBox.Name = "EHEHmainRunwayCheckBox";
-            this.EHEHmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
-            this.EHEHmainRunwayCheckBox.TabIndex = 6;
-            this.EHEHmainRunwayCheckBox.Text = "Main runway";
-            this.EHEHmainRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.EHEHmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHEHmainRunwayCheckBox_CheckedChanged);
-            // 
-            // EHEHmainRunwayComboBox
-            // 
-            this.EHEHmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHEHmainRunwayComboBox.Enabled = false;
-            this.EHEHmainRunwayComboBox.FormattingEnabled = true;
-            this.EHEHmainRunwayComboBox.Items.AddRange(new object[] {
-            "03",
-            "21"});
-            this.EHEHmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.EHEHmainRunwayComboBox.Name = "EHEHmainRunwayComboBox";
-            this.EHEHmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.EHEHmainRunwayComboBox.TabIndex = 7;
-            // 
-            // EHBKmainRunwayGroupBox
-            // 
-            this.EHBKmainRunwayGroupBox.Controls.Add(this.EHBKchildMainRunwayGroupBox);
-            this.EHBKmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.EHBKmainRunwayGroupBox.Name = "EHBKmainRunwayGroupBox";
-            this.EHBKmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
-            this.EHBKmainRunwayGroupBox.TabIndex = 3;
-            this.EHBKmainRunwayGroupBox.TabStop = false;
-            this.EHBKmainRunwayGroupBox.Text = "Main Runway";
-            // 
-            // EHBKchildMainRunwayGroupBox
-            // 
-            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayCheckBox);
-            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayComboBox);
-            this.EHBKchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.EHBKchildMainRunwayGroupBox.Name = "EHBKchildMainRunwayGroupBox";
-            this.EHBKchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.EHBKchildMainRunwayGroupBox.TabIndex = 0;
-            this.EHBKchildMainRunwayGroupBox.TabStop = false;
-            // 
-            // EHBKmainRunwayCheckBox
-            // 
-            this.EHBKmainRunwayCheckBox.AutoSize = true;
-            this.EHBKmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.EHBKmainRunwayCheckBox.Name = "EHBKmainRunwayCheckBox";
-            this.EHBKmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
-            this.EHBKmainRunwayCheckBox.TabIndex = 6;
-            this.EHBKmainRunwayCheckBox.Text = "Main runway";
-            this.EHBKmainRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.EHBKmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHBKmainRunwayCheckBox_CheckedChanged);
-            // 
-            // EHBKmainRunwayComboBox
-            // 
-            this.EHBKmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHBKmainRunwayComboBox.Enabled = false;
-            this.EHBKmainRunwayComboBox.FormattingEnabled = true;
-            this.EHBKmainRunwayComboBox.Items.AddRange(new object[] {
-            "03",
-            "21"});
-            this.EHBKmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.EHBKmainRunwayComboBox.Name = "EHBKmainRunwayComboBox";
-            this.EHBKmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.EHBKmainRunwayComboBox.TabIndex = 7;
-            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -879,25 +879,25 @@
             this.ICAOTabControl.ResumeLayout(false);
             this.EHAM.ResumeLayout(false);
             this.EHBK.ResumeLayout(false);
-            this.EHEH.ResumeLayout(false);
-            this.EHGG.ResumeLayout(false);
-            this.EHRD.ResumeLayout(false);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
-            this.EHRDmainRubwayGroupBox.ResumeLayout(false);
-            this.EHRDchildMainRunwyaGroupBox.ResumeLayout(false);
-            this.EHRDchildMainRunwyaGroupBox.PerformLayout();
-            this.EHGGmainRunwayGroupBox.ResumeLayout(false);
-            this.EHGGchildMainRunwayGroupBox.ResumeLayout(false);
-            this.EHGGchildMainRunwayGroupBox.PerformLayout();
-            this.additionalOptionsGroupBox.ResumeLayout(false);
-            this.additionalOptionsGroupBox.PerformLayout();
-            this.EHEHmainRunwayGroupBox.ResumeLayout(false);
-            this.EHEHchildMainRunwayGroupBox.ResumeLayout(false);
-            this.EHEHchildMainRunwayGroupBox.PerformLayout();
             this.EHBKmainRunwayGroupBox.ResumeLayout(false);
             this.EHBKchildMainRunwayGroupBox.ResumeLayout(false);
             this.EHBKchildMainRunwayGroupBox.PerformLayout();
+            this.EHEH.ResumeLayout(false);
+            this.EHEHmainRunwayGroupBox.ResumeLayout(false);
+            this.EHEHchildMainRunwayGroupBox.ResumeLayout(false);
+            this.EHEHchildMainRunwayGroupBox.PerformLayout();
+            this.EHGG.ResumeLayout(false);
+            this.EHGGmainRunwayGroupBox.ResumeLayout(false);
+            this.EHGGchildMainRunwayGroupBox.ResumeLayout(false);
+            this.EHGGchildMainRunwayGroupBox.PerformLayout();
+            this.EHRD.ResumeLayout(false);
+            this.EHRDmainRubwayGroupBox.ResumeLayout(false);
+            this.EHRDchildMainRunwyaGroupBox.ResumeLayout(false);
+            this.EHRDchildMainRunwyaGroupBox.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
+            this.additionalOptionsGroupBox.ResumeLayout(false);
+            this.additionalOptionsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

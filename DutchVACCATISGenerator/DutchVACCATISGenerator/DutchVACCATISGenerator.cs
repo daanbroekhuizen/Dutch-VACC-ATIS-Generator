@@ -30,6 +30,9 @@ namespace DutchVACCATISGenerator
         {
             InitializeComponent();
 
+            //TODO EHEH METAR
+            EHEH.Enabled = false;
+
             metar = String.Empty;
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
@@ -129,16 +132,17 @@ namespace DutchVACCATISGenerator
             else if (metar.Contains("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), MetarType.TEMPO);
 
             else metarProcessor = new MetarProcessor(metar);
-            
+
             try
             {
                 tlOutLabel.Text = calculateTransitionLevel().ToString();
             }
+
             catch (Exception)
             {
                 MessageBox.Show("Error parsing the METAR, check if METAR is in correct format", "Error"); return;
             }
-
+            
             outputTextBox.Clear();
 
             if(metar.Length > 136) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
@@ -473,7 +477,11 @@ namespace DutchVACCATISGenerator
                         }
                     }
                     else output += "[" + metarPhenomena.phenomena.ToLower() + "]";
+
+                    if (metarPhenomena != (MetarPhenomena)Convert.ChangeType(input.Last(), typeof(MetarPhenomena))) output += "[and]";
                 }
+
+          
             }
             #endregion
 
