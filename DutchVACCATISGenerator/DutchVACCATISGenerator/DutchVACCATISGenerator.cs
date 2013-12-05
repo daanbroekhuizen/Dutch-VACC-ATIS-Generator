@@ -356,6 +356,13 @@ namespace DutchVACCATISGenerator
 
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
+            if (output.Contains("[lvp]") && (output.Contains("[independend]") || output.Contains("[convapp]")))
+            {
+                if(output.Contains("[independend]")) output = output.Insert(output.IndexOf("[ind"), "[and]");
+                
+                else output = output.Insert(output.IndexOf("[con"), "[and]");
+            }
+
             if(!output.Equals("[opr]"))  return output;
             
             else return "";
@@ -400,6 +407,7 @@ namespace DutchVACCATISGenerator
             else appOnlyCheckBox.Enabled = arrOnlyCheckBox.Enabled = true;
         }
 
+
         /// <summary>
         /// Generate output from List<T>
         /// </summary>
@@ -414,13 +422,35 @@ namespace DutchVACCATISGenerator
             {
                 foreach (MetarPhenomena metarPhenoma in input as List<MetarPhenomena>)
                 {
-                    if (metarPhenoma.hasIntensity)
-                    {
-                        output += "[-]";
+                    if (metarPhenoma.hasIntensity)  output += "[-]";
 
-                        if (metarPhenoma.phenomena.Count() > 2) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2).ToLower() + "]";
-                        else output += "[" + metarPhenoma.phenomena.ToLower() + "]";
+                    if (metarPhenoma.phenomena.Equals("BCFG") || metarPhenoma.phenomena.Equals("MIFG") || metarPhenoma.phenomena.Equals("SHRA") || metarPhenoma.phenomena.Equals("VCSH") || metarPhenoma.phenomena.Equals("VCTS"))
+                    {
+                        switch (metarPhenoma.phenomena)
+                        {
+                            case "BCFG":
+                                output += "[bcfg]";
+                                break;
+
+                            case "MIFG":
+                                output += "[mifg]";
+                                break;
+
+                            case "SHRA":
+                                output += "[shra]";
+                                break;
+
+                            case "VCSH":
+                                output += "[vcsh]";
+                                break;
+
+                            case "VCTS":
+                                output += "[vcts]";
+                                break;
+                        }
                     }
+                    else if (metarPhenoma.phenomena.Count() > 4) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2, 2).ToLower() + "]" + "][" + metarPhenoma.phenomena.Substring(4).ToLower() + "]";
+                    else if (metarPhenoma.phenomena.Count() > 2) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2).ToLower() + "]";
                     else output += "[" + metarPhenoma.phenomena.ToLower() + "]";
                 }
             }
@@ -457,12 +487,9 @@ namespace DutchVACCATISGenerator
 
             if (input < 800) output += "[<]8[hundred][meters]";
             else if (input < 1000) output += Convert.ToString(input / 100) + "[hundred][meters]";
-            else if (input < 5000)
-            {
-                if ((input % 1000) != 0) output += Convert.ToString(input / 1000) + "[thousand]" + ((input % 1000) / 100).ToString() + "[hundred][meters]";
-                else if (input >= 9999) output += "10[km]";
-                else output += Convert.ToString(input / 1000) + "[km]";
-            }
+            else if (input < 5000 && (input % 1000) != 0) output += Convert.ToString(input / 1000) + "[thousand]" + ((input % 1000) / 100).ToString() + "[hundred][meters]";
+            else if (input >= 9999) output += "10[km]";
+            else output += Convert.ToString(input / 1000) + "[km]";
 
             return output;
         }
@@ -673,7 +700,6 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.RVR) output += "[rvronatc]";
             #endregion
 
-            //TODO 4 CHAR OPTIONS
             #region PHENOMENA
             output += listToOutput(metarProcessor.metar.Phenomena);
             #endregion
@@ -823,12 +849,5 @@ namespace DutchVACCATISGenerator
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
         }
-
-     
-
-     
-
-   
-
     }
 }

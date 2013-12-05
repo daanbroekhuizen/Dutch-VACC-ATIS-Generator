@@ -21,21 +21,20 @@ C:\Users\Daan\Dropbox\Visual Studio Projects\DutchVACCATISGenerator\DutchVACCATI
 C:\Users\Daan\Dropbox\Visual Studio Projects\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.pdb
 C:\Users\Daan\Dropbox\Visual Studio Projects\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.exe
 C:\Users\Daan\Dropbox\Visual Studio Projects\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.pdb
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe.config
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.exe
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.pdb
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.DutchVACCATISGenerator.resources
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Properties.Resources.resources
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csproj.GenerateResource.Cache
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.pdb
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe.config
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.exe
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.pdb
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.pdb
-E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.DutchVACCATISGenerator.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Properties.Resources.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csproj.GenerateResource.Cache
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe.config
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.exe
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.pdb
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.DutchVACCATISGenerator.resources
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Properties.Resources.resources
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csproj.GenerateResource.Cache
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.exe
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\Dutch VACC - ATIS Generator.pdb
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
