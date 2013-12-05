@@ -116,7 +116,7 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("No metar fetched or entered.", "Error"); return;
             }
             else metar = metarTextBox.Text.Trim();
-
+                  
             if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
             {
                 if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
@@ -129,7 +129,7 @@ namespace DutchVACCATISGenerator
             else if (metar.Contains("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), MetarType.TEMPO);
 
             else metarProcessor = new MetarProcessor(metar);
-
+            
             try
             {
                 tlOutLabel.Text = calculateTransitionLevel().ToString();
@@ -186,8 +186,8 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void mainLandingRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (mainLandingRunwayCheckBox.Checked) mainLandingRunwayComboBox.Enabled = true;
-            else mainLandingRunwayComboBox.Enabled = false;
+            if (EHAMmainLandingRunwayCheckBox.Checked) EHAMmainLandingRunwayComboBox.Enabled = true;
+            else EHAMmainLandingRunwayComboBox.Enabled = false;
         }
 
         /// <summary>
@@ -197,8 +197,8 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void secondaryLandingRunway_CheckedChanged(object sender, EventArgs e)
         {
-            if (secondaryLandingRunwayCheckBox.Checked) secondaryLandingRunwayComboBox.Enabled = true;
-            else secondaryLandingRunwayComboBox.Enabled = false;
+            if (EHAMsecondaryLandingRunwayCheckBox.Checked) EHAMsecondaryLandingRunwayComboBox.Enabled = true;
+            else EHAMsecondaryLandingRunwayComboBox.Enabled = false;
         }
 
         /// <summary>
@@ -208,8 +208,8 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void mainDepartureRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (mainDepartureRunwayCheckBox.Checked) mainDepartureRunwayComboBox.Enabled = true;
-            else mainDepartureRunwayComboBox.Enabled = false;
+            if (EHAMmainDepartureRunwayCheckBox.Checked) EHAMmainDepartureRunwayComboBox.Enabled = true;
+            else EHAMmainDepartureRunwayComboBox.Enabled = false;
         }
 
         /// <summary>
@@ -219,8 +219,52 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void secondaryDepartureRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (secondaryDepartureRunwayCheckBox.Checked) secondaryDepartureRunwayComboBox.Enabled = true;
-            else secondaryDepartureRunwayComboBox.Enabled = false;
+            if (EHAMsecondaryDepartureRunwayCheckBox.Checked) EHAMsecondaryDepartureRunwayComboBox.Enabled = true;
+            else EHAMsecondaryDepartureRunwayComboBox.Enabled = false;
+        }
+
+        /// <summary>
+        /// Method called when EHRD main runway check box check status changes.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void EHRDmainRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EHRDmainRunwayCheckBox.Checked) EHRDmainRunwayComboBox.Enabled = true;
+            else EHRDmainRunwayComboBox.Enabled = false;
+        }
+
+        /// <summary>
+        /// Method called when EHGG main runway check box check status changes.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void EHGGmainRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EHGGmainRunwayCheckBox.Checked) EHGGmainRunwayComboBox.Enabled = true;
+            else EHGGmainRunwayComboBox.Enabled = false;
+        }
+
+        /// <summary>
+        /// Method called when EHBK main runway check box check status changes.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void EHBKmainRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EHBKmainRunwayCheckBox.Checked) EHBKmainRunwayComboBox.Enabled = true;
+            else EHBKmainRunwayComboBox.Enabled = false;
+        }
+
+        /// <summary>
+        /// Method called when EHEH main runway check box check status changes.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void EHEHmainRunwayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EHEHmainRunwayCheckBox.Checked) EHEHmainRunwayComboBox.Enabled = true;
+            else EHEHmainRunwayComboBox.Enabled = false;
         }
 
         /// <summary>
@@ -284,30 +328,36 @@ namespace DutchVACCATISGenerator
         /// <returns>String output</returns>
         private String operationalReportToOutput()
         {
-            if (mainLandingRunwayComboBox.Text.Equals("18R") && secondaryLandingRunwayComboBox.Text.Equals("18C")) return "[opr][independend]";
+            String output = "[opr]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("36R") && secondaryLandingRunwayComboBox.Text.Equals("36C")) return "[opr][independend]";
+            if (metarProcessor.metar.Visibility < 1500) output += "[lvp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("18R") && secondaryLandingRunwayComboBox.Text.Equals("27")) return "[opr][convapp]";
+            if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independend]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("27") && secondaryLandingRunwayComboBox.Text.Equals("18R")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independend]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("18C") && secondaryLandingRunwayComboBox.Text.Equals("27")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("27") && secondaryLandingRunwayComboBox.Text.Equals("18C")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("06") && secondaryLandingRunwayComboBox.Text.Equals("36R")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("36R") && secondaryLandingRunwayComboBox.Text.Equals("06")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("09") && secondaryLandingRunwayComboBox.Text.Equals("36R")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("36R") && secondaryLandingRunwayComboBox.Text.Equals("09")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("27") && secondaryLandingRunwayComboBox.Text.Equals("36R")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
-            else if (mainLandingRunwayComboBox.Text.Equals("36R") && secondaryLandingRunwayComboBox.Text.Equals("27")) return "[opr][convapp]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
 
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+
+            if(!output.Equals("[opr]"))  return output;
+            
             else return "";
         }
 
@@ -395,7 +445,7 @@ namespace DutchVACCATISGenerator
 
             return output;
         }
-
+        
         /// <summary>
         /// Generate visibility output.
         /// </summary>
@@ -405,11 +455,16 @@ namespace DutchVACCATISGenerator
         {
             String output = "[vis]";
 
-            if (input < 1000) output += "1";
-            else if (input >= 9999) output += "10";
-            else output += Convert.ToString(input / 1000);
+            if (input < 800) output += "[<]8[hundred][meters]";
+            else if (input < 1000) output += Convert.ToString(input / 100) + "[hundred][meters]";
+            else if (input < 5000)
+            {
+                if ((input % 1000) != 0) output += Convert.ToString(input / 1000) + "[thousand]" + ((input % 1000) / 100).ToString() + "[hundred][meters]";
+                else if (input >= 9999) output += "10[km]";
+                else output += Convert.ToString(input / 1000) + "[km]";
+            }
 
-            return output += "[km]";
+            return output;
         }
 
         /// <summary>
@@ -432,37 +487,131 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Boolean checkRunwaySelected()
+        {
+            switch (ICAOTabControl.SelectedTab.Name)
+            {
+                case "EHAM":
+                    if (!EHAMmainLandingRunwayCheckBox.Checked || EHAMmainLandingRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main landing runway selected.", "Error"); return false;
+                    }
+
+                    if (!EHAMmainDepartureRunwayCheckBox.Checked || EHAMmainDepartureRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main departure runway selected.", "Error"); return false;
+                    }
+
+                    if (EHAMsecondaryLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Error"); return false;
+                    }
+
+                    if (EHAMsecondaryDepartureRunwayCheckBox.Checked && EHAMsecondaryDepartureRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return false;
+                    }
+
+                    return true;
+
+                case "EHBK":
+                    if (!EHBKmainRunwayCheckBox.Checked || EHBKmainRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                    }
+                    return true;
+
+                case "EHEH":
+                    if (!EHEHmainRunwayCheckBox.Checked || EHEHmainRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                    }
+                    return true;
+
+                case "EHGG":
+                    if (!EHGGmainRunwayCheckBox.Checked || EHGGmainRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                    }
+                    return true;
+
+                case "EHRD":
+                    if (!EHRDmainRunwayCheckBox.Checked || EHRDmainRunwayComboBox.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                    }
+                    return true;
+            }
+
+            return false;
+        }
+
+        private String generateRunwayOutput()
+        {
+            String output = String.Empty;
+
+            switch (ICAOTabControl.SelectedTab.Name)
+            {
+                case "EHAM":
+                    #region MAIN LANDING RUNWAY
+                    if (EHAMmainLandingRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mlrwy]", EHAMmainLandingRunwayComboBox);
+
+                    else output += runwayToOutput("[mrwy]", EHAMmainLandingRunwayComboBox);
+                    #endregion
+
+                    #region SECONDARY LANDING RUNWAY
+                    if (EHAMsecondaryLandingRunwayCheckBox.Checked) output += runwayToOutput("[slrwy]", EHAMsecondaryLandingRunwayComboBox);
+                    #endregion
+
+                    #region MAIN DEPARTURE RUNWAY
+                    if (EHAMmainDepartureRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mtrwy]", EHAMmainDepartureRunwayComboBox);
+                    #endregion
+
+                    #region SECONDARY DEPARTURE RUNWAY
+                    if (EHAMsecondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", EHAMsecondaryLandingRunwayComboBox);
+                    #endregion
+                    break;
+
+                case "EHBK":
+                    if (EHBKmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHBKmainRunwayComboBox);
+                    break;
+
+                case "EHEH":
+                    if (EHEHmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHEHmainRunwayComboBox);
+                    break;
+
+                case "EHGG":
+                    if (EHGGmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHGGmainRunwayComboBox);
+                    break;
+
+                case "EHRD":
+                    if (EHRDmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHRDmainRunwayComboBox);
+                    break;
+            }
+
+            return output;
+        }
+
+        ///TODO RVR ON ATC
+        /// <summary>
         /// Method called when generate ATIS button is clicked. Processes field from MetarProcessor to output string.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void generateATISButton_Click(object sender, EventArgs e)
         {
-            if (!mainLandingRunwayCheckBox.Checked || mainLandingRunwayComboBox.SelectedIndex == -1)
+            if (!metarProcessor.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
             {
-                MessageBox.Show("No main landing runway selected.", "Error"); return;
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed metar.", "Error"); return;
             }
 
-            if (!mainDepartureRunwayCheckBox.Checked || mainDepartureRunwayComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("No main departure runway selected.", "Error"); return;
-            }
-
-            if (secondaryLandingRunwayCheckBox.Checked && secondaryLandingRunwayComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Error"); return;
-            }
-
-            if (secondaryDepartureRunwayCheckBox.Checked && secondaryDepartureRunwayComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return;
-            }
-
-            //generateATISButton.Enabled = false;      
-
+            if (!checkRunwaySelected()) return;
+            
             String output = String.Empty;
 
-            //TODO REGIONAL AIRPORTS
             #region ICAO
             switch (metarProcessor.metar.ICAO)
             {
@@ -470,8 +619,20 @@ namespace DutchVACCATISGenerator
                     output += "[ehamatis]";
                     break;
 
-                case "EHRD":
+                case "EHBK":
+                    output += "[ehbkatis]";
+                    break;
 
+                case "EHEH":
+                    output += "[ehehatis]";
+                    break;
+
+                case "EHGG":
+                    output += "[ehggatis]";
+                    break;
+
+                case "EHRD":
+                    output += "[ehrdatis]";
                     break;
             }
             #endregion
@@ -481,22 +642,8 @@ namespace DutchVACCATISGenerator
             output += "[pause]";
             #endregion
 
-            #region MAIN LANDING RUNWAY
-            if (mainLandingRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mlrwy]", mainLandingRunwayComboBox);
-
-            else output += runwayToOutput("[mrwy]", mainLandingRunwayComboBox);
-            #endregion
-
-            #region SECONDARY LANDING RUNWAY
-            if (secondaryLandingRunwayCheckBox.Checked) output += runwayToOutput("[slrwy]", secondaryLandingRunwayComboBox);
-            #endregion
-
-            #region MAIN DEPARTURE RUNWAY
-            if (mainDepartureRunwayCheckBox.Checked && !mainLandingRunwayComboBox.Text.Equals(mainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mtrwy]", mainDepartureRunwayComboBox);
-            #endregion
-
-            #region SECONDARY DEPARTURE RUNWAY
-            if (secondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", secondaryLandingRunwayComboBox);
+            #region RUNWAYS
+            output += generateRunwayOutput();
             #endregion
 
             #region TL
@@ -522,6 +669,10 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.Visibility);
             #endregion
 
+            #region RVRONATC
+            if (metarProcessor.metar.RVR) output += "[rvronatc]";
+            #endregion
+
             //TODO 4 CHAR OPTIONS
             #region PHENOMENA
             output += listToOutput(metarProcessor.metar.Phenomena);
@@ -536,22 +687,8 @@ namespace DutchVACCATISGenerator
             output += listToOutput(metarProcessor.metar.Clouds);
             #endregion
 
-            //TODO VV < 1000?
-            #region Vertical visibility
-            if (metarProcessor.metar.VerticalVisibility != null)
-            {
-                output += "[vv]";
-
-                int visibility = Convert.ToInt32(metarProcessor.metar.VerticalVisibility.Substring(2));
-
-                if (visibility / 100 > 0)
-                {
-                    output += "1" + metarProcessor.metar.VerticalVisibility.Substring(2, 1) + "[thousand]";
-                }
-
-
-                //+ Convert.ToInt32(metarProcessor.metar.verticalVisibility.Substring(3))) + 
-            }
+            #region VERTICAL VISIBILITY
+            if (metarProcessor.metar.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.VerticalVisibility + "[hundred][meters]";
             #endregion
 
             #region TEMPERATURE
@@ -604,6 +741,10 @@ namespace DutchVACCATISGenerator
                 #region TEMPO CLOUDS
                 if (metarProcessor.metar.metarTEMPO.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Clouds);
                 #endregion
+
+                #region TEMPO VERTICAL VISIBILITY
+                if (metarProcessor.metar.metarTEMPO.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.metarTEMPO.VerticalVisibility + "[hundred][meters]";
+                #endregion
             }
             #endregion
 
@@ -634,6 +775,10 @@ namespace DutchVACCATISGenerator
 
                 #region BECMG CLOUDS
                 if (metarProcessor.metar.metarBECMG.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Clouds);
+                #endregion
+
+                #region BECMG VERTICAL VISIBILITY
+                if (metarProcessor.metar.metarBECMG.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.metarBECMG.VerticalVisibility + "[hundred][meters]";
                 #endregion
             }
             #endregion
@@ -678,5 +823,12 @@ namespace DutchVACCATISGenerator
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
         }
+
+     
+
+     
+
+   
+
     }
 }

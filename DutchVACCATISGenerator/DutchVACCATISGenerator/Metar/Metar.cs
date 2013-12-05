@@ -17,7 +17,8 @@ namespace DutchVACCATISGenerator
         public List<MetarPhenomena> Phenomena { get; set; }
         public Boolean CAVOK { get; set; }
         public int Visibility { get; set; }
-        public String VerticalVisibility { get; set; }
+        public Boolean RVR { get; set; }
+        public int VerticalVisibility { get; set; }
         public Boolean SKC { get; set; }
         public Boolean NSC { get; set; }
         public List<MetarCloud> Clouds { get; set; }

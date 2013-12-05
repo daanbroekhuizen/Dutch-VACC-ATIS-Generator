@@ -39,30 +39,25 @@
             this.nextATISLetterButton = new System.Windows.Forms.Button();
             this.previousATISLetterButton = new System.Windows.Forms.Button();
             this.atisLetterLabel = new System.Windows.Forms.Label();
-            this.mainRunwaysGroupBox = new System.Windows.Forms.GroupBox();
-            this.mainLandingGroupBox = new System.Windows.Forms.GroupBox();
-            this.mainLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.mainLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.mainDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.mainDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.mainDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.secondaryLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.secondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.secondaryLandingRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.secondaryRunwaysGroupBox = new System.Windows.Forms.GroupBox();
-            this.secondaryDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
-            this.secondaryDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
-            this.secondaryDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHAMmainRunwaysGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMmainLandingRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMmainLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHAMmainLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHAMmainDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMmainDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHAMmainDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHAMsecondaryLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHAMsecondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHAMsecondaryLandingRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMsecondaryRunwaysGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMsecondaryDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHAMsecondaryDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHAMsecondaryDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.tlLevelGroupBox = new System.Windows.Forms.GroupBox();
             this.tlOutLabel = new System.Windows.Forms.Label();
             this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
-            this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
-            this.markTempCheckBox = new System.Windows.Forms.CheckBox();
-            this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
-            this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
-            this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.outputGroupBox = new System.Windows.Forms.GroupBox();
@@ -78,21 +73,54 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EHRDmainRubwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHRDchildMainRunwyaGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHRDmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHRDmainRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHGGmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHGGchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHGGmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHGGmainRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.markTempCheckBox = new System.Windows.Forms.CheckBox();
+            this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHEHmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHEHchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHEHmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHEHmainRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.EHBKmainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHBKchildMainRunwayGroupBox = new System.Windows.Forms.GroupBox();
+            this.EHBKmainRunwayCheckBox = new System.Windows.Forms.CheckBox();
+            this.EHBKmainRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.atisIndexGroupBox.SuspendLayout();
-            this.mainRunwaysGroupBox.SuspendLayout();
-            this.mainLandingGroupBox.SuspendLayout();
-            this.mainDepartureRunwayGroupBox.SuspendLayout();
-            this.secondaryLandingRunwayGroupBox.SuspendLayout();
-            this.secondaryRunwaysGroupBox.SuspendLayout();
-            this.secondaryDepartureRunwayGroupBox.SuspendLayout();
+            this.EHAMmainRunwaysGroupBox.SuspendLayout();
+            this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
+            this.EHAMmainDepartureRunwayGroupBox.SuspendLayout();
+            this.EHAMsecondaryLandingRunwayGroupBox.SuspendLayout();
+            this.EHAMsecondaryRunwaysGroupBox.SuspendLayout();
+            this.EHAMsecondaryDepartureRunwayGroupBox.SuspendLayout();
             this.tlLevelGroupBox.SuspendLayout();
             this.metarInputGroupBox.SuspendLayout();
-            this.additionalOptionsGroupBox.SuspendLayout();
             this.outputOptionsGroupBox.SuspendLayout();
             this.outputGroupBox.SuspendLayout();
             this.ICAOTabControl.SuspendLayout();
             this.EHAM.SuspendLayout();
+            this.EHBK.SuspendLayout();
+            this.EHEH.SuspendLayout();
+            this.EHGG.SuspendLayout();
+            this.EHRD.SuspendLayout();
             this.menuStrip.SuspendLayout();
+            this.EHRDmainRubwayGroupBox.SuspendLayout();
+            this.EHRDchildMainRunwyaGroupBox.SuspendLayout();
+            this.EHGGmainRunwayGroupBox.SuspendLayout();
+            this.EHGGchildMainRunwayGroupBox.SuspendLayout();
+            this.additionalOptionsGroupBox.SuspendLayout();
+            this.EHEHmainRunwayGroupBox.SuspendLayout();
+            this.EHEHchildMainRunwayGroupBox.SuspendLayout();
+            this.EHBKmainRunwayGroupBox.SuspendLayout();
+            this.EHBKchildMainRunwayGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // getMetarButton
@@ -189,44 +217,44 @@
             this.atisLetterLabel.Text = "A";
             this.atisLetterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // mainRunwaysGroupBox
+            // EHAMmainRunwaysGroupBox
             // 
-            this.mainRunwaysGroupBox.Controls.Add(this.mainLandingGroupBox);
-            this.mainRunwaysGroupBox.Controls.Add(this.mainDepartureRunwayGroupBox);
-            this.mainRunwaysGroupBox.Location = new System.Drawing.Point(3, 3);
-            this.mainRunwaysGroupBox.Name = "mainRunwaysGroupBox";
-            this.mainRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
-            this.mainRunwaysGroupBox.TabIndex = 0;
-            this.mainRunwaysGroupBox.TabStop = false;
-            this.mainRunwaysGroupBox.Text = "Main Runway(s)";
+            this.EHAMmainRunwaysGroupBox.Controls.Add(this.EHAMmainLandingRunwayGroupBox);
+            this.EHAMmainRunwaysGroupBox.Controls.Add(this.EHAMmainDepartureRunwayGroupBox);
+            this.EHAMmainRunwaysGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHAMmainRunwaysGroupBox.Name = "EHAMmainRunwaysGroupBox";
+            this.EHAMmainRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
+            this.EHAMmainRunwaysGroupBox.TabIndex = 0;
+            this.EHAMmainRunwaysGroupBox.TabStop = false;
+            this.EHAMmainRunwaysGroupBox.Text = "Main Runway(s)";
             // 
-            // mainLandingGroupBox
+            // EHAMmainLandingRunwayGroupBox
             // 
-            this.mainLandingGroupBox.Controls.Add(this.mainLandingRunwayCheckBox);
-            this.mainLandingGroupBox.Controls.Add(this.mainLandingRunwayComboBox);
-            this.mainLandingGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.mainLandingGroupBox.Name = "mainLandingGroupBox";
-            this.mainLandingGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.mainLandingGroupBox.TabIndex = 0;
-            this.mainLandingGroupBox.TabStop = false;
+            this.EHAMmainLandingRunwayGroupBox.Controls.Add(this.EHAMmainLandingRunwayCheckBox);
+            this.EHAMmainLandingRunwayGroupBox.Controls.Add(this.EHAMmainLandingRunwayComboBox);
+            this.EHAMmainLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHAMmainLandingRunwayGroupBox.Name = "EHAMmainLandingRunwayGroupBox";
+            this.EHAMmainLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHAMmainLandingRunwayGroupBox.TabIndex = 0;
+            this.EHAMmainLandingRunwayGroupBox.TabStop = false;
             // 
-            // mainLandingRunwayCheckBox
+            // EHAMmainLandingRunwayCheckBox
             // 
-            this.mainLandingRunwayCheckBox.AutoSize = true;
-            this.mainLandingRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.mainLandingRunwayCheckBox.Name = "mainLandingRunwayCheckBox";
-            this.mainLandingRunwayCheckBox.Size = new System.Drawing.Size(123, 17);
-            this.mainLandingRunwayCheckBox.TabIndex = 6;
-            this.mainLandingRunwayCheckBox.Text = "Main landing runway";
-            this.mainLandingRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.mainLandingRunwayCheckBox.CheckedChanged += new System.EventHandler(this.mainLandingRunwayCheckBox_CheckedChanged);
+            this.EHAMmainLandingRunwayCheckBox.AutoSize = true;
+            this.EHAMmainLandingRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHAMmainLandingRunwayCheckBox.Name = "EHAMmainLandingRunwayCheckBox";
+            this.EHAMmainLandingRunwayCheckBox.Size = new System.Drawing.Size(123, 17);
+            this.EHAMmainLandingRunwayCheckBox.TabIndex = 6;
+            this.EHAMmainLandingRunwayCheckBox.Text = "Main landing runway";
+            this.EHAMmainLandingRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHAMmainLandingRunwayCheckBox.CheckedChanged += new System.EventHandler(this.mainLandingRunwayCheckBox_CheckedChanged);
             // 
-            // mainLandingRunwayComboBox
+            // EHAMmainLandingRunwayComboBox
             // 
-            this.mainLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mainLandingRunwayComboBox.Enabled = false;
-            this.mainLandingRunwayComboBox.FormattingEnabled = true;
-            this.mainLandingRunwayComboBox.Items.AddRange(new object[] {
+            this.EHAMmainLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHAMmainLandingRunwayComboBox.Enabled = false;
+            this.EHAMmainLandingRunwayComboBox.FormattingEnabled = true;
+            this.EHAMmainLandingRunwayComboBox.Items.AddRange(new object[] {
             "04",
             "06",
             "09",
@@ -237,38 +265,38 @@
             "27",
             "36C",
             "36R"});
-            this.mainLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.mainLandingRunwayComboBox.Name = "mainLandingRunwayComboBox";
-            this.mainLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.mainLandingRunwayComboBox.TabIndex = 7;
+            this.EHAMmainLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHAMmainLandingRunwayComboBox.Name = "EHAMmainLandingRunwayComboBox";
+            this.EHAMmainLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHAMmainLandingRunwayComboBox.TabIndex = 7;
             // 
-            // mainDepartureRunwayGroupBox
+            // EHAMmainDepartureRunwayGroupBox
             // 
-            this.mainDepartureRunwayGroupBox.Controls.Add(this.mainDepartureRunwayCheckBox);
-            this.mainDepartureRunwayGroupBox.Controls.Add(this.mainDepartureRunwayComboBox);
-            this.mainDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
-            this.mainDepartureRunwayGroupBox.Name = "mainDepartureRunwayGroupBox";
-            this.mainDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.mainDepartureRunwayGroupBox.TabIndex = 0;
-            this.mainDepartureRunwayGroupBox.TabStop = false;
+            this.EHAMmainDepartureRunwayGroupBox.Controls.Add(this.EHAMmainDepartureRunwayCheckBox);
+            this.EHAMmainDepartureRunwayGroupBox.Controls.Add(this.EHAMmainDepartureRunwayComboBox);
+            this.EHAMmainDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
+            this.EHAMmainDepartureRunwayGroupBox.Name = "EHAMmainDepartureRunwayGroupBox";
+            this.EHAMmainDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHAMmainDepartureRunwayGroupBox.TabIndex = 0;
+            this.EHAMmainDepartureRunwayGroupBox.TabStop = false;
             // 
-            // mainDepartureRunwayCheckBox
+            // EHAMmainDepartureRunwayCheckBox
             // 
-            this.mainDepartureRunwayCheckBox.AutoSize = true;
-            this.mainDepartureRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.mainDepartureRunwayCheckBox.Name = "mainDepartureRunwayCheckBox";
-            this.mainDepartureRunwayCheckBox.Size = new System.Drawing.Size(134, 17);
-            this.mainDepartureRunwayCheckBox.TabIndex = 8;
-            this.mainDepartureRunwayCheckBox.Text = "Main departure runway";
-            this.mainDepartureRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.mainDepartureRunwayCheckBox.CheckedChanged += new System.EventHandler(this.mainDepartureRunwayCheckBox_CheckedChanged);
+            this.EHAMmainDepartureRunwayCheckBox.AutoSize = true;
+            this.EHAMmainDepartureRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHAMmainDepartureRunwayCheckBox.Name = "EHAMmainDepartureRunwayCheckBox";
+            this.EHAMmainDepartureRunwayCheckBox.Size = new System.Drawing.Size(134, 17);
+            this.EHAMmainDepartureRunwayCheckBox.TabIndex = 8;
+            this.EHAMmainDepartureRunwayCheckBox.Text = "Main departure runway";
+            this.EHAMmainDepartureRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHAMmainDepartureRunwayCheckBox.CheckedChanged += new System.EventHandler(this.mainDepartureRunwayCheckBox_CheckedChanged);
             // 
-            // mainDepartureRunwayComboBox
+            // EHAMmainDepartureRunwayComboBox
             // 
-            this.mainDepartureRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mainDepartureRunwayComboBox.Enabled = false;
-            this.mainDepartureRunwayComboBox.FormattingEnabled = true;
-            this.mainDepartureRunwayComboBox.Items.AddRange(new object[] {
+            this.EHAMmainDepartureRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHAMmainDepartureRunwayComboBox.Enabled = false;
+            this.EHAMmainDepartureRunwayComboBox.FormattingEnabled = true;
+            this.EHAMmainDepartureRunwayComboBox.Items.AddRange(new object[] {
             "04",
             "06",
             "09",
@@ -279,28 +307,28 @@
             "27",
             "36L",
             "36C"});
-            this.mainDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.mainDepartureRunwayComboBox.Name = "mainDepartureRunwayComboBox";
-            this.mainDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.mainDepartureRunwayComboBox.TabIndex = 9;
+            this.EHAMmainDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHAMmainDepartureRunwayComboBox.Name = "EHAMmainDepartureRunwayComboBox";
+            this.EHAMmainDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHAMmainDepartureRunwayComboBox.TabIndex = 9;
             // 
-            // secondaryLandingRunwayCheckBox
+            // EHAMsecondaryLandingRunwayCheckBox
             // 
-            this.secondaryLandingRunwayCheckBox.AutoSize = true;
-            this.secondaryLandingRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.secondaryLandingRunwayCheckBox.Name = "secondaryLandingRunwayCheckBox";
-            this.secondaryLandingRunwayCheckBox.Size = new System.Drawing.Size(151, 17);
-            this.secondaryLandingRunwayCheckBox.TabIndex = 10;
-            this.secondaryLandingRunwayCheckBox.Text = "Secondary landing runway";
-            this.secondaryLandingRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.secondaryLandingRunwayCheckBox.CheckedChanged += new System.EventHandler(this.secondaryLandingRunway_CheckedChanged);
+            this.EHAMsecondaryLandingRunwayCheckBox.AutoSize = true;
+            this.EHAMsecondaryLandingRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHAMsecondaryLandingRunwayCheckBox.Name = "EHAMsecondaryLandingRunwayCheckBox";
+            this.EHAMsecondaryLandingRunwayCheckBox.Size = new System.Drawing.Size(151, 17);
+            this.EHAMsecondaryLandingRunwayCheckBox.TabIndex = 10;
+            this.EHAMsecondaryLandingRunwayCheckBox.Text = "Secondary landing runway";
+            this.EHAMsecondaryLandingRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHAMsecondaryLandingRunwayCheckBox.CheckedChanged += new System.EventHandler(this.secondaryLandingRunway_CheckedChanged);
             // 
-            // secondaryLandingRunwayComboBox
+            // EHAMsecondaryLandingRunwayComboBox
             // 
-            this.secondaryLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.secondaryLandingRunwayComboBox.Enabled = false;
-            this.secondaryLandingRunwayComboBox.FormattingEnabled = true;
-            this.secondaryLandingRunwayComboBox.Items.AddRange(new object[] {
+            this.EHAMsecondaryLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHAMsecondaryLandingRunwayComboBox.Enabled = false;
+            this.EHAMsecondaryLandingRunwayComboBox.FormattingEnabled = true;
+            this.EHAMsecondaryLandingRunwayComboBox.Items.AddRange(new object[] {
             "04",
             "06",
             "09",
@@ -311,48 +339,48 @@
             "27",
             "36C",
             "36R"});
-            this.secondaryLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.secondaryLandingRunwayComboBox.Name = "secondaryLandingRunwayComboBox";
-            this.secondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.secondaryLandingRunwayComboBox.TabIndex = 11;
+            this.EHAMsecondaryLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHAMsecondaryLandingRunwayComboBox.Name = "EHAMsecondaryLandingRunwayComboBox";
+            this.EHAMsecondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHAMsecondaryLandingRunwayComboBox.TabIndex = 11;
             // 
-            // secondaryLandingRunwayGroupBox
+            // EHAMsecondaryLandingRunwayGroupBox
             // 
-            this.secondaryLandingRunwayGroupBox.Controls.Add(this.secondaryLandingRunwayComboBox);
-            this.secondaryLandingRunwayGroupBox.Controls.Add(this.secondaryLandingRunwayCheckBox);
-            this.secondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.secondaryLandingRunwayGroupBox.Name = "secondaryLandingRunwayGroupBox";
-            this.secondaryLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.secondaryLandingRunwayGroupBox.TabIndex = 0;
-            this.secondaryLandingRunwayGroupBox.TabStop = false;
+            this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.EHAMsecondaryLandingRunwayComboBox);
+            this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.EHAMsecondaryLandingRunwayCheckBox);
+            this.EHAMsecondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHAMsecondaryLandingRunwayGroupBox.Name = "EHAMsecondaryLandingRunwayGroupBox";
+            this.EHAMsecondaryLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHAMsecondaryLandingRunwayGroupBox.TabIndex = 0;
+            this.EHAMsecondaryLandingRunwayGroupBox.TabStop = false;
             // 
-            // secondaryRunwaysGroupBox
+            // EHAMsecondaryRunwaysGroupBox
             // 
-            this.secondaryRunwaysGroupBox.Controls.Add(this.secondaryLandingRunwayGroupBox);
-            this.secondaryRunwaysGroupBox.Controls.Add(this.secondaryDepartureRunwayGroupBox);
-            this.secondaryRunwaysGroupBox.Location = new System.Drawing.Point(3, 105);
-            this.secondaryRunwaysGroupBox.Name = "secondaryRunwaysGroupBox";
-            this.secondaryRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
-            this.secondaryRunwaysGroupBox.TabIndex = 0;
-            this.secondaryRunwaysGroupBox.TabStop = false;
-            this.secondaryRunwaysGroupBox.Text = "Secondary Runway(s)";
+            this.EHAMsecondaryRunwaysGroupBox.Controls.Add(this.EHAMsecondaryLandingRunwayGroupBox);
+            this.EHAMsecondaryRunwaysGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayGroupBox);
+            this.EHAMsecondaryRunwaysGroupBox.Location = new System.Drawing.Point(3, 105);
+            this.EHAMsecondaryRunwaysGroupBox.Name = "EHAMsecondaryRunwaysGroupBox";
+            this.EHAMsecondaryRunwaysGroupBox.Size = new System.Drawing.Size(353, 96);
+            this.EHAMsecondaryRunwaysGroupBox.TabIndex = 0;
+            this.EHAMsecondaryRunwaysGroupBox.TabStop = false;
+            this.EHAMsecondaryRunwaysGroupBox.Text = "Secondary Runway(s)";
             // 
-            // secondaryDepartureRunwayGroupBox
+            // EHAMsecondaryDepartureRunwayGroupBox
             // 
-            this.secondaryDepartureRunwayGroupBox.Controls.Add(this.secondaryDepartureRunwayComboBox);
-            this.secondaryDepartureRunwayGroupBox.Controls.Add(this.secondaryDepartureRunwayCheckBox);
-            this.secondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(178, 19);
-            this.secondaryDepartureRunwayGroupBox.Name = "secondaryDepartureRunwayGroupBox";
-            this.secondaryDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
-            this.secondaryDepartureRunwayGroupBox.TabIndex = 0;
-            this.secondaryDepartureRunwayGroupBox.TabStop = false;
+            this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayComboBox);
+            this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayCheckBox);
+            this.EHAMsecondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(178, 19);
+            this.EHAMsecondaryDepartureRunwayGroupBox.Name = "EHAMsecondaryDepartureRunwayGroupBox";
+            this.EHAMsecondaryDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHAMsecondaryDepartureRunwayGroupBox.TabIndex = 0;
+            this.EHAMsecondaryDepartureRunwayGroupBox.TabStop = false;
             // 
-            // secondaryDepartureRunwayComboBox
+            // EHAMsecondaryDepartureRunwayComboBox
             // 
-            this.secondaryDepartureRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.secondaryDepartureRunwayComboBox.Enabled = false;
-            this.secondaryDepartureRunwayComboBox.FormattingEnabled = true;
-            this.secondaryDepartureRunwayComboBox.Items.AddRange(new object[] {
+            this.EHAMsecondaryDepartureRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHAMsecondaryDepartureRunwayComboBox.Enabled = false;
+            this.EHAMsecondaryDepartureRunwayComboBox.FormattingEnabled = true;
+            this.EHAMsecondaryDepartureRunwayComboBox.Items.AddRange(new object[] {
             "04",
             "06",
             "09",
@@ -363,21 +391,21 @@
             "27",
             "36L",
             "36C"});
-            this.secondaryDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.secondaryDepartureRunwayComboBox.Name = "secondaryDepartureRunwayComboBox";
-            this.secondaryDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.secondaryDepartureRunwayComboBox.TabIndex = 13;
+            this.EHAMsecondaryDepartureRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHAMsecondaryDepartureRunwayComboBox.Name = "EHAMsecondaryDepartureRunwayComboBox";
+            this.EHAMsecondaryDepartureRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHAMsecondaryDepartureRunwayComboBox.TabIndex = 13;
             // 
-            // secondaryDepartureRunwayCheckBox
+            // EHAMsecondaryDepartureRunwayCheckBox
             // 
-            this.secondaryDepartureRunwayCheckBox.AutoSize = true;
-            this.secondaryDepartureRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
-            this.secondaryDepartureRunwayCheckBox.Name = "secondaryDepartureRunwayCheckBox";
-            this.secondaryDepartureRunwayCheckBox.Size = new System.Drawing.Size(162, 17);
-            this.secondaryDepartureRunwayCheckBox.TabIndex = 12;
-            this.secondaryDepartureRunwayCheckBox.Text = "Secondary departure runway";
-            this.secondaryDepartureRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.secondaryDepartureRunwayCheckBox.CheckedChanged += new System.EventHandler(this.secondaryDepartureRunwayCheckBox_CheckedChanged);
+            this.EHAMsecondaryDepartureRunwayCheckBox.AutoSize = true;
+            this.EHAMsecondaryDepartureRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHAMsecondaryDepartureRunwayCheckBox.Name = "EHAMsecondaryDepartureRunwayCheckBox";
+            this.EHAMsecondaryDepartureRunwayCheckBox.Size = new System.Drawing.Size(162, 17);
+            this.EHAMsecondaryDepartureRunwayCheckBox.TabIndex = 12;
+            this.EHAMsecondaryDepartureRunwayCheckBox.Text = "Secondary departure runway";
+            this.EHAMsecondaryDepartureRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHAMsecondaryDepartureRunwayCheckBox.CheckedChanged += new System.EventHandler(this.secondaryDepartureRunwayCheckBox_CheckedChanged);
             // 
             // tlLevelGroupBox
             // 
@@ -434,62 +462,6 @@
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
             // 
-            // additionalOptionsGroupBox
-            // 
-            this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
-            this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
-            this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
-            this.additionalOptionsGroupBox.Controls.Add(this.appOnlyCheckBox);
-            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(362, 3);
-            this.additionalOptionsGroupBox.Name = "additionalOptionsGroupBox";
-            this.additionalOptionsGroupBox.Size = new System.Drawing.Size(157, 198);
-            this.additionalOptionsGroupBox.TabIndex = 0;
-            this.additionalOptionsGroupBox.TabStop = false;
-            this.additionalOptionsGroupBox.Text = "Additional Options";
-            // 
-            // markTempCheckBox
-            // 
-            this.markTempCheckBox.AutoSize = true;
-            this.markTempCheckBox.Location = new System.Drawing.Point(6, 81);
-            this.markTempCheckBox.Name = "markTempCheckBox";
-            this.markTempCheckBox.Size = new System.Drawing.Size(122, 30);
-            this.markTempCheckBox.TabIndex = 17;
-            this.markTempCheckBox.Text = "Inverted surface-\r\ntemperature warning";
-            this.markTempCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // appArrOnlyCheckBox
-            // 
-            this.appArrOnlyCheckBox.AutoSize = true;
-            this.appArrOnlyCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.appArrOnlyCheckBox.Name = "appArrOnlyCheckBox";
-            this.appArrOnlyCheckBox.Size = new System.Drawing.Size(142, 17);
-            this.appArrOnlyCheckBox.TabIndex = 16;
-            this.appArrOnlyCheckBox.Text = "APP + ARR callsign only";
-            this.appArrOnlyCheckBox.UseVisualStyleBackColor = true;
-            this.appArrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appArrOnlyCheckBox_CheckedChanged);
-            // 
-            // arrOnlyCheckBox
-            // 
-            this.arrOnlyCheckBox.AutoSize = true;
-            this.arrOnlyCheckBox.Location = new System.Drawing.Point(6, 42);
-            this.arrOnlyCheckBox.Name = "arrOnlyCheckBox";
-            this.arrOnlyCheckBox.Size = new System.Drawing.Size(109, 17);
-            this.arrOnlyCheckBox.TabIndex = 15;
-            this.arrOnlyCheckBox.Text = "ARR callsign only";
-            this.arrOnlyCheckBox.UseVisualStyleBackColor = true;
-            this.arrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.arrOnlyCheckBox_CheckedChanged);
-            // 
-            // appOnlyCheckBox
-            // 
-            this.appOnlyCheckBox.AutoSize = true;
-            this.appOnlyCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.appOnlyCheckBox.Name = "appOnlyCheckBox";
-            this.appOnlyCheckBox.Size = new System.Drawing.Size(107, 17);
-            this.appOnlyCheckBox.TabIndex = 14;
-            this.appOnlyCheckBox.Text = "APP callsign only";
-            this.appOnlyCheckBox.UseVisualStyleBackColor = true;
-            this.appOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appOnlyCheckBox_CheckedChanged);
-            // 
             // copyOutputCheckBox
             // 
             this.copyOutputCheckBox.AutoSize = true;
@@ -537,52 +509,55 @@
             this.ICAOTabControl.Location = new System.Drawing.Point(12, 166);
             this.ICAOTabControl.Name = "ICAOTabControl";
             this.ICAOTabControl.SelectedIndex = 0;
-            this.ICAOTabControl.Size = new System.Drawing.Size(532, 232);
+            this.ICAOTabControl.Size = new System.Drawing.Size(369, 232);
             this.ICAOTabControl.TabIndex = 5;
             this.ICAOTabControl.SelectedIndexChanged += new System.EventHandler(this.ICAOTabControl_SelectedIndexChanged);
             // 
             // EHAM
             // 
-            this.EHAM.Controls.Add(this.mainRunwaysGroupBox);
-            this.EHAM.Controls.Add(this.secondaryRunwaysGroupBox);
-            this.EHAM.Controls.Add(this.additionalOptionsGroupBox);
+            this.EHAM.Controls.Add(this.EHAMmainRunwaysGroupBox);
+            this.EHAM.Controls.Add(this.EHAMsecondaryRunwaysGroupBox);
             this.EHAM.Location = new System.Drawing.Point(4, 22);
             this.EHAM.Name = "EHAM";
-            this.EHAM.Size = new System.Drawing.Size(524, 206);
+            this.EHAM.Size = new System.Drawing.Size(361, 206);
             this.EHAM.TabIndex = 5;
             this.EHAM.Text = "EHAM";
             this.EHAM.UseVisualStyleBackColor = true;
             // 
             // EHBK
             // 
+            this.EHBK.Controls.Add(this.EHBKmainRunwayGroupBox);
             this.EHBK.Location = new System.Drawing.Point(4, 22);
             this.EHBK.Name = "EHBK";
             this.EHBK.Padding = new System.Windows.Forms.Padding(3);
-            this.EHBK.Size = new System.Drawing.Size(524, 206);
+            this.EHBK.Size = new System.Drawing.Size(361, 206);
             this.EHBK.TabIndex = 1;
             this.EHBK.Text = "EHBK";
             this.EHBK.UseVisualStyleBackColor = true;
             // 
             // EHEH
             // 
+            this.EHEH.Controls.Add(this.EHEHmainRunwayGroupBox);
             this.EHEH.Location = new System.Drawing.Point(4, 22);
             this.EHEH.Name = "EHEH";
-            this.EHEH.Size = new System.Drawing.Size(524, 206);
+            this.EHEH.Size = new System.Drawing.Size(361, 206);
             this.EHEH.TabIndex = 2;
             this.EHEH.Text = "EHEH";
             this.EHEH.UseVisualStyleBackColor = true;
             // 
             // EHGG
             // 
+            this.EHGG.Controls.Add(this.EHGGmainRunwayGroupBox);
             this.EHGG.Location = new System.Drawing.Point(4, 22);
             this.EHGG.Name = "EHGG";
-            this.EHGG.Size = new System.Drawing.Size(524, 206);
+            this.EHGG.Size = new System.Drawing.Size(361, 206);
             this.EHGG.TabIndex = 3;
             this.EHGG.Text = "EHGG";
             this.EHGG.UseVisualStyleBackColor = true;
             // 
             // EHRD
             // 
+            this.EHRD.Controls.Add(this.EHRDmainRubwayGroupBox);
             this.EHRD.Location = new System.Drawing.Point(4, 22);
             this.EHRD.Name = "EHRD";
             this.EHRD.Size = new System.Drawing.Size(524, 206);
@@ -632,11 +607,243 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
+            // EHRDmainRubwayGroupBox
+            // 
+            this.EHRDmainRubwayGroupBox.Controls.Add(this.EHRDchildMainRunwyaGroupBox);
+            this.EHRDmainRubwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHRDmainRubwayGroupBox.Name = "EHRDmainRubwayGroupBox";
+            this.EHRDmainRubwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHRDmainRubwayGroupBox.TabIndex = 1;
+            this.EHRDmainRubwayGroupBox.TabStop = false;
+            this.EHRDmainRubwayGroupBox.Text = "Main Runway";
+            // 
+            // EHRDchildMainRunwyaGroupBox
+            // 
+            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayCheckBox);
+            this.EHRDchildMainRunwyaGroupBox.Controls.Add(this.EHRDmainRunwayComboBox);
+            this.EHRDchildMainRunwyaGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHRDchildMainRunwyaGroupBox.Name = "EHRDchildMainRunwyaGroupBox";
+            this.EHRDchildMainRunwyaGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHRDchildMainRunwyaGroupBox.TabIndex = 0;
+            this.EHRDchildMainRunwyaGroupBox.TabStop = false;
+            // 
+            // EHRDmainRunwayCheckBox
+            // 
+            this.EHRDmainRunwayCheckBox.AutoSize = true;
+            this.EHRDmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHRDmainRunwayCheckBox.Name = "EHRDmainRunwayCheckBox";
+            this.EHRDmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHRDmainRunwayCheckBox.TabIndex = 6;
+            this.EHRDmainRunwayCheckBox.Text = "Main runway";
+            this.EHRDmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHRDmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHRDmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHRDmainRunwayComboBox
+            // 
+            this.EHRDmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHRDmainRunwayComboBox.Enabled = false;
+            this.EHRDmainRunwayComboBox.FormattingEnabled = true;
+            this.EHRDmainRunwayComboBox.Items.AddRange(new object[] {
+            "06",
+            "24"});
+            this.EHRDmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHRDmainRunwayComboBox.Name = "EHRDmainRunwayComboBox";
+            this.EHRDmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHRDmainRunwayComboBox.TabIndex = 7;
+            // 
+            // EHGGmainRunwayGroupBox
+            // 
+            this.EHGGmainRunwayGroupBox.Controls.Add(this.EHGGchildMainRunwayGroupBox);
+            this.EHGGmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHGGmainRunwayGroupBox.Name = "EHGGmainRunwayGroupBox";
+            this.EHGGmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHGGmainRunwayGroupBox.TabIndex = 2;
+            this.EHGGmainRunwayGroupBox.TabStop = false;
+            this.EHGGmainRunwayGroupBox.Text = "Main Runway";
+            // 
+            // EHGGchildMainRunwayGroupBox
+            // 
+            this.EHGGchildMainRunwayGroupBox.Controls.Add(this.EHGGmainRunwayCheckBox);
+            this.EHGGchildMainRunwayGroupBox.Controls.Add(this.EHGGmainRunwayComboBox);
+            this.EHGGchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHGGchildMainRunwayGroupBox.Name = "EHGGchildMainRunwayGroupBox";
+            this.EHGGchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHGGchildMainRunwayGroupBox.TabIndex = 0;
+            this.EHGGchildMainRunwayGroupBox.TabStop = false;
+            // 
+            // EHGGmainRunwayCheckBox
+            // 
+            this.EHGGmainRunwayCheckBox.AutoSize = true;
+            this.EHGGmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHGGmainRunwayCheckBox.Name = "EHGGmainRunwayCheckBox";
+            this.EHGGmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHGGmainRunwayCheckBox.TabIndex = 6;
+            this.EHGGmainRunwayCheckBox.Text = "Main runway";
+            this.EHGGmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHGGmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHGGmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHGGmainRunwayComboBox
+            // 
+            this.EHGGmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHGGmainRunwayComboBox.Enabled = false;
+            this.EHGGmainRunwayComboBox.FormattingEnabled = true;
+            this.EHGGmainRunwayComboBox.Items.AddRange(new object[] {
+            "01",
+            "05",
+            "19",
+            "23"});
+            this.EHGGmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHGGmainRunwayComboBox.Name = "EHGGmainRunwayComboBox";
+            this.EHGGmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHGGmainRunwayComboBox.TabIndex = 7;
+            // 
+            // additionalOptionsGroupBox
+            // 
+            this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.appOnlyCheckBox);
+            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(387, 166);
+            this.additionalOptionsGroupBox.Name = "additionalOptionsGroupBox";
+            this.additionalOptionsGroupBox.Size = new System.Drawing.Size(157, 232);
+            this.additionalOptionsGroupBox.TabIndex = 22;
+            this.additionalOptionsGroupBox.TabStop = false;
+            this.additionalOptionsGroupBox.Text = "Additional Options";
+            // 
+            // markTempCheckBox
+            // 
+            this.markTempCheckBox.AutoSize = true;
+            this.markTempCheckBox.Location = new System.Drawing.Point(6, 81);
+            this.markTempCheckBox.Name = "markTempCheckBox";
+            this.markTempCheckBox.Size = new System.Drawing.Size(122, 30);
+            this.markTempCheckBox.TabIndex = 17;
+            this.markTempCheckBox.Text = "Inverted surface-\r\ntemperature warning";
+            this.markTempCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // appArrOnlyCheckBox
+            // 
+            this.appArrOnlyCheckBox.AutoSize = true;
+            this.appArrOnlyCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.appArrOnlyCheckBox.Name = "appArrOnlyCheckBox";
+            this.appArrOnlyCheckBox.Size = new System.Drawing.Size(142, 17);
+            this.appArrOnlyCheckBox.TabIndex = 16;
+            this.appArrOnlyCheckBox.Text = "APP + ARR callsign only";
+            this.appArrOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // arrOnlyCheckBox
+            // 
+            this.arrOnlyCheckBox.AutoSize = true;
+            this.arrOnlyCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.arrOnlyCheckBox.Name = "arrOnlyCheckBox";
+            this.arrOnlyCheckBox.Size = new System.Drawing.Size(109, 17);
+            this.arrOnlyCheckBox.TabIndex = 15;
+            this.arrOnlyCheckBox.Text = "ARR callsign only";
+            this.arrOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // appOnlyCheckBox
+            // 
+            this.appOnlyCheckBox.AutoSize = true;
+            this.appOnlyCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.appOnlyCheckBox.Name = "appOnlyCheckBox";
+            this.appOnlyCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.appOnlyCheckBox.TabIndex = 14;
+            this.appOnlyCheckBox.Text = "APP callsign only";
+            this.appOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // EHEHmainRunwayGroupBox
+            // 
+            this.EHEHmainRunwayGroupBox.Controls.Add(this.EHEHchildMainRunwayGroupBox);
+            this.EHEHmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHEHmainRunwayGroupBox.Name = "EHEHmainRunwayGroupBox";
+            this.EHEHmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHEHmainRunwayGroupBox.TabIndex = 3;
+            this.EHEHmainRunwayGroupBox.TabStop = false;
+            this.EHEHmainRunwayGroupBox.Text = "Main Runway";
+            // 
+            // EHEHchildMainRunwayGroupBox
+            // 
+            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayCheckBox);
+            this.EHEHchildMainRunwayGroupBox.Controls.Add(this.EHEHmainRunwayComboBox);
+            this.EHEHchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHEHchildMainRunwayGroupBox.Name = "EHEHchildMainRunwayGroupBox";
+            this.EHEHchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHEHchildMainRunwayGroupBox.TabIndex = 0;
+            this.EHEHchildMainRunwayGroupBox.TabStop = false;
+            // 
+            // EHEHmainRunwayCheckBox
+            // 
+            this.EHEHmainRunwayCheckBox.AutoSize = true;
+            this.EHEHmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHEHmainRunwayCheckBox.Name = "EHEHmainRunwayCheckBox";
+            this.EHEHmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHEHmainRunwayCheckBox.TabIndex = 6;
+            this.EHEHmainRunwayCheckBox.Text = "Main runway";
+            this.EHEHmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHEHmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHEHmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHEHmainRunwayComboBox
+            // 
+            this.EHEHmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHEHmainRunwayComboBox.Enabled = false;
+            this.EHEHmainRunwayComboBox.FormattingEnabled = true;
+            this.EHEHmainRunwayComboBox.Items.AddRange(new object[] {
+            "03",
+            "21"});
+            this.EHEHmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHEHmainRunwayComboBox.Name = "EHEHmainRunwayComboBox";
+            this.EHEHmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHEHmainRunwayComboBox.TabIndex = 7;
+            // 
+            // EHBKmainRunwayGroupBox
+            // 
+            this.EHBKmainRunwayGroupBox.Controls.Add(this.EHBKchildMainRunwayGroupBox);
+            this.EHBKmainRunwayGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.EHBKmainRunwayGroupBox.Name = "EHBKmainRunwayGroupBox";
+            this.EHBKmainRunwayGroupBox.Size = new System.Drawing.Size(182, 96);
+            this.EHBKmainRunwayGroupBox.TabIndex = 3;
+            this.EHBKmainRunwayGroupBox.TabStop = false;
+            this.EHBKmainRunwayGroupBox.Text = "Main Runway";
+            // 
+            // EHBKchildMainRunwayGroupBox
+            // 
+            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayCheckBox);
+            this.EHBKchildMainRunwayGroupBox.Controls.Add(this.EHBKmainRunwayComboBox);
+            this.EHBKchildMainRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHBKchildMainRunwayGroupBox.Name = "EHBKchildMainRunwayGroupBox";
+            this.EHBKchildMainRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
+            this.EHBKchildMainRunwayGroupBox.TabIndex = 0;
+            this.EHBKchildMainRunwayGroupBox.TabStop = false;
+            // 
+            // EHBKmainRunwayCheckBox
+            // 
+            this.EHBKmainRunwayCheckBox.AutoSize = true;
+            this.EHBKmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
+            this.EHBKmainRunwayCheckBox.Name = "EHBKmainRunwayCheckBox";
+            this.EHBKmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.EHBKmainRunwayCheckBox.TabIndex = 6;
+            this.EHBKmainRunwayCheckBox.Text = "Main runway";
+            this.EHBKmainRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.EHBKmainRunwayCheckBox.CheckedChanged += new System.EventHandler(this.EHBKmainRunwayCheckBox_CheckedChanged);
+            // 
+            // EHBKmainRunwayComboBox
+            // 
+            this.EHBKmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EHBKmainRunwayComboBox.Enabled = false;
+            this.EHBKmainRunwayComboBox.FormattingEnabled = true;
+            this.EHBKmainRunwayComboBox.Items.AddRange(new object[] {
+            "03",
+            "21"});
+            this.EHBKmainRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.EHBKmainRunwayComboBox.Name = "EHBKmainRunwayComboBox";
+            this.EHBKmainRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.EHBKmainRunwayComboBox.TabIndex = 7;
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(557, 627);
+            this.Controls.Add(this.additionalOptionsGroupBox);
             this.Controls.Add(this.ICAOTabControl);
             this.Controls.Add(this.outputGroupBox);
             this.Controls.Add(this.outputOptionsGroupBox);
@@ -652,29 +859,45 @@
             this.Text = "Dutch VACC ATIS Generator";
             this.atisIndexGroupBox.ResumeLayout(false);
             this.atisIndexGroupBox.PerformLayout();
-            this.mainRunwaysGroupBox.ResumeLayout(false);
-            this.mainLandingGroupBox.ResumeLayout(false);
-            this.mainLandingGroupBox.PerformLayout();
-            this.mainDepartureRunwayGroupBox.ResumeLayout(false);
-            this.mainDepartureRunwayGroupBox.PerformLayout();
-            this.secondaryLandingRunwayGroupBox.ResumeLayout(false);
-            this.secondaryLandingRunwayGroupBox.PerformLayout();
-            this.secondaryRunwaysGroupBox.ResumeLayout(false);
-            this.secondaryDepartureRunwayGroupBox.ResumeLayout(false);
-            this.secondaryDepartureRunwayGroupBox.PerformLayout();
+            this.EHAMmainRunwaysGroupBox.ResumeLayout(false);
+            this.EHAMmainLandingRunwayGroupBox.ResumeLayout(false);
+            this.EHAMmainLandingRunwayGroupBox.PerformLayout();
+            this.EHAMmainDepartureRunwayGroupBox.ResumeLayout(false);
+            this.EHAMmainDepartureRunwayGroupBox.PerformLayout();
+            this.EHAMsecondaryLandingRunwayGroupBox.ResumeLayout(false);
+            this.EHAMsecondaryLandingRunwayGroupBox.PerformLayout();
+            this.EHAMsecondaryRunwaysGroupBox.ResumeLayout(false);
+            this.EHAMsecondaryDepartureRunwayGroupBox.ResumeLayout(false);
+            this.EHAMsecondaryDepartureRunwayGroupBox.PerformLayout();
             this.tlLevelGroupBox.ResumeLayout(false);
             this.metarInputGroupBox.ResumeLayout(false);
             this.metarInputGroupBox.PerformLayout();
-            this.additionalOptionsGroupBox.ResumeLayout(false);
-            this.additionalOptionsGroupBox.PerformLayout();
             this.outputOptionsGroupBox.ResumeLayout(false);
             this.outputOptionsGroupBox.PerformLayout();
             this.outputGroupBox.ResumeLayout(false);
             this.outputGroupBox.PerformLayout();
             this.ICAOTabControl.ResumeLayout(false);
             this.EHAM.ResumeLayout(false);
+            this.EHBK.ResumeLayout(false);
+            this.EHEH.ResumeLayout(false);
+            this.EHGG.ResumeLayout(false);
+            this.EHRD.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            this.EHRDmainRubwayGroupBox.ResumeLayout(false);
+            this.EHRDchildMainRunwyaGroupBox.ResumeLayout(false);
+            this.EHRDchildMainRunwyaGroupBox.PerformLayout();
+            this.EHGGmainRunwayGroupBox.ResumeLayout(false);
+            this.EHGGchildMainRunwayGroupBox.ResumeLayout(false);
+            this.EHGGchildMainRunwayGroupBox.PerformLayout();
+            this.additionalOptionsGroupBox.ResumeLayout(false);
+            this.additionalOptionsGroupBox.PerformLayout();
+            this.EHEHmainRunwayGroupBox.ResumeLayout(false);
+            this.EHEHchildMainRunwayGroupBox.ResumeLayout(false);
+            this.EHEHchildMainRunwayGroupBox.PerformLayout();
+            this.EHBKmainRunwayGroupBox.ResumeLayout(false);
+            this.EHBKchildMainRunwayGroupBox.ResumeLayout(false);
+            this.EHBKchildMainRunwayGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -692,30 +915,25 @@
         private System.Windows.Forms.Button previousATISLetterButton;
         private System.Windows.Forms.Button nextATISLetterButton;
         private System.Windows.Forms.Label atisLetterLabel;
-        private System.Windows.Forms.GroupBox mainRunwaysGroupBox;
-        private System.Windows.Forms.ComboBox mainLandingRunwayComboBox;
-        private System.Windows.Forms.CheckBox secondaryLandingRunwayCheckBox;
-        private System.Windows.Forms.CheckBox mainLandingRunwayCheckBox;
-        private System.Windows.Forms.ComboBox secondaryLandingRunwayComboBox;
-        private System.Windows.Forms.GroupBox secondaryLandingRunwayGroupBox;
-        private System.Windows.Forms.GroupBox mainLandingGroupBox;
-        private System.Windows.Forms.GroupBox secondaryRunwaysGroupBox;
-        private System.Windows.Forms.GroupBox secondaryDepartureRunwayGroupBox;
-        private System.Windows.Forms.ComboBox secondaryDepartureRunwayComboBox;
-        private System.Windows.Forms.CheckBox secondaryDepartureRunwayCheckBox;
-        private System.Windows.Forms.GroupBox mainDepartureRunwayGroupBox;
-        private System.Windows.Forms.CheckBox mainDepartureRunwayCheckBox;
-        private System.Windows.Forms.ComboBox mainDepartureRunwayComboBox;
+        private System.Windows.Forms.GroupBox EHAMmainRunwaysGroupBox;
+        private System.Windows.Forms.ComboBox EHAMmainLandingRunwayComboBox;
+        private System.Windows.Forms.CheckBox EHAMsecondaryLandingRunwayCheckBox;
+        private System.Windows.Forms.CheckBox EHAMmainLandingRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHAMsecondaryLandingRunwayComboBox;
+        private System.Windows.Forms.GroupBox EHAMsecondaryLandingRunwayGroupBox;
+        private System.Windows.Forms.GroupBox EHAMmainLandingRunwayGroupBox;
+        private System.Windows.Forms.GroupBox EHAMsecondaryRunwaysGroupBox;
+        private System.Windows.Forms.GroupBox EHAMsecondaryDepartureRunwayGroupBox;
+        private System.Windows.Forms.ComboBox EHAMsecondaryDepartureRunwayComboBox;
+        private System.Windows.Forms.CheckBox EHAMsecondaryDepartureRunwayCheckBox;
+        private System.Windows.Forms.GroupBox EHAMmainDepartureRunwayGroupBox;
+        private System.Windows.Forms.CheckBox EHAMmainDepartureRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHAMmainDepartureRunwayComboBox;
         private System.Windows.Forms.GroupBox tlLevelGroupBox;
         private System.Windows.Forms.Label tlHeaderLabel;
         private System.Windows.Forms.Button generateATISButton;
         private System.Windows.Forms.Label tlOutLabel;
         private System.Windows.Forms.GroupBox metarInputGroupBox;
-        private System.Windows.Forms.GroupBox additionalOptionsGroupBox;
-        private System.Windows.Forms.CheckBox markTempCheckBox;
-        private System.Windows.Forms.CheckBox appArrOnlyCheckBox;
-        private System.Windows.Forms.CheckBox arrOnlyCheckBox;
-        private System.Windows.Forms.CheckBox appOnlyCheckBox;
         private System.Windows.Forms.CheckBox copyOutputCheckBox;
         private System.Windows.Forms.GroupBox outputOptionsGroupBox;
         private System.Windows.Forms.GroupBox outputGroupBox;
@@ -731,6 +949,27 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.GroupBox EHRDmainRubwayGroupBox;
+        private System.Windows.Forms.GroupBox EHRDchildMainRunwyaGroupBox;
+        private System.Windows.Forms.CheckBox EHRDmainRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHRDmainRunwayComboBox;
+        private System.Windows.Forms.GroupBox EHGGmainRunwayGroupBox;
+        private System.Windows.Forms.GroupBox EHGGchildMainRunwayGroupBox;
+        private System.Windows.Forms.CheckBox EHGGmainRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHGGmainRunwayComboBox;
+        private System.Windows.Forms.GroupBox additionalOptionsGroupBox;
+        private System.Windows.Forms.CheckBox markTempCheckBox;
+        private System.Windows.Forms.CheckBox appArrOnlyCheckBox;
+        private System.Windows.Forms.CheckBox arrOnlyCheckBox;
+        private System.Windows.Forms.CheckBox appOnlyCheckBox;
+        private System.Windows.Forms.GroupBox EHBKmainRunwayGroupBox;
+        private System.Windows.Forms.GroupBox EHBKchildMainRunwayGroupBox;
+        private System.Windows.Forms.CheckBox EHBKmainRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHBKmainRunwayComboBox;
+        private System.Windows.Forms.GroupBox EHEHmainRunwayGroupBox;
+        private System.Windows.Forms.GroupBox EHEHchildMainRunwayGroupBox;
+        private System.Windows.Forms.CheckBox EHEHmainRunwayCheckBox;
+        private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
     }
 }
 

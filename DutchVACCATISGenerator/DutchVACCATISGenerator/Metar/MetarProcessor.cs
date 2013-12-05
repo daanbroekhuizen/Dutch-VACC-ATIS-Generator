@@ -137,9 +137,16 @@ namespace DutchVACCATISGenerator
                         }
 
                         /*Vertical visibility*/
-                        if (s.StartsWith("VV"))
+                        if (s.StartsWith("VV") && stringIsOnlyNumbers(s.Substring(2)))
                         {
-                            metar.VerticalVisibility = s; continue;
+                            metar.VerticalVisibility = Convert.ToInt32(s.Substring(2));
+                        }
+                        #endregion
+
+                        #region RVR
+                        if (s.StartsWith("R") && Char.IsNumber(s.ElementAt(1)) && Char.IsNumber(s.ElementAt(2)) && s.Contains("/"))
+                        {
+                            metar.RVR = true; continue;
                         }
                         #endregion
 
@@ -256,9 +263,9 @@ namespace DutchVACCATISGenerator
                         }
 
                         /*Vertical visibility*/
-                        if (s.StartsWith("VV"))
+                        if (s.StartsWith("VV") && stringIsOnlyNumbers(s.Substring(2)))
                         {
-                            metar.metarBECMG.VerticalVisibility = s; continue;
+                            metar.metarBECMG.VerticalVisibility = Convert.ToInt32(s.Substring(2));
                         }
                         #endregion
 
@@ -328,9 +335,9 @@ namespace DutchVACCATISGenerator
                         }
 
                         /*Vertical visibility*/
-                        if (s.StartsWith("VV"))
+                        if (s.StartsWith("VV") && stringIsOnlyNumbers(s.Substring(2)))
                         {
-                            metar.metarTEMPO.VerticalVisibility = s; continue;
+                            metar.metarTEMPO.VerticalVisibility = Convert.ToInt32(s.Substring(2));
                         }
                         #endregion
 
