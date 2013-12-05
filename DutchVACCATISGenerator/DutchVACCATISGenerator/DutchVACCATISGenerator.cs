@@ -330,8 +330,11 @@ namespace DutchVACCATISGenerator
         {
             String output = "[opr]";
 
+            #region LOW LEVEL VISBILITY
             if (metarProcessor.metar.Visibility < 1500) output += "[lvp]";
+            #endregion
 
+            #region RWY CONFIGURATIONS
             if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independend]";
 
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independend]";
@@ -355,6 +358,7 @@ namespace DutchVACCATISGenerator
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+            #endregion
 
             if (output.Contains("[lvp]") && (output.Contains("[independend]") || output.Contains("[convapp]")))
             {
@@ -418,15 +422,16 @@ namespace DutchVACCATISGenerator
         {
             String output = String.Empty;
 
-            if(input is List<MetarPhenomena>)
+            #region MetarPhenomena
+            if (input is List<MetarPhenomena>)
             {
-                foreach (MetarPhenomena metarPhenoma in input as List<MetarPhenomena>)
+                foreach (MetarPhenomena metarPhenomena in input as List<MetarPhenomena>)
                 {
-                    if (metarPhenoma.hasIntensity)  output += "[-]";
+                    if (metarPhenomena.hasIntensity)  output += "[-]";
 
-                    if (metarPhenoma.phenomena.Equals("BCFG") || metarPhenoma.phenomena.Equals("MIFG") || metarPhenoma.phenomena.Equals("SHRA") || metarPhenoma.phenomena.Equals("VCSH") || metarPhenoma.phenomena.Equals("VCTS"))
+                    if (metarPhenomena.phenomena.Equals("BCFG") || metarPhenomena.phenomena.Equals("MIFG") || metarPhenomena.phenomena.Equals("SHRA") || metarPhenomena.phenomena.Equals("VCSH") || metarPhenomena.phenomena.Equals("VCTS"))
                     {
-                        switch (metarPhenoma.phenomena)
+                        switch (metarPhenomena.phenomena)
                         {
                             case "BCFG":
                                 output += "[bcfg]";
@@ -449,12 +454,30 @@ namespace DutchVACCATISGenerator
                                 break;
                         }
                     }
-                    else if (metarPhenoma.phenomena.Count() > 4) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2, 2).ToLower() + "]" + "][" + metarPhenoma.phenomena.Substring(4).ToLower() + "]";
-                    else if (metarPhenoma.phenomena.Count() > 2) output += "[" + metarPhenoma.phenomena.Substring(0, 2).ToLower() + "][" + metarPhenoma.phenomena.Substring(2).ToLower() + "]";
-                    else output += "[" + metarPhenoma.phenomena.ToLower() + "]";
+                    else if(metarPhenomena.phenomena.Count() > 2)
+                    {
+                        int length = metarPhenomena.phenomena.Length;
+
+                        if ((length % 2) == 0)
+                        {
+                            int index = 0;
+
+                            while(index != length)
+                            {
+                                if (!(length - index == 2)) output += "[" + metarPhenomena.phenomena.Substring(index, 2).ToLower() + "]";
+                                
+                                else output += "[" + metarPhenomena.phenomena.Substring(index).ToLower() + "]";
+
+                                index = index + 2;
+                            }
+                        }
+                    }
+                    else output += "[" + metarPhenomena.phenomena.ToLower() + "]";
                 }
             }
+            #endregion
 
+            #region MetarCloud
             else if (input is List<MetarCloud>)
             {
                 foreach (MetarCloud metarCloud in input as List<MetarCloud>)
@@ -472,6 +495,7 @@ namespace DutchVACCATISGenerator
                     if (metarCloud.addition != null) output += "[" + metarCloud.addition.ToLower() + "]";
                 }
             }
+            #endregion
 
             return output;
         }
@@ -514,13 +538,14 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method to check if the required runway selections are made based on the selected tab.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Boolean indicating if all required check boxes are checked for generating a runway output.</returns>
         private Boolean checkRunwaySelected()
         {
             switch (ICAOTabControl.SelectedTab.Name)
             {
+                #region EHAM
                 case "EHAM":
                     if (!EHAMmainLandingRunwayCheckBox.Checked || EHAMmainLandingRunwayComboBox.SelectedIndex == -1)
                     {
@@ -543,86 +568,108 @@ namespace DutchVACCATISGenerator
                     }
 
                     return true;
+                #endregion
 
+                #region EHBK
                 case "EHBK":
                     if (!EHBKmainRunwayCheckBox.Checked || EHBKmainRunwayComboBox.SelectedIndex == -1)
                     {
                         MessageBox.Show("No main runway selected.", "Error"); return false;
                     }
                     return true;
+                #endregion
 
+                #region EHEH
                 case "EHEH":
                     if (!EHEHmainRunwayCheckBox.Checked || EHEHmainRunwayComboBox.SelectedIndex == -1)
                     {
                         MessageBox.Show("No main runway selected.", "Error"); return false;
                     }
                     return true;
+                #endregion
 
+                #region EHGG
                 case "EHGG":
                     if (!EHGGmainRunwayCheckBox.Checked || EHGGmainRunwayComboBox.SelectedIndex == -1)
                     {
                         MessageBox.Show("No main runway selected.", "Error"); return false;
                     }
                     return true;
+                #endregion
 
+                #region EHRD
                 case "EHRD":
                     if (!EHRDmainRunwayCheckBox.Checked || EHRDmainRunwayComboBox.SelectedIndex == -1)
                     {
                         MessageBox.Show("No main runway selected.", "Error"); return false;
                     }
                     return true;
+                #endregion
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Method to generate route output.
+        /// </summary>
+        /// <returns>String containing the runway output of the selected airport tab.</returns>
         private String generateRunwayOutput()
         {
             String output = String.Empty;
 
             switch (ICAOTabControl.SelectedTab.Name)
             {
+                #region EHAM
                 case "EHAM":
-                    #region MAIN LANDING RUNWAY
+                    #region EHAM MAIN LANDING RUNWAY
                     if (EHAMmainLandingRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mlrwy]", EHAMmainLandingRunwayComboBox);
 
                     else output += runwayToOutput("[mrwy]", EHAMmainLandingRunwayComboBox);
                     #endregion
 
-                    #region SECONDARY LANDING RUNWAY
+                    #region EHAM SECONDARY LANDING RUNWAY
                     if (EHAMsecondaryLandingRunwayCheckBox.Checked) output += runwayToOutput("[slrwy]", EHAMsecondaryLandingRunwayComboBox);
                     #endregion
 
-                    #region MAIN DEPARTURE RUNWAY
+                    #region EHAM MAIN DEPARTURE RUNWAY
                     if (EHAMmainDepartureRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mtrwy]", EHAMmainDepartureRunwayComboBox);
                     #endregion
 
-                    #region SECONDARY DEPARTURE RUNWAY
+                    #region EHAM SECONDARY DEPARTURE RUNWAY
                     if (EHAMsecondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", EHAMsecondaryLandingRunwayComboBox);
                     #endregion
                     break;
+                #endregion
 
+                #region EHBK
                 case "EHBK":
                     if (EHBKmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHBKmainRunwayComboBox);
                     break;
+                #endregion
 
+                #region EHEH
                 case "EHEH":
                     if (EHEHmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHEHmainRunwayComboBox);
                     break;
+                #endregion
 
+                #region EHGG
                 case "EHGG":
                     if (EHGGmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHGGmainRunwayComboBox);
                     break;
+                #endregion
 
+                #region EHRD
                 case "EHRD":
                     if (EHRDmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHRDmainRunwayComboBox);
                     break;
+                #endregion
             }
 
             return output;
         }
-
-        ///TODO RVR ON ATC
+        
         /// <summary>
         /// Method called when generate ATIS button is clicked. Processes field from MetarProcessor to output string.
         /// </summary>
