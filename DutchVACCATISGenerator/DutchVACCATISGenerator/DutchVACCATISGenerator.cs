@@ -144,6 +144,7 @@ namespace DutchVACCATISGenerator
             }
             
             outputTextBox.Clear();
+            metarTextBox.Clear();
 
             if(metar.Length > 136) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
             else if (metar.Length > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68);
@@ -364,14 +365,16 @@ namespace DutchVACCATISGenerator
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
             #endregion
 
+            #region CHECK FOR ADDING [AND]
             if (output.Contains("[lvp]") && (output.Contains("[independend]") || output.Contains("[convapp]")))
             {
                 if(output.Contains("[independend]")) output = output.Insert(output.IndexOf("[ind"), "[and]");
                 
                 else output = output.Insert(output.IndexOf("[con"), "[and]");
             }
+            #endregion
 
-            if(!output.Equals("[opr]"))  return output;
+            if (!output.Equals("[opr]"))  return output;
             
             else return "";
         }
@@ -903,6 +906,54 @@ namespace DutchVACCATISGenerator
             else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
+
+            resetTabView();
+        }
+
+        /// <summary>
+        /// Resets the components of the ICAO tabs to their default states.
+        /// </summary>
+        private void resetTabView()
+        {
+            #region EHAM
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+            {
+                EHAMmainLandingRunwayCheckBox.Checked = EHAMmainDepartureRunwayCheckBox.Checked = EHAMsecondaryLandingRunwayCheckBox.Checked = EHAMsecondaryDepartureRunwayCheckBox.Checked = false;
+                EHAMmainLandingRunwayComboBox.SelectedIndex = EHAMmainDepartureRunwayComboBox.SelectedIndex = EHAMsecondaryLandingRunwayComboBox.SelectedIndex = EHAMsecondaryDepartureRunwayComboBox.SelectedIndex = -1;
+            }
+            #endregion
+
+            #region EHBK
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
+            {
+                EHBKmainRunwayCheckBox.Checked = false;
+                EHBKmainRunwayComboBox.SelectedIndex = -1;
+            }
+            #endregion
+
+            #region EHEH
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
+            {
+                EHEHmainRunwayCheckBox.Checked = false;
+                EHEHmainRunwayComboBox.SelectedIndex = -1;
+            }
+            #endregion
+
+            #region EHGG
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
+            {
+                EHGGmainRunwayCheckBox.Checked = false;
+                EHGGmainRunwayComboBox.SelectedIndex = -1;
+            }
+            #endregion
+
+            #region EHRD
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHRD"))
+            {
+                EHRDmainRunwayCheckBox.Checked = false;
+                EHRDmainRunwayComboBox.SelectedIndex = -1;
+            }
+            #endregion
         }
     }
 }
