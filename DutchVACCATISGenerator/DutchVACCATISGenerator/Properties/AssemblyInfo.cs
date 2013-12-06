@@ -7,7 +7,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Dutch VACC - ATIS Generator")]
-[assembly: AssemblyDescription("Utility to generate a voice ATIS for Euroscope.")]
+[assembly: AssemblyDescription("Utility to generate a voice ATIS for EuroScope.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dutch VACC")]
 [assembly: AssemblyProduct("Dutch VACC - ATIS Generator")]
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.0.2")]
-[assembly: AssemblyFileVersion("0.0.0.2")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

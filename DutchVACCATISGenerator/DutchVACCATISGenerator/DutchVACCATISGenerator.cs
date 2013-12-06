@@ -955,5 +955,11 @@ namespace DutchVACCATISGenerator
             }
             #endregion
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form aboutForm = new About();
+            aboutForm.ShowDialog();
+        }
     }
 }
