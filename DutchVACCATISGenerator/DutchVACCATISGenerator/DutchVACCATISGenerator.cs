@@ -23,6 +23,8 @@ namespace DutchVACCATISGenerator
         private List<String> phoneticAlphabet { get; set; }
         private int atisIndex { get; set; }
 
+        private RunwayInfo runwayInfo;
+
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
@@ -89,6 +91,12 @@ namespace DutchVACCATISGenerator
             getMetarButton.Enabled = true;
         }
 
+        /// <summary>
+        /// Split metar on split word.
+        /// </summary>
+        /// <param name="metar">METAR to split.</param>
+        /// <param name="splitWord">Word to split on. (BECMG, TEMPO)</param>
+        /// <returns></returns>
         private String[] splitMetar(String metar, String splitWord)
         {
             Regex regex = null;
@@ -114,7 +122,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void processMetarButton_Click(object sender, EventArgs e)
         {
-            if (metar.Equals(String.Empty) && metarTextBox.Text.Equals(String.Empty))
+            if (metarTextBox.Text.Trim().Equals(String.Empty))
             {
                 MessageBox.Show("No metar fetched or entered.", "Error"); return;
             }
@@ -956,10 +964,46 @@ namespace DutchVACCATISGenerator
             #endregion
         }
 
+        /// <summary>
+        /// Method called when the about tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form aboutForm = new About();
             aboutForm.ShowDialog();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DutchVACCATISGenerator_LocationChanged(object sender, EventArgs e)
+        {
+            if (runwayInfo != null) runwayInfo.adjustToDutchVACCATISGenerator();         
+        }
+
+        private void runwayInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (metarProcessor != null)
+            {
+                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+                runwayInfo.Show();
+            }
+            else MessageBox.Show("Unable to open runway info dialogue.\nMETAR not processed.", "Error");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void metarTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (metarTextBox.Text.Trim().Equals(String.Empty)) processMetarButton.Enabled = false;
+            else processMetarButton.Enabled = true;
         }
     }
 }

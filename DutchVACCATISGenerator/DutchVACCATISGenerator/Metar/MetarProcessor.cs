@@ -82,10 +82,9 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region TIME
-                        if (stringEndsWithChar('Z', s))
+                        if (stringEndsWithChar('Z', s) && s.Length > 6 && stringIsOnlyNumbers(s.Substring(0, 6)))
                         {
-                            metar.Time = s;
-                            continue;
+                            metar.Time = s; continue;
                         }
                         #endregion
 
