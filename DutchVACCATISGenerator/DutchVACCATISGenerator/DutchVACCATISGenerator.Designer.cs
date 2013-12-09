@@ -94,8 +94,7 @@
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runwayInfoButton = new System.Windows.Forms.Button();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -156,7 +155,7 @@
             this.metarTextBox.Multiline = true;
             this.metarTextBox.Name = "metarTextBox";
             this.metarTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metarTextBox.Size = new System.Drawing.Size(430, 32);
+            this.metarTextBox.Size = new System.Drawing.Size(433, 32);
             this.metarTextBox.TabIndex = 3;
             this.metarTextBox.TextChanged += new System.EventHandler(this.metarTextBox_TextChanged);
             // 
@@ -171,7 +170,7 @@
             // processMetarButton
             // 
             this.processMetarButton.Enabled = false;
-            this.processMetarButton.Location = new System.Drawing.Point(442, 44);
+            this.processMetarButton.Location = new System.Drawing.Point(445, 44);
             this.processMetarButton.Name = "processMetarButton";
             this.processMetarButton.Size = new System.Drawing.Size(83, 83);
             this.processMetarButton.TabIndex = 4;
@@ -461,7 +460,7 @@
             this.metarInputGroupBox.Controls.Add(this.processMetarButton);
             this.metarInputGroupBox.Location = new System.Drawing.Point(12, 27);
             this.metarInputGroupBox.Name = "metarInputGroupBox";
-            this.metarInputGroupBox.Size = new System.Drawing.Size(532, 133);
+            this.metarInputGroupBox.Size = new System.Drawing.Size(535, 133);
             this.metarInputGroupBox.TabIndex = 0;
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
@@ -481,7 +480,7 @@
             this.outputOptionsGroupBox.Controls.Add(this.copyOutputCheckBox);
             this.outputOptionsGroupBox.Location = new System.Drawing.Point(371, 404);
             this.outputOptionsGroupBox.Name = "outputOptionsGroupBox";
-            this.outputOptionsGroupBox.Size = new System.Drawing.Size(173, 112);
+            this.outputOptionsGroupBox.Size = new System.Drawing.Size(175, 112);
             this.outputOptionsGroupBox.TabIndex = 0;
             this.outputOptionsGroupBox.TabStop = false;
             this.outputOptionsGroupBox.Text = "Output Options";
@@ -491,7 +490,7 @@
             this.outputGroupBox.Controls.Add(this.outputTextBox);
             this.outputGroupBox.Location = new System.Drawing.Point(12, 522);
             this.outputGroupBox.Name = "outputGroupBox";
-            this.outputGroupBox.Size = new System.Drawing.Size(532, 93);
+            this.outputGroupBox.Size = new System.Drawing.Size(535, 93);
             this.outputGroupBox.TabIndex = 0;
             this.outputGroupBox.TabStop = false;
             // 
@@ -500,7 +499,7 @@
             this.outputTextBox.Location = new System.Drawing.Point(3, 9);
             this.outputTextBox.Multiline = true;
             this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(526, 81);
+            this.outputTextBox.Size = new System.Drawing.Size(529, 81);
             this.outputTextBox.TabIndex = 22;
             // 
             // ICAOTabControl
@@ -752,11 +751,10 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.infoToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(557, 24);
+            this.menuStrip.Size = new System.Drawing.Size(560, 24);
             this.menuStrip.TabIndex = 19;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -797,9 +795,9 @@
             this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.appOnlyCheckBox);
-            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(387, 166);
+            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(398, 166);
             this.additionalOptionsGroupBox.Name = "additionalOptionsGroupBox";
-            this.additionalOptionsGroupBox.Size = new System.Drawing.Size(157, 232);
+            this.additionalOptionsGroupBox.Size = new System.Drawing.Size(149, 232);
             this.additionalOptionsGroupBox.TabIndex = 22;
             this.additionalOptionsGroupBox.TabStop = false;
             this.additionalOptionsGroupBox.Text = "Additional Options";
@@ -844,26 +842,23 @@
             this.appOnlyCheckBox.Text = "APP callsign only";
             this.appOnlyCheckBox.UseVisualStyleBackColor = true;
             // 
-            // testToolStripMenuItem
+            // runwayInfoButton
             // 
-            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runwayInfoToolStripMenuItem});
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.testToolStripMenuItem.Text = "Test";
-            // 
-            // runwayInfoToolStripMenuItem
-            // 
-            this.runwayInfoToolStripMenuItem.Name = "runwayInfoToolStripMenuItem";
-            this.runwayInfoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.runwayInfoToolStripMenuItem.Text = "Runway Info";
-            this.runwayInfoToolStripMenuItem.Click += new System.EventHandler(this.runwayInfoToolStripMenuItem_Click);
+            this.runwayInfoButton.Enabled = false;
+            this.runwayInfoButton.Location = new System.Drawing.Point(381, 185);
+            this.runwayInfoButton.Name = "runwayInfoButton";
+            this.runwayInfoButton.Size = new System.Drawing.Size(15, 213);
+            this.runwayInfoButton.TabIndex = 23;
+            this.runwayInfoButton.Text = ">";
+            this.runwayInfoButton.UseVisualStyleBackColor = true;
+            this.runwayInfoButton.Click += new System.EventHandler(this.runwayInfoButton_Click);
             // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 627);
+            this.ClientSize = new System.Drawing.Size(560, 627);
+            this.Controls.Add(this.runwayInfoButton);
             this.Controls.Add(this.additionalOptionsGroupBox);
             this.Controls.Add(this.ICAOTabControl);
             this.Controls.Add(this.outputGroupBox);
@@ -879,8 +874,7 @@
             this.Name = "DutchVACCATISGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
-            this.LocationChanged += new System.EventHandler(this.DutchVACCATISGenerator_LocationChanged);
-            this.SizeChanged += new System.EventHandler(this.DutchVACCATISGenerator_LocationChanged);
+            this.Resize += new System.EventHandler(this.DutchVACCATISGenerator_Resize);
             this.atisIndexGroupBox.ResumeLayout(false);
             this.atisIndexGroupBox.PerformLayout();
             this.EHAMmainRunwaysGroupBox.ResumeLayout(false);
@@ -994,8 +988,7 @@
         private System.Windows.Forms.GroupBox EHEHchildMainRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHEHmainRunwayCheckBox;
         private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
+        private System.Windows.Forms.Button runwayInfoButton;
     }
 }
 

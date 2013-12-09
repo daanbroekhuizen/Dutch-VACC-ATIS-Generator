@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -145,7 +146,17 @@ namespace DutchVACCATISGenerator
                         #region RVR
                         if (s.StartsWith("R") && Char.IsNumber(s.ElementAt(1)) && Char.IsNumber(s.ElementAt(2)) && s.Contains("/"))
                         {
-                            metar.RVR = true; continue;
+                            metar.RVR = true;
+
+                            String[] split = s.Split(new[] { "/" }, StringSplitOptions.None);
+
+                            Regex rgx = new Regex("[^0-9 -]");
+
+                            if(split[1].Contains('V')) metar.RVRValues.Add(split[0].Substring(1), Convert.ToInt32(rgx.Replace(split[1].Substring(0, split[1].IndexOf('V')), "")));
+                            
+                            else  metar.RVRValues.Add(split[0].Substring(1), Convert.ToInt32(rgx.Replace(split[1], "")));
+                          
+                            continue;
                         }
                         #endregion
 

@@ -154,8 +154,8 @@ namespace DutchVACCATISGenerator
             outputTextBox.Clear();
             metarTextBox.Clear();
 
-            if(metar.Length > 136) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68, 68) + "...";
-            else if (metar.Length > 68) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 68) + "\n" + metar.Substring(68);
+            if(metar.Length > 140) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69, 69) + "...";
+            else if (metar.Length > 69) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69);
             else lastLabel.Text = "Last successful processed metar:\n" + metar;
 
             if (atisIndex == 25) atisIndex = 0;
@@ -164,6 +164,14 @@ namespace DutchVACCATISGenerator
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
 
             generateATISButton.Enabled = true;
+            if (ICAOTabControl.SelectedIndex == 0) runwayInfoButton.Enabled = true;
+            else runwayInfoButton.Enabled = false;
+
+            if (runwayInfo != null && runwayInfoButton.Visible)
+            {
+                runwayInfo.metar = metarProcessor.metar;
+                runwayInfo.fillRunwayInfoDataGrids();
+            }
         }
 
         /// <summary>
@@ -914,7 +922,7 @@ namespace DutchVACCATISGenerator
             else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
-
+            
             resetTabView();
         }
 
@@ -976,26 +984,6 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DutchVACCATISGenerator_LocationChanged(object sender, EventArgs e)
-        {
-            if (runwayInfo != null) runwayInfo.adjustToDutchVACCATISGenerator();         
-        }
-
-        private void runwayInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (metarProcessor != null)
-            {
-                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
-                runwayInfo.Show();
-            }
-            else MessageBox.Show("Unable to open runway info dialogue.\nMETAR not processed.", "Error");
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
@@ -1004,6 +992,37 @@ namespace DutchVACCATISGenerator
         {
             if (metarTextBox.Text.Trim().Equals(String.Empty)) processMetarButton.Enabled = false;
             else processMetarButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void runwayInfoButton_Click(object sender, EventArgs e)
+        {
+            if (runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+
+            if (runwayInfo != null && !runwayInfo.Visible)
+            {
+                runwayInfoButton.Text = "<";
+                runwayInfo.Show();
+            }
+            else if (runwayInfo != null)
+            {
+                runwayInfoButton.Text = ">";
+                runwayInfo.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DutchVACCATISGenerator_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Normal && runwayInfo != null) runwayInfo.BringToFront();
         }
     }
 }

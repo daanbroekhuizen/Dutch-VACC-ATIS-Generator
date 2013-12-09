@@ -18,6 +18,7 @@ namespace DutchVACCATISGenerator
         public Boolean CAVOK { get; set; }
         public int Visibility { get; set; }
         public Boolean RVR { get; set; }
+        public Dictionary<String, int> RVRValues { get; set; }
         public int VerticalVisibility { get; set; }
         public Boolean SKC { get; set; }
         public Boolean NSC { get; set; }
@@ -36,6 +37,7 @@ namespace DutchVACCATISGenerator
         public Metar()
         {
             Phenomena = new List<MetarPhenomena>();
+            RVRValues = new Dictionary<String, int>();
             Clouds = new List<MetarCloud>();
         }
     }
