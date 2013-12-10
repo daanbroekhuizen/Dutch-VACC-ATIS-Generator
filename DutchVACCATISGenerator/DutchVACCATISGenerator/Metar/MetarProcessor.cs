@@ -125,7 +125,7 @@ namespace DutchVACCATISGenerator
                         }
 
                         /*No significant weather*/
-                        if (s.StartsWith("NSC"))
+                        if (s.StartsWith("NSC") || s.StartsWith("NCD"))
                         {
                             metar.NSC = true; continue;
                         }

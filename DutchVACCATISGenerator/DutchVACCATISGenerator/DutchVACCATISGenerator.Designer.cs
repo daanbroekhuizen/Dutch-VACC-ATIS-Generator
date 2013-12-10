@@ -130,7 +130,7 @@
             this.getMetarButton.Name = "getMetarButton";
             this.getMetarButton.Size = new System.Drawing.Size(75, 20);
             this.getMetarButton.TabIndex = 2;
-            this.getMetarButton.Text = "Get Metar";
+            this.getMetarButton.Text = "Get METAR";
             this.getMetarButton.UseVisualStyleBackColor = true;
             this.getMetarButton.Click += new System.EventHandler(this.getMetarButton_Click);
             // 
@@ -174,7 +174,7 @@
             this.processMetarButton.Name = "processMetarButton";
             this.processMetarButton.Size = new System.Drawing.Size(83, 83);
             this.processMetarButton.TabIndex = 4;
-            this.processMetarButton.Text = "Process Metar";
+            this.processMetarButton.Text = "Process METAR";
             this.processMetarButton.UseVisualStyleBackColor = true;
             this.processMetarButton.Click += new System.EventHandler(this.processMetarButton_Click);
             // 
@@ -871,6 +871,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
+            this.MaximizeBox = false;
             this.Name = "DutchVACCATISGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
@@ -956,7 +957,6 @@
         private System.Windows.Forms.GroupBox outputOptionsGroupBox;
         private System.Windows.Forms.GroupBox outputGroupBox;
         private System.Windows.Forms.TextBox outputTextBox;
-        private System.Windows.Forms.TabControl ICAOTabControl;
         private System.Windows.Forms.TabPage EHBK;
         private System.Windows.Forms.TabPage EHEH;
         private System.Windows.Forms.TabPage EHGG;
@@ -988,7 +988,8 @@
         private System.Windows.Forms.GroupBox EHEHchildMainRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHEHmainRunwayCheckBox;
         private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
-        private System.Windows.Forms.Button runwayInfoButton;
+        public System.Windows.Forms.TabControl ICAOTabControl;
+        public System.Windows.Forms.Button runwayInfoButton;
     }
 }
 

@@ -124,7 +124,11 @@ namespace DutchVACCATISGenerator
         {
             if (metarTextBox.Text.Trim().Equals(String.Empty))
             {
-                MessageBox.Show("No metar fetched or entered.", "Error"); return;
+                MessageBox.Show("No METAR fetched or entered.", "Error"); return;
+            }
+            else if (!metarTextBox.Text.Trim().StartsWith((ICAOTabControl.SelectedTab.Name)))
+            {
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Error"); return;
             }
             else metar = metarTextBox.Text.Trim();
                   
@@ -145,7 +149,6 @@ namespace DutchVACCATISGenerator
             {
                 tlOutLabel.Text = calculateTransitionLevel().ToString();
             }
-
             catch (Exception)
             {
                 MessageBox.Show("Error parsing the METAR, check if METAR is in correct format", "Error"); return;
@@ -154,9 +157,9 @@ namespace DutchVACCATISGenerator
             outputTextBox.Clear();
             metarTextBox.Clear();
 
-            if(metar.Length > 140) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69, 69) + "...";
-            else if (metar.Length > 69) lastLabel.Text = "Last successful processed metar:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69);
-            else lastLabel.Text = "Last successful processed metar:\n" + metar;
+            if(metar.Length > 140) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69, 69) + "...";
+            else if (metar.Length > 69) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69);
+            else lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
             if (atisIndex == 25) atisIndex = 0;
             else atisIndex++;
@@ -164,13 +167,13 @@ namespace DutchVACCATISGenerator
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
 
             generateATISButton.Enabled = true;
-            if (ICAOTabControl.SelectedIndex == 0) runwayInfoButton.Enabled = true;
-            else runwayInfoButton.Enabled = false;
+            runwayInfoButton.Enabled = true;
 
-            if (runwayInfo != null && runwayInfoButton.Visible)
+            if (runwayInfo != null && runwayInfo.Visible)
             {
                 runwayInfo.metar = metarProcessor.metar;
-                runwayInfo.fillRunwayInfoDataGrids();
+                runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
+                runwayInfo.checkICAOTabSelected();
             }
         }
 
@@ -352,7 +355,7 @@ namespace DutchVACCATISGenerator
             String output = "[opr]";
 
             #region LOW LEVEL VISBILITY
-            if (metarProcessor.metar.Visibility < 1500) output += "[lvp]";
+            if (metarProcessor.metar.Visibility != 0 && metarProcessor.metar.Visibility < 1500) output += "[lvp]";
             #endregion
 
             #region RWY CONFIGURATIONS
@@ -433,7 +436,6 @@ namespace DutchVACCATISGenerator
             if (appArrOnlyCheckBox.Checked) appOnlyCheckBox.Enabled = arrOnlyCheckBox.Enabled = appOnlyCheckBox.Checked = arrOnlyCheckBox.Checked = false;
             else appOnlyCheckBox.Enabled = arrOnlyCheckBox.Enabled = true;
         }
-
 
         /// <summary>
         /// Generate output from List<T>
@@ -706,7 +708,7 @@ namespace DutchVACCATISGenerator
         {
             if (!metarProcessor.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
             {
-                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed metar.", "Error"); return;
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Error"); return;
             }
 
             if (!checkRunwaySelected()) return;
@@ -923,7 +925,7 @@ namespace DutchVACCATISGenerator
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
             
-            resetTabView();
+            //resetTabView();
         }
 
         /// <summary>
@@ -986,8 +988,8 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void metarTextBox_TextChanged(object sender, EventArgs e)
         {
             if (metarTextBox.Text.Trim().Equals(String.Empty)) processMetarButton.Enabled = false;
@@ -995,20 +997,20 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called of runway info button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void runwayInfoButton_Click(object sender, EventArgs e)
         {
-            if (runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
-
-            if (runwayInfo != null && !runwayInfo.Visible)
+            if (runwayInfo == null || !runwayInfo.Visible)
             {
+                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
                 runwayInfoButton.Text = "<";
                 runwayInfo.Show();
+                runwayInfo.showRelativeToDutchVACCATISGenerator(this);
             }
-            else if (runwayInfo != null)
+            else
             {
                 runwayInfoButton.Text = ">";
                 runwayInfo.Visible = false;
@@ -1016,10 +1018,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called if DutchVACCATISGenerator form is resized (e.g. minimize, maximize, resize (duh!))
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void DutchVACCATISGenerator_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Normal && runwayInfo != null) runwayInfo.BringToFront();
