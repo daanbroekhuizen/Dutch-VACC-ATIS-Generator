@@ -13,6 +13,7 @@ namespace DutchVACCATISGenerator
     {
         public MetarWind Wind { get; set; }
         public List<MetarPhenomena> Phenomena { get; set; }
+        public Boolean CAVOK { get; set; }
         public int Visibility { get; set; }
         public int VerticalVisibility { get; set; }
         public Boolean SKC { get; set; }

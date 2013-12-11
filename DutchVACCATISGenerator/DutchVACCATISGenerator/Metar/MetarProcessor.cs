@@ -260,6 +260,12 @@ namespace DutchVACCATISGenerator
                             metar.metarBECMG.Visibility = Convert.ToInt32(s); continue;
                         }
 
+                        /*CAVOK*/
+                        if (s.Equals("CAVOK"))
+                        {
+                            metar.metarBECMG.CAVOK = true; continue;
+                        }
+
                         /*Sky clear*/
                         if (s.StartsWith("SKC"))
                         {
@@ -330,6 +336,12 @@ namespace DutchVACCATISGenerator
                         if (stringIsOnlyNumbers(s) && (stringIsLength(4, s) || stringIsLength(3, s)))
                         {
                             metar.metarTEMPO.Visibility = Convert.ToInt32(s); continue;
+                        }
+
+                        /*CAVOK*/
+                        if (s.Equals("CAVOK"))
+                        {
+                            metar.metarBECMG.CAVOK = true; continue;
                         }
 
                         /*Sky clear*/

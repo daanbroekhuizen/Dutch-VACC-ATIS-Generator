@@ -151,7 +151,7 @@ namespace DutchVACCATISGenerator
             }
             catch (Exception)
             {
-                MessageBox.Show("Error parsing the METAR, check if METAR is in correct format", "Error"); return;
+                MessageBox.Show("Error parsing the METAR, check if METAR is in correct format.", "Error"); return;
             }
             
             outputTextBox.Clear();
@@ -824,6 +824,10 @@ namespace DutchVACCATISGenerator
                 if (metarProcessor.metar.metarTEMPO.Wind != null) output += windToOutput(metarProcessor.metar.metarTEMPO.Wind);
                 #endregion
 
+                #region TEMPO CAVOK
+                if (metarProcessor.metar.metarTEMPO.CAVOK) output += "[cavok]";
+                #endregion
+
                 #region TEMPO VISIBILITY
                 if (metarProcessor.metar.metarTEMPO.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.metarTEMPO.Visibility);
                 #endregion
@@ -857,6 +861,10 @@ namespace DutchVACCATISGenerator
 
                 #region BECMG WIND
                 if (metarProcessor.metar.metarBECMG.Wind != null) output += windToOutput(metarProcessor.metar.metarBECMG.Wind);
+                #endregion
+
+                #region TEMPO CAVOK
+                if (metarProcessor.metar.metarBECMG.CAVOK) output += "[cavok]";
                 #endregion
 
                 #region BECMG VISIBILITY
@@ -1024,7 +1032,9 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void DutchVACCATISGenerator_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Normal && runwayInfo != null) runwayInfo.BringToFront();
+            if (WindowState == FormWindowState.Normal && runwayInfo != null) runwayInfo.Visible = true;
+
+            if (WindowState == FormWindowState.Minimized && runwayInfo != null) runwayInfo.Visible = false;
         }
     }
 }
