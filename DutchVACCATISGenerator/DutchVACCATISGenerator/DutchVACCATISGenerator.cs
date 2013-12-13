@@ -31,10 +31,7 @@ namespace DutchVACCATISGenerator
         public DutchVACCATISGenerator()
         {
             InitializeComponent();
-
-            //TODO EHEH METAR
-            EHEH.Enabled = false;
-
+            
             metar = String.Empty;
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
@@ -110,6 +107,34 @@ namespace DutchVACCATISGenerator
                 case "TEMPO":
                     regex = new Regex(@"\bTEMPO\b");
                     break;
+
+                case "BLU":
+                    regex = new Regex(@"\bBLU\b");
+                    break;
+
+                case "WHT":
+                    regex = new Regex(@"\bWHT\b");
+                    break;
+
+                case "GRN":
+                    regex = new Regex(@"\bGRN\b");
+                    break;
+
+                case "YLO":
+                    regex = new Regex(@"\bYLO\b");
+                    break;
+
+                case "AMB":
+                    regex = new Regex(@"\bAMB\b");
+                    break;
+
+                case "RED":
+                    regex = new Regex(@"\bRED\b");
+                    break;
+
+                case "BLACK":
+                    regex = new Regex(@"\bBLACK\b");
+                    break;
             }
 
             return regex.Split(metar);
@@ -131,12 +156,60 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Error"); return;
             }
             else metar = metarTextBox.Text.Trim();
-                  
+              
+    
             if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
             {
                 if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
 
                 else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
+            }
+
+            else if (metar.Contains("BLU") || metar.Contains("WHT") || metar.Contains("GRN") || metar.Contains("YLO") || metar.Contains("AMB") || metar.Contains("RED") || metar.Contains("BLACK"))
+            {
+                String[] militaryColors = new String[] { "BLU", "WHT", "GRN", "YLO", "AMB", "RED", "BLACK" };
+
+                if (metar.Contains("BECMG") || metar.Contains("TEMPO"))
+                {
+                    if (metar.Contains("BECMG"))
+                    {
+                        foreach (String militaryColor in militaryColors)
+                        {
+                            if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
+                        }
+                    }
+                    else
+                    {
+                        foreach (String militaryColor in militaryColors)
+                        {
+                            if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[0].Trim());
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (String militaryColor in militaryColors)
+                    {
+                        if (metar.Contains(militaryColor))
+                        {
+                            if (splitMetar(metar, militaryColor)[1].Trim().Count() > 0)
+                            {
+                                TrendSelection trendSelection = new TrendSelection();
+                                
+                                if (trendSelection.ShowDialog(this) == DialogResult.OK) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, militaryColor)[1].Trim(), (MetarType) Enum.Parse(typeof(MetarType), trendSelection.trendComboBox.SelectedItem.ToString()));
+                               
+                                else
+                                {
+                                    MessageBox.Show("No trend type selected, METAR cannot be processed!", "Error"); return;
+                                }
+                                
+                                trendSelection.Dispose();
+                            }
+
+                            else metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim());
+                        }
+                    }
+                }
             }
 
             else if (metar.Contains("BECMG")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim(), MetarType.BECMG);
@@ -513,11 +586,13 @@ namespace DutchVACCATISGenerator
                 {
                     output += "[" + metarCloud.cloudType.ToLower() + "]";
 
-                    if (metarCloud.altitude / 100 > 0) output += "1" + metarCloud.altitude / 10 + "[thousand]";
-
-                    if (metarCloud.altitude / 10 > 0) output += metarCloud.altitude / 10 + "[thousand]";
+                    if (metarCloud.altitude / 100 > 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
+                    
+                    if ((metarCloud.altitude / 10) % 10 > 0) output += Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + "[thousand]";
 
                     if (metarCloud.altitude % 10 > 0) output += metarCloud.altitude % 10 + "[hundred]";
+
+                    if (metarCloud.altitude == 0) output += metarCloud.altitude; 
 
                     output += "[ft]";
 

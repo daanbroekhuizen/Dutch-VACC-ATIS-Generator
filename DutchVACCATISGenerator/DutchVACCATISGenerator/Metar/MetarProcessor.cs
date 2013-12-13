@@ -341,7 +341,7 @@ namespace DutchVACCATISGenerator
                         /*CAVOK*/
                         if (s.Equals("CAVOK"))
                         {
-                            metar.metarBECMG.CAVOK = true; continue;
+                            metar.metarTEMPO.CAVOK = true; continue;
                         }
 
                         /*Sky clear*/
