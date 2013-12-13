@@ -41,5 +41,4 @@ E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATIS
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.About.resources
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.RunwayInfo.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.RunwayInfo.resources
-E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.TrendSelection.resources
