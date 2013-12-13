@@ -11,12 +11,12 @@ using System.Windows.Forms;
 namespace DutchVACCATISGenerator
 {
     /// <summary>
-    /// 
+    /// TrendSelection class.
     /// </summary>
     public partial class TrendSelection : Form
     {
         /// <summary>
-        /// 
+        /// Constructor of TrendSelection.
         /// </summary>
         public TrendSelection()
         {

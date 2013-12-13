@@ -44,7 +44,7 @@
             this.contentGroupBox.Controls.Add(this.creditLabel1);
             this.contentGroupBox.Controls.Add(this.descriptionLabel);
             this.contentGroupBox.Controls.Add(this.titleLabel);
-            this.contentGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.contentGroupBox.Location = new System.Drawing.Point(12, 6);
             this.contentGroupBox.Name = "contentGroupBox";
             this.contentGroupBox.Size = new System.Drawing.Size(207, 118);
             this.contentGroupBox.TabIndex = 0;
@@ -104,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(231, 142);
+            this.ClientSize = new System.Drawing.Size(231, 136);
             this.Controls.Add(this.contentGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

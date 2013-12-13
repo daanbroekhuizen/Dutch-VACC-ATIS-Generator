@@ -156,15 +156,17 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Error"); return;
             }
             else metar = metarTextBox.Text.Trim();
-              
-    
+
+            #region BECMG AND TEMPO
             if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
             {
                 if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
 
                 else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
             }
+            #endregion
 
+            #region MILITARY CODES
             else if (metar.Contains("BLU") || metar.Contains("WHT") || metar.Contains("GRN") || metar.Contains("YLO") || metar.Contains("AMB") || metar.Contains("RED") || metar.Contains("BLACK"))
             {
                 String[] militaryColors = new String[] { "BLU", "WHT", "GRN", "YLO", "AMB", "RED", "BLACK" };
@@ -211,10 +213,15 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
+            #endregion
 
+            #region BECMG ONLY
             else if (metar.Contains("BECMG")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim(), MetarType.BECMG);
+            #endregion
 
+            #region TEMPO ONLY
             else if (metar.Contains("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), MetarType.TEMPO);
+            #endregion
 
             else metarProcessor = new MetarProcessor(metar);
 
