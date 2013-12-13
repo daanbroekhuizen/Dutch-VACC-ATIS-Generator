@@ -183,7 +183,7 @@
             this.atisIndexGroupBox.Controls.Add(this.nextATISLetterButton);
             this.atisIndexGroupBox.Controls.Add(this.previousATISLetterButton);
             this.atisIndexGroupBox.Controls.Add(this.atisLetterLabel);
-            this.atisIndexGroupBox.Location = new System.Drawing.Point(12, 404);
+            this.atisIndexGroupBox.Location = new System.Drawing.Point(13, 406);
             this.atisIndexGroupBox.Name = "atisIndexGroupBox";
             this.atisIndexGroupBox.Size = new System.Drawing.Size(116, 112);
             this.atisIndexGroupBox.TabIndex = 0;
@@ -414,7 +414,7 @@
             // 
             this.tlLevelGroupBox.Controls.Add(this.tlOutLabel);
             this.tlLevelGroupBox.Controls.Add(this.tlHeaderLabel);
-            this.tlLevelGroupBox.Location = new System.Drawing.Point(134, 404);
+            this.tlLevelGroupBox.Location = new System.Drawing.Point(135, 406);
             this.tlLevelGroupBox.Name = "tlLevelGroupBox";
             this.tlLevelGroupBox.Size = new System.Drawing.Size(116, 112);
             this.tlLevelGroupBox.TabIndex = 0;
@@ -443,7 +443,7 @@
             // generateATISButton
             // 
             this.generateATISButton.Enabled = false;
-            this.generateATISButton.Location = new System.Drawing.Point(256, 410);
+            this.generateATISButton.Location = new System.Drawing.Point(257, 412);
             this.generateATISButton.Name = "generateATISButton";
             this.generateATISButton.Size = new System.Drawing.Size(109, 106);
             this.generateATISButton.TabIndex = 21;
@@ -458,7 +458,7 @@
             this.metarInputGroupBox.Controls.Add(this.metarTextBox);
             this.metarInputGroupBox.Controls.Add(this.lastLabel);
             this.metarInputGroupBox.Controls.Add(this.processMetarButton);
-            this.metarInputGroupBox.Location = new System.Drawing.Point(12, 27);
+            this.metarInputGroupBox.Location = new System.Drawing.Point(13, 29);
             this.metarInputGroupBox.Name = "metarInputGroupBox";
             this.metarInputGroupBox.Size = new System.Drawing.Size(535, 133);
             this.metarInputGroupBox.TabIndex = 0;
@@ -478,7 +478,7 @@
             // outputOptionsGroupBox
             // 
             this.outputOptionsGroupBox.Controls.Add(this.copyOutputCheckBox);
-            this.outputOptionsGroupBox.Location = new System.Drawing.Point(371, 404);
+            this.outputOptionsGroupBox.Location = new System.Drawing.Point(372, 406);
             this.outputOptionsGroupBox.Name = "outputOptionsGroupBox";
             this.outputOptionsGroupBox.Size = new System.Drawing.Size(175, 112);
             this.outputOptionsGroupBox.TabIndex = 0;
@@ -488,7 +488,7 @@
             // outputGroupBox
             // 
             this.outputGroupBox.Controls.Add(this.outputTextBox);
-            this.outputGroupBox.Location = new System.Drawing.Point(12, 522);
+            this.outputGroupBox.Location = new System.Drawing.Point(13, 524);
             this.outputGroupBox.Name = "outputGroupBox";
             this.outputGroupBox.Size = new System.Drawing.Size(535, 93);
             this.outputGroupBox.TabIndex = 0;
@@ -509,7 +509,7 @@
             this.ICAOTabControl.Controls.Add(this.EHEH);
             this.ICAOTabControl.Controls.Add(this.EHGG);
             this.ICAOTabControl.Controls.Add(this.EHRD);
-            this.ICAOTabControl.Location = new System.Drawing.Point(12, 166);
+            this.ICAOTabControl.Location = new System.Drawing.Point(13, 168);
             this.ICAOTabControl.Name = "ICAOTabControl";
             this.ICAOTabControl.SelectedIndex = 0;
             this.ICAOTabControl.Size = new System.Drawing.Size(369, 232);
@@ -754,7 +754,7 @@
             this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(560, 24);
+            this.menuStrip.Size = new System.Drawing.Size(561, 24);
             this.menuStrip.TabIndex = 19;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -795,7 +795,7 @@
             this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.appOnlyCheckBox);
-            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(398, 166);
+            this.additionalOptionsGroupBox.Location = new System.Drawing.Point(399, 168);
             this.additionalOptionsGroupBox.Name = "additionalOptionsGroupBox";
             this.additionalOptionsGroupBox.Size = new System.Drawing.Size(149, 232);
             this.additionalOptionsGroupBox.TabIndex = 22;
@@ -845,7 +845,7 @@
             // runwayInfoButton
             // 
             this.runwayInfoButton.Enabled = false;
-            this.runwayInfoButton.Location = new System.Drawing.Point(381, 185);
+            this.runwayInfoButton.Location = new System.Drawing.Point(382, 187);
             this.runwayInfoButton.Name = "runwayInfoButton";
             this.runwayInfoButton.Size = new System.Drawing.Size(15, 213);
             this.runwayInfoButton.TabIndex = 23;
@@ -857,7 +857,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 627);
+            this.ClientSize = new System.Drawing.Size(561, 630);
             this.Controls.Add(this.runwayInfoButton);
             this.Controls.Add(this.additionalOptionsGroupBox);
             this.Controls.Add(this.ICAOTabControl);

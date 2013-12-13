@@ -224,7 +224,7 @@
             // EHAMLandingRunwaysGroupBox
             // 
             this.EHAMLandingRunwaysGroupBox.Controls.Add(this.EHAMlandingRunwayInfoDataGridView);
-            this.EHAMLandingRunwaysGroupBox.Location = new System.Drawing.Point(12, 63);
+            this.EHAMLandingRunwaysGroupBox.Location = new System.Drawing.Point(12, 56);
             this.EHAMLandingRunwaysGroupBox.Name = "EHAMLandingRunwaysGroupBox";
             this.EHAMLandingRunwaysGroupBox.Size = new System.Drawing.Size(374, 266);
             this.EHAMLandingRunwaysGroupBox.TabIndex = 2;
@@ -234,7 +234,7 @@
             // EHAMdepartureRunwaysGroupBox
             // 
             this.EHAMdepartureRunwaysGroupBox.Controls.Add(this.EHAMdepartureRunwayInfoDataGridView);
-            this.EHAMdepartureRunwaysGroupBox.Location = new System.Drawing.Point(12, 335);
+            this.EHAMdepartureRunwaysGroupBox.Location = new System.Drawing.Point(12, 328);
             this.EHAMdepartureRunwaysGroupBox.Name = "EHAMdepartureRunwaysGroupBox";
             this.EHAMdepartureRunwaysGroupBox.Size = new System.Drawing.Size(374, 266);
             this.EHAMdepartureRunwaysGroupBox.TabIndex = 3;
@@ -245,7 +245,7 @@
             // 
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.runwayFrictionComboBox);
-            this.groupBox3.Location = new System.Drawing.Point(13, 13);
+            this.groupBox3.Location = new System.Drawing.Point(13, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(373, 44);
             this.groupBox3.TabIndex = 4;
@@ -280,7 +280,7 @@
             // runwayGroupBox
             // 
             this.runwayGroupBox.Controls.Add(this.runwayInfoDataGridView);
-            this.runwayGroupBox.Location = new System.Drawing.Point(12, 63);
+            this.runwayGroupBox.Location = new System.Drawing.Point(12, 56);
             this.runwayGroupBox.Name = "runwayGroupBox";
             this.runwayGroupBox.Size = new System.Drawing.Size(374, 266);
             this.runwayGroupBox.TabIndex = 5;
@@ -359,7 +359,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 611);
+            this.ClientSize = new System.Drawing.Size(393, 604);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.EHAMdepartureRunwaysGroupBox);
             this.Controls.Add(this.EHAMLandingRunwaysGroupBox);
