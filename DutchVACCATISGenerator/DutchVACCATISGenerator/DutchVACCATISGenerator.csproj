@@ -79,6 +79,12 @@
     <Compile Include="RunwayInfo.Designer.cs">
       <DependentUpon>RunwayInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sound.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sound.Designer.cs">
+      <DependentUpon>Sound.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrendSelection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     </Compile>
     <EmbeddedResource Include="RunwayInfo.resx">
       <DependentUpon>RunwayInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sound.resx">
+      <DependentUpon>Sound.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrendSelection.resx">
       <DependentUpon>TrendSelection.cs</DependentUpon>

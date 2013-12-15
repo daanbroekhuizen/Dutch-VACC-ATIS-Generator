@@ -89,6 +89,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -126,9 +127,9 @@
             // 
             // getMetarButton
             // 
-            this.getMetarButton.Location = new System.Drawing.Point(50, 19);
+            this.getMetarButton.Location = new System.Drawing.Point(50, 18);
             this.getMetarButton.Name = "getMetarButton";
-            this.getMetarButton.Size = new System.Drawing.Size(75, 20);
+            this.getMetarButton.Size = new System.Drawing.Size(75, 22);
             this.getMetarButton.TabIndex = 2;
             this.getMetarButton.Text = "Get METAR";
             this.getMetarButton.UseVisualStyleBackColor = true;
@@ -372,7 +373,7 @@
             // 
             this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayComboBox);
             this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayCheckBox);
-            this.EHAMsecondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(178, 19);
+            this.EHAMsecondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
             this.EHAMsecondaryDepartureRunwayGroupBox.Name = "EHAMsecondaryDepartureRunwayGroupBox";
             this.EHAMsecondaryDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
             this.EHAMsecondaryDepartureRunwayGroupBox.TabIndex = 0;
@@ -414,7 +415,7 @@
             // 
             this.tlLevelGroupBox.Controls.Add(this.tlOutLabel);
             this.tlLevelGroupBox.Controls.Add(this.tlHeaderLabel);
-            this.tlLevelGroupBox.Location = new System.Drawing.Point(135, 406);
+            this.tlLevelGroupBox.Location = new System.Drawing.Point(136, 406);
             this.tlLevelGroupBox.Name = "tlLevelGroupBox";
             this.tlLevelGroupBox.Size = new System.Drawing.Size(116, 112);
             this.tlLevelGroupBox.TabIndex = 0;
@@ -443,9 +444,9 @@
             // generateATISButton
             // 
             this.generateATISButton.Enabled = false;
-            this.generateATISButton.Location = new System.Drawing.Point(257, 412);
+            this.generateATISButton.Location = new System.Drawing.Point(258, 411);
             this.generateATISButton.Name = "generateATISButton";
-            this.generateATISButton.Size = new System.Drawing.Size(109, 106);
+            this.generateATISButton.Size = new System.Drawing.Size(109, 108);
             this.generateATISButton.TabIndex = 21;
             this.generateATISButton.Text = "Generate ATIS";
             this.generateATISButton.UseVisualStyleBackColor = true;
@@ -478,7 +479,7 @@
             // outputOptionsGroupBox
             // 
             this.outputOptionsGroupBox.Controls.Add(this.copyOutputCheckBox);
-            this.outputOptionsGroupBox.Location = new System.Drawing.Point(372, 406);
+            this.outputOptionsGroupBox.Location = new System.Drawing.Point(373, 406);
             this.outputOptionsGroupBox.Name = "outputOptionsGroupBox";
             this.outputOptionsGroupBox.Size = new System.Drawing.Size(175, 112);
             this.outputOptionsGroupBox.TabIndex = 0;
@@ -751,7 +752,8 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.infoToolStripMenuItem});
+            this.infoToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(561, 24);
@@ -788,6 +790,13 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // additionalOptionsGroupBox
             // 
@@ -990,6 +999,7 @@
         private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
         public System.Windows.Forms.TabControl ICAOTabControl;
         public System.Windows.Forms.Button runwayInfoButton;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
     }
 }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunwayInfo));
             this.EHAMlandingRunwayInfoDataGridView = new System.Windows.Forms.DataGridView();
             this.RWYColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.XWINDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -245,9 +246,9 @@
             // 
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.runwayFrictionComboBox);
-            this.groupBox3.Location = new System.Drawing.Point(13, 6);
+            this.groupBox3.Location = new System.Drawing.Point(12, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(373, 44);
+            this.groupBox3.Size = new System.Drawing.Size(374, 44);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Runway Friction";
@@ -359,17 +360,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 604);
+            this.ClientSize = new System.Drawing.Size(398, 606);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.EHAMdepartureRunwaysGroupBox);
             this.Controls.Add(this.EHAMLandingRunwaysGroupBox);
             this.Controls.Add(this.runwayGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RunwayInfo";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
+            this.Text = "Runway Weather Criteria Dialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RunwayInfo_FormClosing);
             this.Load += new System.EventHandler(this.RunwayInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EHAMlandingRunwayInfoDataGridView)).EndInit();

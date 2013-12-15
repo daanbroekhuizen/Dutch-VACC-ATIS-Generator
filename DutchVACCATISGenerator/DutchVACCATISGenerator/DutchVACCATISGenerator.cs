@@ -1118,5 +1118,11 @@ namespace DutchVACCATISGenerator
 
             if (WindowState == FormWindowState.Minimized && runwayInfo != null) runwayInfo.Visible = false;
         }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Sound sound = new Sound();
+            sound.ShowDialog();
+        }
     }
 }

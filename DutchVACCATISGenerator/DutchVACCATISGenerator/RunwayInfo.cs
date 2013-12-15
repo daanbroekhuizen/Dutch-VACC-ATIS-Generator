@@ -106,13 +106,13 @@ namespace DutchVACCATISGenerator
                 case "EHAM":
                     EHAMdepartureRunwayInfoDataGridView.Visible = EHAMlandingRunwayInfoDataGridView.Visible = EHAMdepartureRunwaysGroupBox.Visible = EHAMLandingRunwaysGroupBox.Visible = true;
                     runwayInfoDataGridView.Visible = false;
-                    this.Size = new Size(413, 645);
+                    this.Size = new Size(414, 645);                    
                     break;
 
                 case "EHBK": case "EHRD": case "EHGG": case "EHEH":
                     EHAMdepartureRunwayInfoDataGridView.Visible = EHAMlandingRunwayInfoDataGridView.Visible = EHAMdepartureRunwaysGroupBox.Visible = EHAMLandingRunwaysGroupBox.Visible = false;
                     runwayInfoDataGridView.Visible = true;
-                    this.Size = new Size(413, 369);
+                    this.Size = new Size(414, 373);
                     break;
             }
         }
