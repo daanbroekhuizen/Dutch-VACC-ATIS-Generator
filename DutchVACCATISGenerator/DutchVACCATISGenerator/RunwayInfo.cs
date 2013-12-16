@@ -271,6 +271,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Set RunwayInform position relative to DutchVACCATISGenerator.
         /// </summary>
+        /// <param name="dutchVACCATISGenerator">Parent DutchVACCATISGenerator.</param>
         public void showRelativeToDutchVACCATISGenerator(DutchVACCATISGenerator dutchVACCATISGenerator)
         {
             this.Left = dutchVACCATISGenerator.Right;

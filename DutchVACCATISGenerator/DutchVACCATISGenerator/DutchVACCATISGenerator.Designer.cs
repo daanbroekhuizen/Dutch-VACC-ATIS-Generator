@@ -89,13 +89,13 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.runwayInfoButton = new System.Windows.Forms.Button();
+            this.soundButton = new System.Windows.Forms.Button();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -156,7 +156,7 @@
             this.metarTextBox.Multiline = true;
             this.metarTextBox.Name = "metarTextBox";
             this.metarTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metarTextBox.Size = new System.Drawing.Size(433, 32);
+            this.metarTextBox.Size = new System.Drawing.Size(436, 32);
             this.metarTextBox.TabIndex = 3;
             this.metarTextBox.TextChanged += new System.EventHandler(this.metarTextBox_TextChanged);
             // 
@@ -173,7 +173,7 @@
             this.processMetarButton.Enabled = false;
             this.processMetarButton.Location = new System.Drawing.Point(445, 44);
             this.processMetarButton.Name = "processMetarButton";
-            this.processMetarButton.Size = new System.Drawing.Size(83, 83);
+            this.processMetarButton.Size = new System.Drawing.Size(84, 83);
             this.processMetarButton.TabIndex = 4;
             this.processMetarButton.Text = "Process METAR";
             this.processMetarButton.UseVisualStyleBackColor = true;
@@ -502,6 +502,7 @@
             this.outputTextBox.Name = "outputTextBox";
             this.outputTextBox.Size = new System.Drawing.Size(529, 81);
             this.outputTextBox.TabIndex = 22;
+            this.outputTextBox.TextChanged += new System.EventHandler(this.outputTextBox_TextChanged);
             // 
             // ICAOTabControl
             // 
@@ -752,8 +753,7 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.infoToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(561, 24);
@@ -772,7 +772,7 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -790,13 +790,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.testToolStripMenuItem.Text = "Test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // additionalOptionsGroupBox
             // 
@@ -854,7 +847,7 @@
             // runwayInfoButton
             // 
             this.runwayInfoButton.Enabled = false;
-            this.runwayInfoButton.Location = new System.Drawing.Point(382, 187);
+            this.runwayInfoButton.Location = new System.Drawing.Point(383, 187);
             this.runwayInfoButton.Name = "runwayInfoButton";
             this.runwayInfoButton.Size = new System.Drawing.Size(15, 213);
             this.runwayInfoButton.TabIndex = 23;
@@ -862,11 +855,22 @@
             this.runwayInfoButton.UseVisualStyleBackColor = true;
             this.runwayInfoButton.Click += new System.EventHandler(this.runwayInfoButton_Click);
             // 
+            // soundButton
+            // 
+            this.soundButton.Location = new System.Drawing.Point(195, 623);
+            this.soundButton.Name = "soundButton";
+            this.soundButton.Size = new System.Drawing.Size(171, 19);
+            this.soundButton.TabIndex = 24;
+            this.soundButton.Text = "▼";
+            this.soundButton.UseVisualStyleBackColor = true;
+            this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(561, 630);
+            this.ClientSize = new System.Drawing.Size(561, 654);
+            this.Controls.Add(this.soundButton);
             this.Controls.Add(this.runwayInfoButton);
             this.Controls.Add(this.additionalOptionsGroupBox);
             this.Controls.Add(this.ICAOTabControl);
@@ -882,7 +886,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "DutchVACCATISGenerator";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Dutch VACC ATIS Generator";
             this.Resize += new System.EventHandler(this.DutchVACCATISGenerator_Resize);
             this.atisIndexGroupBox.ResumeLayout(false);
@@ -965,7 +969,6 @@
         private System.Windows.Forms.CheckBox copyOutputCheckBox;
         private System.Windows.Forms.GroupBox outputOptionsGroupBox;
         private System.Windows.Forms.GroupBox outputGroupBox;
-        private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.TabPage EHBK;
         private System.Windows.Forms.TabPage EHEH;
         private System.Windows.Forms.TabPage EHGG;
@@ -999,7 +1002,8 @@
         private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
         public System.Windows.Forms.TabControl ICAOTabControl;
         public System.Windows.Forms.Button runwayInfoButton;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.Button soundButton;
+        public System.Windows.Forms.TextBox outputTextBox;
     }
 }
 

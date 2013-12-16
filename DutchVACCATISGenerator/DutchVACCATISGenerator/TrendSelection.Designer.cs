@@ -30,10 +30,10 @@
         {
             this.selectButton = new System.Windows.Forms.Button();
             this.trendComboBox = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.errorLabel = new System.Windows.Forms.Label();
+            this.aboutGroupBox = new System.Windows.Forms.GroupBox();
             this.closeButton = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.aboutGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // selectButton
@@ -58,27 +58,27 @@
             this.trendComboBox.Size = new System.Drawing.Size(171, 21);
             this.trendComboBox.TabIndex = 1;
             // 
-            // label1
+            // errorLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(174, 26);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Unable to determine trend type, \r\nplease select trend type to process:\r\n";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.errorLabel.AutoSize = true;
+            this.errorLabel.Location = new System.Drawing.Point(8, 16);
+            this.errorLabel.Name = "errorLabel";
+            this.errorLabel.Size = new System.Drawing.Size(174, 26);
+            this.errorLabel.TabIndex = 2;
+            this.errorLabel.Text = "Unable to determine trend type, \r\nplease select trend type to process:\r\n";
+            this.errorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox1
+            // aboutGroupBox
             // 
-            this.groupBox1.Controls.Add(this.closeButton);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.selectButton);
-            this.groupBox1.Controls.Add(this.trendComboBox);
-            this.groupBox1.Location = new System.Drawing.Point(13, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(190, 107);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
+            this.aboutGroupBox.Controls.Add(this.closeButton);
+            this.aboutGroupBox.Controls.Add(this.errorLabel);
+            this.aboutGroupBox.Controls.Add(this.selectButton);
+            this.aboutGroupBox.Controls.Add(this.trendComboBox);
+            this.aboutGroupBox.Location = new System.Drawing.Point(13, 7);
+            this.aboutGroupBox.Name = "aboutGroupBox";
+            this.aboutGroupBox.Size = new System.Drawing.Size(190, 107);
+            this.aboutGroupBox.TabIndex = 3;
+            this.aboutGroupBox.TabStop = false;
             // 
             // closeButton
             // 
@@ -95,7 +95,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(216, 127);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.aboutGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -103,9 +103,9 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trend Type Selection";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Text = "ATIS Trend Type Selection";
+            this.aboutGroupBox.ResumeLayout(false);
+            this.aboutGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -114,8 +114,8 @@
 
         private System.Windows.Forms.Button selectButton;
         public System.Windows.Forms.ComboBox trendComboBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label errorLabel;
+        private System.Windows.Forms.GroupBox aboutGroupBox;
         private System.Windows.Forms.Button closeButton;
     }
 }

@@ -25,6 +25,8 @@ namespace DutchVACCATISGenerator
 
         private RunwayInfo runwayInfo;
 
+        private Sound sound;
+
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
@@ -39,6 +41,8 @@ namespace DutchVACCATISGenerator
             atisIndex = 25;
 
             atisLetterLabel.Text = phoneticAlphabet[0];
+
+            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 179)) / 2));
         }
 
         /// <summary>
@@ -1076,7 +1080,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Method called of METAR text box text changes.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -1114,15 +1118,54 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void DutchVACCATISGenerator_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Normal && runwayInfo != null) runwayInfo.Visible = true;
+            if (WindowState == FormWindowState.Normal)
+            {
+                if (runwayInfo != null) runwayInfo.Visible = true;
+                if (sound != null) sound.Visible = true;
+            }
 
-            if (WindowState == FormWindowState.Minimized && runwayInfo != null) runwayInfo.Visible = false;
+            if (WindowState == FormWindowState.Minimized)
+            {
+                if (runwayInfo != null) runwayInfo.Visible = false;
+                if (sound != null) sound.Visible = false;
+            }
         }
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Method called if sound button is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void soundButton_Click(object sender, EventArgs e)
         {
-            Sound sound = new Sound();
-            sound.ShowDialog();
+            if (sound == null || !sound.Visible)
+            {
+                sound = new Sound(this);
+                soundButton.Text = "▲";
+                sound.Show();
+                sound.showRelativeToDutchVACCATISGenerator(this);
+            }
+            else
+            {
+                soundButton.Text = "▼";
+                sound.Visible = false;
+
+                if (sound.wavePlayer != null) sound.wavePlayer.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Method called if output text box text changes.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void outputTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if(sound != null)
+            {
+                if (!outputTextBox.Text.Trim().Equals(String.Empty)) sound.buildATISButton.Enabled = true;
+                else sound.buildATISButton.Enabled = false;
+            }
         }
     }
 }
