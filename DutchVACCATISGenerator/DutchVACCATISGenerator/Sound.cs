@@ -20,6 +20,7 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class Sound : Form
     {
+        private AudioFileReader audio;
         private DutchVACCATISGenerator dutchVACCATISGenerator;
         public IWavePlayer wavePlayer { get; set; }
 
@@ -84,13 +85,20 @@ namespace DutchVACCATISGenerator
         {
             if (playATISButton.Text.Equals("Play ATIS"))
             {
+                if (atisehamFileTextBox.Text.Trim().Equals(String.Empty))
+                {
+                    MessageBox.Show("No path to atiseham.txt provided.", "Error"); browseButton.PerformClick();
+                }
+
                 playATISButton.Text = "Stop ATIS";
 
-                AudioFileReader audio = new AudioFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav");
+                audio = new AudioFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav");
 
                 wavePlayer = new WaveOut(WaveCallbackInfo.FunctionCallback());
                 wavePlayer.Init(audio);
                 wavePlayer.PlaybackStopped += new EventHandler<StoppedEventArgs>(wavePlayer_PlaybackStopped);
+
+                buildATISButton.Enabled = false;
 
                 wavePlayer.Play();
             }
@@ -106,6 +114,15 @@ namespace DutchVACCATISGenerator
         private void wavePlayer_PlaybackStopped(object sender, StoppedEventArgs e)
         {
             playATISButton.Text = "Play ATIS";
+
+            buildATISButton.Enabled = true;
+            try
+            {
+                audio.Dispose();
+            }
+            catch(Exception) { }
+
+            wavePlayer.Dispose();
         }
 
         /// <summary>
@@ -115,59 +132,72 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void buildATISButton_Click(object sender, EventArgs e)
         {
-            String line = String.Empty;
-
             try
             {
-                using (StreamReader sr = new StreamReader(atisehamFileTextBox.Text)) line = sr.ReadToEnd();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(ex.Message);
-                return;
-            }
+                String line = String.Empty;
 
-            string[] fileLines = line.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
-
-            List<String> linesWithItem = new List<String>(fileLines);
-
-            while (linesWithItem.Last().Equals(String.Empty)) linesWithItem.RemoveAt(linesWithItem.Count() - 1);
-
-            Dictionary<String, String> records = new Dictionary<String, String>();
-
-            foreach (String s in linesWithItem)
-            {
-                if (!(s.StartsWith("ITEM")))
+                if (atisehamFileTextBox.Text.Trim().Equals(String.Empty))
                 {
-                    String[] split = Regex.Split(s, @":");
-
-                    records.Add(split[1], split[2]);
+                    MessageBox.Show("No path to atiseham.txt provided.", "Error"); browseButton.PerformClick();
                 }
-            }
 
-            List<String> textToPlay = new List<String>();
+                playATISButton.Enabled = false;
 
-            string[] result = Regex.Split(dutchVACCATISGenerator.outputTextBox.Text, @"[\[-\]]");
-
-            foreach(String s in result)
-            {
-                if (!s.Equals(String.Empty))
+                try
                 {
-                    if (s.All(Char.IsDigit))
+                    using (StreamReader sr = new StreamReader(atisehamFileTextBox.Text)) line = sr.ReadToEnd();
+                }
+                catch (Exception)
+                {
+                    playATISButton.Enabled = true;
+                    return;
+                }
+
+                string[] fileLines = line.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+                List<String> linesWithItem = new List<String>(fileLines);
+
+                while (linesWithItem.Last().Equals(String.Empty)) linesWithItem.RemoveAt(linesWithItem.Count() - 1);
+
+                Dictionary<String, String> records = new Dictionary<String, String>();
+
+                foreach (String s in linesWithItem)
+                {
+                    if (!(s.StartsWith("ITEM")))
                     {
-                        String[] splitArray = Regex.Split(s, @"(?=[0-9])");
+                        String[] split = Regex.Split(s, @":");
 
-                        foreach (String split in splitArray)
-                        {
-                            if (!split.Equals(String.Empty)) textToPlay.Add(split);
-                        }
+                        records.Add(split[1], split[2]);
                     }
-                    else textToPlay.Add(s);
                 }
-            }
 
-            buildATISbackgroundWorker.RunWorkerAsync(new Object[] { textToPlay, records });
+                List<String> textToPlay = new List<String>();
+
+                string[] result = Regex.Split(dutchVACCATISGenerator.outputTextBox.Text, @"[\[-\]]");
+
+                foreach (String s in result)
+                {
+                    if (!s.Equals(String.Empty))
+                    {
+                        if (s.All(Char.IsDigit))
+                        {
+                            String[] splitArray = Regex.Split(s, @"(?=[0-9])");
+
+                            foreach (String split in splitArray)
+                            {
+                                if (!split.Equals(String.Empty)) textToPlay.Add(split);
+                            }
+                        }
+                        else textToPlay.Add(s);
+                    }
+                }
+
+                buildATISbackgroundWorker.RunWorkerAsync(new Object[] { textToPlay, records });
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(String.Format("Unable to build ATIS.\nError: {0}\nCheck if the right atiseham.txt is selected.", ex.Message), "Error"); return;
+            }
         }
 
         /// <summary>
@@ -220,6 +250,26 @@ namespace DutchVACCATISGenerator
         private void buildATISbackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar.Value = e.ProgressPercentage;
+        }
+
+        /// <summary>
+        /// Method called when build ATIS background workers has completed its work.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void buildATISbackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            playATISButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// Method called if Sound form is closed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void Sound_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dutchVACCATISGenerator.soundButton.Text.Equals("▲")) dutchVACCATISGenerator.soundButton.Text = "▼";
         }
     }
 }

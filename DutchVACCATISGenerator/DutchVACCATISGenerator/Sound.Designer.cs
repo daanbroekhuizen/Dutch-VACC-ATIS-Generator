@@ -102,6 +102,7 @@
             this.buildATISbackgroundWorker.WorkerReportsProgress = true;
             this.buildATISbackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.buildATISbackgroundWorker_DoWork);
             this.buildATISbackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.buildATISbackgroundWorker_ProgressChanged);
+            this.buildATISbackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.buildATISbackgroundWorker_RunWorkerCompleted);
             // 
             // progressBar
             // 
@@ -144,6 +145,7 @@
             this.Name = "Sound";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ATIS Sound Dialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sound_FormClosing);
             this.Load += new System.EventHandler(this.Sound_Load);
             this.atisehamFileGroupBox.ResumeLayout(false);
             this.atisehamFileGroupBox.PerformLayout();
