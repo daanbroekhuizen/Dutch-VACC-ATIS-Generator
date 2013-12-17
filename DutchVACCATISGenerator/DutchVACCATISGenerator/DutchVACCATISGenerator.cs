@@ -752,7 +752,7 @@ namespace DutchVACCATISGenerator
                     #endregion
 
                     #region EHAM SECONDARY DEPARTURE RUNWAY
-                    if (EHAMsecondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", EHAMsecondaryLandingRunwayComboBox);
+                    if (EHAMsecondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", EHAMsecondaryDepartureRunwayComboBox);
                     #endregion
                     break;
                 #endregion
