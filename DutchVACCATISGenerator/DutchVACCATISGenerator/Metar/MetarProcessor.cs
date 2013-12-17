@@ -166,6 +166,16 @@ namespace DutchVACCATISGenerator
                             if (s.StartsWith("-")) metar.Phenomena.Add(new MetarPhenomena(true, s.Substring(1)));
                             else metar.Phenomena.Add(new MetarPhenomena(s));
 
+                            //s.StartsWith("VC")
+                            //s.StartsWith("PR")
+                            //s.StartsWith("BC")
+                            //s.StartsWith("DR")
+                            //s.StartsWith("BL")
+                            //s.StartsWith("IC")
+                            //s.StartsWith("PL")
+                            //s.StartsWith("GR")
+                            //s.StartsWith("FU")
+
                             continue;
                         }
                         #endregion

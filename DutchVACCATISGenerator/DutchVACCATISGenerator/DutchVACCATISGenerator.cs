@@ -1163,8 +1163,11 @@ namespace DutchVACCATISGenerator
         {
             if(sound != null)
             {
-                if (!outputTextBox.Text.Trim().Equals(String.Empty)) sound.buildATISButton.Enabled = true;
-                else sound.buildATISButton.Enabled = false;
+                if (sound.wavePlayer == null || !sound.wavePlayer.PlaybackState.Equals(NAudio.Wave.PlaybackState.Playing))
+                {
+                    if (!outputTextBox.Text.Trim().Equals(String.Empty)) sound.buildATISButton.Enabled = true;
+                    else sound.buildATISButton.Enabled = false;
+                }
             }
         }
     }

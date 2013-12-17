@@ -36,7 +36,8 @@ namespace DutchVACCATISGenerator
 
             if (dutchVACCATISGenerator.outputTextBox.Text.Trim().Equals(String.Empty)) buildATISButton.Enabled = false;
 
-            atisehamFileTextBox.Text =  Properties.Settings.Default.atisehamPath;
+            if (!Properties.Settings.Default.atisehamPath.Equals(String.Empty)) atisehamFileTextBox.Text = Properties.Settings.Default.atisehamPath;
+            else atisehamFileTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\EuroScope\atis\atiseham.txt";
         }
 
         /// <summary>
@@ -87,12 +88,32 @@ namespace DutchVACCATISGenerator
             {
                 if (atisehamFileTextBox.Text.Trim().Equals(String.Empty))
                 {
-                    MessageBox.Show("No path to atiseham.txt provided.", "Error"); browseButton.PerformClick();
+                    MessageBox.Show("No path to atiseham.txt provided.", "Error");
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        atisehamFileTextBox.Text = openFileDialog.FileName;
+
+                        Properties.Settings.Default.atisehamPath = atisehamFileTextBox.Text;
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 playATISButton.Text = "Stop ATIS";
-
-                audio = new AudioFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav");
+                
+                try
+                {
+                    audio = new AudioFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav");
+                }
+                catch (FileNotFoundException ex)
+                {
+                    MessageBox.Show(String.Format("Unable to play ATIS. Check if the atiseham.txt file is in the same folder as the ATIS sounds (atis.wav, ect).\n\nError: {0}", ex.Message), "Error"); return;
+                }
+                
 
                 wavePlayer = new WaveOut(WaveCallbackInfo.FunctionCallback());
                 wavePlayer.Init(audio);
@@ -147,8 +168,9 @@ namespace DutchVACCATISGenerator
                 {
                     using (StreamReader sr = new StreamReader(atisehamFileTextBox.Text)) line = sr.ReadToEnd();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    MessageBox.Show(String.Format("Unable to open atiseham.txt. Check if the correct atiseham.txt file is selected.\n\nError: {0}", ex.Message), "Error"); 
                     playATISButton.Enabled = true;
                     return;
                 }
@@ -196,7 +218,7 @@ namespace DutchVACCATISGenerator
             }
             catch (Exception ex) 
             {
-                MessageBox.Show(String.Format("Unable to build ATIS.\nError: {0}\nCheck if the right atiseham.txt is selected.", ex.Message), "Error"); return;
+                MessageBox.Show(String.Format("Unable to build ATIS. Check if the right atiseham.txt is selected.\n\nError: {0}", ex.Message), "Error"); return;
             }
         }
 
@@ -211,29 +233,51 @@ namespace DutchVACCATISGenerator
 
             WaveFileWriter waveFileWriter = null;
 
+            if (IsFileLocked(new FileInfo(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav")))
+            {
+                MessageBox.Show("Cannot generate new atis.wav file. File does not exists or is in use by another process.", "Error"); return;
+            }
+
             try
             {
                 int i = 0;
 
                 foreach (string sourceFile in ((e.Argument as Object[])[0] as List<String>))
                 {
-                    using (WaveFileReader reader = new WaveFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\" + ((e.Argument as Object[])[1] as Dictionary<String, String>)[sourceFile.ToLower()]))
+                    try
                     {
-                        if (waveFileWriter == null) waveFileWriter = new WaveFileWriter(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav", reader.WaveFormat);
-                        
-                        else
+                        using (WaveFileReader reader = new WaveFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\" + ((e.Argument as Object[])[1] as Dictionary<String, String>)[sourceFile.ToLower()]))
                         {
-                            if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat)) throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
+                            if (waveFileWriter == null) waveFileWriter = new WaveFileWriter(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav", reader.WaveFormat);
+
+                            else
+                            {
+                                if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat)) throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
+                            }
+
+                            int read;
+
+                            while ((read = reader.Read(buffer, 0, buffer.Length)) > 0) waveFileWriter.Write(buffer, 0, read);
                         }
 
-                        int read;
-
-                        while ((read = reader.Read(buffer, 0, buffer.Length)) > 0) waveFileWriter.Write(buffer, 0, read);
+                        int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
+                        buildATISbackgroundWorker.ReportProgress(percentage);
+                        i++;
                     }
-
-                    int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
-                    buildATISbackgroundWorker.ReportProgress(percentage);
-                    i++;
+                    catch(KeyNotFoundException)
+                    {
+                        int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
+                        buildATISbackgroundWorker.ReportProgress(percentage);
+                        i++;
+                        continue;
+                    }
+                    catch(InvalidOperationException)
+                    {
+                        int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
+                        buildATISbackgroundWorker.ReportProgress(percentage);
+                        i++;
+                        continue;
+                    }
                 }
             }
             finally
@@ -270,6 +314,33 @@ namespace DutchVACCATISGenerator
         private void Sound_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (dutchVACCATISGenerator.soundButton.Text.Equals("▲")) dutchVACCATISGenerator.soundButton.Text = "▼";
+        }
+
+        /// <summary>
+        /// Check if file is in use by another process.
+        /// </summary>
+        /// <param name="file">File to check.</param>
+        /// <returns>Boolean indicating if file is in use by another process.</returns>
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch (IOException)
+            {
+                //File locked.
+                return true;
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+
+            //File not locked.
+            return false;
         }
     }
 }
