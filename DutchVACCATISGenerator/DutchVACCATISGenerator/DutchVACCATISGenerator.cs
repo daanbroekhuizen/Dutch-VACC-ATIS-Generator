@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
@@ -18,14 +14,12 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class DutchVACCATISGenerator : Form
     {
-        private String metar { get; set; }
-        private MetarProcessor metarProcessor { get; set; }
-        private List<String> phoneticAlphabet { get; set; }
         private int atisIndex { get; set; }
-
-        private RunwayInfo runwayInfo;
-
-        private Sound sound;
+        private List<String> phoneticAlphabet { get; set; }
+        private MetarProcessor metarProcessor { get; set; }
+        private RunwayInfo runwayInfo { get; set; }
+        private Sound sound { get; set; }
+        private String metar { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -241,8 +235,8 @@ namespace DutchVACCATISGenerator
             outputTextBox.Clear();
             metarTextBox.Clear();
 
-            if(metar.Length > 140) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69, 69) + "...";
-            else if (metar.Length > 69) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69) + "\n" + metar.Substring(69);
+            if(metar.Length > 140) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 690).Trim() + "...";
+            else if (metar.Length > 69) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
             else lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
             if (atisIndex == 25) atisIndex = 0;
@@ -597,13 +591,19 @@ namespace DutchVACCATISGenerator
                 {
                     output += "[" + metarCloud.cloudType.ToLower() + "]";
 
-                    if (metarCloud.altitude / 100 > 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
-                    
-                    if ((metarCloud.altitude / 10) % 10 > 0) output += Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + "[thousand]";
+                    if (metarCloud.altitude % 100 == 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0" + "[thousand]";
 
-                    if (metarCloud.altitude % 10 > 0) output += metarCloud.altitude % 10 + "[hundred]";
+                    else
+                    {
 
-                    if (metarCloud.altitude == 0) output += metarCloud.altitude; 
+                        if (metarCloud.altitude / 100 > 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
+
+                        if ((metarCloud.altitude / 10) % 10 > 0) output += Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + "[thousand]";
+
+                        if (metarCloud.altitude % 10 > 0) output += metarCloud.altitude % 10 + "[hundred]";
+
+                        if (metarCloud.altitude == 0) output += metarCloud.altitude;
+                    }
 
                     output += "[ft]";
 

@@ -278,6 +278,15 @@ namespace DutchVACCATISGenerator
                         i++;
                         continue;
                     }
+                    catch(FileNotFoundException ex)
+                    {
+                        MessageBox.Show(ex.Message + "\n\natis.wav will be generated without this file.", "Error");
+
+                        int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
+                        buildATISbackgroundWorker.ReportProgress(percentage);
+                        i++;
+                        continue;
+                    }
                 }
             }
             finally
