@@ -42,12 +42,11 @@ C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\Du
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.RunwayInfo.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.RunwayInfo.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.TrendSelection.resources
-E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Sound.resources
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Sound.resources
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.TrendSelection.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.dll
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.WindowsMediaFormat.dll
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.dll
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache

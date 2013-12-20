@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
@@ -91,7 +87,8 @@ namespace DutchVACCATISGenerator
             this.metar = metar;
 
             setVisibleRunwayInfoDataGrid(this.dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
-            
+
+            //Set runway friction combo box selection to first item.
             runwayFrictionComboBox.SelectedIndex = 0;
         }
 
@@ -106,12 +103,16 @@ namespace DutchVACCATISGenerator
                 case "EHAM":
                     EHAMdepartureRunwayInfoDataGridView.Visible = EHAMlandingRunwayInfoDataGridView.Visible = EHAMdepartureRunwaysGroupBox.Visible = EHAMLandingRunwaysGroupBox.Visible = true;
                     runwayInfoDataGridView.Visible = false;
+
+                    //Set the form size to 414 by 645.
                     this.Size = new Size(414, 645);                    
                     break;
 
                 case "EHBK": case "EHRD": case "EHGG": case "EHEH":
                     EHAMdepartureRunwayInfoDataGridView.Visible = EHAMlandingRunwayInfoDataGridView.Visible = EHAMdepartureRunwaysGroupBox.Visible = EHAMLandingRunwaysGroupBox.Visible = false;
                     runwayInfoDataGridView.Visible = true;
+
+                    //Set the form size to 414 by 373.
                     this.Size = new Size(414, 373);
                     break;
             }
@@ -148,6 +149,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         public void fillEHAMRunwayInfoDataGrids()
         {
+            //Clear the EHAM landing runway info DataGridView.
             EHAMlandingRunwayInfoDataGridView.Rows.Clear();
 
             foreach (KeyValuePair<string, Tuple<int, int, String, String>> pair in EHAMlandingRunways)
@@ -161,9 +163,11 @@ namespace DutchVACCATISGenerator
                 row.Cells[4].Value = pair.Value.Item4;
                 row.Cells[5].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
 
+                //Add built DataGridViewRow to EHAM landing runway info DataGridView.
                 EHAMlandingRunwayInfoDataGridView.Rows.Add(row);
             }
 
+            //Clear the EHAM departure runway info DataGridView.
             EHAMdepartureRunwayInfoDataGridView.Rows.Clear();
 
             foreach (KeyValuePair<string, Tuple<int, int, String, String>> pair in EHAMdepartureRunways)
@@ -177,6 +181,7 @@ namespace DutchVACCATISGenerator
                 row.Cells[4].Value = pair.Value.Item4;
                 row.Cells[5].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
 
+                //Add built DataGridViewRow to EHAM departure runway info DataGridView.
                 EHAMdepartureRunwayInfoDataGridView.Rows.Add(row);
             }
 
@@ -189,6 +194,7 @@ namespace DutchVACCATISGenerator
         /// <param name="runways">Dictionary to process.</param>
         public void fillRunwayInfoDataGrid(Dictionary<String, Tuple<int, int, String>> runways)
         {
+            //Clear the runway info DataGridView.
             runwayInfoDataGridView.Rows.Clear();
 
             foreach (KeyValuePair<string, Tuple<int, int, String>> pair in runways)
@@ -201,6 +207,7 @@ namespace DutchVACCATISGenerator
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
 
+                //Add built DataGridViewRow to runway info DataGridView.
                 runwayInfoDataGridView.Rows.Add(row);
             }
         }
@@ -210,12 +217,14 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void addToolTipToEHAMRunwayInfoGridViews()
         {
+            //Add tool tip to EHAM landing- runway info DataGridView.
             foreach (DataGridViewRow row in EHAMlandingRunwayInfoDataGridView.Rows)
             {
                 if(row.Cells[3].FormattedValue.Equals("--")) row.Cells[3].ToolTipText = "-- = Not allowed during night hours.";
                 if (row.Cells[4].FormattedValue.Equals("--")) row.Cells[4].ToolTipText = "-- = Not allowed during night hours.";
             }
 
+            //Add tool tip to EHAM departure runway info DataGridView.
             foreach (DataGridViewRow row in EHAMdepartureRunwayInfoDataGridView.Rows)
             {
                 if (row.Cells[3].FormattedValue.Equals("--")) row.Cells[3].ToolTipText = "-- = Not allowed during night hours.";
@@ -230,9 +239,13 @@ namespace DutchVACCATISGenerator
         /// <returns>Calculated tail wind component of a runway.</returns>
         private int calculateTailwindComponent(int runwayHeading)
         {
+            //If METAR has a gust wind.
             if(metar.Wind.windGustMin != null)
             {
+                //If gust is greater than 10 knots, include gust wind.
                 if (Math.Abs(Convert.ToInt32(metar.Wind.windGustMax) - Convert.ToInt32(metar.Wind.windGustMin)) >= 10) return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMax));
+                
+                //Else do not include gust, calculte with min gust wind.
                 else return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMin)); 
             }
             else return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windKnots));
@@ -247,13 +260,18 @@ namespace DutchVACCATISGenerator
         {
             int crosswind;
 
+            //If METAR has a gust wind.
             if(metar.Wind.windGustMin != null)
             {
+                //If gust is greater than 10 knots, include gust wind.
                 if (Math.Abs(Convert.ToInt32(metar.Wind.windGustMax) - Convert.ToInt32(metar.Wind.windGustMin)) >= 10) crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMax));
+
+                //Else do not include gust, calculte with min gust wind.
                 else crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMin));
             }
             else crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windKnots));
 
+            //If calculated crosswind is negative, multiply by -1 to make it positive.
             if (crosswind < -0) return crosswind * -1;
             else return crosswind;
         }
@@ -308,17 +326,21 @@ namespace DutchVACCATISGenerator
         /// <returns>Boolean indicating if the runway visibility complies with the viability criteria for that runway.</returns>
         private Boolean checkRunwayVisbility(string rwy)
         {
+            //If METAR has a RVR.
             if(metar.RVR)
             {
                 foreach (KeyValuePair<String, int> pair in metar.RVRValues)
                 {
+                    //Check if runway complies with RVR criteria based on the RWY RVR value.
                     if (pair.Key.Equals(rwy)) return runwayCompliesWithRVR(pair.Value);
                 }
 
+                //Check if runway complies with RVR criteria based on the visbility.
                 return runwayCompliesWithRVR(metar.Visibility);
             }
             else
             {
+                //If cloud layer > 200 feet.
                 if (metar.Clouds.Count != 0 ? metar.Clouds.First().altitude >= 2 : true) return true;
                 else return false;
             }
@@ -331,7 +353,10 @@ namespace DutchVACCATISGenerator
         /// <returns>Boolean indicating if the runway visibility complies with the RVR criteria for that runway.</returns>
         private Boolean runwayCompliesWithRVR(int rvr)
         {
+            //If RVR > 500 and cloud layer is > 200 feet.
             if (rvr >= 550 && (metar.Clouds.Count != 0 ? metar.Clouds.First().altitude >= 2 : true)) return true;
+
+            //If RVR < 500 and cloud layer is < 200 feet.
             else if (rvr < 550 || (metar.Clouds.Count != 0 && metar.Clouds.First().altitude < 2)) return false;
             else return false;
         }
@@ -346,8 +371,10 @@ namespace DutchVACCATISGenerator
         /// <returns>Indication if the a runway complies with the weather criteria for that runway.</returns>
         private String checkRunwayComplyWithWind(int maxCrosswind, int maxTailWind, int crosswind, int tailwind)
         {
+            //If runway complies with criteria return OK.
             if (crosswind <= maxCrosswind && tailwind <= maxTailWind) return "OK";
 
+            //Else return -.
             else return "-";
         }
 
@@ -376,13 +403,11 @@ namespace DutchVACCATISGenerator
         /// </summary>
         public void checkICAOTabSelected()
         {
-            if(!(metar.ICAO.Equals(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text)))
-            {
-                MessageBox.Show(String.Format("Last processed METAR ICAO does not match the selected ICAO tab.\nRunway criteria will be calculated of the wrong METAR ({0})!", metar.ICAO), "Warning");
-            }
-
+            //Check if selected ICAO tab matches the ICAO of the processed METAR.
+            if (!(metar.ICAO.Equals(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text))) MessageBox.Show(String.Format("Last processed METAR ICAO does not match the selected ICAO tab.\nRunway criteria will be calculated of the wrong METAR ({0})!", metar.ICAO), "Warning");
+            
+            //If selected ICAO tab is EHAM.
             if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAODirectoryToProcess(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
-
             else fillEHAMRunwayInfoDataGrids();
         }
 

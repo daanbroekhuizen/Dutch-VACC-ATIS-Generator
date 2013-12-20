@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
 {
@@ -16,12 +8,13 @@ namespace DutchVACCATISGenerator
     public partial class TrendSelection : Form
     {
         /// <summary>
-        /// Constructor of TrendSelection.
+        /// Constructor of TrendSelection. Initializes new instance of TrendSelection.
         /// </summary>
         public TrendSelection()
         {
             InitializeComponent();
 
+            //Set trend combo box selection to first item.
             trendComboBox.SelectedIndex = 0;
         }
     }
