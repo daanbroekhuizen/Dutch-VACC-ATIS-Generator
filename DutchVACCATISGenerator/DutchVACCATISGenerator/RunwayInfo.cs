@@ -245,7 +245,7 @@ namespace DutchVACCATISGenerator
                 //If gust is greater than 10 knots, include gust wind.
                 if (Math.Abs(Convert.ToInt32(metar.Wind.windGustMax) - Convert.ToInt32(metar.Wind.windGustMin)) >= 10) return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMax));
                 
-                //Else do not include gust, calculte with min gust wind.
+                //Else do not include gust, calculate with min gust wind.
                 else return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMin)); 
             }
             else return Convert.ToInt32(Math.Cos(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windKnots));
@@ -266,7 +266,7 @@ namespace DutchVACCATISGenerator
                 //If gust is greater than 10 knots, include gust wind.
                 if (Math.Abs(Convert.ToInt32(metar.Wind.windGustMax) - Convert.ToInt32(metar.Wind.windGustMin)) >= 10) crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMax));
 
-                //Else do not include gust, calculte with min gust wind.
+                //Else do not include gust, calculate with min gust wind.
                 else crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windGustMin));
             }
             else crosswind = Convert.ToInt32(Math.Sin(degreeToRadian(Math.Abs(Convert.ToInt32(metar.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(metar.Wind.windKnots));
@@ -335,7 +335,7 @@ namespace DutchVACCATISGenerator
                     if (pair.Key.Equals(rwy)) return runwayCompliesWithRVR(pair.Value);
                 }
 
-                //Check if runway complies with RVR criteria based on the visbility.
+                //Check if runway complies with RVR criteria based on the visibility.
                 return runwayCompliesWithRVR(metar.Visibility);
             }
             else

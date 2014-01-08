@@ -27,67 +27,85 @@ namespace DutchVACCATISGenerator
         public DutchVACCATISGenerator()
         {
             InitializeComponent();
-            
-            metar = String.Empty;
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
+            //Set ATIS index to Z for first generation.
             atisIndex = 25;
 
+            //Set the label to A.
             atisLetterLabel.Text = phoneticAlphabet[0];
 
-            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 179)) / 2));
+            //Center the form on the monitor.
+            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 184)) / 2));
         }
 
         /// <summary>
-        /// Method called when get metar button is clicked. Starts a background worker which pulls the metar from the VATSIM metar website.
+        /// Method called when get METAR button is clicked. Starts a background worker which pulls the METAR from the VATSIM METAR website.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void getMetarButton_Click(object sender, EventArgs e)
         {
+            //Get ICAO entered.
             String _ICAO = icaoTextBox.Text;
 
+            //If no ICAO has been entered.
             if(_ICAO == String.Empty)
             {
-                MessageBox.Show("Please enter an ICAO code.", "Error"); return;
+                MessageBox.Show("Enter an ICAO code.", "Warning"); return;
             }
 
+            //Disable the get METAR button so the user can't overload it.
             getMetarButton.Enabled = false;
 
+            //Start METAR background worker to start pulling the METAR.
             metarBackgroundWorker.RunWorkerAsync(_ICAO);
         }
 
         /// <summary>
-        /// Method called when metar background workers is started. Pulls metar from VATSIM metar website.
+        /// Method called when METAR background workers is started. Pulls METAR from VATSIM METAR website.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void metarBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            WebRequest request = WebRequest.Create("http://metar.vatsim.net/metar.php?id=" + e.Argument);
-            WebResponse response = request.GetResponse();
-            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            //Try to pull the METAR from http://metar.vatsim.net/metar.php.
+            try
+            {
+                //Request METAR.
+                WebRequest request = WebRequest.Create("http://metar.vatsim.net/metar.php?id=" + e.Argument);
+                WebResponse response = request.GetResponse();
 
-            metar = reader.ReadToEnd();
+                //Read METAR.
+                System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+                metar = reader.ReadToEnd();
 
-            if (metar.StartsWith(e.Argument.ToString())) metar = metar.Remove(metar.Length - 2);
+                //Remove spaces.
+                if (metar.StartsWith(e.Argument.ToString())) metar = metar.Trim();
+            }
+            catch (WebException)
+            {
+                MessageBox.Show("Unable to get the METAR from the Internet.\nPlease provide a METAR.", "Error");
+            }
         }
 
         /// <summary>
-        /// Method called when metar background worker has completed its task. Sets pulled metar from VATSIM metar website into the metarTextBox.
+        /// Method called when METAR background worker has completed its task. Sets pulled METAR from VATSIM METAR website into the metarTextBox.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void metarBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            //Set pulled METAR in the METAR text box.
             metarTextBox.Text = metar;
 
+            //Re-enable the get METAR button.
             getMetarButton.Enabled = true;
         }
 
         /// <summary>
-        /// Split metar on split word.
+        /// Split METAR on split word.
         /// </summary>
         /// <param name="metar">METAR to split.</param>
         /// <param name="splitWord">Word to split on. (BECMG, TEMPO)</param>
@@ -139,65 +157,82 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when process metar button is clicked. Initiates a MetarProcessor which will process the metar inputted into easy accessible fields.
+        /// Method called when process METAR button is clicked. Initiates a MetarProcessor which will process the METAR inputted into easy accessible fields.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void processMetarButton_Click(object sender, EventArgs e)
         {
+            //Check if a METAR has been entered.
             if (metarTextBox.Text.Trim().Equals(String.Empty))
             {
                 MessageBox.Show("No METAR fetched or entered.", "Error"); return;
             }
+            //Check if entered METAR ICAO matches the selected ICAO tab.
             else if (!metarTextBox.Text.Trim().StartsWith((ICAOTabControl.SelectedTab.Name)))
             {
-                MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Error"); return;
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Warning"); return;
             }
+            //Get METAR from METAR text box.
             else metar = metarTextBox.Text.Trim();
 
             #region BECMG AND TEMPO
+            //If METAR contains both BECMG and TEMPO trends.
             if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
             {
+                //If BECMG is the first trend.
                 if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
-
+                //If TEMPO is the first trend.
                 else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
             }
             #endregion
 
             #region MILITARY CODES
+            //If METAR contains military visibility code.
             else if (metar.Contains("BLU") || metar.Contains("WHT") || metar.Contains("GRN") || metar.Contains("YLO") || metar.Contains("AMB") || metar.Contains("RED") || metar.Contains("BLACK"))
             {
+                //Military visibility codes.
                 String[] militaryColors = new String[] { "BLU", "WHT", "GRN", "YLO", "AMB", "RED", "BLACK" };
 
+                //If METAR contains BECMG or TEMPO.
                 if (metar.Contains("BECMG") || metar.Contains("TEMPO"))
                 {
+                    //If METAR contains BECMG.
                     if (metar.Contains("BECMG"))
                     {
+                        //Check which military visibility code the METAR contains.
                         foreach (String militaryColor in militaryColors)
                         {
                             if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
                         }
                     }
+                    //If METAR contains TEMPO.
                     else
                     {
+                        //Check which military visibility code the METAR contains.
                         foreach (String militaryColor in militaryColors)
                         {
                             if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[0].Trim());
                         }
                     }
                 }
+                //If METAR only contains military visibility code.
                 else
                 {
+                    //Check which military visibility code the METAR contains.
                     foreach (String militaryColor in militaryColors)
                     {
                         if (metar.Contains(militaryColor))
                         {
+                            //If METAR contains a unknown trend type.
                             if (splitMetar(metar, militaryColor)[1].Trim().Count() > 0)
                             {
                                 TrendSelection trendSelection = new TrendSelection();
                                 
+                                //Prompt the user to selected the type of the trend of the METAR.
                                 if (trendSelection.ShowDialog(this) == DialogResult.OK) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, militaryColor)[1].Trim(), (MetarType) Enum.Parse(typeof(MetarType), trendSelection.trendComboBox.SelectedItem.ToString()));
                                
+                                //If the user didn't select a trend type.
                                 else
                                 {
                                     MessageBox.Show("No trend type selected, METAR cannot be processed!", "Error"); return;
@@ -206,6 +241,7 @@ namespace DutchVACCATISGenerator
                                 trendSelection.Dispose();
                             }
 
+                            //If METAR doesn't contain an unknown trend.
                             else metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim());
                         }
                     }
@@ -214,15 +250,19 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region BECMG ONLY
+            //If METAR only contains BECMG.
             else if (metar.Contains("BECMG")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim(), MetarType.BECMG);
             #endregion
 
             #region TEMPO ONLY
+            //If METAR only contains TEMPO.
             else if (metar.Contains("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), MetarType.TEMPO);
             #endregion
 
+            //Process non trend containing METAR.
             else metarProcessor = new MetarProcessor(metar);
 
+            //Calculate the transition level.
             try
             {
                 tlOutLabel.Text = calculateTransitionLevel().ToString();
@@ -232,23 +272,30 @@ namespace DutchVACCATISGenerator
                 MessageBox.Show("Error parsing the METAR, check if METAR is in correct format.", "Error"); return;
             }
             
+            //Clear output and METAR text box.
             outputTextBox.Clear();
             metarTextBox.Clear();
 
+            //Set processed METAR in last processed METAR label.
             if(metar.Length > 140) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 690).Trim() + "...";
             else if (metar.Length > 69) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
             else lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
+            //Add 1 to ATIS index (next letter).
             if (atisIndex == 25) atisIndex = 0;
             else atisIndex++;
 
+            //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
 
+            //Enable generate ATIS and runway info button.
             generateATISButton.Enabled = true;
             runwayInfoButton.Enabled = true;
 
+            //Check if a runway info has been created before.
             if (runwayInfo != null && runwayInfo.Visible)
             {
+                //Update runway info form.
                 runwayInfo.metar = metarProcessor.metar;
                 runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
                 runwayInfo.checkICAOTabSelected();
@@ -265,6 +312,7 @@ namespace DutchVACCATISGenerator
             if (atisIndex == 0) atisIndex = 25;
             else atisIndex--;
 
+            //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
         }
 
@@ -278,6 +326,7 @@ namespace DutchVACCATISGenerator
             if (atisIndex == 25) atisIndex = 0;
             else atisIndex++;
 
+            //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
         }
 
@@ -372,7 +421,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Parse runway identifier letter to ATIS output text.
         /// </summary>
-        /// <param name="input">Runway identifier letter (L, C, R)</param>
+        /// <param name="input">Runway identifier letter (L, C, R).</param>
         /// <returns>Runway identifier AITS output</returns>
         private String getRunwayMarker(String input)
         {
@@ -388,21 +437,22 @@ namespace DutchVACCATISGenerator
                     return "[right]";
             }
 
-            return "";
+            return String.Empty;
         }
 
         /// <summary>
         /// Calculate transition level from QNH and temperature.
         /// </summary>
-        /// <returns>Calculated TL</returns>
+        /// <returns>Calculated TL.</returns>
         private int calculateTransitionLevel()
         {
-            int temp = 0;
+            int temp;
 
+            //If METAR contains M (negative value), multiply by -1 to make an negative integer.
             if (metarProcessor.metar.Temperature.StartsWith("M")) temp = Convert.ToInt32(metarProcessor.metar.Temperature.Substring(1)) * -1;
-
             else temp = Convert.ToInt32(metarProcessor.metar.Temperature);
 
+            //Calculate TL level. TL = 307.8-0.13986*T-0.26224*Q (thanks to Stefan Blauw for this formula).
             return (int)Math.Ceiling((307.8 - (0.13986 * temp) - (0.26224 * metarProcessor.metar.QNH)) / 5) * 5;
         }
 
@@ -416,9 +466,12 @@ namespace DutchVACCATISGenerator
         {
             String output = runway;
 
+            //If selected runway contains runway identifier letter.
             if (runwayComboBox.SelectedItem.ToString().Length > 2)
             {
+                //Add runway identifier numbers to output.
                 output += runwayComboBox.SelectedItem.ToString().Substring(0, 2);
+                //Add runway identifier letter to output.
                 return output += getRunwayMarker(runwayComboBox.SelectedItem.ToString().Substring(2));
             }
             else return output += runwayComboBox.SelectedItem.ToString();
@@ -433,13 +486,14 @@ namespace DutchVACCATISGenerator
             String output = "[opr]";
 
             #region LOW LEVEL VISBILITY
+            //If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
             if (metarProcessor.metar.Visibility != 0 && metarProcessor.metar.Visibility < 1500) output += "[lvp]";
             #endregion
 
             #region RWY CONFIGURATIONS
-            if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independend]";
+            if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independend]";
+            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
 
             else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
@@ -463,9 +517,9 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region CHECK FOR ADDING [AND]
-            if (output.Contains("[lvp]") && (output.Contains("[independend]") || output.Contains("[convapp]")))
+            if (output.Contains("[lvp]") && (output.Contains("[independent]") || output.Contains("[convapp]")))
             {
-                if(output.Contains("[independend]")) output = output.Insert(output.IndexOf("[ind"), "[and]");
+                if (output.Contains("[independent]")) output = output.Insert(output.IndexOf("[ind"), "[and]");
                 
                 else output = output.Insert(output.IndexOf("[con"), "[and]");
             }
@@ -526,12 +580,15 @@ namespace DutchVACCATISGenerator
             String output = String.Empty;
 
             #region MetarPhenomena
+            //If list is a MetarPhenomena list.
             if (input is List<MetarPhenomena>)
             {
                 foreach (MetarPhenomena metarPhenomena in input as List<MetarPhenomena>)
                 {
-                    if (metarPhenomena.hasIntensity)  output += "[-]";
+                    //If phenomena has intensity.
+                    if (metarPhenomena.hasIntensity) output += "[-]";
 
+                    //If phenomena is 4 character phenomena (BCFG | MIFG | SHRA | VCSH | VCTS).
                     if (metarPhenomena.phenomena.Equals("BCFG") || metarPhenomena.phenomena.Equals("MIFG") || metarPhenomena.phenomena.Equals("SHRA") || metarPhenomena.phenomena.Equals("VCSH") || metarPhenomena.phenomena.Equals("VCTS"))
                     {
                         switch (metarPhenomena.phenomena)
@@ -557,6 +614,7 @@ namespace DutchVACCATISGenerator
                                 break;
                         }
                     }
+                    //If phenomena is multi-phenomena (count > 2).
                     else if(metarPhenomena.phenomena.Count() > 2)
                     {
                         int length = metarPhenomena.phenomena.Length;
@@ -575,38 +633,45 @@ namespace DutchVACCATISGenerator
                             }
                         }
                     }
+                    //If phenomena is 2 char phenomena.
                     else output += "[" + metarPhenomena.phenomena.ToLower() + "]";
 
+                    //If loop phenomena is not the last phenomena of the list, add [and].
                     if (metarPhenomena != (MetarPhenomena)Convert.ChangeType(input.Last(), typeof(MetarPhenomena))) output += "[and]";
                 }
-
-          
             }
             #endregion
 
             #region MetarCloud
+            //If list is a MetarCloud list.
             else if (input is List<MetarCloud>)
             {
                 foreach (MetarCloud metarCloud in input as List<MetarCloud>)
                 {
+                    //Add cloud type identifier.
                     output += "[" + metarCloud.cloudType.ToLower() + "]";
 
+                    //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
                     if (metarCloud.altitude % 100 == 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0" + "[thousand]";
 
                     else
                     {
-
+                        //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
                         if (metarCloud.altitude / 100 > 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
 
+                        //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
                         if ((metarCloud.altitude / 10) % 10 > 0) output += Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + "[thousand]";
 
+                        //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
                         if (metarCloud.altitude % 10 > 0) output += metarCloud.altitude % 10 + "[hundred]";
 
+                        //If cloud altitude equals ground level.
                         if (metarCloud.altitude == 0) output += metarCloud.altitude;
                     }
 
                     output += "[ft]";
 
+                    //If cloud type has addition (e.g. CB, TCU).
                     if (metarCloud.addition != null) output += "[" + metarCloud.addition.ToLower() + "]";
                 }
             }
@@ -624,10 +689,15 @@ namespace DutchVACCATISGenerator
         {
             String output = "[vis]";
 
+            //If visibility is lower than 800 meters (less than 800 meters phrase).
             if (input < 800) output += "[<]8[hundred][meters]";
+            //If visibility is lower than 1000 meters (add hundred).
             else if (input < 1000) output += Convert.ToString(input / 100) + "[hundred][meters]";
+            //If visibility is lower than 5000 meters and visibility is not a thousand number.
             else if (input < 5000 && (input % 1000) != 0) output += Convert.ToString(input / 1000) + "[thousand]" + ((input % 1000) / 100).ToString() + "[hundred][meters]";
+            //If visibility is >= 9999 (10 km phrase).
             else if (input >= 9999) output += "10[km]";
+            //If visibility is thousand.
             else output += Convert.ToString(input / 1000) + "[km]";
 
             return output;
@@ -642,8 +712,11 @@ namespace DutchVACCATISGenerator
         {
             String output = String.Empty;
 
+            //If MetarWind has a calm wind.
             if (input.VRB) output += "[vrb]" + input.windKnots + "[kt]";
+            //If MetarWind has a gusting wind.
             else if (input.windGustMin != null) output += input.windHeading + "[deg]" + input.windGustMin + "[max]" + input.windGustMax + "[kt]";
+            //If MetarWind has a normal wind.
             else output += input.windHeading + "[deg]" + input.windKnots + "[kt]";
 
             /*Variable wind*/
@@ -664,22 +737,22 @@ namespace DutchVACCATISGenerator
                 case "EHAM":
                     if (!EHAMmainLandingRunwayCheckBox.Checked || EHAMmainLandingRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main landing runway selected.", "Error"); return false;
+                        MessageBox.Show("No main landing runway selected.", "Warning"); return false;
                     }
 
                     if (!EHAMmainDepartureRunwayCheckBox.Checked || EHAMmainDepartureRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main departure runway selected.", "Error"); return false;
+                        MessageBox.Show("No main departure runway selected.", "Warning"); return false;
                     }
 
                     if (EHAMsecondaryLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Error"); return false;
+                        MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Warning"); return false;
                     }
 
                     if (EHAMsecondaryDepartureRunwayCheckBox.Checked && EHAMsecondaryDepartureRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Error"); return false;
+                        MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Warning"); return false;
                     }
 
                     return true;
@@ -689,8 +762,9 @@ namespace DutchVACCATISGenerator
                 case "EHBK":
                     if (!EHBKmainRunwayCheckBox.Checked || EHBKmainRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                        MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
+
                     return true;
                 #endregion
 
@@ -698,8 +772,9 @@ namespace DutchVACCATISGenerator
                 case "EHEH":
                     if (!EHEHmainRunwayCheckBox.Checked || EHEHmainRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                        MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
+
                     return true;
                 #endregion
 
@@ -707,8 +782,9 @@ namespace DutchVACCATISGenerator
                 case "EHGG":
                     if (!EHGGmainRunwayCheckBox.Checked || EHGGmainRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                        MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
+
                     return true;
                 #endregion
 
@@ -716,8 +792,9 @@ namespace DutchVACCATISGenerator
                 case "EHRD":
                     if (!EHRDmainRunwayCheckBox.Checked || EHRDmainRunwayComboBox.SelectedIndex == -1)
                     {
-                        MessageBox.Show("No main runway selected.", "Error"); return false;
+                        MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
+
                     return true;
                 #endregion
             }
@@ -794,7 +871,7 @@ namespace DutchVACCATISGenerator
         {
             if (!metarProcessor.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
             {
-                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Error"); return;
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Warning"); return;
             }
 
             if (!checkRunwaySelected()) return;
@@ -1097,6 +1174,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void runwayInfoButton_Click(object sender, EventArgs e)
         {
+            //If sound form doesn't exists OR isn't visible.
             if (runwayInfo == null || !runwayInfo.Visible)
             {
                 runwayInfo = new RunwayInfo(this, metarProcessor.metar);
@@ -1118,15 +1196,21 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void DutchVACCATISGenerator_Resize(object sender, EventArgs e)
         {
+            //If form is restored to normal window state.
             if (WindowState == FormWindowState.Normal)
             {
+                //Show runwayInfo form.
                 if (runwayInfo != null) runwayInfo.Visible = true;
+                //Show sound form.
                 if (sound != null) sound.Visible = true;
             }
 
+            //If form is minimized.
             if (WindowState == FormWindowState.Minimized)
             {
+                //Hide runwayInfo form.
                 if (runwayInfo != null) runwayInfo.Visible = false;
+                //Hide sound form.
                 if (sound != null) sound.Visible = false;
             }
         }
@@ -1138,8 +1222,10 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void soundButton_Click(object sender, EventArgs e)
         {
+            //If sound form doesn't exists OR isn't visible.
             if (sound == null || !sound.Visible)
             {
+                //Create new Sound form.
                 sound = new Sound(this);
                 soundButton.Text = "▲";
                 sound.Show();
@@ -1148,8 +1234,11 @@ namespace DutchVACCATISGenerator
             else
             {
                 soundButton.Text = "▼";
+                
+                //Hide the sound form.
                 sound.Visible = false;
 
+                //Stop the wavePlayer.
                 if (sound.wavePlayer != null) sound.wavePlayer.Stop();
             }
         }
@@ -1161,11 +1250,15 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void outputTextBox_TextChanged(object sender, EventArgs e)
         {
+            //If sound form exists.
             if(sound != null)
             {
+                //If wavePlayer is NULL OR wavePlayer is not playing.
                 if (sound.wavePlayer == null || !sound.wavePlayer.PlaybackState.Equals(NAudio.Wave.PlaybackState.Playing))
                 {
+                    //If output text box text is not an empty string, enable build ATIS button.
                     if (!outputTextBox.Text.Trim().Equals(String.Empty)) sound.buildATISButton.Enabled = true;
+                    //Else disable the build ATIS button (nothing to build!).
                     else sound.buildATISButton.Enabled = false;
                 }
             }

@@ -31,7 +31,7 @@ namespace DutchVACCATISGenerator
             //Enable the build ATIS button if the ATIS has already been build.
             if (dutchVACCATISGenerator.outputTextBox.Text.Trim().Equals(String.Empty)) buildATISButton.Enabled = false;
 
-            //Get and set the property of the path to the atis folder if it has been saved before.
+            //Get and set the property of the path to the ATIS folder if it has been saved before.
             if (!Properties.Settings.Default.atisehamPath.Equals(String.Empty)) atisehamFileTextBox.Text = Properties.Settings.Default.atisehamPath;
             //Else sets the path to the user document folder + \EuroScope\atis\atiseham.txt.
             else atisehamFileTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\EuroScope\atis\atiseham.txt";
@@ -70,7 +70,7 @@ namespace DutchVACCATISGenerator
             {
                 atisehamFileTextBox.Text = openFileDialog.FileName;
 
-                //Save selected path to propertie files.
+                //Save selected path to properties files.
                 Properties.Settings.Default.atisehamPath = atisehamFileTextBox.Text;
                 Properties.Settings.Default.Save();
             }
@@ -89,7 +89,7 @@ namespace DutchVACCATISGenerator
                 //If path to atiseham.txt is not set.
                 if (atisehamFileTextBox.Text.Trim().Equals(String.Empty))
                 {
-                    MessageBox.Show("No path to atiseham.txt provided.", "Error");
+                    MessageBox.Show("No path to atiseham.txt provided.", "Warning");
 
                     //Open file dialog for user to set the path to atiseham.txt.
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -113,7 +113,7 @@ namespace DutchVACCATISGenerator
                 }
                 catch (FileNotFoundException ex)
                 {
-                    MessageBox.Show(String.Format("Unable to play ATIS. Check if the atiseham.txt file is in the same folder as the ATIS sounds (atis.wav, ect).\n\nError: {0}", ex.Message), "Error"); return;
+                    MessageBox.Show(String.Format("Unable to play ATIS. Check if the atiseham.txt file is in the same folder as the ATIS sounds (atis.wav, etc.).\n\nError: {0}", ex.Message), "Error"); return;
                 }
                 
                 //Initialize wavePlayer.
@@ -128,7 +128,7 @@ namespace DutchVACCATISGenerator
                 wavePlayer.Play();
             }
 
-            //If atis is playing, stop playing.
+            //If ATIS is playing, stop playing.
             else wavePlayer.Stop();
         }
 
@@ -194,10 +194,10 @@ namespace DutchVACCATISGenerator
                     return;
                 }
 
-                //Split readed atiseham.txt file on end of line.
+                //Split read atiseham.txt file on end of line.
                 string[] fileLines = line.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-                //Initialize new List of Strings with the splitted array.
+                //Initialize new List of Strings with the split array.
                 List<String> linesWithItem = new List<String>(fileLines);
 
                 //Remove any empty entries at the end of the linesWithItem list.
@@ -233,7 +233,7 @@ namespace DutchVACCATISGenerator
                         //If s is digits only.
                         if (s.All(Char.IsDigit))
                         {
-                            //Split s up in seperate digits.
+                            //Split s up in separate digits.
                             String[] splitArray = Regex.Split(s, @"(?=[0-9])");
 
                             //Add each digit to textToPlay list.
@@ -267,13 +267,13 @@ namespace DutchVACCATISGenerator
 
             WaveFileWriter waveFileWriter = null;
 
-            //If file is in use by another procress.
+            //If file is in use by another process.
             if (IsFileLocked(new FileInfo(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav")))
             {
                 MessageBox.Show("Cannot generate new atis.wav file. File does not exists or is in use by another process.", "Error"); return;
             }
 
-            //Try to genrate and build atis.wav.
+            //Try to generate and build atis.wav.
             try
             {
                 int i = 0;

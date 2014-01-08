@@ -32,6 +32,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void dutchVACCLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            //Open default browser and open www.dutchvacc.nl URL.
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
     }
