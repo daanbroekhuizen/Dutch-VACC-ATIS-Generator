@@ -734,24 +734,33 @@ namespace DutchVACCATISGenerator
             switch (ICAOTabControl.SelectedTab.Name)
             {
                 #region EHAM
+                //If selected ICAO tab is EHAM.
                 case "EHAM":
+                    //If EHAM main landing runway check box is checked OR the EHAM main landing runway combo box selection is NULL.
                     if (!EHAMmainLandingRunwayCheckBox.Checked || EHAMmainLandingRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main landing runway selected.", "Warning"); return false;
                     }
 
+                    //If EHAM main departure runway check box is checked OR the EHAM main departure runway combo box selection is NULL.
                     if (!EHAMmainDepartureRunwayCheckBox.Checked || EHAMmainDepartureRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main departure runway selected.", "Warning"); return false;
                     }
 
+                    //If EHAM secondary landing runway check box is checked OR the EHAM secondary landing runway combo box selection is NULL.
                     if (EHAMsecondaryLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Warning"); return false;
                     }
 
+                    //If EHAM secondary departure runway check box is checked OR the EHAM secondary departure runway combo box selection is NULL.
                     if (EHAMsecondaryDepartureRunwayCheckBox.Checked && EHAMsecondaryDepartureRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("Secondary departure runway is checked but no runway is selected.", "Warning"); return false;
                     }
 
@@ -759,9 +768,12 @@ namespace DutchVACCATISGenerator
                 #endregion
 
                 #region EHBK
+                //If selected ICAO tab is EHBK.
                 case "EHBK":
+                    //If EHBK main runway check box is checked OR the EHBK main runway combo box selection is NULL.
                     if (!EHBKmainRunwayCheckBox.Checked || EHBKmainRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
 
@@ -769,9 +781,12 @@ namespace DutchVACCATISGenerator
                 #endregion
 
                 #region EHEH
+                //If selected ICAO tab is EHEH.
                 case "EHEH":
+                    //If EHEH main runway check box is checked OR the EHBK main runway combo box selection is NULL.
                     if (!EHEHmainRunwayCheckBox.Checked || EHEHmainRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
 
@@ -779,9 +794,12 @@ namespace DutchVACCATISGenerator
                 #endregion
 
                 #region EHGG
+                //If selected ICAO tab is EHGG.
                 case "EHGG":
+                    //If EHGG main runway check box is checked OR the EHBK main runway combo box selection is NULL.
                     if (!EHGGmainRunwayCheckBox.Checked || EHGGmainRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
 
@@ -789,9 +807,12 @@ namespace DutchVACCATISGenerator
                 #endregion
 
                 #region EHRD
+                //If selected ICAO tab is EHRD.
                 case "EHRD":
+                    //If EHRD main runway check box is checked OR the EHBK main runway combo box selection is NULL.
                     if (!EHRDmainRunwayCheckBox.Checked || EHRDmainRunwayComboBox.SelectedIndex == -1)
                     {
+                        //Show warning message.
                         MessageBox.Show("No main runway selected.", "Warning"); return false;
                     }
 
@@ -813,47 +834,61 @@ namespace DutchVACCATISGenerator
             switch (ICAOTabControl.SelectedTab.Name)
             {
                 #region EHAM
+                //If selected ICAO tab is EHAM.
                 case "EHAM":
                     #region EHAM MAIN LANDING RUNWAY
+                    //If the EHAM main landing runway check box is checked AND the EHAM main landing runway combo box value doesn't equal the EHAM main departure runway combo box value, generate runway output with value from EHAM main landing runway combo box.
                     if (EHAMmainLandingRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mlrwy]", EHAMmainLandingRunwayComboBox);
 
+                    //Else generate runway output with the value from the EHAM main landing runway combo box.
                     else output += runwayToOutput("[mrwy]", EHAMmainLandingRunwayComboBox);
                     #endregion
 
                     #region EHAM SECONDARY LANDING RUNWAY
+                    //If the EHAM secondary landing runway check box is checked, generate runway output with the value from the EHAM secondary landing runway combo box.
                     if (EHAMsecondaryLandingRunwayCheckBox.Checked) output += runwayToOutput("[slrwy]", EHAMsecondaryLandingRunwayComboBox);
                     #endregion
 
                     #region EHAM MAIN DEPARTURE RUNWAY
+                    //If the EHAM main departure runway check box is checked, generate runway output with the value from the EHAM main departure runway combo box.
                     if (EHAMmainDepartureRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text)) output += runwayToOutput("[mtrwy]", EHAMmainDepartureRunwayComboBox);
                     #endregion
 
                     #region EHAM SECONDARY DEPARTURE RUNWAY
+                    //If the EHAM secondary departure runway check box is checked, generate runway output with the value from the EHAM secondary departure runway combo box.
                     if (EHAMsecondaryDepartureRunwayCheckBox.Checked) output += runwayToOutput("[strwy]", EHAMsecondaryDepartureRunwayComboBox);
                     #endregion
                     break;
                 #endregion
 
                 #region EHBK
+                //If selected ICAO tab is EHBK.
                 case "EHBK":
+                    //If EHBK main runway check box is checked, generate runway output with value from EHBK main runway combo box.
                     if (EHBKmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHBKmainRunwayComboBox);
                     break;
                 #endregion
 
                 #region EHEH
+                //If selected ICAO tab is EHEH.
                 case "EHEH":
+                    //If EHEH main runway check box is checked, generate runway output with value from EHEH main runway combo box.
                     if (EHEHmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHEHmainRunwayComboBox);
                     break;
                 #endregion
 
                 #region EHGG
+                //If selected ICAO tab is EHGG.
                 case "EHGG":
+                    //If EHGG main runway check box is checked, generate runway output with value from EHGG main runway combo box.
                     if (EHGGmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHGGmainRunwayComboBox);
                     break;
                 #endregion
 
                 #region EHRD
+                //If selected ICAO tab is EHRD.
                 case "EHRD":
+                    //If EHRD main runway check box is checked, generate runway output with value from EHRD main runway combo box.
                     if (EHRDmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHRDmainRunwayComboBox);
                     break;
                 #endregion
@@ -869,34 +904,43 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void generateATISButton_Click(object sender, EventArgs e)
         {
+            //If the ICAO code of the processed METAR doesn't equals the ICAO of the selected ICAO tab.
             if (!metarProcessor.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
             {
+                //Show warning message.
                 MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Warning"); return;
             }
 
+            //Check runways selected.
             if (!checkRunwaySelected()) return;
             
             String output = String.Empty;
 
             #region ICAO
+            //Generate output from processed METAR ICAO.
             switch (metarProcessor.metar.ICAO)
             {
+                //If processed ICAO is EHAM.
                 case "EHAM":
                     output += "[ehamatis]";
                     break;
 
+                //If processed ICAO is EHBK.
                 case "EHBK":
                     output += "[ehbkatis]";
                     break;
 
+                //If processed ICAO is EHEH.
                 case "EHEH":
                     output += "[ehehatis]";
                     break;
 
+                //If processed ICAO is EHGG.
                 case "EHGG":
                     output += "[ehggatis]";
                     break;
 
+                //If processed ICAO is EHRD.
                 case "EHRD":
                     output += "[ehrdatis]";
                     break;
@@ -904,172 +948,223 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region ATIS LETTER
+            //Add ATIS letter to output
             output += phoneticAlphabet[atisIndex];
             output += "[pause]";
             #endregion
 
             #region RUNWAYS
+            //Add runway output to output.
             output += generateRunwayOutput();
             #endregion
 
             #region TL
+            //Add transition level to output.
             output += "[trl]";
+            //Calculate and add transition level to output.
             output += calculateTransitionLevel();
             #endregion
 
             #region OPERATIONAL REPORTS
+            //Generate and add operational report to output.
             output += operationalReportToOutput();
             #endregion
 
             output += "[pause]";
 
             #region WIND
+            //If processed METAR has wind, generate and add wind output to output. 
             if (metarProcessor.metar.Wind != null) output += windToOutput(metarProcessor.metar.Wind);
             #endregion
 
             #region CAVOK
+            //If processed METAR has CAVOK, add CAVOK to output.
             if (metarProcessor.metar.CAVOK) output += "[cavok]";
             #endregion
 
             #region VISIBILITY
+            //If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
             if (metarProcessor.metar.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.Visibility);
             #endregion
 
             #region RVRONATC
+            //If processed METAR has RVR, add RVR to output. 
             if (metarProcessor.metar.RVR) output += "[rvronatc]";
             #endregion
 
             #region PHENOMENA
+            //Generate and add weather phenomena to output.
             output += listToOutput(metarProcessor.metar.Phenomena);
             #endregion
 
             #region CLOUDS OPTIONS
+            //If processed METAR has SKC, add SKC to output. 
             if (metarProcessor.metar.SKC) output += "[skc]";
+            //If processed METAR has NSC, add NSC to output. 
             if (metarProcessor.metar.NSC) output += "[nsc]";
             #endregion
 
             #region CLOUDS
+            //Generate and add weather clouds to output. 
             output += listToOutput(metarProcessor.metar.Clouds);
             #endregion
 
             #region VERTICAL VISIBILITY
+            //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
             if (metarProcessor.metar.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.VerticalVisibility + "[hundred][meters]";
             #endregion
 
             #region TEMPERATURE
+            //Add temperature to output.
             output += "[temp]";
+            //If processed METAR has a minus temperature.
             if (metarProcessor.metar.Temperature.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Temperature.ToString().Substring(1, 2));
+
+            //Positive temperature.
             else output += Convert.ToInt32(metarProcessor.metar.Temperature.ToString());
             #endregion
 
             #region DEWPOINT
+            //Add dewpoint to output.
             output += "[dp]";
+            //If processed METAR has a minus dewpoint.
             if (metarProcessor.metar.Dewpoint.StartsWith("M")) output += "[minus]" + Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString().Substring(1, 2));
+            
+            //Positive dewpoint.
             else output += Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString());
             #endregion
 
             #region QNH
+            //Add QNH to output.
             output += "[qnh]";
             output += metarProcessor.metar.QNH.ToString();
             output += "[hpa]";
             #endregion
 
             #region NOSIG
+            //If processed METAR has NOSIG, add NOSIG to output.
             if (metarProcessor.metar.NOSIG) output += "[nosig]";
             #endregion
 
             #region TEMPO
+            //If processed METAR has a TEMPO trend.
             if (metarProcessor.metar.metarTEMPO != null)
             {
+                //Add TEMPO to output.
                 output += "[tempo]";
 
                 #region TEMPO WIND
+                //If processed TEMPO trend has wind, generate and add wind output to output. 
                 if (metarProcessor.metar.metarTEMPO.Wind != null) output += windToOutput(metarProcessor.metar.metarTEMPO.Wind);
                 #endregion
 
                 #region TEMPO CAVOK
+                //If processed TEMPO trend has CAVOK, add CAVOK to output.
                 if (metarProcessor.metar.metarTEMPO.CAVOK) output += "[cavok]";
                 #endregion
 
                 #region TEMPO VISIBILITY
+                //If processed TEMPO trend has a visibility greater than 0, generate and add visibility output to output. 
                 if (metarProcessor.metar.metarTEMPO.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.metarTEMPO.Visibility);
                 #endregion
 
                 #region TEMPO PHENOMENA
+                //If TEMPO trend has 1 or more weather phenomena, generate and add TEMPO trend weather phenomena to output.
                 if (metarProcessor.metar.metarTEMPO.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Phenomena);
                 #endregion
 
                 #region TEMPO SKC
+                //If TEMPO trend has SKC, add SKC to output. 
                 if (metarProcessor.metar.metarTEMPO.SKC) output += "[skc]";
                 #endregion
 
                 #region TEMPO NSW
+                //If TEMPO trend has NSW, add NSW to output. 
                 if (metarProcessor.metar.metarTEMPO.NSW) output += "[nsw]";
                 #endregion
 
                 #region TEMPO CLOUDS
+                //If TEMPO trend has 1 or more weather clouds, generate and add TEMPO weather clouds to output. 
                 if (metarProcessor.metar.metarTEMPO.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarTEMPO.Clouds);
                 #endregion
 
                 #region TEMPO VERTICAL VISIBILITY
+                //If TEMPO trend has a vertical visibility greater than 0, add TEMPO trend vertical visibility to output.
                 if (metarProcessor.metar.metarTEMPO.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.metarTEMPO.VerticalVisibility + "[hundred][meters]";
                 #endregion
             }
             #endregion
 
             #region BECMG
+            //If processed METAR has e BECMG trend.
             if (metarProcessor.metar.metarBECMG != null)
             {
+                //Add BECMG to output.
                 output += "[becmg]";
 
                 #region BECMG WIND
+                //If processed BECMG trend has wind, generate and add wind output to output.
                 if (metarProcessor.metar.metarBECMG.Wind != null) output += windToOutput(metarProcessor.metar.metarBECMG.Wind);
                 #endregion
 
-                #region TEMPO CAVOK
+                #region BECMG CAVOK
+                //If processed BECMG trend has CAVOK, add CAVOK to output.
                 if (metarProcessor.metar.metarBECMG.CAVOK) output += "[cavok]";
                 #endregion
 
                 #region BECMG VISIBILITY
+                //If processed BECMG trend has a visibility greater than 0, generate and add visibility output to output. 
                 if (metarProcessor.metar.metarBECMG.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.metarBECMG.Visibility);
                 #endregion
 
                 #region BECMG PHENOMENA
+                //If BECMG trend has 1 or more weather phenomena, generate and add BECMG trend weather phenomena to output.
                 if (metarProcessor.metar.metarBECMG.Phenomena.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Phenomena);
                 #endregion
 
                 #region BECMG SKC
+                //If BECMG trend has SKC, add SKC to output. 
                 if (metarProcessor.metar.metarBECMG.SKC) output += "[skc]";
                 #endregion
 
                 #region BECMG NSW
+                //If BECMG trend has NSW, add NSW to output. 
                 if (metarProcessor.metar.metarBECMG.NSW) output += "[nsw]";
                 #endregion
 
                 #region BECMG CLOUDS
+                //If BECMG trend has 1 or more weather clouds, generate and add BECMG weather clouds to output. 
                 if (metarProcessor.metar.metarBECMG.Clouds.Count > 0) output += listToOutput(metarProcessor.metar.metarBECMG.Clouds);
                 #endregion
 
                 #region BECMG VERTICAL VISIBILITY
+                //If BECMG trend has a vertical visibility greater than 0, add BECMG trend vertical visibility to output.
                 if (metarProcessor.metar.metarBECMG.VerticalVisibility > 0) output += "[vv]" + metarProcessor.metar.metarBECMG.VerticalVisibility + "[hundred][meters]";
                 #endregion
             }
             #endregion
 
             #region OPTIONAL
+            //If inverted surface temperature check box is checked.
             if (markTempCheckBox.Checked) output += "[marktemp]";
+            //If arrival only check box is checked.
             if (arrOnlyCheckBox.Checked) output += "[call1]";
+            //If approach only check box is checked.
             if (appOnlyCheckBox.Checked) output += "[call2]";
+            //If arrival and approach only check box is checked.
             if (appArrOnlyCheckBox.Checked) output += "[call3]";
             #endregion
 
             #region END
+            //Add end to output.
             output += "[end]";
             output += phoneticAlphabet[atisIndex];
             #endregion
 
+            //If copy output check box is checked, copy ATIS output to clipboard.
             if (copyOutputCheckBox.Checked) Clipboard.SetText(output);
 
+            //Set generated ATIS output in output text box.
             outputTextBox.Text = output;
         }
 
@@ -1080,6 +1175,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Exit application.
             Application.Exit();
         }
 
@@ -1090,59 +1186,12 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Set ICAO of selected ICAO tab in ICAO text box.
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM")) icaoTextBox.Text = "EHAM";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK")) icaoTextBox.Text = "EHBK";
             else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
-            
-            //resetTabView();
-        }
-
-        /// <summary>
-        /// Resets the components of the ICAO tabs to their default states.
-        /// </summary>
-        private void resetTabView()
-        {
-            #region EHAM
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
-            {
-                EHAMmainLandingRunwayCheckBox.Checked = EHAMmainDepartureRunwayCheckBox.Checked = EHAMsecondaryLandingRunwayCheckBox.Checked = EHAMsecondaryDepartureRunwayCheckBox.Checked = false;
-                EHAMmainLandingRunwayComboBox.SelectedIndex = EHAMmainDepartureRunwayComboBox.SelectedIndex = EHAMsecondaryLandingRunwayComboBox.SelectedIndex = EHAMsecondaryDepartureRunwayComboBox.SelectedIndex = -1;
-            }
-            #endregion
-
-            #region EHBK
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
-            {
-                EHBKmainRunwayCheckBox.Checked = false;
-                EHBKmainRunwayComboBox.SelectedIndex = -1;
-            }
-            #endregion
-
-            #region EHEH
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
-            {
-                EHEHmainRunwayCheckBox.Checked = false;
-                EHEHmainRunwayComboBox.SelectedIndex = -1;
-            }
-            #endregion
-
-            #region EHGG
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
-            {
-                EHGGmainRunwayCheckBox.Checked = false;
-                EHGGmainRunwayComboBox.SelectedIndex = -1;
-            }
-            #endregion
-
-            #region EHRD
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHRD"))
-            {
-                EHRDmainRunwayCheckBox.Checked = false;
-                EHRDmainRunwayComboBox.SelectedIndex = -1;
-            }
-            #endregion
         }
 
         /// <summary>
@@ -1152,7 +1201,10 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Initialize new About form.
             Form aboutForm = new About();
+
+            //Show about form.
             aboutForm.ShowDialog();
         }
 
@@ -1163,7 +1215,10 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void metarTextBox_TextChanged(object sender, EventArgs e)
         {
+            //If METAR text box contains text, enable process METAR button.
             if (metarTextBox.Text.Trim().Equals(String.Empty)) processMetarButton.Enabled = false;
+
+            //If METAR text box doesn't contain text, disable process METAR button.
             else processMetarButton.Enabled = true;
         }
 
@@ -1174,17 +1229,25 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void runwayInfoButton_Click(object sender, EventArgs e)
         {
-            //If sound form doesn't exists OR isn't visible.
+            //If runway info form doesn't exists OR isn't visible.
             if (runwayInfo == null || !runwayInfo.Visible)
             {
+                //Initialize new RunwayInfo form.
                 runwayInfo = new RunwayInfo(this, metarProcessor.metar);
                 runwayInfoButton.Text = "<";
+
+                //Show runway info form.
                 runwayInfo.Show();
+
+                //Set runway info position relative to this.
                 runwayInfo.showRelativeToDutchVACCATISGenerator(this);
             }
+            //If runway info is opened.
             else
             {
                 runwayInfoButton.Text = ">";
+
+                //Hide runway info form.
                 runwayInfo.Visible = false;
             }
         }

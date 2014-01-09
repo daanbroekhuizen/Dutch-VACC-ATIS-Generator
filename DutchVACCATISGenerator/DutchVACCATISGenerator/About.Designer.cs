@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.contentGroupBox = new System.Windows.Forms.GroupBox();
+            this.applicationVersionLabel = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.dutchVACCLinkLabel = new System.Windows.Forms.LinkLabel();
             this.creditLabel2 = new System.Windows.Forms.Label();
             this.creditLabel1 = new System.Windows.Forms.Label();
@@ -39,6 +41,8 @@
             // 
             // contentGroupBox
             // 
+            this.contentGroupBox.Controls.Add(this.applicationVersionLabel);
+            this.contentGroupBox.Controls.Add(this.versionLabel);
             this.contentGroupBox.Controls.Add(this.dutchVACCLinkLabel);
             this.contentGroupBox.Controls.Add(this.creditLabel2);
             this.contentGroupBox.Controls.Add(this.creditLabel1);
@@ -46,14 +50,33 @@
             this.contentGroupBox.Controls.Add(this.titleLabel);
             this.contentGroupBox.Location = new System.Drawing.Point(12, 6);
             this.contentGroupBox.Name = "contentGroupBox";
-            this.contentGroupBox.Size = new System.Drawing.Size(207, 118);
+            this.contentGroupBox.Size = new System.Drawing.Size(207, 133);
             this.contentGroupBox.TabIndex = 0;
             this.contentGroupBox.TabStop = false;
+            // 
+            // applicationVersionLabel
+            // 
+            this.applicationVersionLabel.AutoSize = true;
+            this.applicationVersionLabel.Location = new System.Drawing.Point(93, 65);
+            this.applicationVersionLabel.Name = "applicationVersionLabel";
+            this.applicationVersionLabel.Size = new System.Drawing.Size(64, 13);
+            this.applicationVersionLabel.TabIndex = 6;
+            this.applicationVersionLabel.Text = "placeHolder";
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.Location = new System.Drawing.Point(44, 65);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(53, 13);
+            this.versionLabel.TabIndex = 5;
+            this.versionLabel.Text = "Version:";
             // 
             // dutchVACCLinkLabel
             // 
             this.dutchVACCLinkLabel.AutoSize = true;
-            this.dutchVACCLinkLabel.Location = new System.Drawing.Point(36, 96);
+            this.dutchVACCLinkLabel.Location = new System.Drawing.Point(36, 110);
             this.dutchVACCLinkLabel.Name = "dutchVACCLinkLabel";
             this.dutchVACCLinkLabel.Size = new System.Drawing.Size(132, 13);
             this.dutchVACCLinkLabel.TabIndex = 4;
@@ -64,7 +87,7 @@
             // creditLabel2
             // 
             this.creditLabel2.AutoSize = true;
-            this.creditLabel2.Location = new System.Drawing.Point(25, 83);
+            this.creditLabel2.Location = new System.Drawing.Point(25, 97);
             this.creditLabel2.Name = "creditLabel2";
             this.creditLabel2.Size = new System.Drawing.Size(156, 13);
             this.creditLabel2.TabIndex = 3;
@@ -73,7 +96,7 @@
             // creditLabel1
             // 
             this.creditLabel1.AutoSize = true;
-            this.creditLabel1.Location = new System.Drawing.Point(28, 70);
+            this.creditLabel1.Location = new System.Drawing.Point(28, 84);
             this.creditLabel1.Name = "creditLabel1";
             this.creditLabel1.Size = new System.Drawing.Size(149, 13);
             this.creditLabel1.TabIndex = 2;
@@ -104,7 +127,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(231, 136);
+            this.ClientSize = new System.Drawing.Size(231, 151);
             this.Controls.Add(this.contentGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -128,5 +151,7 @@
         private System.Windows.Forms.Label creditLabel2;
         private System.Windows.Forms.Label creditLabel1;
         private System.Windows.Forms.Label descriptionLabel;
+        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label applicationVersionLabel;
     }
 }
