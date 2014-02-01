@@ -245,6 +245,8 @@
             // EHAMmainLandingRunwayCheckBox
             // 
             this.EHAMmainLandingRunwayCheckBox.AutoSize = true;
+            this.EHAMmainLandingRunwayCheckBox.Checked = true;
+            this.EHAMmainLandingRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHAMmainLandingRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHAMmainLandingRunwayCheckBox.Name = "EHAMmainLandingRunwayCheckBox";
             this.EHAMmainLandingRunwayCheckBox.Size = new System.Drawing.Size(123, 17);
@@ -256,7 +258,6 @@
             // EHAMmainLandingRunwayComboBox
             // 
             this.EHAMmainLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHAMmainLandingRunwayComboBox.Enabled = false;
             this.EHAMmainLandingRunwayComboBox.FormattingEnabled = true;
             this.EHAMmainLandingRunwayComboBox.Items.AddRange(new object[] {
             "04",
@@ -287,6 +288,8 @@
             // EHAMmainDepartureRunwayCheckBox
             // 
             this.EHAMmainDepartureRunwayCheckBox.AutoSize = true;
+            this.EHAMmainDepartureRunwayCheckBox.Checked = true;
+            this.EHAMmainDepartureRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHAMmainDepartureRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHAMmainDepartureRunwayCheckBox.Name = "EHAMmainDepartureRunwayCheckBox";
             this.EHAMmainDepartureRunwayCheckBox.Size = new System.Drawing.Size(134, 17);
@@ -298,7 +301,6 @@
             // EHAMmainDepartureRunwayComboBox
             // 
             this.EHAMmainDepartureRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHAMmainDepartureRunwayComboBox.Enabled = false;
             this.EHAMmainDepartureRunwayComboBox.FormattingEnabled = true;
             this.EHAMmainDepartureRunwayComboBox.Items.AddRange(new object[] {
             "04",
@@ -469,6 +471,8 @@
             // copyOutputCheckBox
             // 
             this.copyOutputCheckBox.AutoSize = true;
+            this.copyOutputCheckBox.Checked = true;
+            this.copyOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.copyOutputCheckBox.Location = new System.Drawing.Point(6, 19);
             this.copyOutputCheckBox.Name = "copyOutputCheckBox";
             this.copyOutputCheckBox.Size = new System.Drawing.Size(141, 17);
@@ -563,6 +567,8 @@
             // EHBKmainRunwayCheckBox
             // 
             this.EHBKmainRunwayCheckBox.AutoSize = true;
+            this.EHBKmainRunwayCheckBox.Checked = true;
+            this.EHBKmainRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHBKmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHBKmainRunwayCheckBox.Name = "EHBKmainRunwayCheckBox";
             this.EHBKmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
@@ -574,7 +580,6 @@
             // EHBKmainRunwayComboBox
             // 
             this.EHBKmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHBKmainRunwayComboBox.Enabled = false;
             this.EHBKmainRunwayComboBox.FormattingEnabled = true;
             this.EHBKmainRunwayComboBox.Items.AddRange(new object[] {
             "03",
@@ -617,6 +622,8 @@
             // EHEHmainRunwayCheckBox
             // 
             this.EHEHmainRunwayCheckBox.AutoSize = true;
+            this.EHEHmainRunwayCheckBox.Checked = true;
+            this.EHEHmainRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHEHmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHEHmainRunwayCheckBox.Name = "EHEHmainRunwayCheckBox";
             this.EHEHmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
@@ -628,7 +635,6 @@
             // EHEHmainRunwayComboBox
             // 
             this.EHEHmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHEHmainRunwayComboBox.Enabled = false;
             this.EHEHmainRunwayComboBox.FormattingEnabled = true;
             this.EHEHmainRunwayComboBox.Items.AddRange(new object[] {
             "03",
@@ -671,6 +677,8 @@
             // EHGGmainRunwayCheckBox
             // 
             this.EHGGmainRunwayCheckBox.AutoSize = true;
+            this.EHGGmainRunwayCheckBox.Checked = true;
+            this.EHGGmainRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHGGmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHGGmainRunwayCheckBox.Name = "EHGGmainRunwayCheckBox";
             this.EHGGmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
@@ -682,7 +690,6 @@
             // EHGGmainRunwayComboBox
             // 
             this.EHGGmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHGGmainRunwayComboBox.Enabled = false;
             this.EHGGmainRunwayComboBox.FormattingEnabled = true;
             this.EHGGmainRunwayComboBox.Items.AddRange(new object[] {
             "01",
@@ -727,6 +734,8 @@
             // EHRDmainRunwayCheckBox
             // 
             this.EHRDmainRunwayCheckBox.AutoSize = true;
+            this.EHRDmainRunwayCheckBox.Checked = true;
+            this.EHRDmainRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EHRDmainRunwayCheckBox.Location = new System.Drawing.Point(6, 13);
             this.EHRDmainRunwayCheckBox.Name = "EHRDmainRunwayCheckBox";
             this.EHRDmainRunwayCheckBox.Size = new System.Drawing.Size(86, 17);
@@ -738,7 +747,6 @@
             // EHRDmainRunwayComboBox
             // 
             this.EHRDmainRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.EHRDmainRunwayComboBox.Enabled = false;
             this.EHRDmainRunwayComboBox.FormattingEnabled = true;
             this.EHRDmainRunwayComboBox.Items.AddRange(new object[] {
             "06",
@@ -823,6 +831,7 @@
             this.appArrOnlyCheckBox.TabIndex = 16;
             this.appArrOnlyCheckBox.Text = "APP + ARR callsign only";
             this.appArrOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.appArrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appArrOnlyCheckBox_CheckedChanged);
             // 
             // arrOnlyCheckBox
             // 
@@ -833,6 +842,7 @@
             this.arrOnlyCheckBox.TabIndex = 15;
             this.arrOnlyCheckBox.Text = "ARR callsign only";
             this.arrOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.arrOnlyCheckBox.CheckedChanged += new System.EventHandler(this.arrOnlyCheckBox_CheckedChanged);
             // 
             // appOnlyCheckBox
             // 
@@ -843,6 +853,7 @@
             this.appOnlyCheckBox.TabIndex = 14;
             this.appOnlyCheckBox.Text = "APP callsign only";
             this.appOnlyCheckBox.UseVisualStyleBackColor = true;
+            this.appOnlyCheckBox.CheckedChanged += new System.EventHandler(this.appOnlyCheckBox_CheckedChanged);
             // 
             // runwayInfoButton
             // 
