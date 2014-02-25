@@ -454,7 +454,12 @@ namespace DutchVACCATISGenerator
             DateTime nightStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 22, 00, 00);
             DateTime nightEnd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 6, 00, 00);
 
-            if (DateTime.UtcNow < nightStart && DateTime.UtcNow > nightEnd) return false;
+            //if (DateTime.UtcNow < nightStart && DateTime.UtcNow > nightEnd) return false;
+            //else return true;
+
+            DateTime dummy = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 3, 00, 00);
+
+            if (dummy < nightStart && dummy > nightEnd) return false;
             else return true;
         }
 
@@ -493,23 +498,37 @@ namespace DutchVACCATISGenerator
         /// <returns>Best runway identifier</returns>
         public String getBestRunway(DataGridView runwayInfoDataGridView, int prefColumn, int OKColumn)
         {
+            //Best runway holder.
             String runwayString = String.Empty;
+            //Highest preference.
             int runwayPref = int.MaxValue;
 
+            //Iterate through each data row of the provided DataGridView.
             foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
             {
+                //If RWY is OK.
                 if (row.Cells[OKColumn].Value.Equals("OK"))
                 {
+                    //Set runwayString for first iteration.
                     if (runwayString == String.Empty)
                     {
-                        runwayString = row.Cells[0].Value.ToString();
-                        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
+                        //Check if pref column has valid value.
+                        if (!row.Cells[prefColumn].Value.Equals("--"))
+                        {
+                            runwayString = row.Cells[0].Value.ToString();
+                            runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
+                        }
                     }
 
-                    if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
+                    //Check if pref column has valid value.
+                    if (!row.Cells[prefColumn].Value.Equals("--"))
                     {
-                        runwayString = row.Cells[0].Value.ToString();
-                        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value); 
+                        //If current iteration RWY pref is lower than highest recorded RWY pref.
+                        if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
+                        {
+                            runwayString = row.Cells[0].Value.ToString();
+                            runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
+                        }
                     }
                 }
             }

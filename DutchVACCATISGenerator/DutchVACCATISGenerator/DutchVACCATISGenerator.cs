@@ -1233,6 +1233,8 @@ namespace DutchVACCATISGenerator
             //If runway info form doesn't exists OR isn't visible.
             if (runwayInfo == null || !runwayInfo.Visible)
             {
+                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+
                 //Initialize new RunwayInfo form.
                 runwayInfoButton.Text = "<";
 
