@@ -58,6 +58,7 @@
             this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.setBestRunwaysCheckBox = new System.Windows.Forms.CheckBox();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.outputGroupBox = new System.Windows.Forms.GroupBox();
@@ -456,6 +457,7 @@
             // 
             // metarInputGroupBox
             // 
+            this.metarInputGroupBox.Controls.Add(this.setBestRunwaysCheckBox);
             this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
             this.metarInputGroupBox.Controls.Add(this.getMetarButton);
             this.metarInputGroupBox.Controls.Add(this.metarTextBox);
@@ -467,6 +469,18 @@
             this.metarInputGroupBox.TabIndex = 0;
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
+            // 
+            // setBestRunwaysCheckBox
+            // 
+            this.setBestRunwaysCheckBox.AutoSize = true;
+            this.setBestRunwaysCheckBox.Checked = true;
+            this.setBestRunwaysCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(416, 21);
+            this.setBestRunwaysCheckBox.Name = "setBestRunwaysCheckBox";
+            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(113, 17);
+            this.setBestRunwaysCheckBox.TabIndex = 5;
+            this.setBestRunwaysCheckBox.Text = "Set best runway(s)";
+            this.setBestRunwaysCheckBox.UseVisualStyleBackColor = true;
             // 
             // copyOutputCheckBox
             // 
@@ -959,7 +973,6 @@
         private System.Windows.Forms.Button nextATISLetterButton;
         private System.Windows.Forms.Label atisLetterLabel;
         private System.Windows.Forms.GroupBox EHAMmainRunwaysGroupBox;
-        private System.Windows.Forms.ComboBox EHAMmainLandingRunwayComboBox;
         private System.Windows.Forms.CheckBox EHAMsecondaryLandingRunwayCheckBox;
         private System.Windows.Forms.CheckBox EHAMmainLandingRunwayCheckBox;
         private System.Windows.Forms.ComboBox EHAMsecondaryLandingRunwayComboBox;
@@ -971,7 +984,6 @@
         private System.Windows.Forms.CheckBox EHAMsecondaryDepartureRunwayCheckBox;
         private System.Windows.Forms.GroupBox EHAMmainDepartureRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHAMmainDepartureRunwayCheckBox;
-        private System.Windows.Forms.ComboBox EHAMmainDepartureRunwayComboBox;
         private System.Windows.Forms.GroupBox tlLevelGroupBox;
         private System.Windows.Forms.Label tlHeaderLabel;
         private System.Windows.Forms.Button generateATISButton;
@@ -993,11 +1005,9 @@
         private System.Windows.Forms.GroupBox EHRDmainRubwayGroupBox;
         private System.Windows.Forms.GroupBox EHRDchildMainRunwyaGroupBox;
         private System.Windows.Forms.CheckBox EHRDmainRunwayCheckBox;
-        private System.Windows.Forms.ComboBox EHRDmainRunwayComboBox;
         private System.Windows.Forms.GroupBox EHGGmainRunwayGroupBox;
         private System.Windows.Forms.GroupBox EHGGchildMainRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHGGmainRunwayCheckBox;
-        private System.Windows.Forms.ComboBox EHGGmainRunwayComboBox;
         private System.Windows.Forms.GroupBox additionalOptionsGroupBox;
         private System.Windows.Forms.CheckBox markTempCheckBox;
         private System.Windows.Forms.CheckBox appArrOnlyCheckBox;
@@ -1006,15 +1016,20 @@
         private System.Windows.Forms.GroupBox EHBKmainRunwayGroupBox;
         private System.Windows.Forms.GroupBox EHBKchildMainRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHBKmainRunwayCheckBox;
-        private System.Windows.Forms.ComboBox EHBKmainRunwayComboBox;
         private System.Windows.Forms.GroupBox EHEHmainRunwayGroupBox;
         private System.Windows.Forms.GroupBox EHEHchildMainRunwayGroupBox;
         private System.Windows.Forms.CheckBox EHEHmainRunwayCheckBox;
-        private System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
         public System.Windows.Forms.TabControl ICAOTabControl;
         public System.Windows.Forms.Button runwayInfoButton;
         public System.Windows.Forms.TextBox outputTextBox;
         public System.Windows.Forms.Button soundButton;
+        public System.Windows.Forms.ComboBox EHAMmainLandingRunwayComboBox;
+        public System.Windows.Forms.ComboBox EHAMmainDepartureRunwayComboBox;
+        public System.Windows.Forms.CheckBox setBestRunwaysCheckBox;
+        public System.Windows.Forms.ComboBox EHRDmainRunwayComboBox;
+        public System.Windows.Forms.ComboBox EHGGmainRunwayComboBox;
+        public System.Windows.Forms.ComboBox EHBKmainRunwayComboBox;
+        public System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
     }
 }
 

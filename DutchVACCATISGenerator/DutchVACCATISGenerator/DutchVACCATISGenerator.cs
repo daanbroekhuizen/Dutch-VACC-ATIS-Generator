@@ -292,8 +292,9 @@ namespace DutchVACCATISGenerator
             generateATISButton.Enabled = true;
             runwayInfoButton.Enabled = true;
 
-            //Check if a runway info has been created before.
-            if (runwayInfo != null && runwayInfo.Visible)
+            //If runwayInfo is null, create RunwayInfo form.
+            if (runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+            else
             {
                 //Update runway info form.
                 runwayInfo.metar = metarProcessor.metar;
@@ -1233,7 +1234,6 @@ namespace DutchVACCATISGenerator
             if (runwayInfo == null || !runwayInfo.Visible)
             {
                 //Initialize new RunwayInfo form.
-                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
                 runwayInfoButton.Text = "<";
 
                 //Show runway info form.

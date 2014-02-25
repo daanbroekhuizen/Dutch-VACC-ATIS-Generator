@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -409,6 +410,8 @@ namespace DutchVACCATISGenerator
             //If selected ICAO tab is EHAM.
             if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAODirectoryToProcess(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
             else fillEHAMRunwayInfoDataGrids();
+
+            if (dutchVACCATISGenerator.setBestRunwaysCheckBox.Checked) setBestRunways(); 
         }
 
         /// <summary>
@@ -419,6 +422,99 @@ namespace DutchVACCATISGenerator
         private void RunwayInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (dutchVACCATISGenerator.runwayInfoButton.Text.Equals("<")) dutchVACCATISGenerator.runwayInfoButton.Text = ">";
+        }
+
+        /// <summary>
+        /// Set best prefered runway for selected ICAO tab.
+        /// </summary>
+        private void setBestRunways()
+        {
+            if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAOBestRunway(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
+            else
+            {
+                if (nightTime())
+                {
+                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, 4, 5));
+                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, 4, 5));
+                }
+                else
+                {
+                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, 3, 5));
+                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, 3, 5));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check if night OPS are operational.
+        /// </summary>
+        /// <returns></returns>
+        private Boolean nightTime()
+        {
+            DateTime nightStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 22, 00, 00);
+            DateTime nightEnd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 6, 00, 00);
+
+            if (DateTime.UtcNow < nightStart && DateTime.UtcNow > nightEnd) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Set runway combo box with best prefered runway for selected ICAO.
+        /// </summary>
+        /// <param name="icaoTab">ICAO tab selected.</param>
+        private void ICAOBestRunway(String icaoTab)
+        {
+            switch (icaoTab)
+            {
+                case "EHBK":
+                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    break;
+
+                case "EHRD":
+                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    break;
+
+                case "EHGG":
+                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    break;
+
+                case "EHEH":
+                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Get best prefered runway by DataGridView.
+        /// </summary>
+        /// <param name="runwayInfoDataGridView">DataGridView to check</param>
+        /// <param name="prefColumn">Array position of pref column</param>
+        /// <param name="OKColumn">Array position of OK column</param>
+        /// <returns>Best runway identifier</returns>
+        public String getBestRunway(DataGridView runwayInfoDataGridView, int prefColumn, int OKColumn)
+        {
+            String runwayString = String.Empty;
+            int runwayPref = int.MaxValue;
+
+            foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
+            {
+                if (row.Cells[OKColumn].Value.Equals("OK"))
+                {
+                    if (runwayString == String.Empty)
+                    {
+                        runwayString = row.Cells[0].Value.ToString();
+                        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
+                    }
+
+                    if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
+                    {
+                        runwayString = row.Cells[0].Value.ToString();
+                        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value); 
+                    }
+                }
+            }
+
+            return runwayString;
         }
     }
 }
