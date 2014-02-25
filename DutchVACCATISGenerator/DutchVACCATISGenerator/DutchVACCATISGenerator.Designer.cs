@@ -475,11 +475,11 @@
             this.setBestRunwaysCheckBox.AutoSize = true;
             this.setBestRunwaysCheckBox.Checked = true;
             this.setBestRunwaysCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(416, 21);
+            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(374, 21);
             this.setBestRunwaysCheckBox.Name = "setBestRunwaysCheckBox";
-            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(113, 17);
+            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(155, 17);
             this.setBestRunwaysCheckBox.TabIndex = 5;
-            this.setBestRunwaysCheckBox.Text = "Set best runway(s)";
+            this.setBestRunwaysCheckBox.Text = "Set best preferred runway(s)";
             this.setBestRunwaysCheckBox.UseVisualStyleBackColor = true;
             // 
             // copyOutputCheckBox

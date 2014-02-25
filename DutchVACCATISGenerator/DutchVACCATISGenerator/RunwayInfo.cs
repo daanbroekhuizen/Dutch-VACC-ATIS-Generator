@@ -425,7 +425,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Set best prefered runway for selected ICAO tab.
+        /// Set best preferred runway for selected ICAO tab.
         /// </summary>
         private void setBestRunways()
         {
@@ -459,7 +459,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Set runway combo box with best prefered runway for selected ICAO.
+        /// Set runway combo box with best preferred runway for selected ICAO.
         /// </summary>
         /// <param name="icaoTab">ICAO tab selected.</param>
         private void ICAOBestRunway(String icaoTab)
@@ -485,7 +485,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Get best prefered runway by DataGridView.
+        /// Get best preferred runway by DataGridView.
         /// </summary>
         /// <param name="runwayInfoDataGridView">DataGridView to check</param>
         /// <param name="prefColumn">Array position of pref column</param>
