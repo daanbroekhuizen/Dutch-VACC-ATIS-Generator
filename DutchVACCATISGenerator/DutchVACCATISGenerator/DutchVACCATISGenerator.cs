@@ -176,26 +176,36 @@ namespace DutchVACCATISGenerator
             //Get METAR from METAR text box.
             else metar = metarTextBox.Text.Trim();
 
-            #region BECMG AND TEMPO
-            //If METAR contains both BECMG and TEMPO trends.
-            if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
-            {
-                //If BECMG is the first trend.
-                if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
-                //If TEMPO is the first trend.
-                else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
-            }
-            #endregion
-
             #region MILITARY CODES
             //If METAR contains military visibility code.
-            else if (metar.Contains("BLU") || metar.Contains("WHT") || metar.Contains("GRN") || metar.Contains("YLO") || metar.Contains("AMB") || metar.Contains("RED") || metar.Contains("BLACK"))
+            if (Regex.IsMatch(metar, @"(^|\s)BLU(\s|$)") || Regex.IsMatch(metar, @"(^|\s)WHT(\s|$)") || Regex.IsMatch(metar, @"(^|\s)GRN(\s|$)") || Regex.IsMatch(metar, @"(^|\s)YLO(\s|$)") || Regex.IsMatch(metar, @"(^|\s)AMB(\s|$)") || Regex.IsMatch(metar, @"(^|\s)RED(\s|$)") || Regex.IsMatch(metar, @"(^|\s)BLACK(\s|$)"))
             {
                 //Military visibility codes.
                 String[] militaryColors = new String[] { "BLU", "WHT", "GRN", "YLO", "AMB", "RED", "BLACK" };
 
-                //If METAR contains BECMG or TEMPO.
-                if (metar.Contains("BECMG") || metar.Contains("TEMPO"))
+                //If METAR contains BECMG and TEMPO
+                if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
+                {
+                    if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO"))
+                    {
+                        //Check which military visibility code the METAR contains.
+                        foreach (String militaryColor in militaryColors)
+                        {
+                            if (Regex.IsMatch(metar, @"(^|\s)" + militaryColor + @"(\s|$)")) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim() /* BASE METAR */, splitMetar(splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[1].Trim(), "TEMPO")[1].Trim() /* TEMPO TREND */, splitMetar(splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[1].Trim(), "TEMPO")[0].Trim() /* BECMG TREND */);
+                        }
+                    }
+                    else
+                    {
+                        //Check which military visibility code the METAR contains.
+                        foreach (String militaryColor in militaryColors)
+                        {
+                            if (Regex.IsMatch(metar, @"(^|\s)" + militaryColor + @"(\s|$)")) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim() /* BASE METAR */, splitMetar(splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[1].Trim(), "BECMG")[0].Trim() /* TEMPO TREND */, splitMetar(splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[1].Trim(), "BECMG")[1].Trim() /* BECMG TREND */);
+                        }
+                    }
+                }
+
+                //If METAR contains BECMG or TEMPO
+                else if (metar.Contains("BECMG") || metar.Contains("TEMPO"))
                 {
                     //If METAR contains BECMG.
                     if (metar.Contains("BECMG"))
@@ -203,16 +213,15 @@ namespace DutchVACCATISGenerator
                         //Check which military visibility code the METAR contains.
                         foreach (String militaryColor in militaryColors)
                         {
-                            if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
+                            if (Regex.IsMatch(metar, @"(^|\s)" + militaryColor + @"(\s|$)")) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim() /* BASE METAR */, splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "BECMG")[1].Trim() /* BECMG TREND */, MetarType.BECMG);
                         }
                     }
-                    //If METAR contains TEMPO.
                     else
                     {
                         //Check which military visibility code the METAR contains.
                         foreach (String militaryColor in militaryColors)
                         {
-                            if (metar.Contains(militaryColor)) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[0].Trim());
+                            if (Regex.IsMatch(metar, @"(^|\s)" + militaryColor + @"(\s|$)")) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim() /* BASE METAR */, splitMetar(splitMetar(metar, militaryColor)[1].Trim(), "TEMPO")[1].Trim() /* TEMPO TREND */, MetarType.TEMPO);
                         }
                     }
                 }
@@ -222,30 +231,20 @@ namespace DutchVACCATISGenerator
                     //Check which military visibility code the METAR contains.
                     foreach (String militaryColor in militaryColors)
                     {
-                        if (metar.Contains(militaryColor))
-                        {
-                            //If METAR contains a unknown trend type.
-                            if (splitMetar(metar, militaryColor)[1].Trim().Count() > 0)
-                            {
-                                TrendSelection trendSelection = new TrendSelection();
-                                
-                                //Prompt the user to selected the type of the trend of the METAR.
-                                if (trendSelection.ShowDialog(this) == DialogResult.OK) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim(), splitMetar(metar, militaryColor)[1].Trim(), (MetarType) Enum.Parse(typeof(MetarType), trendSelection.trendComboBox.SelectedItem.ToString()));
-                               
-                                //If the user didn't select a trend type.
-                                else
-                                {
-                                    MessageBox.Show("No trend type selected, METAR cannot be processed!", "Error"); return;
-                                }
-                                
-                                trendSelection.Dispose();
-                            }
-
-                            //If METAR doesn't contain an unknown trend.
-                            else metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim());
-                        }
+                        if (Regex.IsMatch(metar, @"(^|\s)" + militaryColor + @"(\s|$)")) metarProcessor = new MetarProcessor(splitMetar(metar, militaryColor)[0].Trim());
                     }
                 }
+            }
+            #endregion
+
+            #region BECMG AND TEMPO
+            //If METAR contains both BECMG and TEMPO trends.
+            else if (metar.Contains("BECMG") && metar.Contains("TEMPO"))
+            {
+                //If BECMG is the first trend.
+                if (metar.IndexOf("BECMG") < metar.IndexOf("TEMPO")) metarProcessor = new MetarProcessor(splitMetar(metar, "BECMG")[0].Trim(), splitMetar(metar, "TEMPO")[1].Trim(), splitMetar(splitMetar(metar, "BECMG")[1].Trim(), "TEMPO")[0].Trim());
+                //If TEMPO is the first trend.
+                else metarProcessor = new MetarProcessor(splitMetar(metar, "TEMPO")[0].Trim(), splitMetar(splitMetar(metar, "TEMPO")[1].Trim(), "BECMG")[0].Trim(), splitMetar(metar, "BECMG")[1].Trim());
             }
             #endregion
 
@@ -301,6 +300,9 @@ namespace DutchVACCATISGenerator
                 runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
                 runwayInfo.checkICAOTabSelected();
             }
+
+            //Uncheck select best preferred runway(s) check box.
+            setBestRunwaysCheckBox.Checked = false;
         }
 
         /// <summary>
@@ -1193,6 +1195,9 @@ namespace DutchVACCATISGenerator
             else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
+
+            //Check select best preferred runway(s) check box.
+            setBestRunwaysCheckBox.Checked = true;
         }
 
         /// <summary>

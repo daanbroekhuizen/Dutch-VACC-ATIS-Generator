@@ -44,8 +44,8 @@ E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATIS
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.TrendSelection.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Sound.resources
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Sound.resources
-C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.TrendSelection.resources
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.dll
 E:\Users\Daan Broekhuizen\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.WindowsMediaFormat.dll
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.dll
 C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Daan\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache

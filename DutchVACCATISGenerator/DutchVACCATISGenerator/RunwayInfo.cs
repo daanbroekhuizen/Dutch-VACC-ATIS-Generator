@@ -158,8 +158,8 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(EHAMlandingRunwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
-                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2);
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = pair.Value.Item4;
                 row.Cells[5].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
@@ -176,8 +176,8 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(EHAMdepartureRunwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
-                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2);
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = pair.Value.Item4;
                 row.Cells[5].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
@@ -203,8 +203,8 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(runwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
-                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2);
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
 
@@ -434,15 +434,17 @@ namespace DutchVACCATISGenerator
             {
                 if (nightTime())
                 {
-                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, 4, 5));
-                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, 4, 5));
+                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, EHAMdepartureRunways, 4, 5));
+                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, EHAMlandingRunways, 4, 5));
                 }
                 else
                 {
-                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, 3, 5));
-                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, 3, 5));
+                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, EHAMdepartureRunways, 3, 5));
+                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, EHAMlandingRunways, 3, 5));
                 }
             }
+
+            //MessageBox.Show("Controller notice! Check auto selected preferred runway(s).", "Warning");
         }
 
         /// <summary>
@@ -472,19 +474,19 @@ namespace DutchVACCATISGenerator
             switch (icaoTab)
             {
                 case "EHBK":
-                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHBKRunways, 3, 4));
                     break;
 
                 case "EHRD":
-                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHRDRunways, 3, 4));
                     break;
 
                 case "EHGG":
-                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHGGRunways, 3, 4));
                     break;
 
                 case "EHEH":
-                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, 3, 4));
+                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHEHRunways, 3, 4));
                     break;
             }
         }
@@ -496,44 +498,115 @@ namespace DutchVACCATISGenerator
         /// <param name="prefColumn">Array position of pref column</param>
         /// <param name="OKColumn">Array position of OK column</param>
         /// <returns>Best runway identifier</returns>
-        public String getBestRunway(DataGridView runwayInfoDataGridView, int prefColumn, int OKColumn)
+        public String getBestRunway(DataGridView runwayInfoDataGridView, Object runwayList, int prefColumn, int OKColumn)
         {
-            //Best runway holder.
+            Dictionary<String, Tuple<int, int, String, String>> ehamRunways = null;
+            Dictionary<String, Tuple<int, int, String>> otherRunways = null;
+
+            if (runwayList is Dictionary<String, Tuple<int, int, String, String>>) ehamRunways = runwayList as Dictionary<String, Tuple<int, int, String, String>>;
+            else otherRunways = runwayList as Dictionary<String, Tuple<int, int, String>>;
+
+            ////Best runway holder.
             String runwayString = String.Empty;
-            //Highest preference.
+            ////Highest preference.
             int runwayPref = int.MaxValue;
 
             //Iterate through each data row of the provided DataGridView.
             foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
             {
                 //If RWY is OK.
-                if (row.Cells[OKColumn].Value.Equals("OK"))
+                if (!(row.Cells[OKColumn].Value.Equals("OK")))
                 {
-                    //Set runwayString for first iteration.
-                    if (runwayString == String.Empty)
-                    {
-                        //Check if pref column has valid value.
-                        if (!row.Cells[prefColumn].Value.Equals("--"))
-                        {
-                            runwayString = row.Cells[0].Value.ToString();
-                            runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
-                        }
-                    }
-
-                    //Check if pref column has valid value.
-                    if (!row.Cells[prefColumn].Value.Equals("--"))
-                    {
-                        //If current iteration RWY pref is lower than highest recorded RWY pref.
-                        if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
-                        {
-                            runwayString = row.Cells[0].Value.ToString();
-                            runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
-                        }
-                    }
+                    if (ehamRunways != null) ehamRunways.Remove(row.Cells[0].Value.ToString());
+                    else otherRunways.Remove(row.Cells[0].Value.ToString());
                 }
             }
 
+
+            if(ehamRunways != null)
+            {
+                Dictionary<String, int> runwayWind = new Dictionary<String, int>();
+
+                List<String> remove = new List<String>();
+
+                foreach(KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
+                {
+                    //Console.WriteLine(pair.Key);
+                    //Console.WriteLine("Wind: " + calculateTailwindComponent(pair.Value.Item2) * -1);
+
+
+                    //runwayWind.Add(pair.Key, (calculateTailwindComponent(pair.Value.Item2) * -1));
+
+
+                    if (Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)) > 70)
+                    {
+                        remove.Add(pair.Key);
+                    }
+                }
+
+                foreach (String runwayRemove in remove) ehamRunways.Remove(runwayRemove);
+
+                foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
+                {
+                    if (runwayString.Equals(String.Empty))
+                    {
+                        runwayString = pair.Key;
+                        runwayPref = Convert.ToInt32(pair.Value.Item3);
+                    }
+                    
+                    if(Convert.ToInt32(pair.Value.Item3) < runwayPref)
+                    {
+                        runwayString = pair.Key;
+                        runwayPref = Convert.ToInt32(pair.Value.Item3);
+                    }
+
+                    ////Console.WriteLine(runwayWind[pair.Key]);
+
+                    //if (runwayWind[pair.Key] > 0 && runwayWind[pair.Key] > runwayPref)
+                    //{
+                    //    runwayString = pair.Key;
+                    //    runwayPref = Convert.ToInt32(pair.Value.Item3);
+                    //}
+                }
+            }
+
+          
+
+                    //Check if pref column has valid value.
+                    //if (!row.Cells[prefColumn].Value.Equals("--"))
+                    //{
+                    //    //If current iteration RWY pref is lower than highest recorded RWY pref.
+                    //    if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
+                    //    {
+                    //        runwayString = row.Cells[0].Value.ToString();
+                    //        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
+                    //    }
+                    //}
+                //}
+
+            //Console.WriteLine();
+            //Console.WriteLine();
+
             return runwayString;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EHAMdepartureRunwayInfoDataGridView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column.Index == 3)
+            {
+                if (double.Parse(e.CellValue1.ToString()) > double.Parse(e.CellValue2.ToString())) e.SortResult = 1;
+                
+                else if (double.Parse(e.CellValue1.ToString()) < double.Parse(e.CellValue2.ToString())) e.SortResult = -1;
+                
+                else e.SortResult = 0;
+                
+                e.Handled = true;
+            }
         }
     }
 }

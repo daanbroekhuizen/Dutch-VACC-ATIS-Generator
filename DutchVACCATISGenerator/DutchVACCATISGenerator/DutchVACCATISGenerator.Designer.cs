@@ -159,6 +159,8 @@
             this.metarTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.metarTextBox.Size = new System.Drawing.Size(436, 32);
             this.metarTextBox.TabIndex = 3;
+            this.metarTextBox.Text = "EHEH 041018Z AUTO 19005KT 9999 SCT018 10/04 Q1002 WHT 20005KT 9999 SCT032 TEMPO S" +
+    "CT008 OVC010 BECMG 12005KT";
             this.metarTextBox.TextChanged += new System.EventHandler(this.metarTextBox_TextChanged);
             // 
             // lastLabel
@@ -475,11 +477,11 @@
             this.setBestRunwaysCheckBox.AutoSize = true;
             this.setBestRunwaysCheckBox.Checked = true;
             this.setBestRunwaysCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(374, 21);
+            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(357, 22);
             this.setBestRunwaysCheckBox.Name = "setBestRunwaysCheckBox";
-            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(155, 17);
+            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(172, 17);
             this.setBestRunwaysCheckBox.TabIndex = 5;
-            this.setBestRunwaysCheckBox.Text = "Set best preferred runway(s)";
+            this.setBestRunwaysCheckBox.Text = "Select best preferred runway(s)";
             this.setBestRunwaysCheckBox.UseVisualStyleBackColor = true;
             // 
             // copyOutputCheckBox
