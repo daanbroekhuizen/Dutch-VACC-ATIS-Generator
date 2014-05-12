@@ -444,6 +444,7 @@ namespace DutchVACCATISGenerator
                 }
             }
 
+            //UNCOMMENT
             //MessageBox.Show("Controller notice! Check auto selected preferred runway(s).", "Warning");
         }
 
@@ -456,9 +457,11 @@ namespace DutchVACCATISGenerator
             DateTime nightStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 22, 00, 00);
             DateTime nightEnd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 6, 00, 00);
 
+            //UNCOMMENT
             //if (DateTime.UtcNow < nightStart && DateTime.UtcNow > nightEnd) return false;
             //else return true;
 
+            //COMMENT OR DELETE
             DateTime dummy = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 3, 00, 00);
 
             if (dummy < nightStart && dummy > nightEnd) return false;
@@ -491,6 +494,13 @@ namespace DutchVACCATISGenerator
             }
         }
 
+        //TODO FINISH THIS CODE
+        public String[] getBestEHAMRunways(DataGridView runwayInfoDataGridView)
+        {
+            return null;
+        }
+
+        //TODO FINISH THIS CODE
         /// <summary>
         /// Get best preferred runway by DataGridView.
         /// </summary>
@@ -506,9 +516,9 @@ namespace DutchVACCATISGenerator
             if (runwayList is Dictionary<String, Tuple<int, int, String, String>>) ehamRunways = runwayList as Dictionary<String, Tuple<int, int, String, String>>;
             else otherRunways = runwayList as Dictionary<String, Tuple<int, int, String>>;
 
-            ////Best runway holder.
+            //Best runway holder.
             String runwayString = String.Empty;
-            ////Highest preference.
+            //Highest preference.
             int runwayPref = int.MaxValue;
 
             //Iterate through each data row of the provided DataGridView.
@@ -519,82 +529,95 @@ namespace DutchVACCATISGenerator
                 {
                     if (ehamRunways != null) ehamRunways.Remove(row.Cells[0].Value.ToString());
                     else otherRunways.Remove(row.Cells[0].Value.ToString());
-                }
+                }   
             }
-
 
             if(ehamRunways != null)
             {
-                Dictionary<String, int> runwayWind = new Dictionary<String, int>();
+                Dictionary<String, int> runwayHeadWind = new Dictionary<String, int>();
+                Dictionary<String, int> runwayWindRunwayHeadingDeviation = new Dictionary<String, int>();
 
-                List<String> remove = new List<String>();
+                //List<String> remove = new List<String>();
 
                 foreach(KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
                 {
-                    //Console.WriteLine(pair.Key);
-                    //Console.WriteLine("Wind: " + calculateTailwindComponent(pair.Value.Item2) * -1);
+                    //Calculate headwind for each OK runway.
+                    runwayHeadWind.Add(pair.Key, calculateTailwindComponent(pair.Value.Item2) * -1);
+                    //Calculate deviation runway heading relative to wind heading.
+                    runwayWindRunwayHeadingDeviation.Add(pair.Key, Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)));
+                }
 
+                //Runway, windDeviation, HWIND
+                Dictionary<String, Tuple<int, int>> topRunways = new Dictionary<String, Tuple<int, int>>();
 
-                    //runwayWind.Add(pair.Key, (calculateTailwindComponent(pair.Value.Item2) * -1));
-
-
-                    if (Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)) > 70)
+                foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
+                {
+                    if(topRunways.Count < 3) topRunways.Add(pair.Key, new Tuple<int, int>(runwayWindRunwayHeadingDeviation[pair.Key], runwayHeadWind[pair.Key]));
+                    else
                     {
-                        remove.Add(pair.Key);
+                        if (runwayWindRunwayHeadingDeviation[pair.Key] < topRunways.Values.Max().Item1)
+                        {
+                            topRunways.Remove(topRunways.FirstOrDefault(x => x.Value.Item1 == topRunways.Values.Max().Item1).Key);
+
+                            topRunways.Add(pair.Key, new Tuple<int, int>(runwayWindRunwayHeadingDeviation[pair.Key], runwayHeadWind[pair.Key]));
+                        }                   
                     }
                 }
 
-                foreach (String runwayRemove in remove) ehamRunways.Remove(runwayRemove);
+                //Console.WriteLine();
 
-                foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
+                //foreach (String runwayRemove in remove) ehamRunways.Remove(runwayRemove);
+
+                //foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
+                //{
+                //    if (runwayString.Equals(String.Empty))
+                //    {
+                //        runwayString = pair.Key;
+                //        runwayPref = Convert.ToInt32(pair.Value.Item3);
+                //    }
+                    
+                //    if(Convert.ToInt32(pair.Value.Item3) < runwayPref)
+                //    {
+                //        runwayString = pair.Key;
+                //        runwayPref = Convert.ToInt32(pair.Value.Item3);
+                //    }
+                //}
+            }
+            else
+            {
+                List<String> remove = new List<String>();
+
+                foreach (KeyValuePair<String, Tuple<int, int, String>> pair in otherRunways)
+                {
+                    if (Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)) > 70) remove.Add(pair.Key);
+                }
+
+                foreach (String runwayRemove in remove) otherRunways.Remove(runwayRemove);
+
+                foreach (KeyValuePair<String, Tuple<int, int, String>> pair in otherRunways)
                 {
                     if (runwayString.Equals(String.Empty))
                     {
                         runwayString = pair.Key;
                         runwayPref = Convert.ToInt32(pair.Value.Item3);
                     }
-                    
-                    if(Convert.ToInt32(pair.Value.Item3) < runwayPref)
+
+                    if (Convert.ToInt32(pair.Value.Item3) < runwayPref)
                     {
                         runwayString = pair.Key;
                         runwayPref = Convert.ToInt32(pair.Value.Item3);
                     }
-
-                    ////Console.WriteLine(runwayWind[pair.Key]);
-
-                    //if (runwayWind[pair.Key] > 0 && runwayWind[pair.Key] > runwayPref)
-                    //{
-                    //    runwayString = pair.Key;
-                    //    runwayPref = Convert.ToInt32(pair.Value.Item3);
-                    //}
                 }
             }
-
-          
-
-                    //Check if pref column has valid value.
-                    //if (!row.Cells[prefColumn].Value.Equals("--"))
-                    //{
-                    //    //If current iteration RWY pref is lower than highest recorded RWY pref.
-                    //    if (Convert.ToInt32(row.Cells[prefColumn].Value) < runwayPref)
-                    //    {
-                    //        runwayString = row.Cells[0].Value.ToString();
-                    //        runwayPref = Convert.ToInt32(row.Cells[prefColumn].Value);
-                    //    }
-                    //}
-                //}
-
-            //Console.WriteLine();
-            //Console.WriteLine();
 
             return runwayString;
         }
 
         /// <summary>
-        /// 
+        /// Method called when a column in EHAM departure runway info DataGridView is sorted.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void EHAMdepartureRunwayInfoDataGridView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
             if (e.Column.Index == 3)

@@ -20,6 +20,8 @@ namespace DutchVACCATISGenerator
         private RunwayInfo runwayInfo { get; set; }
         private Sound sound { get; set; }
         private String metar { get; set; }
+        private Boolean runwayInfoState { get; set; }
+        private Boolean soundState { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -38,6 +40,8 @@ namespace DutchVACCATISGenerator
 
             //Center the form on the monitor.
             this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 184)) / 2));
+
+            runwayInfoState = false;
         }
 
         /// <summary>
@@ -203,7 +207,6 @@ namespace DutchVACCATISGenerator
                         }
                     }
                 }
-
                 //If METAR contains BECMG or TEMPO
                 else if (metar.Contains("BECMG") || metar.Contains("TEMPO"))
                 {
@@ -911,7 +914,7 @@ namespace DutchVACCATISGenerator
             if (!metarProcessor.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
             {
                 //Show warning message.
-                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Warning"); return;
+                MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Error"); return;
             }
 
             //Check runways selected.
@@ -1248,6 +1251,9 @@ namespace DutchVACCATISGenerator
 
                 //Set runway info position relative to this.
                 runwayInfo.showRelativeToDutchVACCATISGenerator(this);
+
+                //Inverse runway info state boolean.
+                runwayInfoState = !runwayInfoState;
             }
             //If runway info is opened.
             else
@@ -1256,6 +1262,9 @@ namespace DutchVACCATISGenerator
 
                 //Hide runway info form.
                 runwayInfo.Visible = false;
+
+                //Inverse runway info state boolean.
+                runwayInfoState = !runwayInfoState;
             }
         }
 
@@ -1270,9 +1279,9 @@ namespace DutchVACCATISGenerator
             if (WindowState == FormWindowState.Normal)
             {
                 //Show runwayInfo form.
-                if (runwayInfo != null) runwayInfo.Visible = true;
+                if (runwayInfo != null && runwayInfoState) runwayInfo.Visible = true;
                 //Show sound form.
-                if (sound != null) sound.Visible = true;
+                if (sound != null && soundState) sound.Visible = true;
             }
 
             //If form is minimized.
@@ -1300,6 +1309,9 @@ namespace DutchVACCATISGenerator
                 soundButton.Text = "▲";
                 sound.Show();
                 sound.showRelativeToDutchVACCATISGenerator(this);
+
+                //Inverse sound state boolean.
+                soundState = !soundState;
             }
             else
             {
@@ -1310,6 +1322,9 @@ namespace DutchVACCATISGenerator
 
                 //Stop the wavePlayer.
                 if (sound.wavePlayer != null) sound.wavePlayer.Stop();
+
+                //Inverse sound state boolean.
+                soundState = !soundState;
             }
         }
 
