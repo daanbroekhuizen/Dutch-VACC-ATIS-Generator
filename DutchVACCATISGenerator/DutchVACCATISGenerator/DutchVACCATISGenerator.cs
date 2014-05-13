@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -22,6 +24,7 @@ namespace DutchVACCATISGenerator
         private String metar { get; set; }
         private Boolean runwayInfoState { get; set; }
         private Boolean soundState { get; set; }
+        private String latestVersion { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -42,6 +45,8 @@ namespace DutchVACCATISGenerator
             this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 184)) / 2));
 
             runwayInfoState = false;
+
+            versionBackgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -79,7 +84,7 @@ namespace DutchVACCATISGenerator
             {
                 //Request METAR.
                 WebRequest request = WebRequest.Create("http://metar.vatsim.net/metar.php?id=" + e.Argument);
-                WebResponse response = request.GetResponse();
+                WebResponse response = request.GetResponse();          
 
                 //Read METAR.
                 System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
@@ -1200,7 +1205,8 @@ namespace DutchVACCATISGenerator
             else icaoTextBox.Text = "EHRD";
 
             //Check select best preferred runway(s) check box.
-            setBestRunwaysCheckBox.Checked = true;
+            //UNCOMMENT
+            //setBestRunwaysCheckBox.Checked = true;
         }
 
         /// <summary>
@@ -1345,6 +1351,54 @@ namespace DutchVACCATISGenerator
                     if (!outputTextBox.Text.Trim().Equals(String.Empty)) sound.buildATISButton.Enabled = true;
                     //Else disable the build ATIS button (nothing to build!).
                     else sound.buildATISButton.Enabled = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method called when version background workers is started. Pulls latest version number from my site.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void versionBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {   
+            try
+            {
+                //Request latest version.
+                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch%20VACC/Dutch%20VACC%20ATIS%20Generator/Version/version.php");
+                WebResponse response = request.GetResponse();
+
+                //Read latest version.
+                System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+                latestVersion = reader.ReadToEnd();
+
+                //Trim latest version string.
+                latestVersion.Trim();
+            }
+            catch (WebException)
+            {
+                return;
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Method called when version background worker has completed its task. Compares executable version with pulled latest version and gives a message if a newer version is available.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void versionBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //If a latest version has been pulled.
+            if(latestVersion != null && !latestVersion.Equals(String.Empty))
+            {
+                //If a newer version is available.
+                if(!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
+                {
+                    if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
                 }
             }
         }

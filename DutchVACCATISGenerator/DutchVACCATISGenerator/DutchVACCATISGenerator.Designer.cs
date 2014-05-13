@@ -97,6 +97,7 @@
             this.appOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.runwayInfoButton = new System.Windows.Forms.Button();
             this.soundButton = new System.Windows.Forms.Button();
+            this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -889,6 +890,11 @@
             this.soundButton.UseVisualStyleBackColor = true;
             this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
             // 
+            // versionBackgroundWorker
+            // 
+            this.versionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.versionBackgroundWorker_DoWork);
+            this.versionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.versionBackgroundWorker_RunWorkerCompleted);
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1029,6 +1035,7 @@
         public System.Windows.Forms.ComboBox EHGGmainRunwayComboBox;
         public System.Windows.Forms.ComboBox EHBKmainRunwayComboBox;
         public System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
+        private System.ComponentModel.BackgroundWorker versionBackgroundWorker;
     }
 }
 
