@@ -411,7 +411,8 @@ namespace DutchVACCATISGenerator
             if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAODirectoryToProcess(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
             else fillEHAMRunwayInfoDataGrids();
 
-            if (dutchVACCATISGenerator.setBestRunwaysCheckBox.Checked) setBestRunways(); 
+            //UNCOMMENT
+            //if (dutchVACCATISGenerator.setBestRunwaysCheckBox.Checked) setBestRunways(); 
         }
 
         /// <summary>
@@ -422,30 +423,6 @@ namespace DutchVACCATISGenerator
         private void RunwayInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (dutchVACCATISGenerator.runwayInfoButton.Text.Equals("<")) dutchVACCATISGenerator.runwayInfoButton.Text = ">";
-        }
-
-        /// <summary>
-        /// Set best preferred runway for selected ICAO tab.
-        /// </summary>
-        private void setBestRunways()
-        {
-            if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAOBestRunway(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
-            else
-            {
-                if (nightTime())
-                {
-                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, EHAMdepartureRunways, 4, 5));
-                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, EHAMlandingRunways, 4, 5));
-                }
-                else
-                {
-                    dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainDepartureRunwayComboBox.Items.IndexOf(getBestRunway(EHAMdepartureRunwayInfoDataGridView, EHAMdepartureRunways, 3, 5));
-                    dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHAMmainLandingRunwayComboBox.Items.IndexOf(getBestRunway(EHAMlandingRunwayInfoDataGridView, EHAMlandingRunways, 3, 5));
-                }
-            }
-
-            //UNCOMMENT
-            //MessageBox.Show("Controller notice! Check auto selected preferred runway(s).", "Warning");
         }
 
         /// <summary>
@@ -462,155 +439,10 @@ namespace DutchVACCATISGenerator
             //else return true;
 
             //COMMENT OR DELETE
-            DateTime dummy = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 3, 00, 00);
-
-            if (dummy < nightStart && dummy > nightEnd) return false;
-            else return true;
-        }
-
-        /// <summary>
-        /// Set runway combo box with best preferred runway for selected ICAO.
-        /// </summary>
-        /// <param name="icaoTab">ICAO tab selected.</param>
-        private void ICAOBestRunway(String icaoTab)
-        {
-            switch (icaoTab)
-            {
-                case "EHBK":
-                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHBKRunways, 3, 4));
-                    break;
-
-                case "EHRD":
-                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHRDRunways, 3, 4));
-                    break;
-
-                case "EHGG":
-                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHGGRunways, 3, 4));
-                    break;
-
-                case "EHEH":
-                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHEHRunways, 3, 4));
-                    break;
-            }
-        }
-
-        //TODO FINISH THIS CODE
-        public String[] getBestEHAMRunways(DataGridView runwayInfoDataGridView)
-        {
-            return null;
-        }
-
-        //TODO FINISH THIS CODE
-        /// <summary>
-        /// Get best preferred runway by DataGridView.
-        /// </summary>
-        /// <param name="runwayInfoDataGridView">DataGridView to check</param>
-        /// <param name="prefColumn">Array position of pref column</param>
-        /// <param name="OKColumn">Array position of OK column</param>
-        /// <returns>Best runway identifier</returns>
-        public String getBestRunway(DataGridView runwayInfoDataGridView, Object runwayList, int prefColumn, int OKColumn)
-        {
-            Dictionary<String, Tuple<int, int, String, String>> ehamRunways = null;
-            Dictionary<String, Tuple<int, int, String>> otherRunways = null;
-
-            if (runwayList is Dictionary<String, Tuple<int, int, String, String>>) ehamRunways = runwayList as Dictionary<String, Tuple<int, int, String, String>>;
-            else otherRunways = runwayList as Dictionary<String, Tuple<int, int, String>>;
-
-            //Best runway holder.
-            String runwayString = String.Empty;
-            //Highest preference.
-            int runwayPref = int.MaxValue;
-
-            //Iterate through each data row of the provided DataGridView.
-            foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
-            {
-                //If RWY is OK.
-                if (!(row.Cells[OKColumn].Value.Equals("OK")))
-                {
-                    if (ehamRunways != null) ehamRunways.Remove(row.Cells[0].Value.ToString());
-                    else otherRunways.Remove(row.Cells[0].Value.ToString());
-                }   
-            }
-
-            if(ehamRunways != null)
-            {
-                Dictionary<String, int> runwayHeadWind = new Dictionary<String, int>();
-                Dictionary<String, int> runwayWindRunwayHeadingDeviation = new Dictionary<String, int>();
-
-                //List<String> remove = new List<String>();
-
-                foreach(KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
-                {
-                    //Calculate headwind for each OK runway.
-                    runwayHeadWind.Add(pair.Key, calculateTailwindComponent(pair.Value.Item2) * -1);
-                    //Calculate deviation runway heading relative to wind heading.
-                    runwayWindRunwayHeadingDeviation.Add(pair.Key, Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)));
-                }
-
-                //Runway, windDeviation, HWIND
-                Dictionary<String, Tuple<int, int>> topRunways = new Dictionary<String, Tuple<int, int>>();
-
-                foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
-                {
-                    if(topRunways.Count < 3) topRunways.Add(pair.Key, new Tuple<int, int>(runwayWindRunwayHeadingDeviation[pair.Key], runwayHeadWind[pair.Key]));
-                    else
-                    {
-                        if (runwayWindRunwayHeadingDeviation[pair.Key] < topRunways.Values.Max().Item1)
-                        {
-                            topRunways.Remove(topRunways.FirstOrDefault(x => x.Value.Item1 == topRunways.Values.Max().Item1).Key);
-
-                            topRunways.Add(pair.Key, new Tuple<int, int>(runwayWindRunwayHeadingDeviation[pair.Key], runwayHeadWind[pair.Key]));
-                        }                   
-                    }
-                }
-
-                //Console.WriteLine();
-
-                //foreach (String runwayRemove in remove) ehamRunways.Remove(runwayRemove);
-
-                //foreach (KeyValuePair<String, Tuple<int, int, String, String>> pair in ehamRunways)
-                //{
-                //    if (runwayString.Equals(String.Empty))
-                //    {
-                //        runwayString = pair.Key;
-                //        runwayPref = Convert.ToInt32(pair.Value.Item3);
-                //    }
-                    
-                //    if(Convert.ToInt32(pair.Value.Item3) < runwayPref)
-                //    {
-                //        runwayString = pair.Key;
-                //        runwayPref = Convert.ToInt32(pair.Value.Item3);
-                //    }
-                //}
-            }
-            else
-            {
-                List<String> remove = new List<String>();
-
-                foreach (KeyValuePair<String, Tuple<int, int, String>> pair in otherRunways)
-                {
-                    if (Math.Abs(pair.Value.Item1 - Convert.ToInt32(metar.Wind.windHeading)) > 70) remove.Add(pair.Key);
-                }
-
-                foreach (String runwayRemove in remove) otherRunways.Remove(runwayRemove);
-
-                foreach (KeyValuePair<String, Tuple<int, int, String>> pair in otherRunways)
-                {
-                    if (runwayString.Equals(String.Empty))
-                    {
-                        runwayString = pair.Key;
-                        runwayPref = Convert.ToInt32(pair.Value.Item3);
-                    }
-
-                    if (Convert.ToInt32(pair.Value.Item3) < runwayPref)
-                    {
-                        runwayString = pair.Key;
-                        runwayPref = Convert.ToInt32(pair.Value.Item3);
-                    }
-                }
-            }
-
-            return runwayString;
+            /* | */ DateTime dummy = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 3, 00, 00);
+            /* | */
+            /* | */ if (dummy < nightStart && dummy > nightEnd) return false;
+            /* | */ else return true;
         }
 
         /// <summary>

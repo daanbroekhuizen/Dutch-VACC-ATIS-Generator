@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -17,14 +20,16 @@ namespace DutchVACCATISGenerator
     public partial class DutchVACCATISGenerator : Form
     {
         private int atisIndex { get; set; }
+        private String latestVersion { get; set; }
         private List<String> phoneticAlphabet { get; set; }
+        private String metar { get; set; }
         private MetarProcessor metarProcessor { get; set; }
         private RunwayInfo runwayInfo { get; set; }
-        private Sound sound { get; set; }
-        private String metar { get; set; }
         private Boolean runwayInfoState { get; set; }
+        private Sound sound { get; set; }
         private Boolean soundState { get; set; }
-        private String latestVersion { get; set; }
+        private List<String> departureRunways { get; set; }
+        private List<String> landingRunways { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -34,7 +39,7 @@ namespace DutchVACCATISGenerator
             InitializeComponent();
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
+            
             //Set ATIS index to Z for first generation.
             atisIndex = 25;
 
@@ -46,6 +51,7 @@ namespace DutchVACCATISGenerator
 
             runwayInfoState = false;
 
+            //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
         }
 
@@ -70,6 +76,9 @@ namespace DutchVACCATISGenerator
 
             //Start METAR background worker to start pulling the METAR.
             metarBackgroundWorker.RunWorkerAsync(_ICAO);
+
+            if (realEHAMRunwaysCheckBox.Checked)
+                realRunwayBackgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -309,8 +318,9 @@ namespace DutchVACCATISGenerator
                 runwayInfo.checkICAOTabSelected();
             }
 
+            //TODO
             //Uncheck select best preferred runway(s) check box.
-            setBestRunwaysCheckBox.Checked = false;
+            //setBestRunwaysCheckBox.Checked = false;
         }
 
         /// <summary>
@@ -502,29 +512,32 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region RWY CONFIGURATIONS
-            if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
+            if (EHAMmainLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayCheckBox.Checked)
+            {
+                if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
-            else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+            }
             #endregion
 
             #region CHECK FOR ADDING [AND]
@@ -1198,11 +1211,18 @@ namespace DutchVACCATISGenerator
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Set ICAO of selected ICAO tab in ICAO text box.
-            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM")) icaoTextBox.Text = "EHAM";
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+            {
+                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = true;
+                icaoTextBox.Text = "EHAM";
+            }
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK")) icaoTextBox.Text = "EHBK";
-            else  if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
             else icaoTextBox.Text = "EHRD";
+
+            if (!ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = false;             
 
             //Check select best preferred runway(s) check box.
             //UNCOMMENT
@@ -1399,6 +1419,208 @@ namespace DutchVACCATISGenerator
                 if(!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
                 {
                     if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method called when real runway background workers is started. Gets the real EHAM runway configuration.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void realRunwayBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.lvnl.nl/nl/airtraffic");
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Stream receiveStream = response.GetResponseStream();
+                StreamReader readStream = null;
+
+                if (response.CharacterSet == null)
+                    readStream = new StreamReader(receiveStream);
+                else
+                    readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+
+                string data = readStream.ReadToEnd();
+
+                response.Close();
+                readStream.Close();
+
+                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
+
+                data = data.Substring(0, data.LastIndexOf("</div>") + 6);
+
+                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + 27, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + 27)).Trim();
+
+                data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + 30, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + 30)).Trim();
+
+                data = data.Substring(0, data.LastIndexOf("</div>"));
+
+                data = data.Substring(0, data.LastIndexOf("</div>"));
+
+                Console.WriteLine(data);
+
+            }
+
+            //Initialize runway list to get rid of previous stored runways.
+            departureRunways = new List<String>();
+            landingRunways = new List<String>();
+
+            //try
+            //{
+            //    //Get http://www.lvnl.nl/nl/airtraffic HTML source in JSON format using the Yahoo API.
+            //    WebRequest request = WebRequest.Create("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.lvnl.nl%2Fnl%2Fairtraffic'%20and%20xpath%3D'%2F%2Fli%5Bcontains(%40class%2C%22landingsbaan%22)%5D%7C%2F%2Fli%5Bcontains(%40class%2C%22startbaan%22)%5D'&format=json");
+            //    WebResponse response = request.GetResponse();
+
+            //    //Read http://www.lvnl.nl/nl/airtraffic HTML source.
+            //    System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            //    String json  = reader.ReadToEnd();
+
+            //    //Parse received JSON string to JArray object.
+            //    JArray runwayData = JArray.Parse(JObject.Parse(json).SelectToken("query").SelectToken("results").SelectToken("li").ToString());
+
+            //    //Get runway data from JArray object.
+            //    foreach (JObject o in runwayData.Children<JObject>())
+            //        determineRunwayMode(o.SelectToken("div").SelectToken("class").ToString().Substring(2, o.SelectToken("div").SelectToken("class").ToString().Length - 2), o.SelectToken("div").SelectToken("class").ToString().Substring(0, 2));
+            //}
+            //catch (WebException ex)
+            //{
+            //    Console.WriteLine(ex);
+            //    return;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //    return;
+            //}
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="runwayIdentifier"></param>
+        /// <param name="runwayMode"></param>
+        private void determineRunwayMode(String runwayIdentifier, String runwayMode)
+        {
+            if (runwayMode.Equals("sb"))
+                departureRunways.Add(runwayIdentifier);
+            else if (runwayMode.Equals("lb"))
+                landingRunways.Add(runwayIdentifier);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void realRunwayBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (departureRunways.Count == 1)
+                EHAMmainDepartureRunwayComboBox.Text = departureRunways.First();
+
+            if (landingRunways.Count == 1)
+                EHAMmainLandingRunwayComboBox.Text = landingRunways.First();
+
+            if (landingRunways.Count > 1 || departureRunways.Count > 1)
+                processMultipleRunways();
+
+            realEHAMRunwaysCheckBox.Checked = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void processMultipleRunways()
+        {
+            if (landingRunways.Count > 1)
+            {
+                String firstRunway = landingRunways.First();
+                String secondRunway = landingRunways.Last();
+                    
+                if((firstRunway.Equals("18R") && secondRunway.Equals("18C")) || (firstRunway.Equals("18C") && secondRunway.Equals("18R")))     
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "18R";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "18C";
+                }
+
+                else if((firstRunway.Equals("36R") && secondRunway.Equals("36C")) || (firstRunway.Equals("36C") && secondRunway.Equals("36R")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "36R";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "36C";
+                }
+
+                else if ((firstRunway.Equals("36R") && secondRunway.Equals("06")) || (firstRunway.Equals("06") && secondRunway.Equals("36R")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "06";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "36R";
+                }
+
+                else if ((firstRunway.Equals("18R") && secondRunway.Equals("27")) || (firstRunway.Equals("27") && secondRunway.Equals("18R")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "18R";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "27";
+                }
+
+                else if ((firstRunway.Equals("18C") && secondRunway.Equals("27")) || (firstRunway.Equals("27") && secondRunway.Equals("18C")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "18C";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "27";
+                }
+
+                else if ((firstRunway.Equals("18R") && secondRunway.Equals("22")) || (firstRunway.Equals("22") && secondRunway.Equals("18R")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "18R";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "22";
+                }
+
+                else if ((firstRunway.Equals("18C") && secondRunway.Equals("22")) || (firstRunway.Equals("22") && secondRunway.Equals("18C")))
+                {
+                    EHAMmainLandingRunwayComboBox.Text = "18C";
+                    EHAMsecondaryLandingRunwayComboBox.Text = "22";
+                }
+            }
+
+            if(departureRunways.Count > 1)
+            {
+                String firstRunway = departureRunways.First();
+                String secondRunway = departureRunways.Last();
+
+                if ((firstRunway.Equals("18L") && secondRunway.Equals("18C")) || (firstRunway.Equals("18C") && secondRunway.Equals("18L")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "18L";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "18C";
+                }
+
+                else if ((firstRunway.Equals("36L") && secondRunway.Equals("36C")) || (firstRunway.Equals("36C") && secondRunway.Equals("36L")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "36L";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "36C";
+                }
+
+                else if ((firstRunway.Equals("36L") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("36L")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "36L";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
+                }
+
+                else if ((firstRunway.Equals("18C") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("18C")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "18C";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
+                }
+
+                else if ((firstRunway.Equals("36C") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("36C")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "36C";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
+                }
+
+                else if ((firstRunway.Equals("24") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("24")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "24";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
                 }
             }
         }

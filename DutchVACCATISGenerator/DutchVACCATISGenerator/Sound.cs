@@ -370,6 +370,9 @@ namespace DutchVACCATISGenerator
         private void Sound_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (dutchVACCATISGenerator.soundButton.Text.Equals("▲")) dutchVACCATISGenerator.soundButton.Text = "▼";
+            
+            if(wavePlayer != null)
+                wavePlayer.Stop();
         }
 
         /// <summary>

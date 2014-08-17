@@ -58,7 +58,7 @@
             this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
-            this.setBestRunwaysCheckBox = new System.Windows.Forms.CheckBox();
+            this.realEHAMRunwaysCheckBox = new System.Windows.Forms.CheckBox();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.outputGroupBox = new System.Windows.Forms.GroupBox();
@@ -98,6 +98,7 @@
             this.runwayInfoButton = new System.Windows.Forms.Button();
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -458,7 +459,7 @@
             // 
             // metarInputGroupBox
             // 
-            this.metarInputGroupBox.Controls.Add(this.setBestRunwaysCheckBox);
+            this.metarInputGroupBox.Controls.Add(this.realEHAMRunwaysCheckBox);
             this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
             this.metarInputGroupBox.Controls.Add(this.getMetarButton);
             this.metarInputGroupBox.Controls.Add(this.metarTextBox);
@@ -471,16 +472,17 @@
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
             // 
-            // setBestRunwaysCheckBox
+            // realEHAMRunwaysCheckBox
             // 
-            this.setBestRunwaysCheckBox.AutoSize = true;
-            this.setBestRunwaysCheckBox.Enabled = false;
-            this.setBestRunwaysCheckBox.Location = new System.Drawing.Point(357, 22);
-            this.setBestRunwaysCheckBox.Name = "setBestRunwaysCheckBox";
-            this.setBestRunwaysCheckBox.Size = new System.Drawing.Size(172, 17);
-            this.setBestRunwaysCheckBox.TabIndex = 5;
-            this.setBestRunwaysCheckBox.Text = "Select best preferred runway(s)";
-            this.setBestRunwaysCheckBox.UseVisualStyleBackColor = true;
+            this.realEHAMRunwaysCheckBox.AutoSize = true;
+            this.realEHAMRunwaysCheckBox.Checked = true;
+            this.realEHAMRunwaysCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.realEHAMRunwaysCheckBox.Location = new System.Drawing.Point(410, 23);
+            this.realEHAMRunwaysCheckBox.Name = "realEHAMRunwaysCheckBox";
+            this.realEHAMRunwaysCheckBox.Size = new System.Drawing.Size(119, 17);
+            this.realEHAMRunwaysCheckBox.TabIndex = 6;
+            this.realEHAMRunwaysCheckBox.Text = "Get EHAM runways";
+            this.realEHAMRunwaysCheckBox.UseVisualStyleBackColor = true;
             // 
             // copyOutputCheckBox
             // 
@@ -895,6 +897,11 @@
             this.versionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.versionBackgroundWorker_DoWork);
             this.versionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.versionBackgroundWorker_RunWorkerCompleted);
             // 
+            // realRunwayBackgroundWorker
+            // 
+            this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
+            this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1030,12 +1037,13 @@
         public System.Windows.Forms.Button soundButton;
         public System.Windows.Forms.ComboBox EHAMmainLandingRunwayComboBox;
         public System.Windows.Forms.ComboBox EHAMmainDepartureRunwayComboBox;
-        public System.Windows.Forms.CheckBox setBestRunwaysCheckBox;
         public System.Windows.Forms.ComboBox EHRDmainRunwayComboBox;
         public System.Windows.Forms.ComboBox EHGGmainRunwayComboBox;
         public System.Windows.Forms.ComboBox EHBKmainRunwayComboBox;
         public System.Windows.Forms.ComboBox EHEHmainRunwayComboBox;
         private System.ComponentModel.BackgroundWorker versionBackgroundWorker;
+        private System.ComponentModel.BackgroundWorker realRunwayBackgroundWorker;
+        private System.Windows.Forms.CheckBox realEHAMRunwaysCheckBox;
     }
 }
 
