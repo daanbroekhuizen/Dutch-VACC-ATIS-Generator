@@ -69,10 +69,16 @@ E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATIS
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Dutch VACC - ATIS Generator.pdb
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.dll
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\NAudio.WindowsMediaFormat.dll
-E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.About.resources
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.DutchVACCATISGenerator.resources
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Properties.Resources.resources
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.RunwayInfo.resources
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.Sound.resources
 E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csproj.GenerateResource.Cache
+E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.dll
+E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.pdb
+E:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.xml
+D:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.dll
+D:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.pdb
+D:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\bin\Debug\Newtonsoft.Json.xml
+D:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\DutchVACCATISGenerator\DutchVACCATISGenerator\obj\Debug\DutchVACCATISGenerator.csprojResolveAssemblyReference.cache

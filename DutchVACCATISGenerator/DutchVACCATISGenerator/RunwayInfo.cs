@@ -410,9 +410,6 @@ namespace DutchVACCATISGenerator
             //If selected ICAO tab is EHAM.
             if (!(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text.Equals("EHAM"))) ICAODirectoryToProcess(dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Text);
             else fillEHAMRunwayInfoDataGrids();
-
-            //UNCOMMENT
-            //if (dutchVACCATISGenerator.setBestRunwaysCheckBox.Checked) setBestRunways(); 
         }
 
         /// <summary>

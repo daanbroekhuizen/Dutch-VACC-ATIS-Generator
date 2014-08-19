@@ -30,6 +30,11 @@ namespace DutchVACCATISGenerator
         private Boolean soundState { get; set; }
         private List<String> departureRunways { get; set; }
         private List<String> landingRunways { get; set; }
+        enum runwayConfiguartion
+        {
+            departureRunway,
+            landingRunway
+        };
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -317,10 +322,6 @@ namespace DutchVACCATISGenerator
                 runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
                 runwayInfo.checkICAOTabSelected();
             }
-
-            //TODO
-            //Uncheck select best preferred runway(s) check box.
-            //setBestRunwaysCheckBox.Checked = false;
         }
 
         /// <summary>
@@ -1223,10 +1224,6 @@ namespace DutchVACCATISGenerator
 
             if (!ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
                 realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = false;             
-
-            //Check select best preferred runway(s) check box.
-            //UNCOMMENT
-            //setBestRunwaysCheckBox.Checked = true;
         }
 
         /// <summary>
@@ -1430,6 +1427,10 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            //Initialize runway list to get rid of previous stored runways.
+            departureRunways = new List<String>();
+            landingRunways = new List<String>();
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.lvnl.nl/nl/airtraffic");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
@@ -1450,71 +1451,41 @@ namespace DutchVACCATISGenerator
 
                 data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
 
-                data = data.Substring(0, data.LastIndexOf("</div>") + 6);
+                data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
 
-                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + 27, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + 27)).Trim();
+                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
 
-                data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + 30, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + 30)).Trim();
-
-                data = data.Substring(0, data.LastIndexOf("</div>"));
+                data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
 
                 data = data.Substring(0, data.LastIndexOf("</div>"));
 
-                Console.WriteLine(data);
+                data = data.Substring(0, data.LastIndexOf("</div>"));
 
+                while (data.Contains("<li"))
+                {
+                    String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
+
+                    if (runwayListItem.Contains("class=\"lb"))
+                    {
+                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
+                        landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
+                    }
+                    else if (runwayListItem.Contains("class=\"sb"))
+                    {
+                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
+                        departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
+                    }
+
+                    data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
+                }
             }
-
-            //Initialize runway list to get rid of previous stored runways.
-            departureRunways = new List<String>();
-            landingRunways = new List<String>();
-
-            //try
-            //{
-            //    //Get http://www.lvnl.nl/nl/airtraffic HTML source in JSON format using the Yahoo API.
-            //    WebRequest request = WebRequest.Create("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.lvnl.nl%2Fnl%2Fairtraffic'%20and%20xpath%3D'%2F%2Fli%5Bcontains(%40class%2C%22landingsbaan%22)%5D%7C%2F%2Fli%5Bcontains(%40class%2C%22startbaan%22)%5D'&format=json");
-            //    WebResponse response = request.GetResponse();
-
-            //    //Read http://www.lvnl.nl/nl/airtraffic HTML source.
-            //    System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
-            //    String json  = reader.ReadToEnd();
-
-            //    //Parse received JSON string to JArray object.
-            //    JArray runwayData = JArray.Parse(JObject.Parse(json).SelectToken("query").SelectToken("results").SelectToken("li").ToString());
-
-            //    //Get runway data from JArray object.
-            //    foreach (JObject o in runwayData.Children<JObject>())
-            //        determineRunwayMode(o.SelectToken("div").SelectToken("class").ToString().Substring(2, o.SelectToken("div").SelectToken("class").ToString().Length - 2), o.SelectToken("div").SelectToken("class").ToString().Substring(0, 2));
-            //}
-            //catch (WebException ex)
-            //{
-            //    Console.WriteLine(ex);
-            //    return;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //    return;
-            //}
         }
 
         /// <summary>
-        /// 
+        /// Method called when real runway background worker is completed.
         /// </summary>
-        /// <param name="runwayIdentifier"></param>
-        /// <param name="runwayMode"></param>
-        private void determineRunwayMode(String runwayIdentifier, String runwayMode)
-        {
-            if (runwayMode.Equals("sb"))
-                departureRunways.Add(runwayIdentifier);
-            else if (runwayMode.Equals("lb"))
-                landingRunways.Add(runwayIdentifier);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (departureRunways.Count == 1)
@@ -1527,10 +1498,13 @@ namespace DutchVACCATISGenerator
                 processMultipleRunways();
 
             realEHAMRunwaysCheckBox.Checked = false;
+
+            //UNCOMMENT
+            MessageBox.Show("Controller notice! Check auto selected runway(s).", "Warning");
         }
 
         /// <summary>
-        /// 
+        /// Process if multiple runways we're found and set the runway selection boxes with the founded values.
         /// </summary>
         private void processMultipleRunways()
         {
@@ -1603,6 +1577,12 @@ namespace DutchVACCATISGenerator
                 {
                     EHAMmainDepartureRunwayComboBox.Text = "36L";
                     EHAMsecondaryDepartureRunwayComboBox.Text = "09";
+                }
+
+                else if ((firstRunway.Equals("36L") && secondRunway.Equals("24")) || (firstRunway.Equals("24") && secondRunway.Equals("36L")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "24";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "36L";
                 }
 
                 else if ((firstRunway.Equals("18C") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("18C")))
