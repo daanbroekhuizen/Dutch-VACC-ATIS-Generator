@@ -99,6 +99,7 @@
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.selectBestRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -459,6 +460,7 @@
             // 
             // metarInputGroupBox
             // 
+            this.metarInputGroupBox.Controls.Add(this.selectBestRunwayCheckBox);
             this.metarInputGroupBox.Controls.Add(this.realEHAMRunwaysCheckBox);
             this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
             this.metarInputGroupBox.Controls.Add(this.getMetarButton);
@@ -902,6 +904,19 @@
             this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
             this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
             // 
+            // selectBestRunwayCheckBox
+            // 
+            this.selectBestRunwayCheckBox.AutoSize = true;
+            this.selectBestRunwayCheckBox.Checked = true;
+            this.selectBestRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.selectBestRunwayCheckBox.Location = new System.Drawing.Point(413, 23);
+            this.selectBestRunwayCheckBox.Name = "selectBestRunwayCheckBox";
+            this.selectBestRunwayCheckBox.Size = new System.Drawing.Size(116, 17);
+            this.selectBestRunwayCheckBox.TabIndex = 7;
+            this.selectBestRunwayCheckBox.Text = "Select best runway";
+            this.selectBestRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.selectBestRunwayCheckBox.Visible = false;
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1044,6 +1059,7 @@
         private System.ComponentModel.BackgroundWorker versionBackgroundWorker;
         private System.ComponentModel.BackgroundWorker realRunwayBackgroundWorker;
         private System.Windows.Forms.CheckBox realEHAMRunwaysCheckBox;
+        private System.Windows.Forms.CheckBox selectBestRunwayCheckBox;
     }
 }
 

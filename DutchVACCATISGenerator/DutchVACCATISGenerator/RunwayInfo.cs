@@ -148,7 +148,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Fills the EHAM runway info data grids.
         /// </summary>
-        public void fillEHAMRunwayInfoDataGrids()
+        private void fillEHAMRunwayInfoDataGrids()
         {
             //Clear the EHAM landing runway info DataGridView.
             EHAMlandingRunwayInfoDataGridView.Rows.Clear();
@@ -193,7 +193,7 @@ namespace DutchVACCATISGenerator
         /// Fills the runway info data grids.
         /// </summary>
         /// <param name="runways">Dictionary to process.</param>
-        public void fillRunwayInfoDataGrid(Dictionary<String, Tuple<int, int, String>> runways)
+        private void fillRunwayInfoDataGrid(Dictionary<String, Tuple<int, int, String>> runways)
         {
             //Clear the runway info DataGridView.
             runwayInfoDataGridView.Rows.Clear();
@@ -459,6 +459,75 @@ namespace DutchVACCATISGenerator
                 
                 e.Handled = true;
             }
+        }
+
+        /// <summary>
+        /// Set runway combo box with best preferred runway for selected ICAO.
+        /// </summary>
+        /// <param name="icaoTab">ICAO tab selected.</param>
+        public void ICAOBestRunway(String icaoTab)
+        {
+            switch (icaoTab)
+            {
+                case "EHBK":
+                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHBKRunways, 4));
+                    break;
+
+                case "EHRD":
+                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHRDRunways, 4));
+                    break;
+
+                case "EHGG":
+                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHGGRunways, 4));
+                    break;
+
+                case "EHEH":
+                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHEHRunways, 4));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Get best preferred runway by DataGridView.
+        /// </summary>
+        /// <param name="runwayInfoDataGridView"></param>
+        /// <param name="runwayList"></param>
+        /// <param name="prefColumn">Array position of pref column</param>
+        /// <param name="OKColumn">Array position of OK column</param>
+        /// <returns></returns>
+        private String getBestRunway(DataGridView runwayInfoDataGridView, Dictionary<String, Tuple<int, int, String>> runwayList, int OKColumn)
+        {
+            //Best runway holder.
+            String runwayString = String.Empty;
+            //Highest preference.
+            int runwayPref = int.MaxValue;
+
+            //Iterate through each data row of the provided DataGridView.
+            foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
+            {
+                //If RWY is OK.
+                if (!(row.Cells[OKColumn].Value.Equals("OK")))
+                {
+                    runwayList.Remove(row.Cells[0].Value.ToString());
+                }
+            }
+
+            foreach (KeyValuePair<String, Tuple<int, int, String>> pair in runwayList)
+            {
+                if (runwayString.Equals(String.Empty))
+                {
+                    runwayString = pair.Key;
+                    runwayPref = Convert.ToInt32(pair.Value.Item3);
+                }
+
+                if (Convert.ToInt32(pair.Value.Item3) < runwayPref)
+                {
+                    runwayString = pair.Key;
+                    runwayPref = Convert.ToInt32(pair.Value.Item3);
+                }
+            }
+            
+            return runwayString;
         }
     }
 }

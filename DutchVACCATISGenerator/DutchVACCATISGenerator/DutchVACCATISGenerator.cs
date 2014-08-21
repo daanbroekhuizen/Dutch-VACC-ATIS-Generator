@@ -20,6 +20,8 @@ namespace DutchVACCATISGenerator
     public partial class DutchVACCATISGenerator : Form
     {
         private int atisIndex { get; set; }
+        private List<String> departureRunways { get; set; }
+        private List<String> landingRunways { get; set; }
         private String latestVersion { get; set; }
         private List<String> phoneticAlphabet { get; set; }
         private String metar { get; set; }
@@ -28,13 +30,6 @@ namespace DutchVACCATISGenerator
         private Boolean runwayInfoState { get; set; }
         private Sound sound { get; set; }
         private Boolean soundState { get; set; }
-        private List<String> departureRunways { get; set; }
-        private List<String> landingRunways { get; set; }
-        enum runwayConfiguartion
-        {
-            departureRunway,
-            landingRunway
-        };
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -82,7 +77,7 @@ namespace DutchVACCATISGenerator
             //Start METAR background worker to start pulling the METAR.
             metarBackgroundWorker.RunWorkerAsync(_ICAO);
 
-            if (realEHAMRunwaysCheckBox.Checked)
+            if (realEHAMRunwaysCheckBox.Visible && realEHAMRunwaysCheckBox.Checked)
                 realRunwayBackgroundWorker.RunWorkerAsync();
         }
 
@@ -321,6 +316,15 @@ namespace DutchVACCATISGenerator
                 runwayInfo.metar = metarProcessor.metar;
                 runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
                 runwayInfo.checkICAOTabSelected();
+            }
+
+            if (selectBestRunwayCheckBox.Visible && selectBestRunwayCheckBox.Checked)
+            {
+                runwayInfo.ICAOBestRunway(ICAOTabControl.SelectedTab.Name);
+                selectBestRunwayCheckBox.Checked = false;
+
+                //UNCOMMENT
+                MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
             }
         }
 
@@ -1214,16 +1218,34 @@ namespace DutchVACCATISGenerator
             //Set ICAO of selected ICAO tab in ICAO text box.
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
             {
-                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = true;
                 icaoTextBox.Text = "EHAM";
+                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = true;
+                selectBestRunwayCheckBox.Visible = false;
             }
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK")) icaoTextBox.Text = "EHBK";
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH")) icaoTextBox.Text = "EHEH";
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG")) icaoTextBox.Text = "EHGG";
-            else icaoTextBox.Text = "EHRD";
-
-            if (!ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
-                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = false;             
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
+            {
+                icaoTextBox.Text = "EHBK";
+                realEHAMRunwaysCheckBox.Visible = false;
+                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
+            }
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
+            {
+                icaoTextBox.Text = "EHEH";
+                realEHAMRunwaysCheckBox.Visible = false;
+                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
+            }
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
+            {
+                icaoTextBox.Text = "EHGG";
+                realEHAMRunwaysCheckBox.Visible = false;
+                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
+            }
+            else
+            {
+                icaoTextBox.Text = "EHRD";
+                realEHAMRunwaysCheckBox.Visible = false;
+                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
+            }             
         }
 
         /// <summary>
@@ -1415,7 +1437,8 @@ namespace DutchVACCATISGenerator
                 //If a newer version is available.
                 if(!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
                 {
-                    if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
+                    //UNCOMMENT
+                    //if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
                 }
             }
         }
@@ -1449,17 +1472,17 @@ namespace DutchVACCATISGenerator
                 response.Close();
                 readStream.Close();
 
-                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
+                //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
 
-                data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
+                //data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
 
-                data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
+                //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
 
-                data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
+                //data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
 
-                data = data.Substring(0, data.LastIndexOf("</div>"));
+                //data = data.Substring(0, data.LastIndexOf("</div>"));
 
-                data = data.Substring(0, data.LastIndexOf("</div>"));
+                //data = data.Substring(0, data.LastIndexOf("</div>"));
 
                 while (data.Contains("<li"))
                 {
@@ -1500,7 +1523,7 @@ namespace DutchVACCATISGenerator
             realEHAMRunwaysCheckBox.Checked = false;
 
             //UNCOMMENT
-            MessageBox.Show("Controller notice! Check auto selected runway(s).", "Warning");
+            MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
         }
 
         /// <summary>
@@ -1565,6 +1588,12 @@ namespace DutchVACCATISGenerator
                 {
                     EHAMmainDepartureRunwayComboBox.Text = "18L";
                     EHAMsecondaryDepartureRunwayComboBox.Text = "18C";
+                }
+
+                else if ((firstRunway.Equals("18L") && secondRunway.Equals("24")) || (firstRunway.Equals("24") && secondRunway.Equals("18L")))
+                {
+                    EHAMmainDepartureRunwayComboBox.Text = "24";
+                    EHAMsecondaryDepartureRunwayComboBox.Text = "18L";
                 }
 
                 else if ((firstRunway.Equals("36L") && secondRunway.Equals("36C")) || (firstRunway.Equals("36C") && secondRunway.Equals("36L")))
