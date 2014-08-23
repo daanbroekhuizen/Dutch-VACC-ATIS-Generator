@@ -58,6 +58,7 @@
             this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.selectBestRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.realEHAMRunwaysCheckBox = new System.Windows.Forms.CheckBox();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
@@ -91,6 +92,7 @@
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.addWindRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.arrOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -99,7 +101,6 @@
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.selectBestRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -474,6 +475,19 @@
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
             // 
+            // selectBestRunwayCheckBox
+            // 
+            this.selectBestRunwayCheckBox.AutoSize = true;
+            this.selectBestRunwayCheckBox.Checked = true;
+            this.selectBestRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.selectBestRunwayCheckBox.Location = new System.Drawing.Point(413, 23);
+            this.selectBestRunwayCheckBox.Name = "selectBestRunwayCheckBox";
+            this.selectBestRunwayCheckBox.Size = new System.Drawing.Size(116, 17);
+            this.selectBestRunwayCheckBox.TabIndex = 7;
+            this.selectBestRunwayCheckBox.Text = "Select best runway";
+            this.selectBestRunwayCheckBox.UseVisualStyleBackColor = true;
+            this.selectBestRunwayCheckBox.Visible = false;
+            // 
             // realEHAMRunwaysCheckBox
             // 
             this.realEHAMRunwaysCheckBox.AutoSize = true;
@@ -819,6 +833,7 @@
             // 
             // additionalOptionsGroupBox
             // 
+            this.additionalOptionsGroupBox.Controls.Add(this.addWindRecordCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.arrOnlyCheckBox);
@@ -830,10 +845,20 @@
             this.additionalOptionsGroupBox.TabStop = false;
             this.additionalOptionsGroupBox.Text = "Additional Options";
             // 
+            // addWindRecordCheckBox
+            // 
+            this.addWindRecordCheckBox.AutoSize = true;
+            this.addWindRecordCheckBox.Location = new System.Drawing.Point(6, 124);
+            this.addWindRecordCheckBox.Name = "addWindRecordCheckBox";
+            this.addWindRecordCheckBox.Size = new System.Drawing.Size(103, 30);
+            this.addWindRecordCheckBox.TabIndex = 18;
+            this.addWindRecordCheckBox.Text = "Add wind record\r\nto output";
+            this.addWindRecordCheckBox.UseVisualStyleBackColor = true;
+            // 
             // markTempCheckBox
             // 
             this.markTempCheckBox.AutoSize = true;
-            this.markTempCheckBox.Location = new System.Drawing.Point(6, 81);
+            this.markTempCheckBox.Location = new System.Drawing.Point(6, 96);
             this.markTempCheckBox.Name = "markTempCheckBox";
             this.markTempCheckBox.Size = new System.Drawing.Size(122, 30);
             this.markTempCheckBox.TabIndex = 17;
@@ -843,7 +868,7 @@
             // appArrOnlyCheckBox
             // 
             this.appArrOnlyCheckBox.AutoSize = true;
-            this.appArrOnlyCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.appArrOnlyCheckBox.Location = new System.Drawing.Point(6, 75);
             this.appArrOnlyCheckBox.Name = "appArrOnlyCheckBox";
             this.appArrOnlyCheckBox.Size = new System.Drawing.Size(142, 17);
             this.appArrOnlyCheckBox.TabIndex = 16;
@@ -854,7 +879,7 @@
             // arrOnlyCheckBox
             // 
             this.arrOnlyCheckBox.AutoSize = true;
-            this.arrOnlyCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.arrOnlyCheckBox.Location = new System.Drawing.Point(6, 47);
             this.arrOnlyCheckBox.Name = "arrOnlyCheckBox";
             this.arrOnlyCheckBox.Size = new System.Drawing.Size(109, 17);
             this.arrOnlyCheckBox.TabIndex = 15;
@@ -903,19 +928,6 @@
             // 
             this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
             this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
-            // 
-            // selectBestRunwayCheckBox
-            // 
-            this.selectBestRunwayCheckBox.AutoSize = true;
-            this.selectBestRunwayCheckBox.Checked = true;
-            this.selectBestRunwayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.selectBestRunwayCheckBox.Location = new System.Drawing.Point(413, 23);
-            this.selectBestRunwayCheckBox.Name = "selectBestRunwayCheckBox";
-            this.selectBestRunwayCheckBox.Size = new System.Drawing.Size(116, 17);
-            this.selectBestRunwayCheckBox.TabIndex = 7;
-            this.selectBestRunwayCheckBox.Text = "Select best runway";
-            this.selectBestRunwayCheckBox.UseVisualStyleBackColor = true;
-            this.selectBestRunwayCheckBox.Visible = false;
             // 
             // DutchVACCATISGenerator
             // 
@@ -1060,6 +1072,7 @@
         private System.ComponentModel.BackgroundWorker realRunwayBackgroundWorker;
         private System.Windows.Forms.CheckBox realEHAMRunwaysCheckBox;
         private System.Windows.Forms.CheckBox selectBestRunwayCheckBox;
+        private System.Windows.Forms.CheckBox addWindRecordCheckBox;
     }
 }
 

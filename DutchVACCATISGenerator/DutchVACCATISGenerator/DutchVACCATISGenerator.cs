@@ -1003,6 +1003,7 @@ namespace DutchVACCATISGenerator
 
             #region WIND
             //If processed METAR has wind, generate and add wind output to output. 
+            if (addWindRecordCheckBox.Checked) output += "[wind]";
             if (metarProcessor.metar.Wind != null) output += windToOutput(metarProcessor.metar.Wind);
             #endregion
 
@@ -1437,8 +1438,23 @@ namespace DutchVACCATISGenerator
                 //If a newer version is available.
                 if(!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
                 {
+                    while(latestVersion.Contains("."))
+                    {
+                        latestVersion = latestVersion.Remove(latestVersion.IndexOf("."), 1);
+                    }
+
+                    string applicationVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim();
+
+                    while (applicationVersion.Contains("."))
+                    {
+                        applicationVersion = applicationVersion.Remove(applicationVersion.IndexOf("."), 1);
+                    }
+
                     //UNCOMMENT
-                    //if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
+                    if (Convert.ToInt32(latestVersion) > Convert.ToInt32(applicationVersion))
+                    {
+                        if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
+                    }
                 }
             }
         }
@@ -1535,47 +1551,25 @@ namespace DutchVACCATISGenerator
             {
                 String firstRunway = landingRunways.First();
                 String secondRunway = landingRunways.Last();
-                    
-                if((firstRunway.Equals("18R") && secondRunway.Equals("18C")) || (firstRunway.Equals("18C") && secondRunway.Equals("18R")))     
-                {
-                    EHAMmainLandingRunwayComboBox.Text = "18R";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "18C";
-                }
 
-                else if((firstRunway.Equals("36R") && secondRunway.Equals("36C")) || (firstRunway.Equals("36C") && secondRunway.Equals("36R")))
+                List<Tuple<String, String>> landingRunwayCombinations = new List<Tuple<String, String>>()
                 {
-                    EHAMmainLandingRunwayComboBox.Text = "36R";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "36C";
-                }
+                    { new Tuple<String, String>("18R", "18C")},
+                    { new Tuple<String, String>("18R", "27")},
+                    { new Tuple<String, String>("18R", "22")},
+                    { new Tuple<String, String>("18C", "27")},
+                    { new Tuple<String, String>("18C", "22")},
+                    { new Tuple<String, String>("36R", "36C")},
+                    { new Tuple<String, String>("06", "36R")},
+                };
 
-                else if ((firstRunway.Equals("36R") && secondRunway.Equals("06")) || (firstRunway.Equals("06") && secondRunway.Equals("36R")))
+                foreach (Tuple<String, String> runwayCombination in landingRunwayCombinations)
                 {
-                    EHAMmainLandingRunwayComboBox.Text = "06";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "36R";
-                }
-
-                else if ((firstRunway.Equals("18R") && secondRunway.Equals("27")) || (firstRunway.Equals("27") && secondRunway.Equals("18R")))
-                {
-                    EHAMmainLandingRunwayComboBox.Text = "18R";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "27";
-                }
-
-                else if ((firstRunway.Equals("18C") && secondRunway.Equals("27")) || (firstRunway.Equals("27") && secondRunway.Equals("18C")))
-                {
-                    EHAMmainLandingRunwayComboBox.Text = "18C";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "27";
-                }
-
-                else if ((firstRunway.Equals("18R") && secondRunway.Equals("22")) || (firstRunway.Equals("22") && secondRunway.Equals("18R")))
-                {
-                    EHAMmainLandingRunwayComboBox.Text = "18R";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "22";
-                }
-
-                else if ((firstRunway.Equals("18C") && secondRunway.Equals("22")) || (firstRunway.Equals("22") && secondRunway.Equals("18C")))
-                {
-                    EHAMmainLandingRunwayComboBox.Text = "18C";
-                    EHAMsecondaryLandingRunwayComboBox.Text = "22";
+                    if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
+                    {
+                        EHAMmainLandingRunwayComboBox.Text = runwayCombination.Item1;
+                        EHAMsecondaryLandingRunwayComboBox.Text = runwayCombination.Item2;
+                    }
                 }
             }
 
@@ -1584,52 +1578,25 @@ namespace DutchVACCATISGenerator
                 String firstRunway = departureRunways.First();
                 String secondRunway = departureRunways.Last();
 
-                if ((firstRunway.Equals("18L") && secondRunway.Equals("18C")) || (firstRunway.Equals("18C") && secondRunway.Equals("18L")))
+                List<Tuple<String, String>> departureRunwayCombinations = new List<Tuple<String, String>>()
                 {
-                    EHAMmainDepartureRunwayComboBox.Text = "18L";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "18C";
-                }
+                    { new Tuple<String, String>("18L", "18C")},
+                    { new Tuple<String, String>("24", "18L")},
+                    { new Tuple<String, String>("36L", "36C")},
+                    { new Tuple<String, String>("36L", "09")},
+                    { new Tuple<String, String>("24", "36L")},
+                    { new Tuple<String, String>("18C", "09")},
+                    { new Tuple<String, String>("36C", "09")},
+                    { new Tuple<String, String>("24", "09")},
+                };
 
-                else if ((firstRunway.Equals("18L") && secondRunway.Equals("24")) || (firstRunway.Equals("24") && secondRunway.Equals("18L")))
+                foreach (Tuple<String, String> runwayCombination in departureRunwayCombinations)
                 {
-                    EHAMmainDepartureRunwayComboBox.Text = "24";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "18L";
-                }
-
-                else if ((firstRunway.Equals("36L") && secondRunway.Equals("36C")) || (firstRunway.Equals("36C") && secondRunway.Equals("36L")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "36L";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "36C";
-                }
-
-                else if ((firstRunway.Equals("36L") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("36L")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "36L";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
-                }
-
-                else if ((firstRunway.Equals("36L") && secondRunway.Equals("24")) || (firstRunway.Equals("24") && secondRunway.Equals("36L")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "24";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "36L";
-                }
-
-                else if ((firstRunway.Equals("18C") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("18C")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "18C";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
-                }
-
-                else if ((firstRunway.Equals("36C") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("36C")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "36C";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
-                }
-
-                else if ((firstRunway.Equals("24") && secondRunway.Equals("09")) || (firstRunway.Equals("09") && secondRunway.Equals("24")))
-                {
-                    EHAMmainDepartureRunwayComboBox.Text = "24";
-                    EHAMsecondaryDepartureRunwayComboBox.Text = "09";
+                    if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
+                    {
+                        EHAMmainDepartureRunwayComboBox.Text = runwayCombination.Item1;
+                        EHAMsecondaryDepartureRunwayComboBox.Text = runwayCombination.Item2;
+                    }
                 }
             }
         }

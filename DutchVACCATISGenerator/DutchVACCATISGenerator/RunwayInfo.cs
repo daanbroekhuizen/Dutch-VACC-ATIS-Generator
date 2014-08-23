@@ -421,27 +421,7 @@ namespace DutchVACCATISGenerator
         {
             if (dutchVACCATISGenerator.runwayInfoButton.Text.Equals("<")) dutchVACCATISGenerator.runwayInfoButton.Text = ">";
         }
-
-        /// <summary>
-        /// Check if night OPS are operational.
-        /// </summary>
-        /// <returns></returns>
-        private Boolean nightTime()
-        {
-            DateTime nightStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 22, 00, 00);
-            DateTime nightEnd = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 6, 00, 00);
-
-            //UNCOMMENT
-            //if (DateTime.UtcNow < nightStart && DateTime.UtcNow > nightEnd) return false;
-            //else return true;
-
-            //COMMENT OR DELETE
-            /* | */ DateTime dummy = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 3, 00, 00);
-            /* | */
-            /* | */ if (dummy < nightStart && dummy > nightEnd) return false;
-            /* | */ else return true;
-        }
-
+        
         /// <summary>
         /// Method called when a column in EHAM departure runway info DataGridView is sorted.
         /// </summary>
