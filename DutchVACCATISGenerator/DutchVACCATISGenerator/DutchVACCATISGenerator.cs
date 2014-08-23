@@ -74,11 +74,11 @@ namespace DutchVACCATISGenerator
             //Disable the get METAR button so the user can't overload it.
             getMetarButton.Enabled = false;
 
-            //Start METAR background worker to start pulling the METAR.
-            metarBackgroundWorker.RunWorkerAsync(_ICAO);
-
             if (realEHAMRunwaysCheckBox.Visible && realEHAMRunwaysCheckBox.Checked)
                 realRunwayBackgroundWorker.RunWorkerAsync();
+
+            //Start METAR background worker to start pulling the METAR.
+            metarBackgroundWorker.RunWorkerAsync(_ICAO);
         }
 
         /// <summary>
@@ -1470,53 +1470,74 @@ namespace DutchVACCATISGenerator
             departureRunways = new List<String>();
             landingRunways = new List<String>();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.lvnl.nl/nl/airtraffic");
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
-                Stream receiveStream = response.GetResponseStream();
-                StreamReader readStream = null;
+                //Make web request to http://www.lvnl.nl/nl/airtraffic.
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.lvnl.nl/nl/airtraffic");
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                if (response.CharacterSet == null)
-                    readStream = new StreamReader(receiveStream);
-                else
-                    readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
-
-                string data = readStream.ReadToEnd();
-
-                response.Close();
-                readStream.Close();
-
-                //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
-
-                //data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
-
-                //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
-
-                //data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
-
-                //data = data.Substring(0, data.LastIndexOf("</div>"));
-
-                //data = data.Substring(0, data.LastIndexOf("</div>"));
-
-                while (data.Contains("<li"))
+                //If HTTP status is 200.
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
+                    //Set receive stream.
+                    Stream receiveStream = response.GetResponseStream();
+                    StreamReader readStream = null;
 
-                    if (runwayListItem.Contains("class=\"lb"))
-                    {
-                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
-                        landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                    }
-                    else if (runwayListItem.Contains("class=\"sb"))
-                    {
-                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
-                        departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                    }
+                    //If no character set found, initialize stream without character set.
+                    if (response.CharacterSet == null)
+                        readStream = new StreamReader(receiveStream);
+                    //Initialize stream with character set.
+                    else
+                        readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
 
-                    data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
+                    //Read stream.
+                    string data = readStream.ReadToEnd();
+
+                    //Close stream.
+                    response.Close();
+                    readStream.Close();
+
+                    #region OLD SPLIT DATA
+                    //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
+
+                    //data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
+
+                    //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
+
+                    //data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
+
+                    //data = data.Substring(0, data.LastIndexOf("</div>"));
+
+                    //data = data.Substring(0, data.LastIndexOf("</div>"));
+                    #endregion
+
+                    //If received data contains HTML <li> tag.
+                    while (data.Contains("<li"))
+                    {
+                        //Get <li>...</lI>
+                        String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
+
+                        //If found list item is landing runway.
+                        if (runwayListItem.Contains("class=\"lb"))
+                        {
+                            runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
+                            landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
+                        }
+                        //If found list item is departure runway.
+                        else if (runwayListItem.Contains("class=\"sb"))
+                        {
+                            runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
+                            departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
+                        }
+
+                        //Remove list item from received data.
+                        data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
+                    }
                 }
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Unable to get real EHAM runway combination from the Internet.", "Error");
             }
         }
 
@@ -1527,15 +1548,20 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            //Only one departure runway found.
             if (departureRunways.Count == 1)
                 EHAMmainDepartureRunwayComboBox.Text = departureRunways.First();
 
+            //Only one landing runway found.
             if (landingRunways.Count == 1)
                 EHAMmainLandingRunwayComboBox.Text = landingRunways.First();
 
+
+            //Two or more landing or departure runways found.
             if (landingRunways.Count > 1 || departureRunways.Count > 1)
                 processMultipleRunways();
 
+            //De-select get EHAM runways combo box.
             realEHAMRunwaysCheckBox.Checked = false;
 
             //UNCOMMENT
@@ -1547,11 +1573,13 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void processMultipleRunways()
         {
+            //If there are more than two landing runways.
             if (landingRunways.Count > 1)
             {
                 String firstRunway = landingRunways.First();
                 String secondRunway = landingRunways.Last();
 
+                //Generate landing runway combinations list.
                 List<Tuple<String, String>> landingRunwayCombinations = new List<Tuple<String, String>>()
                 {
                     { new Tuple<String, String>("18R", "18C")},
@@ -1560,9 +1588,15 @@ namespace DutchVACCATISGenerator
                     { new Tuple<String, String>("18C", "27")},
                     { new Tuple<String, String>("18C", "22")},
                     { new Tuple<String, String>("36R", "36C")},
+                    { new Tuple<String, String>("36R", "27")},
                     { new Tuple<String, String>("06", "36R")},
+                    { new Tuple<String, String>("06", "04")},
+                    { new Tuple<String, String>("27", "22")},
+                    { new Tuple<String, String>("36C", "04")},
+                    { new Tuple<String, String>("36C", "27")},
                 };
 
+                //Check which runways are found and set the correct main and secondary landing runway.
                 foreach (Tuple<String, String> runwayCombination in landingRunwayCombinations)
                 {
                     if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
@@ -1573,23 +1607,31 @@ namespace DutchVACCATISGenerator
                 }
             }
 
+            //If there are more than two departure runways found.
             if(departureRunways.Count > 1)
             {
                 String firstRunway = departureRunways.First();
                 String secondRunway = departureRunways.Last();
 
+                //Generate departure runway combinations list.
                 List<Tuple<String, String>> departureRunwayCombinations = new List<Tuple<String, String>>()
                 {
-                    { new Tuple<String, String>("18L", "18C")},
                     { new Tuple<String, String>("24", "18L")},
-                    { new Tuple<String, String>("36L", "36C")},
-                    { new Tuple<String, String>("36L", "09")},
                     { new Tuple<String, String>("24", "36L")},
-                    { new Tuple<String, String>("18C", "09")},
-                    { new Tuple<String, String>("36C", "09")},
+                    { new Tuple<String, String>("24", "36C")},
                     { new Tuple<String, String>("24", "09")},
+                    { new Tuple<String, String>("36L", "36C")},
+                    { new Tuple<String, String>("36L", "09")},                    
+                    { new Tuple<String, String>("36L", "04")},        
+                    { new Tuple<String, String>("36L", "06")},        
+                    { new Tuple<String, String>("36C", "09")},
+                    { new Tuple<String, String>("36C", "04")},
+                    { new Tuple<String, String>("36C", "06")},
+                    { new Tuple<String, String>("18L", "18C")},
+                    { new Tuple<String, String>("18C", "09")},
                 };
 
+                //Check which runways are found and set the correct main and secondary departure runway.
                 foreach (Tuple<String, String> runwayCombination in departureRunwayCombinations)
                 {
                     if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
