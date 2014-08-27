@@ -1497,18 +1497,18 @@ namespace DutchVACCATISGenerator
                     response.Close();
                     readStream.Close();
 
-                    #region OLD SPLIT DATA
-                    //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
+                    #region Remove redundant HTML code.
+                    data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
 
-                    //data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
+                    data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
 
-                    //data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
+                    data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
 
-                    //data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
+                    data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
 
-                    //data = data.Substring(0, data.LastIndexOf("</div>"));
+                    data = data.Substring(0, data.LastIndexOf("</div>"));
 
-                    //data = data.Substring(0, data.LastIndexOf("</div>"));
+                    data = data.Substring(0, data.LastIndexOf("</div>"));
                     #endregion
 
                     //If received data contains HTML <li> tag.

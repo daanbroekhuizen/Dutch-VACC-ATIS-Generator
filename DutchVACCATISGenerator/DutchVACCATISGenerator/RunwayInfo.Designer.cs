@@ -28,11 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunwayInfo));
             this.EHAMlandingRunwayInfoDataGridView = new System.Windows.Forms.DataGridView();
+            this.EHAMlandingRunwayInfoRWY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMlandingRunwayInfoXWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMlandingRunwayInfoTWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMlandingRunwayInfoDREF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMlandingRunwayInfoNPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMlandingRunwayInfoCOMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EHAMdepartureRunwayInfoDataGridView = new System.Windows.Forms.DataGridView();
+            this.EHAMdepartureRunwayInfoRWY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMdepartureRunwayInfoXWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMdepartureRunwayInfoTWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMdepartureRunwayInfoDREF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMdepartureRunwayInfoNPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EHAMdepartureRunwayInfoCOMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EHAMLandingRunwaysGroupBox = new System.Windows.Forms.GroupBox();
             this.EHAMdepartureRunwaysGroupBox = new System.Windows.Forms.GroupBox();
             this.runwayFrictionGroupBox = new System.Windows.Forms.GroupBox();
@@ -45,18 +57,6 @@
             this.runwayInfoTWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runwayInfoPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runwayInfoCOMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoRWY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoXWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoTWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoDREF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoNPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMdepartureRunwayInfoCOMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoRWY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoXWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoTWIND = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoDREF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoNPRF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EHAMlandingRunwayInfoCOMPLY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.EHAMlandingRunwayInfoDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EHAMdepartureRunwayInfoDataGridView)).BeginInit();
             this.EHAMLandingRunwaysGroupBox.SuspendLayout();
@@ -92,6 +92,61 @@
             this.EHAMlandingRunwayInfoDataGridView.Size = new System.Drawing.Size(362, 241);
             this.EHAMlandingRunwayInfoDataGridView.TabIndex = 0;
             // 
+            // EHAMlandingRunwayInfoRWY
+            // 
+            this.EHAMlandingRunwayInfoRWY.HeaderText = "RWY";
+            this.EHAMlandingRunwayInfoRWY.Name = "EHAMlandingRunwayInfoRWY";
+            this.EHAMlandingRunwayInfoRWY.ReadOnly = true;
+            this.EHAMlandingRunwayInfoRWY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoRWY.Width = 60;
+            // 
+            // EHAMlandingRunwayInfoXWIND
+            // 
+            this.EHAMlandingRunwayInfoXWIND.HeaderText = "XWIND";
+            this.EHAMlandingRunwayInfoXWIND.Name = "EHAMlandingRunwayInfoXWIND";
+            this.EHAMlandingRunwayInfoXWIND.ReadOnly = true;
+            this.EHAMlandingRunwayInfoXWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoXWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMlandingRunwayInfoXWIND.Width = 60;
+            // 
+            // EHAMlandingRunwayInfoTWIND
+            // 
+            dataGridViewCellStyle1.NullValue = null;
+            this.EHAMlandingRunwayInfoTWIND.DefaultCellStyle = dataGridViewCellStyle1;
+            this.EHAMlandingRunwayInfoTWIND.HeaderText = "HWIND";
+            this.EHAMlandingRunwayInfoTWIND.Name = "EHAMlandingRunwayInfoTWIND";
+            this.EHAMlandingRunwayInfoTWIND.ReadOnly = true;
+            this.EHAMlandingRunwayInfoTWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoTWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMlandingRunwayInfoTWIND.Width = 60;
+            // 
+            // EHAMlandingRunwayInfoDREF
+            // 
+            this.EHAMlandingRunwayInfoDREF.HeaderText = "DPRF";
+            this.EHAMlandingRunwayInfoDREF.Name = "EHAMlandingRunwayInfoDREF";
+            this.EHAMlandingRunwayInfoDREF.ReadOnly = true;
+            this.EHAMlandingRunwayInfoDREF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoDREF.ToolTipText = "Day preference";
+            this.EHAMlandingRunwayInfoDREF.Width = 60;
+            // 
+            // EHAMlandingRunwayInfoNPRF
+            // 
+            this.EHAMlandingRunwayInfoNPRF.HeaderText = "NPRF";
+            this.EHAMlandingRunwayInfoNPRF.Name = "EHAMlandingRunwayInfoNPRF";
+            this.EHAMlandingRunwayInfoNPRF.ReadOnly = true;
+            this.EHAMlandingRunwayInfoNPRF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoNPRF.ToolTipText = "Night preference";
+            this.EHAMlandingRunwayInfoNPRF.Width = 60;
+            // 
+            // EHAMlandingRunwayInfoCOMPLY
+            // 
+            this.EHAMlandingRunwayInfoCOMPLY.HeaderText = "COMPLY";
+            this.EHAMlandingRunwayInfoCOMPLY.Name = "EHAMlandingRunwayInfoCOMPLY";
+            this.EHAMlandingRunwayInfoCOMPLY.ReadOnly = true;
+            this.EHAMlandingRunwayInfoCOMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMlandingRunwayInfoCOMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMlandingRunwayInfoCOMPLY.Width = 60;
+            // 
             // EHAMdepartureRunwayInfoDataGridView
             // 
             this.EHAMdepartureRunwayInfoDataGridView.AllowUserToAddRows = false;
@@ -118,6 +173,61 @@
             this.EHAMdepartureRunwayInfoDataGridView.Size = new System.Drawing.Size(362, 241);
             this.EHAMdepartureRunwayInfoDataGridView.TabIndex = 1;
             this.EHAMdepartureRunwayInfoDataGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.EHAMdepartureRunwayInfoDataGridView_SortCompare);
+            // 
+            // EHAMdepartureRunwayInfoRWY
+            // 
+            this.EHAMdepartureRunwayInfoRWY.HeaderText = "RWY";
+            this.EHAMdepartureRunwayInfoRWY.Name = "EHAMdepartureRunwayInfoRWY";
+            this.EHAMdepartureRunwayInfoRWY.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoRWY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoRWY.Width = 60;
+            // 
+            // EHAMdepartureRunwayInfoXWIND
+            // 
+            this.EHAMdepartureRunwayInfoXWIND.HeaderText = "XWIND";
+            this.EHAMdepartureRunwayInfoXWIND.Name = "EHAMdepartureRunwayInfoXWIND";
+            this.EHAMdepartureRunwayInfoXWIND.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoXWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoXWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMdepartureRunwayInfoXWIND.Width = 60;
+            // 
+            // EHAMdepartureRunwayInfoTWIND
+            // 
+            this.EHAMdepartureRunwayInfoTWIND.HeaderText = "HWIND";
+            this.EHAMdepartureRunwayInfoTWIND.Name = "EHAMdepartureRunwayInfoTWIND";
+            this.EHAMdepartureRunwayInfoTWIND.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoTWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoTWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMdepartureRunwayInfoTWIND.Width = 60;
+            // 
+            // EHAMdepartureRunwayInfoDREF
+            // 
+            dataGridViewCellStyle2.NullValue = null;
+            this.EHAMdepartureRunwayInfoDREF.DefaultCellStyle = dataGridViewCellStyle2;
+            this.EHAMdepartureRunwayInfoDREF.HeaderText = "DPRF";
+            this.EHAMdepartureRunwayInfoDREF.Name = "EHAMdepartureRunwayInfoDREF";
+            this.EHAMdepartureRunwayInfoDREF.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoDREF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoDREF.ToolTipText = "Day preference";
+            this.EHAMdepartureRunwayInfoDREF.Width = 60;
+            // 
+            // EHAMdepartureRunwayInfoNPRF
+            // 
+            this.EHAMdepartureRunwayInfoNPRF.HeaderText = "NPRF";
+            this.EHAMdepartureRunwayInfoNPRF.Name = "EHAMdepartureRunwayInfoNPRF";
+            this.EHAMdepartureRunwayInfoNPRF.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoNPRF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoNPRF.ToolTipText = "Night preference";
+            this.EHAMdepartureRunwayInfoNPRF.Width = 60;
+            // 
+            // EHAMdepartureRunwayInfoCOMPLY
+            // 
+            this.EHAMdepartureRunwayInfoCOMPLY.HeaderText = "COMPLY";
+            this.EHAMdepartureRunwayInfoCOMPLY.Name = "EHAMdepartureRunwayInfoCOMPLY";
+            this.EHAMdepartureRunwayInfoCOMPLY.ReadOnly = true;
+            this.EHAMdepartureRunwayInfoCOMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.EHAMdepartureRunwayInfoCOMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EHAMdepartureRunwayInfoCOMPLY.Width = 60;
             // 
             // EHAMLandingRunwaysGroupBox
             // 
@@ -252,116 +362,6 @@
             this.runwayInfoCOMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.runwayInfoCOMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.runwayInfoCOMPLY.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoRWY
-            // 
-            this.EHAMdepartureRunwayInfoRWY.HeaderText = "RWY";
-            this.EHAMdepartureRunwayInfoRWY.Name = "EHAMdepartureRunwayInfoRWY";
-            this.EHAMdepartureRunwayInfoRWY.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoRWY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoRWY.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoXWIND
-            // 
-            this.EHAMdepartureRunwayInfoXWIND.HeaderText = "XWIND";
-            this.EHAMdepartureRunwayInfoXWIND.Name = "EHAMdepartureRunwayInfoXWIND";
-            this.EHAMdepartureRunwayInfoXWIND.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoXWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoXWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMdepartureRunwayInfoXWIND.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoTWIND
-            // 
-            this.EHAMdepartureRunwayInfoTWIND.HeaderText = "HWIND";
-            this.EHAMdepartureRunwayInfoTWIND.Name = "EHAMdepartureRunwayInfoTWIND";
-            this.EHAMdepartureRunwayInfoTWIND.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoTWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoTWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMdepartureRunwayInfoTWIND.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoDREF
-            // 
-            dataGridViewCellStyle2.NullValue = null;
-            this.EHAMdepartureRunwayInfoDREF.DefaultCellStyle = dataGridViewCellStyle2;
-            this.EHAMdepartureRunwayInfoDREF.HeaderText = "DPRF";
-            this.EHAMdepartureRunwayInfoDREF.Name = "EHAMdepartureRunwayInfoDREF";
-            this.EHAMdepartureRunwayInfoDREF.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoDREF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoDREF.ToolTipText = "Day preference";
-            this.EHAMdepartureRunwayInfoDREF.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoNPRF
-            // 
-            this.EHAMdepartureRunwayInfoNPRF.HeaderText = "NPRF";
-            this.EHAMdepartureRunwayInfoNPRF.Name = "EHAMdepartureRunwayInfoNPRF";
-            this.EHAMdepartureRunwayInfoNPRF.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoNPRF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoNPRF.ToolTipText = "Night preference";
-            this.EHAMdepartureRunwayInfoNPRF.Width = 60;
-            // 
-            // EHAMdepartureRunwayInfoCOMPLY
-            // 
-            this.EHAMdepartureRunwayInfoCOMPLY.HeaderText = "COMPLY";
-            this.EHAMdepartureRunwayInfoCOMPLY.Name = "EHAMdepartureRunwayInfoCOMPLY";
-            this.EHAMdepartureRunwayInfoCOMPLY.ReadOnly = true;
-            this.EHAMdepartureRunwayInfoCOMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMdepartureRunwayInfoCOMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMdepartureRunwayInfoCOMPLY.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoRWY
-            // 
-            this.EHAMlandingRunwayInfoRWY.HeaderText = "RWY";
-            this.EHAMlandingRunwayInfoRWY.Name = "EHAMlandingRunwayInfoRWY";
-            this.EHAMlandingRunwayInfoRWY.ReadOnly = true;
-            this.EHAMlandingRunwayInfoRWY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoRWY.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoXWIND
-            // 
-            this.EHAMlandingRunwayInfoXWIND.HeaderText = "XWIND";
-            this.EHAMlandingRunwayInfoXWIND.Name = "EHAMlandingRunwayInfoXWIND";
-            this.EHAMlandingRunwayInfoXWIND.ReadOnly = true;
-            this.EHAMlandingRunwayInfoXWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoXWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMlandingRunwayInfoXWIND.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoTWIND
-            // 
-            dataGridViewCellStyle1.NullValue = null;
-            this.EHAMlandingRunwayInfoTWIND.DefaultCellStyle = dataGridViewCellStyle1;
-            this.EHAMlandingRunwayInfoTWIND.HeaderText = "HWIND";
-            this.EHAMlandingRunwayInfoTWIND.Name = "EHAMlandingRunwayInfoTWIND";
-            this.EHAMlandingRunwayInfoTWIND.ReadOnly = true;
-            this.EHAMlandingRunwayInfoTWIND.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoTWIND.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMlandingRunwayInfoTWIND.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoDREF
-            // 
-            this.EHAMlandingRunwayInfoDREF.HeaderText = "DPRF";
-            this.EHAMlandingRunwayInfoDREF.Name = "EHAMlandingRunwayInfoDREF";
-            this.EHAMlandingRunwayInfoDREF.ReadOnly = true;
-            this.EHAMlandingRunwayInfoDREF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoDREF.ToolTipText = "Day preference";
-            this.EHAMlandingRunwayInfoDREF.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoNPRF
-            // 
-            this.EHAMlandingRunwayInfoNPRF.HeaderText = "NPRF";
-            this.EHAMlandingRunwayInfoNPRF.Name = "EHAMlandingRunwayInfoNPRF";
-            this.EHAMlandingRunwayInfoNPRF.ReadOnly = true;
-            this.EHAMlandingRunwayInfoNPRF.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoNPRF.ToolTipText = "Night preference";
-            this.EHAMlandingRunwayInfoNPRF.Width = 60;
-            // 
-            // EHAMlandingRunwayInfoCOMPLY
-            // 
-            this.EHAMlandingRunwayInfoCOMPLY.HeaderText = "COMPLY";
-            this.EHAMlandingRunwayInfoCOMPLY.Name = "EHAMlandingRunwayInfoCOMPLY";
-            this.EHAMlandingRunwayInfoCOMPLY.ReadOnly = true;
-            this.EHAMlandingRunwayInfoCOMPLY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.EHAMlandingRunwayInfoCOMPLY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.EHAMlandingRunwayInfoCOMPLY.Width = 60;
             // 
             // RunwayInfo
             // 
