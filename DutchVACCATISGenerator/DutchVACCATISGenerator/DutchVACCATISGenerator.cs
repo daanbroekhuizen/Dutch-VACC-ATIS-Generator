@@ -1498,17 +1498,12 @@ namespace DutchVACCATISGenerator
                     readStream.Close();
 
                     #region Remove redundant HTML code.
-                    data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">"), data.Length - data.IndexOf("<div class=\"runwaywrapper\">"));
-
-                    data = data.Substring(0, data.LastIndexOf("</div>") + "</div>".Length);
-
-                    data = data.Substring(data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length, data.Length - (data.IndexOf("<div class=\"runwaywrapper\">") + "<div class=\"runwaywrapper\">".Length)).Trim();
-
-                    data = data.Substring(data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length, data.Length - (data.IndexOf("<div id=\"runway\" class=\"show\">") + "<div id=\"runway\" class=\"show\">".Length)).Trim();
-
-                    data = data.Substring(0, data.LastIndexOf("</div>"));
-
-                    data = data.Substring(0, data.LastIndexOf("</div>"));
+                    try
+                    {
+                        data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1];
+                        data = data.Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
+                    }
+                    catch(Exception) { }
                     #endregion
 
                     //If received data contains HTML <li> tag.
@@ -1556,7 +1551,6 @@ namespace DutchVACCATISGenerator
             if (landingRunways.Count == 1)
                 EHAMmainLandingRunwayComboBox.Text = landingRunways.First();
 
-
             //Two or more landing or departure runways found.
             if (landingRunways.Count > 1 || departureRunways.Count > 1)
                 processMultipleRunways();
@@ -1565,7 +1559,8 @@ namespace DutchVACCATISGenerator
             realEHAMRunwaysCheckBox.Checked = false;
 
             //UNCOMMENT
-            MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
+            if (landingRunways.Count() > 0 || departureRunways.Count > 0)
+                MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
         }
 
         /// <summary>
