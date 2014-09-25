@@ -47,12 +47,23 @@ namespace DutchVACCATISGenerator
             atisLetterLabel.Text = phoneticAlphabet[0];
 
             //Center the form on the monitor.
-            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height + 184)) / 2));
+            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height /*+ 184 */)) / 2));
 
-            runwayInfoState = false;
+            soundState = runwayInfoState = false;
 
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
+
+            //Check if temp directory exists, if so, delete it.
+            if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
+            {
+                //Remove hidden attribute.
+                DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp");
+                directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
+
+                //Delete temp folder.
+                Directory.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp", true);
+            }
         }
 
         /// <summary>
@@ -61,7 +72,7 @@ namespace DutchVACCATISGenerator
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void getMetarButton_Click(object sender, EventArgs e)
-        {
+        {   
             //Get ICAO entered.
             String _ICAO = icaoTextBox.Text;
 
@@ -74,11 +85,12 @@ namespace DutchVACCATISGenerator
             //Disable the get METAR button so the user can't overload it.
             getMetarButton.Enabled = false;
 
-            if (realEHAMRunwaysCheckBox.Visible && realEHAMRunwaysCheckBox.Checked)
+            if (realEHAMRunwaysCheckBox.Visible && realEHAMRunwaysCheckBox.Checked && !realRunwayBackgroundWorker.IsBusy)
                 realRunwayBackgroundWorker.RunWorkerAsync();
 
             //Start METAR background worker to start pulling the METAR.
-            metarBackgroundWorker.RunWorkerAsync(_ICAO);
+            if (!metarBackgroundWorker.IsBusy)
+                metarBackgroundWorker.RunWorkerAsync(_ICAO);
         }
 
         /// <summary>
@@ -1404,8 +1416,9 @@ namespace DutchVACCATISGenerator
         {   
             try
             {
+                //TODO CHANGE BACK TO version.php
                 //Request latest version.
-                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch%20VACC/Dutch%20VACC%20ATIS%20Generator/Version/version.php");
+                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch%20VACC/Dutch%20VACC%20ATIS%20Generator/Version/version2.php");
                 WebResponse response = request.GetResponse();
 
                 //Read latest version.
@@ -1453,7 +1466,11 @@ namespace DutchVACCATISGenerator
                     //UNCOMMENT
                     if (Convert.ToInt32(latestVersion) > Convert.ToInt32(applicationVersion))
                     {
-                        if (MessageBox.Show("Newer version is available.\nCheck the Dutch VACC site for more information.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes) System.Diagnostics.Process.Start("http://www.dutchvacc.nl");
+                        if (MessageBox.Show("Newer version is available.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        {
+                            Form autoUpdater = new AutoUpdater();
+                            autoUpdater.ShowDialog();
+                        }
                     }
                 }
             }
@@ -1471,63 +1488,45 @@ namespace DutchVACCATISGenerator
             landingRunways = new List<String>();
 
             try
-            {
+            {                
+                WebClient client = new WebClient();
+                
+                //Set user Agent, make the site think we're not a bot.
+                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
+
                 //Make web request to http://www.lvnl.nl/nl/airtraffic.
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.lvnl.nl/nl/airtraffic");
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                //If HTTP status is 200.
-                if (response.StatusCode == HttpStatusCode.OK)
+                string data = client.DownloadString("http://www.lvnl.nl/nl/airtraffic");
+            
+                #region Remove redundant HTML code.
+                try
                 {
-                    //Set receive stream.
-                    Stream receiveStream = response.GetResponseStream();
-                    StreamReader readStream = null;
+                    data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1];
+                    data = data.Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
+                }
+                catch(Exception) { }
+                #endregion
 
-                    //If no character set found, initialize stream without character set.
-                    if (response.CharacterSet == null)
-                        readStream = new StreamReader(receiveStream);
-                    //Initialize stream with character set.
-                    else
-                        readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                //If received data contains HTML <li> tag.
+                while (data.Contains("<li"))
+                {
+                    //Get <li>...</lI>
+                    String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
 
-                    //Read stream.
-                    string data = readStream.ReadToEnd();
-
-                    //Close stream.
-                    response.Close();
-                    readStream.Close();
-
-                    #region Remove redundant HTML code.
-                    try
+                    //If found list item is landing runway.
+                    if (runwayListItem.Contains("class=\"lb"))
                     {
-                        data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1];
-                        data = data.Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
+                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
+                        landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
                     }
-                    catch(Exception) { }
-                    #endregion
-
-                    //If received data contains HTML <li> tag.
-                    while (data.Contains("<li"))
+                    //If found list item is departure runway.
+                    else if (runwayListItem.Contains("class=\"sb"))
                     {
-                        //Get <li>...</lI>
-                        String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
-
-                        //If found list item is landing runway.
-                        if (runwayListItem.Contains("class=\"lb"))
-                        {
-                            runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
-                            landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                        }
-                        //If found list item is departure runway.
-                        else if (runwayListItem.Contains("class=\"sb"))
-                        {
-                            runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
-                            departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                        }
-
-                        //Remove list item from received data.
-                        data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
+                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
+                        departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
                     }
+
+                    //Remove list item from received data.
+                    data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
                 }
             }
             catch(Exception)
