@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -45,10 +43,7 @@ namespace DutchVACCATISGenerator
 
             //Set the label to A.
             atisLetterLabel.Text = phoneticAlphabet[0];
-
-            //Center the form on the monitor.
-            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, ((Screen.PrimaryScreen.WorkingArea.Height - (this.Height /*+ 184 */)) / 2));
-
+          
             soundState = runwayInfoState = false;
 
             //Start version background worker.
@@ -1416,9 +1411,8 @@ namespace DutchVACCATISGenerator
         {   
             try
             {
-                //TODO CHANGE BACK TO version.php
                 //Request latest version.
-                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch%20VACC/Dutch%20VACC%20ATIS%20Generator/Version/version2.php");
+                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch VACC/Dutch VACC ATIS Generator/Version/version.php");
                 WebResponse response = request.GetResponse();
 
                 //Read latest version.

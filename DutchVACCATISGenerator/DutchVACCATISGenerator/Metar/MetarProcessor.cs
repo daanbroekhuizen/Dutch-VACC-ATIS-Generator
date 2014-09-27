@@ -161,20 +161,11 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region PHENOMENA
-                        if (s.StartsWith("-") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
+                        if (s.StartsWith("-") || s.StartsWith("+") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
                         {
                             if (s.StartsWith("-")) metar.Phenomena.Add(new MetarPhenomena(true, s.Substring(1)));
+                            else if (s.StartsWith("+")) metar.Phenomena.Add(new MetarPhenomena(s.Substring(1)));
                             else metar.Phenomena.Add(new MetarPhenomena(s));
-
-                            //s.StartsWith("VC")
-                            //s.StartsWith("PR")
-                            //s.StartsWith("BC")
-                            //s.StartsWith("DR")
-                            //s.StartsWith("BL")
-                            //s.StartsWith("IC")
-                            //s.StartsWith("PL")
-                            //s.StartsWith("GR")
-                            //s.StartsWith("FU")
 
                             continue;
                         }
@@ -183,7 +174,15 @@ namespace DutchVACCATISGenerator
                         #region CLOUDS
                         if (s.StartsWith("FEW") || s.StartsWith("SCT") || s.StartsWith("BKN") || s.StartsWith("OVC"))
                         {
-                            if (s.Substring(3).Count() > 3) metar.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                            if (s.Substring(3).Count() > 3)
+                            {
+                                //If METAR doesn't contain /// auto addition in cloud phenomena.
+                                if(!s.Substring(6).Contains("/"))
+                                    metar.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                                //If METAR does contain /// auto addition in cloud phenomena.
+                                else
+                                    metar.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3))));
+                            }
                             else metar.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3))));
 
                             continue;
@@ -296,9 +295,10 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region PHENOMENA
-                        if (s.StartsWith("-") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
+                        if (s.StartsWith("-") || s.StartsWith("+") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
                         {
                             if (s.StartsWith("-")) metar.metarBECMG.Phenomena.Add(new MetarPhenomena(true, s.Substring(1)));
+                            else if (s.StartsWith("+")) metar.metarBECMG.Phenomena.Add(new MetarPhenomena(s.Substring(1)));
                             else metar.metarBECMG.Phenomena.Add(new MetarPhenomena(s));
 
                             continue;
@@ -308,7 +308,15 @@ namespace DutchVACCATISGenerator
                         #region CLOUDS
                         if (s.StartsWith("FEW") || s.StartsWith("SCT") || s.StartsWith("BKN") || s.StartsWith("OVC"))
                         {
-                            if (s.Substring(3).Count() > 3) metar.metarBECMG.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                            if (s.Substring(3).Count() > 3)
+                            {
+                                //If METAR doesn't contain /// auto addition in cloud phenomena.
+                                if (!s.Substring(6).Contains("/"))
+                                    metar.metarBECMG.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                                //If METAR does contain /// auto addition in cloud phenomena.
+                                else
+                                    metar.metarBECMG.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3))));
+                            }
                             else metar.metarBECMG.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3))));
 
                             continue;
@@ -374,9 +382,10 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region PHENOMENA
-                        if (s.StartsWith("-") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
+                        if (s.StartsWith("-") || s.StartsWith("+") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
                         {
                             if (s.StartsWith("-")) metar.metarTEMPO.Phenomena.Add(new MetarPhenomena(true, s.Substring(1)));
+                            else if (s.StartsWith("+")) metar.metarTEMPO.Phenomena.Add(new MetarPhenomena(s.Substring(1)));
                             else metar.metarTEMPO.Phenomena.Add(new MetarPhenomena(s));
 
                             continue;
@@ -386,7 +395,15 @@ namespace DutchVACCATISGenerator
                         #region CLOUDS
                         if (s.StartsWith("FEW") || s.StartsWith("SCT") || s.StartsWith("BKN") || s.StartsWith("OVC"))
                         {
-                            if (s.Substring(3).Count() > 3) metar.metarTEMPO.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                            if (s.Substring(3).Count() > 3)
+                            {
+                                //If METAR doesn't contain /// auto addition in cloud phenomena.
+                                if (!s.Substring(6).Contains("/"))
+                                    metar.metarTEMPO.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3)), s.Substring(6)));
+                                //If METAR does contain /// auto addition in cloud phenomena.
+                                else
+                                    metar.metarTEMPO.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3, 3))));
+                            }
                             else metar.metarTEMPO.Clouds.Add(new MetarCloud(s.Substring(0, 3), Convert.ToInt32(s.Substring(3))));
 
                             continue;

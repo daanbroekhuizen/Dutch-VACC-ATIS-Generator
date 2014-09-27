@@ -950,7 +950,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "DutchVACCATISGenerator";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
             this.Resize += new System.EventHandler(this.DutchVACCATISGenerator_Resize);
             this.atisIndexGroupBox.ResumeLayout(false);
