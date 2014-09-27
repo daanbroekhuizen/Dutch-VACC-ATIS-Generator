@@ -57,7 +57,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Get the name of the zip file te download (version).
+        /// Get the name of the zip file to download (version).
         /// </summary>
         /// <returns>Name of the latest zip file.</returns>
         private String getZipName()
@@ -81,6 +81,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void webClient_ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
+            //Update progress bar.
             progressBar.Value = e.ProgressPercentage;
         }
 

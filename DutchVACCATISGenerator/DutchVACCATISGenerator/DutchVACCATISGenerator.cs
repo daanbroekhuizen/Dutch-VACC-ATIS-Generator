@@ -1224,36 +1224,50 @@ namespace DutchVACCATISGenerator
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Set ICAO of selected ICAO tab in ICAO text box.
+            #region EHAM
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
             {
                 icaoTextBox.Text = "EHAM";
                 realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = true;
                 selectBestRunwayCheckBox.Visible = false;
             }
+            #endregion
+
+            #region EHBK
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
             {
                 icaoTextBox.Text = "EHBK";
                 realEHAMRunwaysCheckBox.Visible = false;
                 selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
             }
+            #endregion
+
+            #region EHEH
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
             {
                 icaoTextBox.Text = "EHEH";
                 realEHAMRunwaysCheckBox.Visible = false;
                 selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
             }
+            #endregion
+
+            #region EHGG
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
             {
                 icaoTextBox.Text = "EHGG";
                 realEHAMRunwaysCheckBox.Visible = false;
                 selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
             }
+            #endregion
+
+            #region EHRD
             else
             {
                 icaoTextBox.Text = "EHRD";
                 realEHAMRunwaysCheckBox.Visible = false;
                 selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
-            }             
+            }
+            #endregion
         }
 
         /// <summary>
@@ -1482,11 +1496,12 @@ namespace DutchVACCATISGenerator
             landingRunways = new List<String>();
 
             try
-            {                
+            {
+                //Create web client.
                 WebClient client = new WebClient();
                 
                 //Set user Agent, make the site think we're not a bot.
-                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
+                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
 
                 //Make web request to http://www.lvnl.nl/nl/airtraffic.
                 string data = client.DownloadString("http://www.lvnl.nl/nl/airtraffic");
@@ -1561,6 +1576,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void processMultipleRunways()
         {
+            #region LANDING RUNWAYS
             //If there are more than two landing runways.
             if (landingRunways.Count > 1)
             {
@@ -1594,7 +1610,9 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
+            #endregion
 
+            #region DEPARTURE RUNWAYS
             //If there are more than two departure runways found.
             if(departureRunways.Count > 1)
             {
@@ -1629,6 +1647,7 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
+            #endregion
         }
     }
 }
