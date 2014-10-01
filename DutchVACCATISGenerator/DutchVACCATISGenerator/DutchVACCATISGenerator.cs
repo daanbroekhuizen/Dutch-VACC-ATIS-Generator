@@ -316,7 +316,7 @@ namespace DutchVACCATISGenerator
             runwayInfoButton.Enabled = true;
 
             //If runwayInfo is null, create RunwayInfo form.
-            if (runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+            if ((runwayInfo != null && runwayInfo.IsDisposed) || runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
             else
             {
                 //Update runway info form.
@@ -1346,18 +1346,28 @@ namespace DutchVACCATISGenerator
             if (WindowState == FormWindowState.Normal)
             {
                 //Show runwayInfo form.
-                if (runwayInfo != null && runwayInfoState) runwayInfo.Visible = true;
+                if (runwayInfo != null && !runwayInfo.IsDisposed && runwayInfoState)
+                {
+                    runwayInfo.Visible = true;
+                    runwayInfo.BringToFront();
+                }
                 //Show sound form.
-                if (sound != null && soundState) sound.Visible = true;
+                if (sound != null && !sound.IsDisposed && soundState)
+                {
+                    sound.Visible = true;
+                    sound.BringToFront();
+                }
+
+                this.BringToFront();
             }
 
             //If form is minimized.
             if (WindowState == FormWindowState.Minimized)
             {
                 //Hide runwayInfo form.
-                if (runwayInfo != null) runwayInfo.Visible = false;
+                if (runwayInfo != null && !runwayInfo.IsDisposed) runwayInfo.Visible = false;
                 //Hide sound form.
-                if (sound != null) sound.Visible = false;
+                 if (sound != null && !sound.IsDisposed) sound.Visible = false;
             }
         }
 
