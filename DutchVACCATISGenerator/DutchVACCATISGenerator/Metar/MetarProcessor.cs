@@ -75,7 +75,7 @@ namespace DutchVACCATISGenerator
                     foreach (String s in input)
                     {
                         #region ICAO
-                        if (stringIsOnlyLetters(s) && stringIsLength(4, s) && s.Equals(input[0]))
+                        if (s.All(char.IsLetter) && stringIsLength(4, s) && s.Equals(input[0]))
                         {
                             metar.ICAO = s;
                             continue;
@@ -83,7 +83,7 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region TIME
-                        if (stringEndsWithChar('Z', s) && s.Length > 6 && stringIsOnlyNumbers(s.Substring(0, 6)))
+                        if (s.Last().Equals('Z') && s.Length > 6 && stringIsOnlyNumbers(s.Substring(0, 6)))
                         {
                             metar.Time = s; continue;
                         }
@@ -95,7 +95,7 @@ namespace DutchVACCATISGenerator
                             metar.Wind = processCalmWind(s); continue;
                         }
 
-                        if (stringEndsWith("KT", s))
+                        if (s.EndsWith("KT"))
                         {
                             metar.Wind = processWind(s); continue;
                         }
@@ -252,7 +252,7 @@ namespace DutchVACCATISGenerator
                             metar.metarBECMG.Wind = processCalmWind(s); continue;
                         }
 
-                        if (stringEndsWith("KT", s))
+                        if (s.EndsWith("KT"))
                         {
                             metar.metarBECMG.Wind = processWind(s); continue;
                         }
@@ -339,7 +339,7 @@ namespace DutchVACCATISGenerator
                             metar.metarTEMPO.Wind = processCalmWind(s); continue;
                         }
 
-                        if (stringEndsWith("KT", s))
+                        if (s.EndsWith("KT"))
                         {
                             metar.metarTEMPO.Wind = processWind(s); continue;
                         }
@@ -470,18 +470,6 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Check if input string is letters only.
-        /// </summary>
-        /// <param name="input">String to check.</param>
-        /// <returns>Boolean indicating if the string is letters only</returns>
-        private bool stringIsOnlyLetters(String input)
-        {
-            if (input.All(char.IsLetter)) return true;
- 
-            return false;
-        }
-
-        /// <summary>
         /// Check if input string is numbers only.
         /// </summary>
         /// <param name="input">String to check.</param>
@@ -503,35 +491,6 @@ namespace DutchVACCATISGenerator
         {
             if (input.Length == lenght) return true;
 
-            return false;
-        }
-
-        /// <summary>
-        /// Check if strings end with a specific char.
-        /// </summary>
-        /// <param name="c">Char to check to.</param>
-        /// <param name="input">String to check.</param>
-        /// <returns>Boolean indicating if the string ends with the inputted char.</returns>
-        private bool stringEndsWithChar(char c, String input)
-        {
-            if (input.Length > 0)
-            {
-                if (input.Last().Equals(c)) return true;
-                else return false;
-            }
-            else return false;         
-        }
-
-        /// <summary>
-        /// Check if strings ends with a specific string.
-        /// </summary>
-        /// <param name="c">String to check to.</param>
-        /// <param name="input">String to check to.</param>
-        /// <returns>Boolean indicating if the string ends with the inputted string.</returns>
-        private bool stringEndsWith(String c, String input)
-        {
-            if (input.EndsWith(c)) return true;
-   
             return false;
         }
     }
