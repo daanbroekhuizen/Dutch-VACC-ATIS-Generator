@@ -101,6 +101,10 @@
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.amsterdamInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -793,6 +797,8 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.runwayInfoToolStripMenuItem,
+            this.soundToolStripMenuItem,
             this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -803,6 +809,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.amsterdamInfoToolStripMenuItem,
+            this.dutchVACCToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -812,7 +820,7 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -827,7 +835,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -928,6 +936,36 @@
             // 
             this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
             this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
+            // 
+            // soundToolStripMenuItem
+            // 
+            this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
+            this.soundToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.soundToolStripMenuItem.Text = "Sound";
+            this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
+            // 
+            // runwayInfoToolStripMenuItem
+            // 
+            this.runwayInfoToolStripMenuItem.Enabled = false;
+            this.runwayInfoToolStripMenuItem.Name = "runwayInfoToolStripMenuItem";
+            this.runwayInfoToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.runwayInfoToolStripMenuItem.Text = "Runway Info";
+            this.runwayInfoToolStripMenuItem.Click += new System.EventHandler(this.runwayInfoToolStripMenuItem_Click);
+            // 
+            // amsterdamInfoToolStripMenuItem
+            // 
+            this.amsterdamInfoToolStripMenuItem.Name = "amsterdamInfoToolStripMenuItem";
+            this.amsterdamInfoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.amsterdamInfoToolStripMenuItem.Text = "Amsterdam Info";
+            this.amsterdamInfoToolStripMenuItem.Click += new System.EventHandler(this.amsterdamInfoToolStripMenuItem_Click);
+            // 
+            // dutchVACCToolStripMenuItem
+            // 
+            this.dutchVACCToolStripMenuItem.AutoSize = false;
+            this.dutchVACCToolStripMenuItem.Name = "dutchVACCToolStripMenuItem";
+            this.dutchVACCToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dutchVACCToolStripMenuItem.Text = "Dutch VACC";
+            this.dutchVACCToolStripMenuItem.Click += new System.EventHandler(this.dutchVACCToolStripMenuItem_Click);
             // 
             // DutchVACCATISGenerator
             // 
@@ -1073,6 +1111,10 @@
         private System.Windows.Forms.CheckBox realEHAMRunwaysCheckBox;
         private System.Windows.Forms.CheckBox selectBestRunwayCheckBox;
         private System.Windows.Forms.CheckBox addWindRecordCheckBox;
+        private System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem amsterdamInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dutchVACCToolStripMenuItem;
     }
 }
 

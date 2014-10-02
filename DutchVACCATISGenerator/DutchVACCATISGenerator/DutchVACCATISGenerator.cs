@@ -313,7 +313,7 @@ namespace DutchVACCATISGenerator
 
             //Enable generate ATIS and runway info button.
             generateATISButton.Enabled = true;
-            runwayInfoButton.Enabled = true;
+            runwayInfoButton.Enabled = runwayInfoToolStripMenuItem.Enabled = true;
 
             //If runwayInfo is null, create RunwayInfo form.
             if ((runwayInfo != null && runwayInfo.IsDisposed) || runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
@@ -1305,34 +1305,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void runwayInfoButton_Click(object sender, EventArgs e)
         {
-            //If runway info form doesn't exists OR isn't visible.
-            if (runwayInfo == null || !runwayInfo.Visible)
-            {
-                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
-
-                //Initialize new RunwayInfo form.
-                runwayInfoButton.Text = "<";
-
-                //Show runway info form.
-                runwayInfo.Show();
-
-                //Set runway info position relative to this.
-                runwayInfo.showRelativeToDutchVACCATISGenerator(this);
-
-                //Inverse runway info state boolean.
-                runwayInfoState = !runwayInfoState;
-            }
-            //If runway info is opened.
-            else
-            {
-                runwayInfoButton.Text = ">";
-
-                //Hide runway info form.
-                runwayInfo.Visible = false;
-
-                //Inverse runway info state boolean.
-                runwayInfoState = !runwayInfoState;
-            }
+            setRunwayInfoForm();
         }
 
         /// <summary>
@@ -1378,31 +1351,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void soundButton_Click(object sender, EventArgs e)
         {
-            //If sound form doesn't exists OR isn't visible.
-            if (sound == null || !sound.Visible)
-            {
-                //Create new Sound form.
-                sound = new Sound(this);
-                soundButton.Text = "▲";
-                sound.Show();
-                sound.showRelativeToDutchVACCATISGenerator(this);
-
-                //Inverse sound state boolean.
-                soundState = !soundState;
-            }
-            else
-            {
-                soundButton.Text = "▼";
-                
-                //Hide the sound form.
-                sound.Visible = false;
-
-                //Stop the wavePlayer.
-                if (sound.wavePlayer != null) sound.wavePlayer.Stop();
-
-                //Inverse sound state boolean.
-                soundState = !soundState;
-            }
+            setSoundForm();
         }
 
         /// <summary>
@@ -1658,6 +1607,137 @@ namespace DutchVACCATISGenerator
                 }
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Method called hen runway info tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void runwayInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setRunwayInfoForm();
+        }
+        
+        /// <summary>
+        /// Method called hen sound tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void soundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setSoundForm();
+        }
+
+        /// <summary>
+        /// Method called hen Amsterdam info tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void amsterdamInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Open Amsterdam Info page of the Dutch VACC site.
+             System.Diagnostics.Process.Start("http://www.dutchvacc.nl/index.php?option=com_content&view=article&id=127&Itemid=70");
+        }
+
+        /// <summary>
+        /// Sets all controls for opening and closing the runway info form.
+        /// </summary>
+        private void setRunwayInfoForm()
+        {
+            #region OPENING
+            //If runway info form doesn't exists OR isn't visible.
+            if (runwayInfo == null || !runwayInfo.Visible)
+            {
+                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+
+                //Initialize new RunwayInfo form.
+                runwayInfoButton.Text = "<";
+
+                //Show runway info form.
+                runwayInfo.Show();
+
+                //Set runway info position relative to this.
+                runwayInfo.showRelativeToDutchVACCATISGenerator(this);
+
+                //Inverse runway info state boolean.
+                runwayInfoState = !runwayInfoState;
+
+                //Set runway info tool strip menu item back color to gradient active caption.
+                runwayInfoToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
+            }
+            #endregion
+
+            #region CLOSING
+            //If runway info is opened.
+            else
+            {
+                runwayInfoButton.Text = ">";
+
+                //Hide runway info form.
+                runwayInfo.Visible = false;
+
+                //Inverse runway info state boolean.
+                runwayInfoState = !runwayInfoState;
+
+                //Set runway info tool strip menu item back color to control.
+                runwayInfoToolStripMenuItem.BackColor = SystemColors.Control;
+            }
+            #endregion
+        }
+
+        /// <summary>
+        /// Sets all controls for opening and closing the sound form.
+        /// </summary>
+        private void setSoundForm()
+        {
+            #region OPENING
+            //If sound form doesn't exists OR isn't visible.
+            if (sound == null || !sound.Visible)
+            {
+                //Create new Sound form.
+                sound = new Sound(this);
+                soundButton.Text = "▲";
+                sound.Show();
+                sound.showRelativeToDutchVACCATISGenerator(this);
+
+                //Inverse sound state boolean.
+                soundState = !soundState;
+
+                //Set runway sound tool strip menu item back color to gradient active caption.
+                soundToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
+            }
+            #endregion
+
+            #region CLOSING
+            else
+            {
+                soundButton.Text = "▼";
+
+                //Hide the sound form.
+                sound.Visible = false;
+
+                //Stop the wavePlayer.
+                if (sound.wavePlayer != null) sound.wavePlayer.Stop();
+
+                //Inverse sound state boolean.
+                soundState = !soundState;
+
+                //Set sound tool strip menu item back color to control.
+                soundToolStripMenuItem.BackColor = SystemColors.Control;
+            }
+            #endregion
+        }
+
+        /// <summary>
+        /// Method called when dutch VACC tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void dutchVACCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Open the Dutch VACC site.
+            System.Diagnostics.Process.Start("http://www.dutchvacc.nl/");
         }
     }
 }
