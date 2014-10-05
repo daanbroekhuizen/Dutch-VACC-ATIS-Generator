@@ -80,9 +80,6 @@ namespace DutchVACCATISGenerator
             //Disable the get METAR button so the user can't overload it.
             getMetarButton.Enabled = false;
 
-            if (realEHAMRunwaysCheckBox.Visible && realEHAMRunwaysCheckBox.Checked && !realRunwayBackgroundWorker.IsBusy)
-                realRunwayBackgroundWorker.RunWorkerAsync();
-
             //Start METAR background worker to start pulling the METAR.
             if (!metarBackgroundWorker.IsBusy)
                 metarBackgroundWorker.RunWorkerAsync(_ICAO);
@@ -325,14 +322,9 @@ namespace DutchVACCATISGenerator
                 runwayInfo.checkICAOTabSelected();
             }
 
-            if (selectBestRunwayCheckBox.Visible && selectBestRunwayCheckBox.Checked)
-            {
-                runwayInfo.ICAOBestRunway(ICAOTabControl.SelectedTab.Name);
-                selectBestRunwayCheckBox.Checked = false;
-
-                //UNCOMMENT
-                MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
-            }
+            //If processed METAR equals the selected ICAO.
+            if (runwayInfo.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
+                getSelectBestRunwayButton.Enabled = true;
         }
 
         /// <summary>
@@ -1226,46 +1218,49 @@ namespace DutchVACCATISGenerator
             //Set ICAO of selected ICAO tab in ICAO text box.
             #region EHAM
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
-            {
                 icaoTextBox.Text = "EHAM";
-                realEHAMRunwaysCheckBox.Checked = realEHAMRunwaysCheckBox.Visible = true;
-                selectBestRunwayCheckBox.Visible = false;
-            }
             #endregion
 
             #region EHBK
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
-            {
                 icaoTextBox.Text = "EHBK";
-                realEHAMRunwaysCheckBox.Visible = false;
-                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
-            }
             #endregion
 
             #region EHEH
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
-            {
                 icaoTextBox.Text = "EHEH";
-                realEHAMRunwaysCheckBox.Visible = false;
-                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
-            }
             #endregion
 
             #region EHGG
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
-            {
                 icaoTextBox.Text = "EHGG";
-                realEHAMRunwaysCheckBox.Visible = false;
-                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
-            }
             #endregion
 
             #region EHRD
             else
-            {
                 icaoTextBox.Text = "EHRD";
-                realEHAMRunwaysCheckBox.Visible = false;
-                selectBestRunwayCheckBox.Visible = selectBestRunwayCheckBox.Checked = true;
+            #endregion
+
+            #region SETTING OF THE GET SELECT BEST RUNWAY BUTTON
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+            {
+                //Set text of get select best runway button.
+                getSelectBestRunwayButton.Text = "Get EHAM runway(s)";
+
+                //Enable get select best runway button.
+                getSelectBestRunwayButton.Enabled = true;
+            }
+            else
+            {
+                //Set text of get select best runway button.
+                getSelectBestRunwayButton.Text = "Select best runway";
+
+                //If selected ICAO equals the ICAO of the last processed METAR, enable the get select best runway button.
+                if (runwayInfo != null && ICAOTabControl.SelectedTab.Name.Equals(runwayInfo.metar.ICAO))
+                    getSelectBestRunwayButton.Enabled = true;
+                //Else keep disable it.
+                else
+                    getSelectBestRunwayButton.Enabled = false;
             }
             #endregion
         }
@@ -1449,7 +1444,7 @@ namespace DutchVACCATISGenerator
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
+        {            	
             //Initialize runway list to get rid of previous stored runways.
             departureRunways = new List<String>();
             landingRunways = new List<String>();
@@ -1499,6 +1494,10 @@ namespace DutchVACCATISGenerator
             }
             catch(Exception)
             {
+                //Re-enable get select best runway button.
+                getSelectBestRunwayButton.Enabled = true;
+
+                //Show error.
                 MessageBox.Show("Unable to get real EHAM runway combination from the Internet.", "Error");
             }
         }
@@ -1510,6 +1509,9 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            //Clear runway combo boxes.
+            EHAMmainDepartureRunwayComboBox.Text = EHAMmainLandingRunwayComboBox.Text = EHAMsecondaryDepartureRunwayComboBox.Text = EHAMsecondaryLandingRunwayComboBox.Text = String.Empty;
+
             //Only one departure runway found.
             if (departureRunways.Count == 1)
                 EHAMmainDepartureRunwayComboBox.Text = departureRunways.First();
@@ -1522,8 +1524,8 @@ namespace DutchVACCATISGenerator
             if (landingRunways.Count > 1 || departureRunways.Count > 1)
                 processMultipleRunways();
 
-            //De-select get EHAM runways combo box.
-            realEHAMRunwaysCheckBox.Checked = false;
+            //Re-enable get select best runway button.
+            getSelectBestRunwayButton.Enabled = true;
 
             //UNCOMMENT
             if (landingRunways.Count() > 0 || departureRunways.Count > 0)
@@ -1738,6 +1740,31 @@ namespace DutchVACCATISGenerator
         {
             //Open the Dutch VACC site.
             System.Diagnostics.Process.Start("http://www.dutchvacc.nl/");
+        }
+
+        /// <summary>
+        /// Method called when get select best runway button is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void getSelectBestRunwayButton_Click(object sender, EventArgs e)
+        {
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+            {
+                //Disable get select best runway button;
+                getSelectBestRunwayButton.Enabled = false;
+
+                //Start real runway background worker.
+                realRunwayBackgroundWorker.RunWorkerAsync();
+            }
+            else
+            {
+                //Get best runway for selected airport.
+                runwayInfo.ICAOBestRunway(ICAOTabControl.SelectedTab.Name);
+
+                //UNCOMMENT
+                MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
+            }
         }
     }
 }
