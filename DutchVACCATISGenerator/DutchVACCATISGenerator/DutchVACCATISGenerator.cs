@@ -50,15 +50,19 @@ namespace DutchVACCATISGenerator
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
 
-            //Check if temp directory exists, if so, delete it.
-            if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
+            //Check if setup.exe is still being used.
+            if (!IsFileLocked(new FileInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp" + "\\Dutch VACC ATIS Generator - Setup.exe")))
             {
-                //Remove hidden attribute.
-                DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp");
-                directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
+                //Check if temp directory exists, if so, delete it.
+                if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
+                {
+                    //Remove hidden attribute.
+                    DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp");
+                    directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
 
-                //Delete temp folder.
-                Directory.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp", true);
+                    //Delete temp folder.
+                    Directory.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp", true);
+                }
             }
         }
 
@@ -1812,6 +1816,35 @@ namespace DutchVACCATISGenerator
         private void tAFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             setTAFForm();
+        }
+
+        /// <summary>
+        /// Check if file is in use by another process.
+        /// </summary>
+        /// <param name="file">File to check.</param>
+        /// <returns>Boolean indicating if file is in use by another process.</returns>
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+
+            //Try to open file using the FileStream.
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch (IOException)
+            {
+                //File locked.
+                return true;
+            }
+            //Close FileStream.
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+
+            //File not locked.
+            return false;
         }
     }
 }
