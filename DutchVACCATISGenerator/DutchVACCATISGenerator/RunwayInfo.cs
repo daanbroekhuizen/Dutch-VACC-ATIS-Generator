@@ -418,7 +418,11 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void RunwayInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //Set runway info button back to >.
             if (dutchVACCATISGenerator.runwayInfoButton.Text.Equals("<")) dutchVACCATISGenerator.runwayInfoButton.Text = ">";
+
+            //Set runway info tool strip menu item back color to control.
+            dutchVACCATISGenerator.runwayInfoToolStripMenuItem.BackColor = SystemColors.Control;
         }
         
         /// <summary>

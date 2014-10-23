@@ -377,7 +377,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RunwayInfo";
-            this.Text = "ATIS Runway Weather Criteria Dialog";
+            this.Text = "Runway Weather Criteria Dialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RunwayInfo_FormClosing);
             this.Load += new System.EventHandler(this.RunwayInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EHAMlandingRunwayInfoDataGridView)).EndInit();

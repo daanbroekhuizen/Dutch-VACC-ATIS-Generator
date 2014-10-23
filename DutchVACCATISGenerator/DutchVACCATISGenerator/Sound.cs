@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -370,6 +371,8 @@ namespace DutchVACCATISGenerator
         private void Sound_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (dutchVACCATISGenerator.soundButton.Text.Equals("▲")) dutchVACCATISGenerator.soundButton.Text = "▼";
+
+            dutchVACCATISGenerator.soundToolStripMenuItem.BackColor = SystemColors.Control;
             
             if(wavePlayer != null)
                 wavePlayer.Stop();

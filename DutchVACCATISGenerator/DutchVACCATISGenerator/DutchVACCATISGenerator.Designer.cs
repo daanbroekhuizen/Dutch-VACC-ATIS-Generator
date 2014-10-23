@@ -104,6 +104,7 @@
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.tAFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -782,6 +783,7 @@
             this.fileToolStripMenuItem,
             this.runwayInfoToolStripMenuItem,
             this.soundToolStripMenuItem,
+            this.tAFToolStripMenuItem,
             this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -950,6 +952,13 @@
             this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
             this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
             // 
+            // tAFToolStripMenuItem
+            // 
+            this.tAFToolStripMenuItem.Name = "tAFToolStripMenuItem";
+            this.tAFToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.tAFToolStripMenuItem.Text = "TAF";
+            this.tAFToolStripMenuItem.Click += new System.EventHandler(this.tAFToolStripMenuItem_Click);
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1092,11 +1101,12 @@
         private System.ComponentModel.BackgroundWorker versionBackgroundWorker;
         private System.ComponentModel.BackgroundWorker realRunwayBackgroundWorker;
         private System.Windows.Forms.CheckBox addWindRecordCheckBox;
-        private System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem amsterdamInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dutchVACCToolStripMenuItem;
         private System.Windows.Forms.Button getSelectBestRunwayButton;
+        public System.Windows.Forms.ToolStripMenuItem tAFToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
     }
 }
 

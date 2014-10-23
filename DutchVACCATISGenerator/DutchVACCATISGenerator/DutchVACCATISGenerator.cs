@@ -28,6 +28,7 @@ namespace DutchVACCATISGenerator
         private Boolean runwayInfoState { get; set; }
         private Sound sound { get; set; }
         private Boolean soundState { get; set; }
+        private TAF taf { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -131,7 +132,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="metar">METAR to split.</param>
         /// <param name="splitWord">Word to split on. (BECMG, TEMPO)</param>
-        /// <returns></returns>
+        /// <returns>String array of split METAR</returns>
         private String[] splitMetar(String metar, String splitWord)
         {
             Regex regex = null;
@@ -468,7 +469,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Calculate transition level from QNH and temperature.
         /// </summary>
-        /// <returns>Calculated TL.</returns>
+        /// <returns>Calculated TL</returns>
         private int calculateTransitionLevel()
         {
             int temp;
@@ -486,7 +487,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="runway"></param>
         /// <param name="runwayComboBox"></param>
-        /// <returns></returns>
+        /// <returns>String of runway output</returns>
         private String runwayToOutput(String runway, ComboBox runwayComboBox)
         {
             String output = runway;
@@ -1263,6 +1264,12 @@ namespace DutchVACCATISGenerator
                     getSelectBestRunwayButton.Enabled = false;
             }
             #endregion
+
+            #region TAF FORM UPDATE
+            //Update TAF in taf form.
+            if (taf != null && !taf.IsDisposed)
+                taf.getTAF();
+            #endregion
         }
 
         /// <summary>
@@ -1732,6 +1739,36 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
+        /// Sets all controls for opening and closing the taf form.
+        /// </summary>
+        private void setTAFForm()
+        {
+            #region OPENING
+            //If taf form doesn't exists OR isn't visible.
+            if (taf == null || !taf.Visible)
+            {
+                //Create new Sound form.
+                taf = new TAF(this);
+                taf.Show();
+
+                //Set taf tool strip menu item back color to gradient active caption.
+                tAFToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
+            }
+            #endregion
+
+            #region CLOSING
+            else
+            {
+                //Hide the taf form.
+                taf.Visible = false;
+
+                //Set taf strip menu item back color to control.
+                tAFToolStripMenuItem.BackColor = SystemColors.Control;
+            }
+            #endregion
+        }
+
+        /// <summary>
         /// Method called when dutch VACC tool strip menu item is clicked.
         /// </summary>
         /// <param name="sender">Object sender</param>
@@ -1765,6 +1802,16 @@ namespace DutchVACCATISGenerator
                 //UNCOMMENT
                 MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
             }
+        }
+
+        /// <summary>
+        /// Method called if taf tool strip menu item is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void tAFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setTAFForm();
         }
     }
 }

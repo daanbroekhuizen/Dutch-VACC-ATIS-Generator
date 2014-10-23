@@ -144,7 +144,7 @@
             this.MinimizeBox = false;
             this.Name = "Sound";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "ATIS Sound Dialog";
+            this.Text = "Sound Dialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sound_FormClosing);
             this.Load += new System.EventHandler(this.Sound_Load);
             this.atisehamFileGroupBox.ResumeLayout(false);
