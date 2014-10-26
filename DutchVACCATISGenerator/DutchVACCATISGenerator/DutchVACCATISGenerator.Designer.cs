@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DutchVACCATISGenerator));
             this.getMetarButton = new System.Windows.Forms.Button();
             this.icaoTextBox = new System.Windows.Forms.TextBox();
@@ -58,6 +59,7 @@
             this.tlHeaderLabel = new System.Windows.Forms.Label();
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.fetchMetarLabel = new System.Windows.Forms.Label();
             this.getSelectBestRunwayButton = new System.Windows.Forms.Button();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
@@ -90,11 +92,16 @@
             this.amsterdamInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fetchMETAREvery30MinutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoProcessMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tAFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.userDefinedWaveCheckBox = new System.Windows.Forms.CheckBox();
             this.addWindRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -104,7 +111,7 @@
             this.soundButton = new System.Windows.Forms.Button();
             this.versionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.tAFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -136,6 +143,7 @@
             // 
             // getMetarButton
             // 
+            this.getMetarButton.Enabled = false;
             this.getMetarButton.Location = new System.Drawing.Point(50, 18);
             this.getMetarButton.Name = "getMetarButton";
             this.getMetarButton.Size = new System.Drawing.Size(75, 22);
@@ -465,6 +473,7 @@
             // 
             // metarInputGroupBox
             // 
+            this.metarInputGroupBox.Controls.Add(this.fetchMetarLabel);
             this.metarInputGroupBox.Controls.Add(this.getSelectBestRunwayButton);
             this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
             this.metarInputGroupBox.Controls.Add(this.getMetarButton);
@@ -477,6 +486,16 @@
             this.metarInputGroupBox.TabIndex = 0;
             this.metarInputGroupBox.TabStop = false;
             this.metarInputGroupBox.Text = "Metar";
+            // 
+            // fetchMetarLabel
+            // 
+            this.fetchMetarLabel.AutoSize = true;
+            this.fetchMetarLabel.Location = new System.Drawing.Point(131, 22);
+            this.fetchMetarLabel.Name = "fetchMetarLabel";
+            this.fetchMetarLabel.Size = new System.Drawing.Size(106, 13);
+            this.fetchMetarLabel.TabIndex = 9;
+            this.fetchMetarLabel.Text = "Fetching METAR in: ";
+            this.fetchMetarLabel.Visible = false;
             // 
             // getSelectBestRunwayButton
             // 
@@ -781,6 +800,7 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.runwayInfoToolStripMenuItem,
             this.soundToolStripMenuItem,
             this.tAFToolStripMenuItem,
@@ -824,6 +844,31 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fetchMETAREvery30MinutesToolStripMenuItem,
+            this.autoProcessMETARToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // fetchMETAREvery30MinutesToolStripMenuItem
+            // 
+            this.fetchMETAREvery30MinutesToolStripMenuItem.CheckOnClick = true;
+            this.fetchMETAREvery30MinutesToolStripMenuItem.Name = "fetchMETAREvery30MinutesToolStripMenuItem";
+            this.fetchMETAREvery30MinutesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.fetchMETAREvery30MinutesToolStripMenuItem.Text = "Auto fetch METAR ";
+            this.fetchMETAREvery30MinutesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged);
+            // 
+            // autoProcessMETARToolStripMenuItem
+            // 
+            this.autoProcessMETARToolStripMenuItem.CheckOnClick = true;
+            this.autoProcessMETARToolStripMenuItem.Name = "autoProcessMETARToolStripMenuItem";
+            this.autoProcessMETARToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.autoProcessMETARToolStripMenuItem.Text = "Auto process METAR";
+            this.autoProcessMETARToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoProcessMETARToolStripMenuItem_CheckedChanged);
+            // 
             // runwayInfoToolStripMenuItem
             // 
             this.runwayInfoToolStripMenuItem.Enabled = false;
@@ -838,6 +883,13 @@
             this.soundToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.soundToolStripMenuItem.Text = "Sound";
             this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
+            // 
+            // tAFToolStripMenuItem
+            // 
+            this.tAFToolStripMenuItem.Name = "tAFToolStripMenuItem";
+            this.tAFToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.tAFToolStripMenuItem.Text = "TAF";
+            this.tAFToolStripMenuItem.Click += new System.EventHandler(this.tAFToolStripMenuItem_Click);
             // 
             // infoToolStripMenuItem
             // 
@@ -856,6 +908,7 @@
             // 
             // additionalOptionsGroupBox
             // 
+            this.additionalOptionsGroupBox.Controls.Add(this.userDefinedWaveCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.addWindRecordCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
@@ -868,14 +921,24 @@
             this.additionalOptionsGroupBox.TabStop = false;
             this.additionalOptionsGroupBox.Text = "Additional Options";
             // 
+            // userDefinedWaveCheckBox
+            // 
+            this.userDefinedWaveCheckBox.AutoSize = true;
+            this.userDefinedWaveCheckBox.Location = new System.Drawing.Point(6, 159);
+            this.userDefinedWaveCheckBox.Name = "userDefinedWaveCheckBox";
+            this.userDefinedWaveCheckBox.Size = new System.Drawing.Size(115, 17);
+            this.userDefinedWaveCheckBox.TabIndex = 19;
+            this.userDefinedWaveCheckBox.Text = "User defined wave";
+            this.userDefinedWaveCheckBox.UseVisualStyleBackColor = true;
+            // 
             // addWindRecordCheckBox
             // 
             this.addWindRecordCheckBox.AutoSize = true;
-            this.addWindRecordCheckBox.Location = new System.Drawing.Point(6, 124);
+            this.addWindRecordCheckBox.Location = new System.Drawing.Point(6, 131);
             this.addWindRecordCheckBox.Name = "addWindRecordCheckBox";
-            this.addWindRecordCheckBox.Size = new System.Drawing.Size(103, 30);
+            this.addWindRecordCheckBox.Size = new System.Drawing.Size(84, 17);
             this.addWindRecordCheckBox.TabIndex = 18;
-            this.addWindRecordCheckBox.Text = "Add wind record\r\nto output";
+            this.addWindRecordCheckBox.Text = "Wind record\r\n";
             this.addWindRecordCheckBox.UseVisualStyleBackColor = true;
             // 
             // markTempCheckBox
@@ -952,12 +1015,10 @@
             this.realRunwayBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.realRunwayBackgroundWorker_DoWork);
             this.realRunwayBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.realRunwayBackgroundWorker_RunWorkerCompleted);
             // 
-            // tAFToolStripMenuItem
+            // metarFetchTimer
             // 
-            this.tAFToolStripMenuItem.Name = "tAFToolStripMenuItem";
-            this.tAFToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.tAFToolStripMenuItem.Text = "TAF";
-            this.tAFToolStripMenuItem.Click += new System.EventHandler(this.tAFToolStripMenuItem_Click);
+            this.metarFetchTimer.Interval = 1000;
+            this.metarFetchTimer.Tick += new System.EventHandler(this.metarFetchTimer_Tick);
             // 
             // DutchVACCATISGenerator
             // 
@@ -1107,6 +1168,12 @@
         public System.Windows.Forms.ToolStripMenuItem tAFToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
+        private System.Windows.Forms.CheckBox userDefinedWaveCheckBox;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoProcessMETARToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fetchMETAREvery30MinutesToolStripMenuItem;
+        private System.Windows.Forms.Label fetchMetarLabel;
+        private System.Windows.Forms.Timer metarFetchTimer;
     }
 }
 

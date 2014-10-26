@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TAF));
             this.TAFRichTextBox = new System.Windows.Forms.RichTextBox();
             this.TAFGroupBox = new System.Windows.Forms.GroupBox();
+            this.tafBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.TAFGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +54,11 @@
             this.TAFGroupBox.TabIndex = 1;
             this.TAFGroupBox.TabStop = false;
             // 
+            // tafBackgroundWorker
+            // 
+            this.tafBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.tafBackgroundWorker_DoWork);
+            this.tafBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.tafBackgroundWorker_RunWorkerCompleted);
+            // 
             // TAF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -74,6 +80,7 @@
 
         private System.Windows.Forms.RichTextBox TAFRichTextBox;
         private System.Windows.Forms.GroupBox TAFGroupBox;
+        public System.ComponentModel.BackgroundWorker tafBackgroundWorker;
 
     }
 }

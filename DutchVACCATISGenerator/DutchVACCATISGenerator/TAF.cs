@@ -12,6 +12,7 @@ namespace DutchVACCATISGenerator
     public partial class TAF : Form
     {
         private DutchVACCATISGenerator dutchVACCATISGenerator;
+        private string taf;
 
         /// <summary>
         /// Constructor of TAF. Initializes new instance of TAF.
@@ -23,46 +24,8 @@ namespace DutchVACCATISGenerator
 
             this.dutchVACCATISGenerator = dutchVACCATISGenerator;
 
-            //Call get TAF method.
-            getTAF();
-        }
-
-        /// <summary>
-        /// Method to load TAF from KNMI website.
-        /// </summary>
-        public void getTAF()
-        {
-            //Remove/clear old TAF from rich text box.
-            TAFRichTextBox.Clear();
-
-            try
-            {
-                //Create web client.
-                WebClient client = new WebClient();
-
-                //Set user Agent, make the site think we're not a bot.
-                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
-
-                //Make web request to http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html.
-                string data = client.DownloadString("http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html");
-              
-                try
-                {
-                    //Get TAF part from loaded HTML code.
-                    string[] split = (determineTAFToLoad() + data.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                    foreach(string s in split)
-                    {
-                        TAFRichTextBox.Text += s.Trim() + "\r\n";
-                    }
-                }
-                catch (Exception) { }
-            }
-            catch (Exception)
-            {
-                //Show error.
-                MessageBox.Show("Unable to load TAF from the Internet.", "Error");
-            }
+            //Load TAF.
+            tafBackgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -100,6 +63,56 @@ namespace DutchVACCATISGenerator
         private void TAF_FormClosing(object sender, FormClosingEventArgs e)
         {
             dutchVACCATISGenerator.tAFToolStripMenuItem.BackColor = SystemColors.Control;
+        }
+
+        /// <summary>
+        /// Called when the TAF background workder is started.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void tafBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            try
+            {
+                //Create web client.
+                WebClient client = new WebClient();
+
+                //Set user Agent, make the site think we're not a bot.
+                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
+
+                //Make web request to http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html.
+                taf = client.DownloadString("http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html");
+            }
+            catch (Exception)
+            {
+                //Show error.
+                MessageBox.Show("Unable to load TAF from the Internet.", "Error");
+            }
+        }
+
+        /// <summary>
+        /// Called when the TAF background worker is finished.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void tafBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            //Remove/clear old TAF from rich text box.
+            TAFRichTextBox.Clear();
+
+            try
+            {
+                //Get TAF part from loaded HTML code.
+                string[] split = (determineTAFToLoad() + taf.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                foreach (string s in split)
+                    TAFRichTextBox.Text += s.Trim() + "\r\n";
+            }
+            catch (Exception) 
+            {
+                //Show error.
+                MessageBox.Show("Unable to load TAF from the Internet.", "Error");            
+            }
         }
     }
 }

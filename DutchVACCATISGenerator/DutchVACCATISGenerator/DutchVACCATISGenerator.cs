@@ -29,6 +29,7 @@ namespace DutchVACCATISGenerator
         private Sound sound { get; set; }
         private Boolean soundState { get; set; }
         private TAF taf { get; set; }
+        private DateTime timerEnabled { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -36,6 +37,9 @@ namespace DutchVACCATISGenerator
         public DutchVACCATISGenerator()
         {
             InitializeComponent();
+
+            //Load settings.
+            loadSettings();
 
             phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
             
@@ -50,11 +54,14 @@ namespace DutchVACCATISGenerator
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
 
-            //Check if setup.exe is still being used.
-            if (!IsFileLocked(new FileInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp" + "\\Dutch VACC ATIS Generator - Setup.exe")))
+            //Load EHAM metar.
+            metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
+
+            //Check if temp directory exists, if so, delete it.
+            if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
             {
-                //Check if temp directory exists, if so, delete it.
-                if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
+                //Check if setup.exe is still being used.
+                if (!IsFileLocked(new FileInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp" + "\\Dutch VACC ATIS Generator - Setup.exe")))
                 {
                     //Remove hidden attribute.
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp");
@@ -127,6 +134,10 @@ namespace DutchVACCATISGenerator
             //Set pulled METAR in the METAR text box.
             metarTextBox.Text = metar;
 
+            //If auto process METAR check box is checked, automatically process the METAR.
+            if (autoProcessMETARToolStripMenuItem.Checked)
+                processMetarButton_Click(null, null);
+                        
             //Re-enable the get METAR button.
             getMetarButton.Enabled = true;
         }
@@ -1189,6 +1200,10 @@ namespace DutchVACCATISGenerator
             if (appArrOnlyCheckBox.Checked) output += "[call3]";
             #endregion
 
+            #region USER WAVE
+            if (userDefinedWaveCheckBox.Checked) output += "[userwave]";
+            #endregion
+
             #region END
             //Add end to output.
             output += "[end]";
@@ -1272,7 +1287,14 @@ namespace DutchVACCATISGenerator
             #region TAF FORM UPDATE
             //Update TAF in taf form.
             if (taf != null && !taf.IsDisposed)
-                taf.getTAF();
+                while (!taf.tafBackgroundWorker.IsBusy)
+                    taf.tafBackgroundWorker.RunWorkerAsync();
+            #endregion
+
+            #region AUTO LOAD METAR
+            //TODO CHECK FOR EXEPTIONS
+            while (!metarBackgroundWorker.IsBusy) 
+                metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
             #endregion
         }
 
@@ -1474,8 +1496,7 @@ namespace DutchVACCATISGenerator
                 #region Remove redundant HTML code.
                 try
                 {
-                    data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1];
-                    data = data.Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
+                    data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1].Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
                 }
                 catch(Exception) { }
                 #endregion
@@ -1845,6 +1866,96 @@ namespace DutchVACCATISGenerator
 
             //File not locked.
             return false;
+        }
+
+        /// <summary>
+        /// Called when auto fetch METAR tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            if(fetchMETAREvery30MinutesToolStripMenuItem.Checked)
+            {
+                //Set new time to check to
+                timerEnabled = DateTime.UtcNow;
+
+                //Save setting to INI file.
+                iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
+
+                //Set the fetch METAR label to visible.
+                fetchMetarLabel.Visible = true;
+
+                //Start the METAR fetch timer.
+                metarFetchTimer.Start();
+                metarFetchTimer_Tick(null, null);
+            }
+            else
+            {
+                //Save setting to INI file.
+                iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
+
+                //Set the fetch METAR label to hide.
+                fetchMetarLabel.Visible = false;
+
+                //Stop the METAR fetch timer.
+                metarFetchTimer.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Called when auto process METAR tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void autoProcessMETARToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            if (autoProcessMETARToolStripMenuItem.Checked)
+                iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
+            else
+                iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
+        }
+
+        /// <summary>
+        /// Load application settings from INI file.
+        /// </summary>
+        private void loadSettings()
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            //Load settings.
+            fetchMETAREvery30MinutesToolStripMenuItem.Checked = iniFile.GetAutoFetchSetting();
+            autoProcessMETARToolStripMenuItem.Checked = iniFile.GetAutoPorcessSetting();
+        }
+
+
+
+        /// <summary>
+        /// Called when METAR fetch timer ticks.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void metarFetchTimer_Tick(object sender, EventArgs e)
+        {
+            //Update fetch METAR label.
+            fetchMetarLabel.Text = "Fetching METAR in: " + (30 - (DateTime.UtcNow - timerEnabled).Minutes) + " minutes.";
+            
+            //If 30 minutes have passed, update the METAR.
+            if ((DateTime.UtcNow - timerEnabled).Minutes > 29)
+            {
+                //Update METAR.
+                getMetarButton_Click(null, null);
+
+                //Set new time to check to.
+                timerEnabled = DateTime.UtcNow;
+            }
         }
     }
 }
