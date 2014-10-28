@@ -313,13 +313,18 @@ namespace DutchVACCATISGenerator
             metarTextBox.Clear();
 
             //Set processed METAR in last processed METAR label.
-            if(metar.Length > 140) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 690).Trim() + "...";
-            else if (metar.Length > 69) lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
-            else lastLabel.Text = "Last successful processed METAR:\n" + metar;
+            if (metar.Length > 140)
+                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 69).Trim() + "...";
+            else if (metar.Length > 69) 
+                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
+            else 
+                lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
             //Add 1 to ATIS index (next letter).
-            if (atisIndex == 25) atisIndex = 0;
-            else atisIndex++;
+            if (atisIndex == 25) 
+                atisIndex = 0;
+            else 
+                atisIndex++;
 
             //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
@@ -690,27 +695,35 @@ namespace DutchVACCATISGenerator
             //If list is a MetarCloud list.
             else if (input is List<MetarCloud>)
             {
+
+                //TODO CHECK
                 foreach (MetarCloud metarCloud in input as List<MetarCloud>)
                 {
                     //Add cloud type identifier.
                     output += "[" + metarCloud.cloudType.ToLower() + "]";
 
+                    //If cloud altitude equals ground level.
+                    if (metarCloud.altitude == 0) output += metarCloud.altitude;
+                        
                     //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
-                    if (metarCloud.altitude % 100 == 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0" + "[thousand]";
+                    else if (metarCloud.altitude % 100 == 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0" + "[thousand]";
 
                     else
                     {
                         //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
-                        if (metarCloud.altitude / 100 > 0) output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
+                        if (metarCloud.altitude / 100 > 0)
+                        {
+                            output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
+
+                            if(metarCloud.altitude.ToString().Substring(1,1).Equals("0"))
+                                output += "0[thousand]";
+                        }
 
                         //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
                         if ((metarCloud.altitude / 10) % 10 > 0) output += Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + "[thousand]";
 
                         //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
                         if (metarCloud.altitude % 10 > 0) output += metarCloud.altitude % 10 + "[hundred]";
-
-                        //If cloud altitude equals ground level.
-                        if (metarCloud.altitude == 0) output += metarCloud.altitude;
                     }
 
                     output += "[ft]";
@@ -1034,7 +1047,7 @@ namespace DutchVACCATISGenerator
 
             #region RVRONATC
             //If processed METAR has RVR, add RVR to output. 
-            if (metarProcessor.metar.RVR) output += "[rvronatc]";
+            if (metarProcessor.metar.RVR) output += "[rvronatc][pause]";
             #endregion
 
             #region PHENOMENA

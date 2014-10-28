@@ -17,7 +17,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Constructor of TAF. Initializes new instance of TAF.
         /// </summary>
-        /// <param name="dutchVACCATISGenerator">Parent DutchVACCATISGenerator.</param>
+        /// <param name="dutchVACCATISGenerator">Parent DutchVACCATISGenerator</param>
         public TAF(DutchVACCATISGenerator dutchVACCATISGenerator)
         {
             InitializeComponent();
