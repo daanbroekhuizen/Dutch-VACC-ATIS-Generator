@@ -926,9 +926,9 @@
             this.userDefinedWaveCheckBox.AutoSize = true;
             this.userDefinedWaveCheckBox.Location = new System.Drawing.Point(6, 159);
             this.userDefinedWaveCheckBox.Name = "userDefinedWaveCheckBox";
-            this.userDefinedWaveCheckBox.Size = new System.Drawing.Size(115, 17);
+            this.userDefinedWaveCheckBox.Size = new System.Drawing.Size(135, 17);
             this.userDefinedWaveCheckBox.TabIndex = 19;
-            this.userDefinedWaveCheckBox.Text = "User defined wave";
+            this.userDefinedWaveCheckBox.Text = "User defined extra wav";
             this.userDefinedWaveCheckBox.UseVisualStyleBackColor = true;
             // 
             // addWindRecordCheckBox

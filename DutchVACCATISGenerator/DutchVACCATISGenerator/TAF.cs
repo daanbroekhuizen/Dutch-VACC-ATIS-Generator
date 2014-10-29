@@ -11,6 +11,8 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class TAF : Form
     {
+        //TODO TAF AMD
+
         private DutchVACCATISGenerator dutchVACCATISGenerator;
         private string taf;
 

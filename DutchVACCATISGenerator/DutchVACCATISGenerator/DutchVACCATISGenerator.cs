@@ -1212,15 +1212,15 @@ namespace DutchVACCATISGenerator
             //If arrival and approach only check box is checked.
             if (appArrOnlyCheckBox.Checked) output += "[call3]";
             #endregion
-
-            #region USER WAVE
-            if (userDefinedWaveCheckBox.Checked) output += "[userwave]";
-            #endregion
-
+            
             #region END
             //Add end to output.
             output += "[end]";
             output += phoneticAlphabet[atisIndex];
+            #endregion
+
+            #region USER WAVE
+            if (userDefinedWaveCheckBox.Checked) output += "[extra]";
             #endregion
 
             //If copy output check box is checked, copy ATIS output to clipboard.
