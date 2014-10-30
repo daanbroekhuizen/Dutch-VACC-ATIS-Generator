@@ -11,8 +11,6 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class TAF : Form
     {
-        //TODO TAF AMD
-
         private DutchVACCATISGenerator dutchVACCATISGenerator;
         private string taf;
 
@@ -52,6 +50,60 @@ namespace DutchVACCATISGenerator
 
                 case "EHRD":
                     return "TAF EHRD";
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Method to determine if TAF contains AMD.
+        /// </summary>
+        /// <returns>String indicating TAF AMD to determine</returns>
+        private string determineTAFAMDToLoad()
+        {
+            switch (dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Name)
+            {
+                case "EHAM":
+                    return "TAF AMD EHAM";
+
+                case "EHBK":
+                    return "TAF AMD EHBK";
+
+                case "EHEH":
+                    return "TAF AMD EHEH";
+
+                case "EHGG":
+                    return "TAF AMD EHGG";
+
+                case "EHRD":
+                    return "TAF AMD EHRD";
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Method to determine if TAF contains COR.
+        /// </summary>
+        /// <returns>String indicating TAF COR to determine</returns>
+        private string determineTAFCORToLoad()
+        {
+            switch (dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Name)
+            {
+                case "EHAM":
+                    return "TAF COR EHAM";
+
+                case "EHBK":
+                    return "TAF COR EHBK";
+
+                case "EHEH":
+                    return "TAF COR EHEH";
+
+                case "EHGG":
+                    return "TAF COR EHGG";
+
+                case "EHRD":
+                    return "TAF COR EHRD";
             }
 
             return String.Empty;
@@ -104,16 +156,35 @@ namespace DutchVACCATISGenerator
 
             try
             {
-                //Get TAF part from loaded HTML code.
-                string[] split = (determineTAFToLoad() + taf.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                if (taf.Contains(determineTAFAMDToLoad()))
+                {
+                    //Get TAF part from loaded HTML code.
+                    string[] split = (determineTAFAMDToLoad() + taf.Split(new string[] { determineTAFAMDToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
-                foreach (string s in split)
-                    TAFRichTextBox.Text += s.Trim() + "\r\n";
+                    foreach (string s in split)
+                        TAFRichTextBox.Text += s.Trim() + "\r\n";
+                }
+                else if(taf.Contains(determineTAFCORToLoad()))
+                {
+                    //Get TAF part from loaded HTML code.
+                    string[] split = (determineTAFCORToLoad() + taf.Split(new string[] { determineTAFCORToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                    foreach (string s in split)
+                        TAFRichTextBox.Text += s.Trim() + "\r\n";
+                }
+                else
+                {
+                    //Get TAF part from loaded HTML code.
+                    string[] split = (determineTAFToLoad() + taf.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                    foreach (string s in split)
+                        TAFRichTextBox.Text += s.Trim() + "\r\n";
+                }
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 //Show error.
-                MessageBox.Show("Unable to load TAF from the Internet.", "Error");            
+                MessageBox.Show("Unable to load TAF from the Internet.", "Error");
             }
         }
     }

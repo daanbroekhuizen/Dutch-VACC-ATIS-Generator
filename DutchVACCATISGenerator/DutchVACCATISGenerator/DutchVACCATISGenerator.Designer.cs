@@ -490,6 +490,7 @@
             // fetchMetarLabel
             // 
             this.fetchMetarLabel.AutoSize = true;
+            this.fetchMetarLabel.ForeColor = System.Drawing.SystemColors.GrayText;
             this.fetchMetarLabel.Location = new System.Drawing.Point(131, 22);
             this.fetchMetarLabel.Name = "fetchMetarLabel";
             this.fetchMetarLabel.Size = new System.Drawing.Size(106, 13);

@@ -48,7 +48,7 @@ namespace DutchVACCATISGenerator
 
             //Set the label to A.
             atisLetterLabel.Text = phoneticAlphabet[0];
-          
+
             soundState = runwayInfoState = false;
 
             //Start version background worker.
@@ -542,26 +542,50 @@ namespace DutchVACCATISGenerator
                 if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
-
+                /* 27 & 18R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
-
+                /* 27 & 18C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+                /* 27 & 36C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
 
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                /* 06 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 22 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
 
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 27 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 09 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
-
+                /* 27 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                /* 22 & 18C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+                /* 22 & 36R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                /* 22 & 36C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
             }
             #endregion
 
@@ -695,8 +719,6 @@ namespace DutchVACCATISGenerator
             //If list is a MetarCloud list.
             else if (input is List<MetarCloud>)
             {
-
-                //TODO CHECK
                 foreach (MetarCloud metarCloud in input as List<MetarCloud>)
                 {
                     //Add cloud type identifier.
@@ -715,6 +737,7 @@ namespace DutchVACCATISGenerator
                         {
                             output += Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString();
 
+                            //If cloud altitude has a ten-thousand and hunderd value (e.g. 10200 (102), 20800 (208), 40700 (407)).
                             if(metarCloud.altitude.ToString().Substring(1,1).Equals("0"))
                                 output += "0[thousand]";
                         }
@@ -1305,7 +1328,6 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region AUTO LOAD METAR
-            //TODO CHECK FOR EXEPTIONS
             while (!metarBackgroundWorker.IsBusy) 
                 metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
             #endregion
@@ -1539,9 +1561,6 @@ namespace DutchVACCATISGenerator
             }
             catch(Exception)
             {
-                //Re-enable get select best runway button.
-                getSelectBestRunwayButton.Enabled = true;
-
                 //Show error.
                 MessageBox.Show("Unable to get real EHAM runway combination from the Internet.", "Error");
             }
@@ -1592,18 +1611,57 @@ namespace DutchVACCATISGenerator
                 //Generate landing runway combinations list.
                 List<Tuple<String, String>> landingRunwayCombinations = new List<Tuple<String, String>>()
                 {
+                    /* 06 combinations */
+                    { new Tuple<String, String>("06", "18R")},
+                    { new Tuple<String, String>("06", "36R")},
+                    { new Tuple<String, String>("06", "18C")},
+                    { new Tuple<String, String>("06", "36C")},
+                    { new Tuple<String, String>("06", "27")},
+                    { new Tuple<String, String>("06", "22")},
+                    { new Tuple<String, String>("06", "09")},
+                    { new Tuple<String, String>("06", "04")},
+                    /* 18R combinations */
+                    { new Tuple<String, String>("18R", "36R")},
                     { new Tuple<String, String>("18R", "18C")},
+                    { new Tuple<String, String>("18R", "36C")},
                     { new Tuple<String, String>("18R", "27")},
                     { new Tuple<String, String>("18R", "22")},
-                    { new Tuple<String, String>("18C", "27")},
-                    { new Tuple<String, String>("18C", "22")},
+                    { new Tuple<String, String>("18R", "24")},
+                    { new Tuple<String, String>("18R", "09")},
+                    { new Tuple<String, String>("18R", "04")},
+                    /* 36R combinations */
+                    { new Tuple<String, String>("36R", "18C")},
                     { new Tuple<String, String>("36R", "36C")},
                     { new Tuple<String, String>("36R", "27")},
-                    { new Tuple<String, String>("06", "36R")},
-                    { new Tuple<String, String>("06", "04")},
-                    { new Tuple<String, String>("27", "22")},
-                    { new Tuple<String, String>("36C", "04")},
+                    { new Tuple<String, String>("36R", "22")},
+                    { new Tuple<String, String>("36R", "24")},
+                    { new Tuple<String, String>("36R", "09")},
+                    { new Tuple<String, String>("36R", "04")},
+                    /* 18C combinations */
+                    { new Tuple<String, String>("18C", "27")},
+                    { new Tuple<String, String>("18C", "22")},
+                    { new Tuple<String, String>("18C", "24")},
+                    { new Tuple<String, String>("18C", "09")},
+                    { new Tuple<String, String>("18C", "04")},
+                    /* 36C combinations */
                     { new Tuple<String, String>("36C", "27")},
+                    { new Tuple<String, String>("36C", "22")},
+                    { new Tuple<String, String>("36C", "24")},
+                    { new Tuple<String, String>("36C", "09")},
+                    { new Tuple<String, String>("36C", "04")},
+                    /* 27 combinations */
+                    { new Tuple<String, String>("27", "22")},
+                    { new Tuple<String, String>("27", "24")},
+                    { new Tuple<String, String>("27", "09")},
+                    { new Tuple<String, String>("27", "04")},
+                    /* 22 combinations */
+                    { new Tuple<String, String>("22", "24")},
+                    { new Tuple<String, String>("22", "09")},
+                    /* 24 combinations */
+                    { new Tuple<String, String>("24", "09")},
+                    { new Tuple<String, String>("24", "04")},
+                    /* 09 combinations */
+                    { new Tuple<String, String>("09", "04")},
                 };
 
                 //Check which runways are found and set the correct main and secondary landing runway.
@@ -1628,19 +1686,58 @@ namespace DutchVACCATISGenerator
                 //Generate departure runway combinations list.
                 List<Tuple<String, String>> departureRunwayCombinations = new List<Tuple<String, String>>()
                 {
-                    { new Tuple<String, String>("24", "18L")},
-                    { new Tuple<String, String>("24", "36L")},
-                    { new Tuple<String, String>("24", "36C")},
-                    { new Tuple<String, String>("24", "09")},
+                    /* 36L combinations */
+                    { new Tuple<String, String>("36L", "24")},
                     { new Tuple<String, String>("36L", "36C")},
-                    { new Tuple<String, String>("36L", "09")},                    
-                    { new Tuple<String, String>("36L", "04")},        
-                    { new Tuple<String, String>("36L", "06")},        
+                    { new Tuple<String, String>("36L", "18L")},                    
+                    { new Tuple<String, String>("36L", "18C")},        
+                    { new Tuple<String, String>("36L", "09")}, 
+                    { new Tuple<String, String>("36L", "27")}, 
+                    { new Tuple<String, String>("36L", "06")}, 
+                    { new Tuple<String, String>("36L", "22")}, 
+                    { new Tuple<String, String>("36L", "04")}, 
+                    /* 24 combinations */
+                    { new Tuple<String, String>("24", "36C")},
+                    { new Tuple<String, String>("24", "18L")},
+                    { new Tuple<String, String>("24", "18C")},
+                    { new Tuple<String, String>("24", "09")},
+                    { new Tuple<String, String>("24", "27")},
+                    { new Tuple<String, String>("24", "22")},
+                    { new Tuple<String, String>("24", "04")},
+                    /* 36C combinations */
+                    { new Tuple<String, String>("36C", "18L")},
                     { new Tuple<String, String>("36C", "09")},
-                    { new Tuple<String, String>("36C", "04")},
+                    { new Tuple<String, String>("36C", "27")},
                     { new Tuple<String, String>("36C", "06")},
+                    { new Tuple<String, String>("36C", "22")},
+                    { new Tuple<String, String>("36C", "04")},
+                    /* 18L combinations */
                     { new Tuple<String, String>("18L", "18C")},
+                    { new Tuple<String, String>("18L", "09")},
+                    { new Tuple<String, String>("18L", "27")},
+                    { new Tuple<String, String>("18L", "06")},
+                    { new Tuple<String, String>("18L", "22")},
+                    { new Tuple<String, String>("18L", "04")},
+                    /* 18C combinations */
                     { new Tuple<String, String>("18C", "09")},
+                    { new Tuple<String, String>("18C", "27")},
+                    { new Tuple<String, String>("18C", "06")},
+                    { new Tuple<String, String>("18C", "22")},
+                    { new Tuple<String, String>("18C", "04")},
+                    /* 09 combinations */
+                    { new Tuple<String, String>("09", "27")},
+                    { new Tuple<String, String>("09", "06")},
+                    { new Tuple<String, String>("09", "22")},
+                    { new Tuple<String, String>("09", "04")},
+                    /* 27 combinations */
+                    { new Tuple<String, String>("27", "06")},
+                    { new Tuple<String, String>("27", "22")},
+                    { new Tuple<String, String>("27", "04")},
+                    /* 06 combinations */
+                    { new Tuple<String, String>("06", "22")},
+                    { new Tuple<String, String>("06", "04")},
+                    /* 22 combinations */
+                    { new Tuple<String, String>("22", "04")},
                 };
 
                 //Check which runways are found and set the correct main and secondary departure runway.
@@ -1947,8 +2044,6 @@ namespace DutchVACCATISGenerator
             fetchMETAREvery30MinutesToolStripMenuItem.Checked = iniFile.GetAutoFetchSetting();
             autoProcessMETARToolStripMenuItem.Checked = iniFile.GetAutoPorcessSetting();
         }
-
-
 
         /// <summary>
         /// Called when METAR fetch timer ticks.
