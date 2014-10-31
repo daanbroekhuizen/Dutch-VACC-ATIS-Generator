@@ -40,6 +40,8 @@ namespace DutchVACCATISGenerator
                 string[] lines = { 
                                      "[settings]",
                                      "autofetch=False", 
+                                     "autogenerateatis=False",
+                                     "autoloadrunways=False", 
                                      "autoprocess=False"
                                  };
 
@@ -86,7 +88,15 @@ namespace DutchVACCATISGenerator
         /// <returns>bool - Value from the ini file</returns>
         public bool GetAutoFetchSetting()
         {
-            return Convert.ToBoolean(iniReadValue("settings", "autofetch"));
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "autofetch"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoFetchSetting(false);
+                return false;
+            }
         }
 
         /// <summary>
@@ -104,7 +114,67 @@ namespace DutchVACCATISGenerator
         /// <returns>bool - Value from the ini file</returns>
         public bool GetAutoPorcessSetting()
         {
-            return Convert.ToBoolean(iniReadValue("settings", "autoprocess"));
-        }       
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "autoprocess"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoPorcessSetting(false);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Write auto load runways value to ini file.
+        /// </summary>
+        /// <param name="value">bool - Value to write to the ini file</param>
+        public void WriteAutoLoadRunwaysSetting(bool value)
+        {
+            iniWriteValue("settings", "autoloadrunways", value.ToString());
+        }
+
+        /// <summary>
+        /// Load auto load runways value from ini file.
+        /// </summary>
+        /// <returns>bool - Value from the ini file</returns>
+        public bool GetAutoLoadRunwaysSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "autoloadrunways"));
+            }
+            catch(FormatException)
+            {
+                WriteAutoLoadRunwaysSetting(false);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Write auto generate ATIS value to ini file.
+        /// </summary>
+        /// <param name="value">bool - Value to write to the ini file</param>
+        public void WriteAutoGenerateATISSetting(bool value)
+        {
+            iniWriteValue("settings", "autogenerateatis", value.ToString());
+        }
+
+        /// <summary>
+        /// Load auto generate ATIS value from ini file.
+        /// </summary>
+        /// <returns>bool - Value from the ini file</returns>
+        public bool GetAutoGenerateATISSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "autogenerateatis"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoGenerateATISSetting(false);
+                return false;
+            }
+        }
     }
 }

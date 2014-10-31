@@ -30,6 +30,7 @@ namespace DutchVACCATISGenerator
         private Boolean soundState { get; set; }
         private TAF taf { get; set; }
         private DateTime timerEnabled { get; set; }
+        private Boolean icaoTabSwitched { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -49,14 +50,14 @@ namespace DutchVACCATISGenerator
             //Set the label to A.
             atisLetterLabel.Text = phoneticAlphabet[0];
 
-            soundState = runwayInfoState = false;
+            soundState = runwayInfoState = icaoTabSwitched = false;
 
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
 
             //Load EHAM metar.
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
-
+           
             //Check if temp directory exists, if so, delete it.
             if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
             {
@@ -71,6 +72,14 @@ namespace DutchVACCATISGenerator
                     Directory.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp", true);
                 }
             }
+
+            //If auto load EHAM runways is selected.
+            if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
+                realRunwayBackgroundWorker.RunWorkerAsync();
+
+            //If auto generate ATIS is selected.
+            if(autoGenerateATISToolStripMenuItem.Checked)
+                autoGenerateATISBackgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -79,7 +88,10 @@ namespace DutchVACCATISGenerator
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void getMetarButton_Click(object sender, EventArgs e)
-        {   
+        {
+            //Set new time to check to.
+            timerEnabled = DateTime.UtcNow;
+
             //Get ICAO entered.
             String _ICAO = icaoTextBox.Text;
 
@@ -135,7 +147,7 @@ namespace DutchVACCATISGenerator
             metarTextBox.Text = metar;
 
             //If auto process METAR check box is checked, automatically process the METAR.
-            if (autoProcessMETARToolStripMenuItem.Checked)
+            if (autoProcessMETARToolStripMenuItem.Checked && metar != null)
                 processMetarButton_Click(null, null);
                         
             //Re-enable the get METAR button.
@@ -320,11 +332,17 @@ namespace DutchVACCATISGenerator
             else 
                 lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
-            //Add 1 to ATIS index (next letter).
-            if (atisIndex == 25) 
-                atisIndex = 0;
-            else 
-                atisIndex++;
+            if (!icaoTabSwitched)
+            {
+                //Add 1 to ATIS index (next letter).
+                if (atisIndex == 25)
+                    atisIndex = 0;
+                else
+                    atisIndex++;
+            }
+
+            //Set icao tab sitched boolean to false for next generation.
+            icaoTabSwitched = false;
 
             //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
@@ -539,9 +557,14 @@ namespace DutchVACCATISGenerator
             #region RWY CONFIGURATIONS
             if (EHAMmainLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayCheckBox.Checked)
             {
+                /* 18R & 18C */
                 if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
 
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[independent]";
+                /* 36R & 36C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[independent]";
                 /* 27 & 18R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
@@ -1271,6 +1294,9 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Set icao tab switched boolean.
+            icaoTabSwitched = true;
+
             //Set ICAO of selected ICAO tab in ICAO text box.
             #region EHAM
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
@@ -2027,9 +2053,18 @@ namespace DutchVACCATISGenerator
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
             if (autoProcessMETARToolStripMenuItem.Checked)
+            {
                 iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
+
+                if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
+                    autoGenerateATISToolStripMenuItem.Enabled = true;
+            }
             else
+            {
                 iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
+
+                autoGenerateATISToolStripMenuItem.Enabled = autoGenerateATISToolStripMenuItem.Checked = false;
+            }
         }
 
         /// <summary>
@@ -2043,6 +2078,8 @@ namespace DutchVACCATISGenerator
             //Load settings.
             fetchMETAREvery30MinutesToolStripMenuItem.Checked = iniFile.GetAutoFetchSetting();
             autoProcessMETARToolStripMenuItem.Checked = iniFile.GetAutoPorcessSetting();
+            autoLoadEHAMRunwayToolStripMenuItem.Checked = iniFile.GetAutoLoadRunwaysSetting();
+            autoGenerateATISToolStripMenuItem.Checked = iniFile.GetAutoGenerateATISSetting();
         }
 
         /// <summary>
@@ -2060,10 +2097,80 @@ namespace DutchVACCATISGenerator
             {
                 //Update METAR.
                 getMetarButton_Click(null, null);
-
-                //Set new time to check to.
-                timerEnabled = DateTime.UtcNow;
             }
+        }
+
+        /// <summary>
+        /// Called when auto load EHAM runway tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void autoLoadEHAMRunwayToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
+            {
+                iniFile.WriteAutoLoadRunwaysSetting(autoLoadEHAMRunwayToolStripMenuItem.Checked);
+
+                if (autoProcessMETARToolStripMenuItem.Checked)
+                    autoGenerateATISToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                iniFile.WriteAutoLoadRunwaysSetting(autoLoadEHAMRunwayToolStripMenuItem.Checked);
+
+                autoGenerateATISToolStripMenuItem.Enabled = autoGenerateATISToolStripMenuItem.Checked = false;
+            }
+        }
+
+        //TODO NEEDS TESTING
+
+        /// <summary>
+        /// Method called when auto generate ATIS background worker is started.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void autoGenerateATISBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (metarBackgroundWorker.IsBusy) { /* WAIT */}
+
+            while (realRunwayBackgroundWorker.IsBusy) { /* WAIT */}
+        }
+
+        /// <summary>
+        /// Method called when auto generate ATIS background wworker has finished.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void autoGenerateATISBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                generateATISButton_Click(null, null);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Unable to auto generate the ATIS.\nGenerate the ATIS manually.", "Error");
+            }
+            
+        }
+
+        /// <summary>
+        /// Called when auto load EHAM runway tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void autoGenerateATISToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            if (autoGenerateATISToolStripMenuItem.Checked)
+                iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
+            else
+                iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
         }
     }
 }
