@@ -94,6 +94,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fetchMETAREvery30MinutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoGenerateATISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadEHAMRunwayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoProcessMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,7 +115,6 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.autoGenerateATISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -167,6 +167,7 @@
             // 
             // metarBackgroundWorker
             // 
+            this.metarBackgroundWorker.WorkerSupportsCancellation = true;
             this.metarBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.metarBackgroundWorker_DoWork);
             this.metarBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.metarBackgroundWorker_RunWorkerCompleted);
             // 
@@ -564,6 +565,7 @@
             this.ICAOTabControl.Size = new System.Drawing.Size(369, 232);
             this.ICAOTabControl.TabIndex = 5;
             this.ICAOTabControl.SelectedIndexChanged += new System.EventHandler(this.ICAOTabControl_SelectedIndexChanged);
+            this.ICAOTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ICAOTabControl_Selecting);
             // 
             // EHAM
             // 
@@ -867,6 +869,15 @@
             this.fetchMETAREvery30MinutesToolStripMenuItem.Text = "Auto fetch METAR ";
             this.fetchMETAREvery30MinutesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged);
             // 
+            // autoGenerateATISToolStripMenuItem
+            // 
+            this.autoGenerateATISToolStripMenuItem.CheckOnClick = true;
+            this.autoGenerateATISToolStripMenuItem.Enabled = false;
+            this.autoGenerateATISToolStripMenuItem.Name = "autoGenerateATISToolStripMenuItem";
+            this.autoGenerateATISToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.autoGenerateATISToolStripMenuItem.Text = "Auto generate ATIS (on startup)";
+            this.autoGenerateATISToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoGenerateATISToolStripMenuItem_CheckedChanged);
+            // 
             // autoLoadEHAMRunwayToolStripMenuItem
             // 
             this.autoLoadEHAMRunwayToolStripMenuItem.CheckOnClick = true;
@@ -1038,15 +1049,6 @@
             // 
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
-            // 
-            // autoGenerateATISToolStripMenuItem
-            // 
-            this.autoGenerateATISToolStripMenuItem.CheckOnClick = true;
-            this.autoGenerateATISToolStripMenuItem.Enabled = false;
-            this.autoGenerateATISToolStripMenuItem.Name = "autoGenerateATISToolStripMenuItem";
-            this.autoGenerateATISToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.autoGenerateATISToolStripMenuItem.Text = "Auto generate ATIS (on startup)";
-            this.autoGenerateATISToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoGenerateATISToolStripMenuItem_CheckedChanged);
             // 
             // DutchVACCATISGenerator
             // 

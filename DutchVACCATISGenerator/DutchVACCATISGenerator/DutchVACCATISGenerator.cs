@@ -1349,13 +1349,16 @@ namespace DutchVACCATISGenerator
             #region TAF FORM UPDATE
             //Update TAF in taf form.
             if (taf != null && !taf.IsDisposed)
-                while (!taf.tafBackgroundWorker.IsBusy)
-                    taf.tafBackgroundWorker.RunWorkerAsync();
+            {
+                if (taf.tafBackgroundWorker.IsBusy)
+                    taf.tafBackgroundWorker.CancelAsync();
+                    
+                taf.tafBackgroundWorker.RunWorkerAsync();
+            }
             #endregion
 
             #region AUTO LOAD METAR
-            while (!metarBackgroundWorker.IsBusy) 
-                metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
+            metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
             #endregion
         }
 
@@ -2125,8 +2128,6 @@ namespace DutchVACCATISGenerator
             }
         }
 
-        //TODO NEEDS TESTING
-
         /// <summary>
         /// Method called when auto generate ATIS background worker is started.
         /// </summary>
@@ -2171,6 +2172,17 @@ namespace DutchVACCATISGenerator
                 iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
             else
                 iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
+        }
+
+        /// <summary>
+        /// Called when ICAO tab control tab is being selected.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void ICAOTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if(metarBackgroundWorker.IsBusy)
+                e.Cancel = true;
         }
     }
 }
