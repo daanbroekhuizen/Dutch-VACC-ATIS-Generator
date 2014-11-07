@@ -120,7 +120,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Called when the TAF background workder is started.
+        /// Called when the TAF background worker is started.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>

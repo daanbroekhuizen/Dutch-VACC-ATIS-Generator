@@ -30,9 +30,9 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Check if ini file exists.
+        /// Check if INI file exists.
         /// </summary>
-        /// <param name="INIPath">string - Path to ini file</param>
+        /// <param name="INIPath">string - Path to INI file</param>
         private void checkIfIniExists(string INIPath)
         {
             if (!(File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini")))
@@ -50,7 +50,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write a value to the ini file.
+        /// Write a value to the INI file.
         /// </summary>
         /// <param name="Section">string - Section in file</param>
         /// <param name="Key">string - Key to write value to</param>
@@ -61,7 +61,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Read a value from the ini file.
+        /// Read a value from the INI file.
         /// </summary>
         /// <param name="Section">string - Section in file</param>
         /// <param name="Key">string - Key to read value from</param>
@@ -74,18 +74,18 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write auto fetch value to ini file.
+        /// Write auto fetch value to INI file.
         /// </summary>
-        /// <param name="value">bool - Value to write to the ini file</param>
+        /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteAutoFetchSetting(bool value)
         {
             iniWriteValue("settings", "autofetch", value.ToString());
         }
 
         /// <summary>
-        /// Load auto fetch value from ini file.
+        /// Load auto fetch value from INI file.
         /// </summary>
-        /// <returns>bool - Value from the ini file</returns>
+        /// <returns>boolean - Value from the INI file</returns>
         public bool GetAutoFetchSetting()
         {
             try
@@ -100,18 +100,18 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write auto process value to ini file.
+        /// Write auto process value to INI file.
         /// </summary>
-        /// <param name="value">bool - Value to write to the ini file</param>
+        /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteAutoPorcessSetting(bool value)
         {
             iniWriteValue("settings", "autoprocess", value.ToString());
         }
 
         /// <summary>
-        /// Load auto process value from ini file.
+        /// Load auto process value from INI file.
         /// </summary>
-        /// <returns>bool - Value from the ini file</returns>
+        /// <returns>boolean - Value from the INI file</returns>
         public bool GetAutoPorcessSetting()
         {
             try
@@ -126,18 +126,18 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write auto load runways value to ini file.
+        /// Write auto load runways value to INI file.
         /// </summary>
-        /// <param name="value">bool - Value to write to the ini file</param>
+        /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteAutoLoadRunwaysSetting(bool value)
         {
             iniWriteValue("settings", "autoloadrunways", value.ToString());
         }
 
         /// <summary>
-        /// Load auto load runways value from ini file.
+        /// Load auto load runways value from INI file.
         /// </summary>
-        /// <returns>bool - Value from the ini file</returns>
+        /// <returns>boolean - Value from the INI file</returns>
         public bool GetAutoLoadRunwaysSetting()
         {
             try
@@ -152,18 +152,18 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write auto generate ATIS value to ini file.
+        /// Write auto generate ATIS value to INI file.
         /// </summary>
-        /// <param name="value">bool - Value to write to the ini file</param>
+        /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteAutoGenerateATISSetting(bool value)
         {
             iniWriteValue("settings", "autogenerateatis", value.ToString());
         }
 
         /// <summary>
-        /// Load auto generate ATIS value from ini file.
+        /// Load auto generate ATIS value from INI file.
         /// </summary>
-        /// <returns>bool - Value from the ini file</returns>
+        /// <returns>boolean - Value from the INI file</returns>
         public bool GetAutoGenerateATISSetting()
         {
             try

@@ -19,18 +19,18 @@ namespace DutchVACCATISGenerator
     {
         private int atisIndex { get; set; }
         private List<String> departureRunways { get; set; }
+        private Boolean icaoTabSwitched { get; set; }
         private List<String> landingRunways { get; set; }
         private String latestVersion { get; set; }
-        private List<String> phoneticAlphabet { get; set; }
         private String metar { get; set; }
         private MetarProcessor metarProcessor { get; set; }
+        private List<String> phoneticAlphabet { get; set; }
         private RunwayInfo runwayInfo { get; set; }
         private Boolean runwayInfoState { get; set; }
         private Sound sound { get; set; }
         private Boolean soundState { get; set; }
         private TAF taf { get; set; }
         private DateTime timerEnabled { get; set; }
-        private Boolean icaoTabSwitched { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -55,7 +55,7 @@ namespace DutchVACCATISGenerator
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
 
-            //Load EHAM metar.
+            //Load EHAM METAR.
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
            
             //Check if temp directory exists, if so, delete it.
@@ -324,15 +324,20 @@ namespace DutchVACCATISGenerator
             outputTextBox.Clear();
             metarTextBox.Clear();
 
-            //Set processed METAR in last processed METAR label.
-            if (metar.Length > 140)
-                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 69).Trim() + "...";
-            else if (metar.Length > 69) 
-                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
-            else 
-                lastLabel.Text = "Last successful processed METAR:\n" + metar;
-
-            if (!icaoTabSwitched)
+            //Checks if ATIS index has to be increased.
+            if (lastLabel.Text == string.Empty)
+            {
+                //Add 1 to ATIS index (next letter).
+                if (atisIndex == 25)
+                    atisIndex = 0;
+                else
+                    atisIndex++;
+            }
+            else if (icaoTabSwitched)
+            {
+                /* do nothing */
+            }
+            else
             {
                 //Add 1 to ATIS index (next letter).
                 if (atisIndex == 25)
@@ -341,7 +346,15 @@ namespace DutchVACCATISGenerator
                     atisIndex++;
             }
 
-            //Set icao tab sitched boolean to false for next generation.
+            //Set processed METAR in last processed METAR label.
+            if (metar.Length > 140)
+                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 69).Trim() + "...";
+            else if (metar.Length > 69) 
+                lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
+            else 
+                lastLabel.Text = "Last successful processed METAR:\n" + metar;
+                
+            //Set ICAO tab switched boolean to false for next generation.
             icaoTabSwitched = false;
 
             //Set ATIS letter in ATIS letter label.
@@ -1294,7 +1307,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Set icao tab switched boolean.
+            //Set ICAO tab switched boolean.
             icaoTabSwitched = true;
 
             //Set ICAO of selected ICAO tab in ICAO text box.
@@ -1347,7 +1360,7 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region TAF FORM UPDATE
-            //Update TAF in taf form.
+            //Update TAF in TAF form.
             if (taf != null && !taf.IsDisposed)
             {
                 if (taf.tafBackgroundWorker.IsBusy)
@@ -1903,19 +1916,19 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Sets all controls for opening and closing the taf form.
+        /// Sets all controls for opening and closing the TAF form.
         /// </summary>
         private void setTAFForm()
         {
             #region OPENING
-            //If taf form doesn't exists OR isn't visible.
+            //If TAF form doesn't exists OR isn't visible.
             if (taf == null || !taf.Visible)
             {
                 //Create new Sound form.
                 taf = new TAF(this);
                 taf.Show();
 
-                //Set taf tool strip menu item back color to gradient active caption.
+                //Set TAF tool strip menu item back color to gradient active caption.
                 tAFToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
             }
             #endregion
@@ -1923,10 +1936,10 @@ namespace DutchVACCATISGenerator
             #region CLOSING
             else
             {
-                //Hide the taf form.
+                //Hide the TAF form.
                 taf.Visible = false;
 
-                //Set taf strip menu item back color to control.
+                //Set TAF strip menu item back color to control.
                 tAFToolStripMenuItem.BackColor = SystemColors.Control;
             }
             #endregion
@@ -1969,7 +1982,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called if taf tool strip menu item is clicked.
+        /// Method called if TAF tool strip menu item is clicked.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
@@ -2141,7 +2154,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when auto generate ATIS background wworker has finished.
+        /// Method called when auto generate ATIS background worker has finished.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
