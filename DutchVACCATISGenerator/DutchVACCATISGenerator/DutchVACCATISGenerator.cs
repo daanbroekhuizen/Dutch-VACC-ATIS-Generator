@@ -1279,7 +1279,7 @@ namespace DutchVACCATISGenerator
             #endregion
 
             #region USER WAVE
-            if (userDefinedWaveCheckBox.Checked) output += "[extra]";
+            if (userDefinedExtraCheckBox.Checked) output += "[extra]";
             #endregion
 
             //If copy output check box is checked, copy ATIS output to clipboard.

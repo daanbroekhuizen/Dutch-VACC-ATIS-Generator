@@ -103,7 +103,7 @@
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
-            this.userDefinedWaveCheckBox = new System.Windows.Forms.CheckBox();
+            this.userDefinedExtraCheckBox = new System.Windows.Forms.CheckBox();
             this.addWindRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.appArrOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -933,7 +933,7 @@
             // 
             // additionalOptionsGroupBox
             // 
-            this.additionalOptionsGroupBox.Controls.Add(this.userDefinedWaveCheckBox);
+            this.additionalOptionsGroupBox.Controls.Add(this.userDefinedExtraCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.addWindRecordCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.appArrOnlyCheckBox);
@@ -946,15 +946,15 @@
             this.additionalOptionsGroupBox.TabStop = false;
             this.additionalOptionsGroupBox.Text = "Additional Options";
             // 
-            // userDefinedWaveCheckBox
+            // userDefinedExtraCheckBox
             // 
-            this.userDefinedWaveCheckBox.AutoSize = true;
-            this.userDefinedWaveCheckBox.Location = new System.Drawing.Point(6, 159);
-            this.userDefinedWaveCheckBox.Name = "userDefinedWaveCheckBox";
-            this.userDefinedWaveCheckBox.Size = new System.Drawing.Size(135, 17);
-            this.userDefinedWaveCheckBox.TabIndex = 19;
-            this.userDefinedWaveCheckBox.Text = "User defined extra wav";
-            this.userDefinedWaveCheckBox.UseVisualStyleBackColor = true;
+            this.userDefinedExtraCheckBox.AutoSize = true;
+            this.userDefinedExtraCheckBox.Location = new System.Drawing.Point(6, 159);
+            this.userDefinedExtraCheckBox.Name = "userDefinedExtraCheckBox";
+            this.userDefinedExtraCheckBox.Size = new System.Drawing.Size(112, 17);
+            this.userDefinedExtraCheckBox.TabIndex = 19;
+            this.userDefinedExtraCheckBox.Text = "User defined extra";
+            this.userDefinedExtraCheckBox.UseVisualStyleBackColor = true;
             // 
             // addWindRecordCheckBox
             // 
@@ -1198,7 +1198,7 @@
         public System.Windows.Forms.ToolStripMenuItem tAFToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
-        private System.Windows.Forms.CheckBox userDefinedWaveCheckBox;
+        private System.Windows.Forms.CheckBox userDefinedExtraCheckBox;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoProcessMETARToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fetchMETAREvery30MinutesToolStripMenuItem;
