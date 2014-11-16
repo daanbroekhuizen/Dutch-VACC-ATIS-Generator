@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -2113,6 +2114,17 @@ namespace DutchVACCATISGenerator
             {
                 //Update METAR.
                 getMetarButton_Click(null, null);
+
+                //Flash taskbar.
+                FlashingWindow.FlashWindowEx(this);
+
+                //Play notification sound.
+                try
+                {
+                    using (SoundPlayer player = new SoundPlayer(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\sounds\\alert.wav"))
+                        player.Play();
+                }
+                catch(Exception) { }
             }
         }
 
