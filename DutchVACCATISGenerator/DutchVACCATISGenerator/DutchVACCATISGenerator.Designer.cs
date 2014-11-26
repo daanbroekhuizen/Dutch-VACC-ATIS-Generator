@@ -97,6 +97,9 @@
             this.autoGenerateATISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadEHAMRunwayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoProcessMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ehamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ehrdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomLetterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tAFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -257,7 +260,7 @@
             // 
             this.EHAMmainLandingRunwayGroupBox.Controls.Add(this.EHAMmainLandingRunwayCheckBox);
             this.EHAMmainLandingRunwayGroupBox.Controls.Add(this.EHAMmainLandingRunwayComboBox);
-            this.EHAMmainLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHAMmainLandingRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
             this.EHAMmainLandingRunwayGroupBox.Name = "EHAMmainLandingRunwayGroupBox";
             this.EHAMmainLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
             this.EHAMmainLandingRunwayGroupBox.TabIndex = 0;
@@ -300,7 +303,7 @@
             // 
             this.EHAMmainDepartureRunwayGroupBox.Controls.Add(this.EHAMmainDepartureRunwayCheckBox);
             this.EHAMmainDepartureRunwayGroupBox.Controls.Add(this.EHAMmainDepartureRunwayComboBox);
-            this.EHAMmainDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
+            this.EHAMmainDepartureRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
             this.EHAMmainDepartureRunwayGroupBox.Name = "EHAMmainDepartureRunwayGroupBox";
             this.EHAMmainDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
             this.EHAMmainDepartureRunwayGroupBox.TabIndex = 0;
@@ -375,7 +378,7 @@
             // 
             this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.EHAMsecondaryLandingRunwayComboBox);
             this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.EHAMsecondaryLandingRunwayCheckBox);
-            this.EHAMsecondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
+            this.EHAMsecondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
             this.EHAMsecondaryLandingRunwayGroupBox.Name = "EHAMsecondaryLandingRunwayGroupBox";
             this.EHAMsecondaryLandingRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
             this.EHAMsecondaryLandingRunwayGroupBox.TabIndex = 0;
@@ -396,7 +399,7 @@
             // 
             this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayComboBox);
             this.EHAMsecondaryDepartureRunwayGroupBox.Controls.Add(this.EHAMsecondaryDepartureRunwayCheckBox);
-            this.EHAMsecondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
+            this.EHAMsecondaryDepartureRunwayGroupBox.Location = new System.Drawing.Point(6, 19);
             this.EHAMsecondaryDepartureRunwayGroupBox.Name = "EHAMsecondaryDepartureRunwayGroupBox";
             this.EHAMsecondaryDepartureRunwayGroupBox.Size = new System.Drawing.Size(169, 65);
             this.EHAMsecondaryDepartureRunwayGroupBox.TabIndex = 0;
@@ -856,7 +859,10 @@
             this.fetchMETAREvery30MinutesToolStripMenuItem,
             this.autoGenerateATISToolStripMenuItem,
             this.autoLoadEHAMRunwayToolStripMenuItem,
-            this.autoProcessMETARToolStripMenuItem});
+            this.autoProcessMETARToolStripMenuItem,
+            this.ehamToolStripMenuItem,
+            this.ehrdToolStripMenuItem,
+            this.randomLetterToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -865,7 +871,7 @@
             // 
             this.fetchMETAREvery30MinutesToolStripMenuItem.CheckOnClick = true;
             this.fetchMETAREvery30MinutesToolStripMenuItem.Name = "fetchMETAREvery30MinutesToolStripMenuItem";
-            this.fetchMETAREvery30MinutesToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.fetchMETAREvery30MinutesToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.fetchMETAREvery30MinutesToolStripMenuItem.Text = "Auto fetch METAR ";
             this.fetchMETAREvery30MinutesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged);
             // 
@@ -874,7 +880,7 @@
             this.autoGenerateATISToolStripMenuItem.CheckOnClick = true;
             this.autoGenerateATISToolStripMenuItem.Enabled = false;
             this.autoGenerateATISToolStripMenuItem.Name = "autoGenerateATISToolStripMenuItem";
-            this.autoGenerateATISToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.autoGenerateATISToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.autoGenerateATISToolStripMenuItem.Text = "Auto generate ATIS (on startup)";
             this.autoGenerateATISToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoGenerateATISToolStripMenuItem_CheckedChanged);
             // 
@@ -882,7 +888,7 @@
             // 
             this.autoLoadEHAMRunwayToolStripMenuItem.CheckOnClick = true;
             this.autoLoadEHAMRunwayToolStripMenuItem.Name = "autoLoadEHAMRunwayToolStripMenuItem";
-            this.autoLoadEHAMRunwayToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.autoLoadEHAMRunwayToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.autoLoadEHAMRunwayToolStripMenuItem.Text = "Auto load EHAM runways (on startup)";
             this.autoLoadEHAMRunwayToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoLoadEHAMRunwayToolStripMenuItem_CheckedChanged);
             // 
@@ -890,9 +896,33 @@
             // 
             this.autoProcessMETARToolStripMenuItem.CheckOnClick = true;
             this.autoProcessMETARToolStripMenuItem.Name = "autoProcessMETARToolStripMenuItem";
-            this.autoProcessMETARToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.autoProcessMETARToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.autoProcessMETARToolStripMenuItem.Text = "Auto process METAR";
             this.autoProcessMETARToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoProcessMETARToolStripMenuItem_CheckedChanged);
+            // 
+            // ehamToolStripMenuItem
+            // 
+            this.ehamToolStripMenuItem.CheckOnClick = true;
+            this.ehamToolStripMenuItem.Name = "ehamToolStripMenuItem";
+            this.ehamToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.ehamToolStripMenuItem.Text = "EHAM: A - M (real life)";
+            this.ehamToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehamToolStripMenuItem_CheckedChanged);
+            // 
+            // ehrdToolStripMenuItem
+            // 
+            this.ehrdToolStripMenuItem.CheckOnClick = true;
+            this.ehrdToolStripMenuItem.Name = "ehrdToolStripMenuItem";
+            this.ehrdToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.ehrdToolStripMenuItem.Text = "EHRD: N - Z (real life)";
+            this.ehrdToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehrdToolStripMenuItem_CheckedChanged);
+            // 
+            // randomLetterToolStripMenuItem
+            // 
+            this.randomLetterToolStripMenuItem.CheckOnClick = true;
+            this.randomLetterToolStripMenuItem.Name = "randomLetterToolStripMenuItem";
+            this.randomLetterToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.randomLetterToolStripMenuItem.Text = "Random letter (on startup/switching tabs)";
+            this.randomLetterToolStripMenuItem.CheckedChanged += new System.EventHandler(this.randomLetterToolStripMenuItem_CheckedChanged);
             // 
             // runwayInfoToolStripMenuItem
             // 
@@ -1207,6 +1237,9 @@
         private System.Windows.Forms.ToolStripMenuItem autoLoadEHAMRunwayToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker autoGenerateATISBackgroundWorker;
         private System.Windows.Forms.ToolStripMenuItem autoGenerateATISToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ehamToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ehrdToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem randomLetterToolStripMenuItem;
     }
 }
 

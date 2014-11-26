@@ -42,14 +42,12 @@ namespace DutchVACCATISGenerator
 
             //Load settings.
             loadSettings();
-
-            phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
             
-            //Set ATIS index to Z for first generation.
-            atisIndex = 25;
+            //Set phonetic alphabet.
+            setPhoneticAlphabet();
 
-            //Set the label to A.
-            atisLetterLabel.Text = phoneticAlphabet[0];
+            //Set ATIS index and label.
+            randomizeATISLetter();
 
             soundState = runwayInfoState = icaoTabSwitched = false;
 
@@ -329,7 +327,7 @@ namespace DutchVACCATISGenerator
             if (lastLabel.Text == string.Empty)
             {
                 //Add 1 to ATIS index (next letter).
-                if (atisIndex == 25)
+                if (atisIndex == phoneticAlphabet.Count - 1)
                     atisIndex = 0;
                 else
                     atisIndex++;
@@ -341,7 +339,7 @@ namespace DutchVACCATISGenerator
             else
             {
                 //Add 1 to ATIS index (next letter).
-                if (atisIndex == 25)
+                if (atisIndex == phoneticAlphabet.Count - 1)
                     atisIndex = 0;
                 else
                     atisIndex++;
@@ -387,7 +385,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void previousATISLetterButton_Click(object sender, EventArgs e)
         {
-            if (atisIndex == 0) atisIndex = 25;
+            if (atisIndex == 0) atisIndex = phoneticAlphabet.Count - 1;
             else atisIndex--;
 
             //Set ATIS letter in ATIS letter label.
@@ -401,7 +399,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void nextATISLetterButton_Click(object sender, EventArgs e)
         {
-            if (atisIndex == 25) atisIndex = 0;
+            if (atisIndex == phoneticAlphabet.Count - 1) atisIndex = 0;
             else atisIndex++;
 
             //Set ATIS letter in ATIS letter label.
@@ -1374,6 +1372,31 @@ namespace DutchVACCATISGenerator
             #region AUTO LOAD METAR
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
             #endregion
+
+            #region ATIS LETTER
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
+            {
+                if (ehamToolStripMenuItem.Checked)
+                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
+
+                else
+                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            }
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHRD"))
+            {
+                if (ehrdToolStripMenuItem.Checked)
+                    phoneticAlphabet = new List<String> { "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+                else
+                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            }
+            #endregion
+
+            #region RANDOM ATIS LETTER
+             //Set ATIS index and label.
+            randomizeATISLetter();     
+            #endregion
+
         }
 
         /// <summary>
@@ -2097,6 +2120,9 @@ namespace DutchVACCATISGenerator
             autoProcessMETARToolStripMenuItem.Checked = iniFile.GetAutoPorcessSetting();
             autoLoadEHAMRunwayToolStripMenuItem.Checked = iniFile.GetAutoLoadRunwaysSetting();
             autoGenerateATISToolStripMenuItem.Checked = iniFile.GetAutoGenerateATISSetting();
+            ehamToolStripMenuItem.Checked = iniFile.GetEHAMATISSetting();
+            ehrdToolStripMenuItem.Checked = iniFile.GetEHRDATISSetting(); 
+            randomLetterToolStripMenuItem.Checked = iniFile.GetRandomLetterATISSetting();
         }
 
         /// <summary>
@@ -2115,7 +2141,7 @@ namespace DutchVACCATISGenerator
                 //Update METAR.
                 getMetarButton_Click(null, null);
 
-                //Flash taskbar.
+                //Flash task bar.
                 FlashingWindow.FlashWindowEx(this);
 
                 //Play notification sound.
@@ -2208,6 +2234,98 @@ namespace DutchVACCATISGenerator
         {
             if(metarBackgroundWorker.IsBusy)
                 e.Cancel = true;
+        }
+
+        /// <summary>
+        /// Called when random letter tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void randomLetterToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            if (randomLetterToolStripMenuItem.Checked)
+                iniFile.WriteRandomLetterATISSetting(randomLetterToolStripMenuItem.Checked);
+            else
+                iniFile.WriteRandomLetterATISSetting(randomLetterToolStripMenuItem.Checked);
+        }
+
+        /// <summary>
+        /// Called when EHAM tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void ehamToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            //Write value to INI file.
+            iniFile.WriteEHAMATISSetting(ehamToolStripMenuItem.Checked);
+
+            //Set phonetic alphabet.
+            setPhoneticAlphabet();
+        }
+
+        /// <summary>
+        /// Called when EHRD tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void ehrdToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            //Write value to INI file.
+            iniFile.WriteEHRDATISSetting(ehrdToolStripMenuItem.Checked);
+
+            //Set phonetic alphabet.
+            setPhoneticAlphabet();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void randomizeATISLetter()
+        {
+            //Random ATIS letter.
+            if (randomLetterToolStripMenuItem.Checked)
+            {
+                Random random = new Random();
+                atisIndex = random.Next(0, phoneticAlphabet.Count - 1);
+            }
+            else
+                //Set ATIS index to Z for first generation.
+                atisIndex = phoneticAlphabet.Count - 1;
+
+            //Set ATIS label.
+            atisLetterLabel.Text = phoneticAlphabet[atisIndex];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void setPhoneticAlphabet()
+        {
+            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM") && ehamToolStripMenuItem.Checked)
+            {
+                phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
+
+                if (atisIndex > phoneticAlphabet.Count)
+                    atisIndex = phoneticAlphabet.Count - 1;
+            }
+            else if (ICAOTabControl.SelectedTab.Name.Equals("EHRD") && ehrdToolStripMenuItem.Checked)
+            {
+                phoneticAlphabet = new List<String> { "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+                if (atisIndex > phoneticAlphabet.Count)
+                    atisIndex = phoneticAlphabet.Count - 1;
+            }
+            else
+                phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
         }
     }
 }

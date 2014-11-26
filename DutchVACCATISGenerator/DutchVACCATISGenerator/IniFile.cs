@@ -42,7 +42,10 @@ namespace DutchVACCATISGenerator
                                      "autofetch=False", 
                                      "autogenerateatis=False",
                                      "autoloadrunways=False", 
-                                     "autoprocess=False"
+                                     "autoprocess=False",
+                                     "eham=False",
+                                     "ehrd=False",
+                                     "randomletter=False"
                                  };
 
                 File.WriteAllLines(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini", lines);
@@ -176,5 +179,85 @@ namespace DutchVACCATISGenerator
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Write random letter value to INI file.
+        /// </summary>
+        /// <param name="value">boolean - Value to write to the INI file</param>
+        public void WriteRandomLetterATISSetting(bool value)
+        {
+            iniWriteValue("settings", "randomletter", value.ToString());
+        }
+
+        /// <summary>
+        /// Load rand letter value from INI file.
+        /// </summary>
+        /// <returns>boolean - Value from the INI file</returns>
+        public bool GetRandomLetterATISSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "randomletter"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoGenerateATISSetting(false);
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Write eham value to INI file.
+        /// </summary>
+        /// <param name="value">boolean - Value to write to the INI file</param>
+        public void WriteEHAMATISSetting(bool value)
+        {
+            iniWriteValue("settings", "eham", value.ToString());
+        }
+
+        /// <summary>
+        /// Load eham value from INI file.
+        /// </summary>
+        /// <returns>boolean - Value from the INI file</returns>
+        public bool GetEHAMATISSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "eham"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoGenerateATISSetting(false);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Write ehrd value to INI file.
+        /// </summary>
+        /// <param name="value">boolean - Value to write to the INI file</param>
+        public void WriteEHRDATISSetting(bool value)
+        {
+            iniWriteValue("settings", "ehrd", value.ToString());
+        }
+
+        /// <summary>
+        /// Load ehrd value from INI file.
+        /// </summary>
+        /// <returns>boolean - Value from the INI file</returns>
+        public bool GetEHRDATISSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "ehrd"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoGenerateATISSetting(false);
+                return false;
+            }
+        }
+
     }
 }
