@@ -26,7 +26,7 @@ public static class FlashingWindow
         }
         
         /// <summary>
-        /// Flashes a form on the taskbar.
+        /// Flashes a form on the task bar.
         /// </summary>
         /// <param name="form">Form - form to start flashing</param>
         /// <returns>Boolean - indicates if the window can be flashed</returns>

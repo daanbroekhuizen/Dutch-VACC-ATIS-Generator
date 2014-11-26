@@ -2287,7 +2287,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Randomizes ATIS letter.
         /// </summary>
         private void randomizeATISLetter()
         {
@@ -2306,26 +2306,21 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// 
+        /// Checks what phonetic alphabet to be set for ATIS generation.
         /// </summary>
         private void setPhoneticAlphabet()
         {
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM") && ehamToolStripMenuItem.Checked)
-            {
                 phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
 
-                if (atisIndex > phoneticAlphabet.Count)
-                    atisIndex = phoneticAlphabet.Count - 1;
-            }
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHRD") && ehrdToolStripMenuItem.Checked)
-            {
                 phoneticAlphabet = new List<String> { "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
-                if (atisIndex > phoneticAlphabet.Count)
-                    atisIndex = phoneticAlphabet.Count - 1;
-            }
             else
                 phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+            if (atisIndex > phoneticAlphabet.Count)
+                atisIndex = phoneticAlphabet.Count - 1;
         }
     }
 }
