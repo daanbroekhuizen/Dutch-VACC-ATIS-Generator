@@ -45,6 +45,7 @@ namespace DutchVACCATISGenerator
                                      "autoprocess=False",
                                      "eham=False",
                                      "ehrd=False",
+                                     "playsound=False",
                                      "randomletter=False"
                                  };
 
@@ -190,7 +191,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Load rand letter value from INI file.
+        /// Load random letter value from INI file.
         /// </summary>
         /// <returns>boolean - Value from the INI file</returns>
         public bool GetRandomLetterATISSetting()
@@ -208,7 +209,7 @@ namespace DutchVACCATISGenerator
 
 
         /// <summary>
-        /// Write eham value to INI file.
+        /// Write EHAM value to INI file.
         /// </summary>
         /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteEHAMATISSetting(bool value)
@@ -217,7 +218,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Load eham value from INI file.
+        /// Load EHAM value from INI file.
         /// </summary>
         /// <returns>boolean - Value from the INI file</returns>
         public bool GetEHAMATISSetting()
@@ -234,7 +235,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Write ehrd value to INI file.
+        /// Write EHRD value to INI file.
         /// </summary>
         /// <param name="value">boolean - Value to write to the INI file</param>
         public void WriteEHRDATISSetting(bool value)
@@ -243,7 +244,7 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Load ehrd value from INI file.
+        /// Load EHRD value from INI file.
         /// </summary>
         /// <returns>boolean - Value from the INI file</returns>
         public bool GetEHRDATISSetting()
@@ -259,5 +260,30 @@ namespace DutchVACCATISGenerator
             }
         }
 
+        /// <summary>
+        /// Write play sound value to INI file.
+        /// </summary>
+        /// <param name="value">boolean - Value to write to the INI file</param>
+        public void WritePlaySoundSetting(bool value)
+        {
+            iniWriteValue("settings", "playsound", value.ToString());
+        }
+
+        /// <summary>
+        /// Load play sound value from INI file.
+        /// </summary>
+        /// <returns>boolean - Value from the INI file</returns>
+        public bool GetPlaySoundSetting()
+        {
+            try
+            {
+                return Convert.ToBoolean(iniReadValue("settings", "playsound"));
+            }
+            catch (FormatException)
+            {
+                WriteAutoGenerateATISSetting(false);
+                return false;
+            }
+        }
     }
 }

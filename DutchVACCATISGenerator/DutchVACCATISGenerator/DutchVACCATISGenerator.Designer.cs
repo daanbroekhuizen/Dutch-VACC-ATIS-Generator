@@ -118,6 +118,7 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -862,6 +863,7 @@
             this.autoProcessMETARToolStripMenuItem,
             this.ehamToolStripMenuItem,
             this.ehrdToolStripMenuItem,
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem,
             this.randomLetterToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
@@ -1080,6 +1082,14 @@
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
             // 
+            // playSoundWhenMETARIsFetchedToolStripMenuItem
+            // 
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckOnClick = true;
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Name = "playSoundWhenMETARIsFetchedToolStripMenuItem";
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Text = "Play sound when METAR is fetched";
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckedChanged += new System.EventHandler(this.playSoundWhenMETARIsFetchedToolStripMenuItem_CheckedChanged);
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1240,6 +1250,7 @@
         private System.Windows.Forms.ToolStripMenuItem ehamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ehrdToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomLetterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playSoundWhenMETARIsFetchedToolStripMenuItem;
     }
 }
 

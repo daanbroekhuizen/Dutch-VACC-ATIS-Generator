@@ -2165,13 +2165,13 @@ namespace DutchVACCATISGenerator
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
+            //Save setting to INI file.
+            iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
+
             if(fetchMETAREvery30MinutesToolStripMenuItem.Checked)
             {
                 //Set new time to check to
                 timerEnabled = DateTime.UtcNow;
-
-                //Save setting to INI file.
-                iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
 
                 //Set the fetch METAR label to visible.
                 fetchMetarLabel.Visible = true;
@@ -2182,9 +2182,6 @@ namespace DutchVACCATISGenerator
             }
             else
             {
-                //Save setting to INI file.
-                iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
-
                 //Set the fetch METAR label to hide.
                 fetchMetarLabel.Visible = false;
 
@@ -2203,19 +2200,13 @@ namespace DutchVACCATISGenerator
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
-            if (autoProcessMETARToolStripMenuItem.Checked)
-            {
-                iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
+            iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
 
-                if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
-                    autoGenerateATISToolStripMenuItem.Enabled = true;
-            }
+            if (autoProcessMETARToolStripMenuItem.Checked && autoLoadEHAMRunwayToolStripMenuItem.Checked)
+                autoGenerateATISToolStripMenuItem.Enabled = true;
+
             else
-            {
-                iniFile.WriteAutoPorcessSetting(autoProcessMETARToolStripMenuItem.Checked);
-
                 autoGenerateATISToolStripMenuItem.Enabled = autoGenerateATISToolStripMenuItem.Checked = false;
-            }
         }
 
         /// <summary>
@@ -2234,6 +2225,7 @@ namespace DutchVACCATISGenerator
             ehamToolStripMenuItem.Checked = iniFile.GetEHAMATISSetting();
             ehrdToolStripMenuItem.Checked = iniFile.GetEHRDATISSetting(); 
             randomLetterToolStripMenuItem.Checked = iniFile.GetRandomLetterATISSetting();
+            playSoundWhenMETARIsFetchedToolStripMenuItem.Checked = iniFile.GetPlaySoundSetting();
         }
 
         /// <summary>
@@ -2256,12 +2248,15 @@ namespace DutchVACCATISGenerator
                 FlashingWindow.FlashWindowEx(this);
 
                 //Play notification sound.
-                try
+                if (playSoundWhenMETARIsFetchedToolStripMenuItem.Checked)
                 {
-                    using (SoundPlayer player = new SoundPlayer(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\sounds\\alert.wav"))
-                        player.Play();
+                    try
+                    {
+                        using (SoundPlayer player = new SoundPlayer(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\sounds\\alert.wav"))
+                            player.Play();
+                    }
+                    catch (Exception) { }
                 }
-                catch(Exception) { }
             }
         }
 
@@ -2275,19 +2270,13 @@ namespace DutchVACCATISGenerator
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
-            if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
-            {
-                iniFile.WriteAutoLoadRunwaysSetting(autoLoadEHAMRunwayToolStripMenuItem.Checked);
+            iniFile.WriteAutoLoadRunwaysSetting(autoLoadEHAMRunwayToolStripMenuItem.Checked);
 
-                if (autoProcessMETARToolStripMenuItem.Checked)
+            if (autoLoadEHAMRunwayToolStripMenuItem.Checked && autoProcessMETARToolStripMenuItem.Checked)
                     autoGenerateATISToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                iniFile.WriteAutoLoadRunwaysSetting(autoLoadEHAMRunwayToolStripMenuItem.Checked);
 
+            else
                 autoGenerateATISToolStripMenuItem.Enabled = autoGenerateATISToolStripMenuItem.Checked = false;
-            }
         }
 
         /// <summary>
@@ -2330,10 +2319,8 @@ namespace DutchVACCATISGenerator
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
-            if (autoGenerateATISToolStripMenuItem.Checked)
-                iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
-            else
-                iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
+            //Write value to INI file.
+            iniFile.WriteAutoGenerateATISSetting(autoGenerateATISToolStripMenuItem.Checked);
         }
 
         /// <summary>
@@ -2357,10 +2344,8 @@ namespace DutchVACCATISGenerator
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
-            if (randomLetterToolStripMenuItem.Checked)
-                iniFile.WriteRandomLetterATISSetting(randomLetterToolStripMenuItem.Checked);
-            else
-                iniFile.WriteRandomLetterATISSetting(randomLetterToolStripMenuItem.Checked);
+            //Write value to INI file.
+            iniFile.WriteRandomLetterATISSetting(randomLetterToolStripMenuItem.Checked);
         }
 
         /// <summary>
@@ -2395,6 +2380,20 @@ namespace DutchVACCATISGenerator
 
             //Set phonetic alphabet.
             setPhoneticAlphabet();
+        }
+
+        /// <summary>
+        /// Called when play sound when METAR is fetched tool strip menu item checked state is changed.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void playSoundWhenMETARIsFetchedToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            //Initialize new IniFile instance.
+            IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
+
+            //Write value to INI file.
+            iniFile.WritePlaySoundSetting(playSoundWhenMETARIsFetchedToolStripMenuItem.Checked);
         }
 
         /// <summary>
