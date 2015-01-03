@@ -498,7 +498,7 @@ namespace DutchVACCATISGenerator
         /// Parse runway identifier letter to ATIS output text.
         /// </summary>
         /// <param name="input">Runway identifier letter (L, C, R).</param>
-        /// <returns>Runway identifier AITS output</returns>
+        /// <returns>Runway identifier ATIS output</returns>
         private String getRunwayMarker(String input)
         {
             switch (input)
@@ -824,6 +824,14 @@ namespace DutchVACCATISGenerator
                                 output += "[vcts]";
                                 break;
                         }
+                    }
+                    //TODO GET SAMPLE FOR THESE PHENOMENA
+                    //SKIP THESE PHENOMENA
+                    else if (metarPhenomena.phenomena.ToLower().Contains("SN"))
+                    {
+                        //TODO COMMENT
+                        //Console.WriteLine("Skipping: " + metarPhenomena.phenomena.ToLower());
+                        continue;
                     }
                     //If phenomena is multi-phenomena (count > 2).
                     else if(metarPhenomena.phenomena.Count() > 2)

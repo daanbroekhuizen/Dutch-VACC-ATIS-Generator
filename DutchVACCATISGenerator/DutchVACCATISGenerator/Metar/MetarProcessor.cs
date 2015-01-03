@@ -164,6 +164,7 @@ namespace DutchVACCATISGenerator
                         if (s.StartsWith("-") || s.StartsWith("+") || s.StartsWith("VC") || s.StartsWith("MI") || s.StartsWith("PR") || s.StartsWith("BC") || s.StartsWith("DR") || s.StartsWith("BL") || s.StartsWith("SH") || s.StartsWith("TS") || s.StartsWith("FZ") || s.StartsWith("DZ") || s.StartsWith("RA") || s.StartsWith("SN") || s.StartsWith("SG") || s.StartsWith("IC") || s.StartsWith("PL") || s.StartsWith("GR") || s.StartsWith("BR") || s.StartsWith("FG") || s.StartsWith("FU") || s.StartsWith("HZ"))
                         {
                             if (s.StartsWith("-")) metar.Phenomena.Add(new MetarPhenomena(true, s.Substring(1)));
+                            //TODO ADD SAMPLE FOR + intensity;
                             else if (s.StartsWith("+")) metar.Phenomena.Add(new MetarPhenomena(s.Substring(1)));
                             else metar.Phenomena.Add(new MetarPhenomena(s));
 
