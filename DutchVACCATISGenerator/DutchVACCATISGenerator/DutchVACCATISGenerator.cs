@@ -569,6 +569,7 @@ namespace DutchVACCATISGenerator
             #region RWY CONFIGURATIONS
             if (EHAMmainLandingRunwayCheckBox.Checked && EHAMsecondaryLandingRunwayCheckBox.Checked)
             {
+                #region INDEPENDENT APPROACHES
                 /* 18R & 18C */
                 if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[independent]";
 
@@ -577,10 +578,123 @@ namespace DutchVACCATISGenerator
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[independent]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[independent]";
+                #endregion
+                #region CONVERGING APPROACHES
+                /* 06 & 36R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 18L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18L")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 22 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 04 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("04")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("04") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 27 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 09 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 18C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 36C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 18R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                /* 06 & 36L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36L")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
+                                  
+                /* 09 & 04 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("04")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("04") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 22 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 18L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18L")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 36R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 24 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("24")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("24") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 36C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 18C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 36L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36L")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                /* 09 & 18R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+
+                 /* 22 & 18C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
+                /* 22 & 36C */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
+                /* 22 & 18L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18L")) output += "[convapp]";
+                /* 22 & 36R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                /* 22 & 18R */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
+                /* 22 & 36L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36L")) output += "[convapp]";
+                /* 22 & 24 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("24") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("24")) output += "[convapp]";
+
                 /* 27 & 18R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R")) output += "[convapp]";
+                /* 27 & 36L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36L")) output += "[convapp]";
+
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
                 /* 27 & 18C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
@@ -589,38 +703,27 @@ namespace DutchVACCATISGenerator
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
-                /* 06 & 36R */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
+                /* 27 & 18L */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18L") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
 
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
-                /* 06 & 22 */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
-
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
-                /* 06 & 27 */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
-
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06")) output += "[convapp]";
-                /* 09 & 36R */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
-
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18L")) output += "[convapp]";
                 /* 27 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
-                /* 22 & 18C */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+                /* 27 & 22 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
 
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C")) output += "[convapp]";
-                /* 22 & 36R */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                /* 27 & 04 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("04")) output += "[convapp]";
 
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R")) output += "[convapp]";
-                /* 22 & 36C */
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("22")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("04") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                /* 27 & 24 */
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("24")) output += "[convapp]";
 
-                else if (EHAMmainLandingRunwayComboBox.Text.Equals("22") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C")) output += "[convapp]";
+                else if (EHAMmainLandingRunwayComboBox.Text.Equals("24") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27")) output += "[convapp]";
+                #endregion
             }
             #endregion
 
@@ -633,7 +736,7 @@ namespace DutchVACCATISGenerator
             }
             #endregion
 
-            if (!output.Equals("[opr]"))  return output;
+            if (!output.Equals("[opr]")) return output;
             
             else return "";
         }

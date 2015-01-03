@@ -905,7 +905,7 @@
             this.ehamToolStripMenuItem.CheckOnClick = true;
             this.ehamToolStripMenuItem.Name = "ehamToolStripMenuItem";
             this.ehamToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.ehamToolStripMenuItem.Text = "EHAM: A - M (real life)";
+            this.ehamToolStripMenuItem.Text = "EHAM: A - M";
             this.ehamToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehamToolStripMenuItem_CheckedChanged);
             // 
             // ehrdToolStripMenuItem
@@ -913,7 +913,7 @@
             this.ehrdToolStripMenuItem.CheckOnClick = true;
             this.ehrdToolStripMenuItem.Name = "ehrdToolStripMenuItem";
             this.ehrdToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.ehrdToolStripMenuItem.Text = "EHRD: N - Z (real life)";
+            this.ehrdToolStripMenuItem.Text = "EHRD: N - Z";
             this.ehrdToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehrdToolStripMenuItem_CheckedChanged);
             // 
             // randomLetterToolStripMenuItem
