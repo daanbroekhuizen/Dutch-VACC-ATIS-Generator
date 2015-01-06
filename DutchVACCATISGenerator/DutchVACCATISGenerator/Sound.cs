@@ -144,7 +144,8 @@ namespace DutchVACCATISGenerator
             playATISButton.Text = "Play ATIS";
 
             //Re-enable the build ATIS button.
-            buildATISButton.Enabled = true;
+            if (!dutchVACCATISGenerator.outputTextBox.Text.Trim().Equals(String.Empty))
+                buildATISButton.Enabled = true;
             
             //Dispose the AudioFileReader to release the file.
             try
@@ -271,7 +272,7 @@ namespace DutchVACCATISGenerator
             //If file is in use by another process.
             if (IsFileLocked(new FileInfo(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav")))
             {
-                MessageBox.Show("Cannot generate new atis.wav file. File does not exists or is in use by another process.", "Error"); return;
+                MessageBox.Show("Cannot generate new atis.wav file. File does not exist or is in use by another process.", "Error"); return;
             }
 
             //Try to generate and build atis.wav.
@@ -294,7 +295,7 @@ namespace DutchVACCATISGenerator
                             else
                             {
                                 //If loaded .wav does not watch the format of the atis.wav output file.
-                                if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat)) throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
+                                if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat)) throw new InvalidOperationException("Can't concatenate .wav files that don't share the same format");
                             }
 
                             int read;
