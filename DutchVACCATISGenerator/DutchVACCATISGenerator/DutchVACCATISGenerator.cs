@@ -26,12 +26,14 @@ namespace DutchVACCATISGenerator
         private String metar { get; set; }
         private MetarProcessor metarProcessor { get; set; }
         private List<String> phoneticAlphabet { get; set; }
+        private Boolean randomLetter { get; set; }
         private RunwayInfo runwayInfo { get; set; }
         private Boolean runwayInfoState { get; set; }
         private Sound sound { get; set; }
         private Boolean soundState { get; set; }
         private TAF taf { get; set; }
         private DateTime timerEnabled { get; set; }
+        private Boolean userLetterSelection { get; set; }
 
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
@@ -42,14 +44,15 @@ namespace DutchVACCATISGenerator
 
             //Load settings.
             loadSettings();
-            
+
+            //Set initial states of boolean.
+            soundState = runwayInfoState = icaoTabSwitched = userLetterSelection = randomLetter = false;
+
             //Set phonetic alphabet.
             setPhoneticAlphabet();
 
             //Set ATIS index and label.
             randomizeATISLetter();
-
-            soundState = runwayInfoState = icaoTabSwitched = false;
 
             //Start version background worker.
             versionBackgroundWorker.RunWorkerAsync();
@@ -324,26 +327,16 @@ namespace DutchVACCATISGenerator
             metarTextBox.Clear();
 
             //Checks if ATIS index has to be increased.
-            if (lastLabel.Text == string.Empty)
+            if (!(userLetterSelection | randomLetter | icaoTabSwitched | (lastLabel.Text == string.Empty)))
             {
-                //Add 1 to ATIS index (next letter).
                 if (atisIndex == phoneticAlphabet.Count - 1)
                     atisIndex = 0;
                 else
                     atisIndex++;
             }
-            else if (icaoTabSwitched)
-            {
-                /* do nothing */
-            }
-            else
-            {
-                //Add 1 to ATIS index (next letter).
-                if (atisIndex == phoneticAlphabet.Count - 1)
-                    atisIndex = 0;
-                else
-                    atisIndex++;
-            }
+
+            //Set all letter booleans to false for next generation.
+            randomLetter = userLetterSelection = icaoTabSwitched = false;
 
             //Set processed METAR in last processed METAR label.
             if (metar.Length > 140)
@@ -352,9 +345,6 @@ namespace DutchVACCATISGenerator
                 lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
             else 
                 lastLabel.Text = "Last successful processed METAR:\n" + metar;
-                
-            //Set ICAO tab switched boolean to false for next generation.
-            icaoTabSwitched = false;
 
             //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
@@ -385,6 +375,9 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void previousATISLetterButton_Click(object sender, EventArgs e)
         {
+            //Set user letter selection boolean true.
+            userLetterSelection = true;
+
             if (atisIndex == 0) atisIndex = phoneticAlphabet.Count - 1;
             else atisIndex--;
 
@@ -399,6 +392,9 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void nextATISLetterButton_Click(object sender, EventArgs e)
         {
+            //Set user letter selection boolean true.
+            userLetterSelection = true;
+
             if (atisIndex == phoneticAlphabet.Count - 1) atisIndex = 0;
             else atisIndex++;
 
@@ -561,7 +557,7 @@ namespace DutchVACCATISGenerator
         {
             String output = "[opr]";
 
-            #region LOW LEVEL VISBILITY
+            #region LOW LEVEL VISIBILITY
             //If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
             if (metarProcessor.metar.Visibility != 0 && metarProcessor.metar.Visibility < 1500) output += "[lvp]";
             #endregion
@@ -829,7 +825,7 @@ namespace DutchVACCATISGenerator
                     //SKIP THESE PHENOMENA
                     else if (metarPhenomena.phenomena.ToLower().Contains("SN"))
                     {
-                        //TODO COMMENT
+                        //COMMENT
                         //Console.WriteLine("Skipping: " + metarPhenomena.phenomena.ToLower());
                         continue;
                     }
@@ -1484,30 +1480,11 @@ namespace DutchVACCATISGenerator
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
             #endregion
 
-            #region ATIS LETTER
-            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
-            {
-                if (ehamToolStripMenuItem.Checked)
-                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
+            //Set phonetic alphabet.
+            setPhoneticAlphabet();
 
-                else
-                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-            }
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHRD"))
-            {
-                if (ehrdToolStripMenuItem.Checked)
-                    phoneticAlphabet = new List<String> { "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-                else
-                    phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-            }
-            #endregion
-
-            #region RANDOM ATIS LETTER
-             //Set ATIS index and label.
+            //Set ATIS index and label.
             randomizeATISLetter();     
-            #endregion
-
         }
 
         /// <summary>
@@ -2160,15 +2137,15 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
-        private void fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        private void autoFetchMETARToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             //Initialize new IniFile instance.
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
             //Save setting to INI file.
-            iniFile.WriteAutoFetchSetting(fetchMETAREvery30MinutesToolStripMenuItem.Checked);
+            iniFile.WriteAutoFetchSetting(autoFetchMETARToolStripMenuItem.Checked);
 
-            if(fetchMETAREvery30MinutesToolStripMenuItem.Checked)
+            if(autoFetchMETARToolStripMenuItem.Checked)
             {
                 //Set new time to check to
                 timerEnabled = DateTime.UtcNow;
@@ -2218,14 +2195,14 @@ namespace DutchVACCATISGenerator
             IniFile iniFile = new IniFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\settings.ini");
 
             //Load settings.
-            fetchMETAREvery30MinutesToolStripMenuItem.Checked = iniFile.GetAutoFetchSetting();
+            autoFetchMETARToolStripMenuItem.Checked = iniFile.GetAutoFetchSetting();
             autoProcessMETARToolStripMenuItem.Checked = iniFile.GetAutoPorcessSetting();
             autoLoadEHAMRunwayToolStripMenuItem.Checked = iniFile.GetAutoLoadRunwaysSetting();
             autoGenerateATISToolStripMenuItem.Checked = iniFile.GetAutoGenerateATISSetting();
             ehamToolStripMenuItem.Checked = iniFile.GetEHAMATISSetting();
-            ehrdToolStripMenuItem.Checked = iniFile.GetEHRDATISSetting(); 
-            randomLetterToolStripMenuItem.Checked = iniFile.GetRandomLetterATISSetting();
+            ehrdToolStripMenuItem.Checked = iniFile.GetEHRDATISSetting();
             playSoundWhenMETARIsFetchedToolStripMenuItem.Checked = iniFile.GetPlaySoundSetting();
+            randomLetterToolStripMenuItem.Checked = iniFile.GetRandomLetterATISSetting();
         }
 
         /// <summary>
@@ -2305,8 +2282,7 @@ namespace DutchVACCATISGenerator
             catch(Exception)
             {
                 MessageBox.Show("Unable to auto generate the ATIS.\nGenerate the ATIS manually.", "Error");
-            }
-            
+            }    
         }
 
         /// <summary>
@@ -2404,12 +2380,14 @@ namespace DutchVACCATISGenerator
             //Random ATIS letter.
             if (randomLetterToolStripMenuItem.Checked)
             {
+                randomLetter = true;
+
                 Random random = new Random();
                 atisIndex = random.Next(0, phoneticAlphabet.Count - 1);
             }
+            //Set ATIS index to Z for first generation.
             else
-                //Set ATIS index to Z for first generation.
-                atisIndex = phoneticAlphabet.Count - 1;
+                atisIndex = 0;
 
             //Set ATIS label.
             atisLetterLabel.Text = phoneticAlphabet[atisIndex];
@@ -2420,15 +2398,19 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void setPhoneticAlphabet()
         {
+            //If selected tab is EHAM and EHAM (A - M) tool strip menu item is checked.
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM") && ehamToolStripMenuItem.Checked)
                 phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
 
+            //If selected tab is EHRD and EHRD (N - Z) tool strip menu item is checked.
             else if (ICAOTabControl.SelectedTab.Name.Equals("EHRD") && ehrdToolStripMenuItem.Checked)
                 phoneticAlphabet = new List<String> { "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
+            //Else set full phonetic alpha bet.
             else
                 phoneticAlphabet = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
+            //If the current index is higher than the phonetic alphabet count (will cause exception!).
             if (atisIndex > phoneticAlphabet.Count)
                 atisIndex = phoneticAlphabet.Count - 1;
         }

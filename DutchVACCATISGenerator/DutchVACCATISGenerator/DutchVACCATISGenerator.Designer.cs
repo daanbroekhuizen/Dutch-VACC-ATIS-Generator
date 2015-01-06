@@ -93,12 +93,13 @@
             this.dutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fetchMETAREvery30MinutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoFetchMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoGenerateATISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadEHAMRunwayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoProcessMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ehamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ehrdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomLetterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +119,6 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -857,7 +857,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fetchMETAREvery30MinutesToolStripMenuItem,
+            this.autoFetchMETARToolStripMenuItem,
             this.autoGenerateATISToolStripMenuItem,
             this.autoLoadEHAMRunwayToolStripMenuItem,
             this.autoProcessMETARToolStripMenuItem,
@@ -869,13 +869,13 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
-            // fetchMETAREvery30MinutesToolStripMenuItem
+            // autoFetchMETARToolStripMenuItem
             // 
-            this.fetchMETAREvery30MinutesToolStripMenuItem.CheckOnClick = true;
-            this.fetchMETAREvery30MinutesToolStripMenuItem.Name = "fetchMETAREvery30MinutesToolStripMenuItem";
-            this.fetchMETAREvery30MinutesToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.fetchMETAREvery30MinutesToolStripMenuItem.Text = "Auto fetch METAR ";
-            this.fetchMETAREvery30MinutesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fetchMETAREvery30MinutesToolStripMenuItem_CheckedChanged);
+            this.autoFetchMETARToolStripMenuItem.CheckOnClick = true;
+            this.autoFetchMETARToolStripMenuItem.Name = "autoFetchMETARToolStripMenuItem";
+            this.autoFetchMETARToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.autoFetchMETARToolStripMenuItem.Text = "Auto fetch METAR ";
+            this.autoFetchMETARToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoFetchMETARToolStripMenuItem_CheckedChanged);
             // 
             // autoGenerateATISToolStripMenuItem
             // 
@@ -917,6 +917,14 @@
             this.ehrdToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.ehrdToolStripMenuItem.Text = "EHRD: N - Z";
             this.ehrdToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehrdToolStripMenuItem_CheckedChanged);
+            // 
+            // playSoundWhenMETARIsFetchedToolStripMenuItem
+            // 
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckOnClick = true;
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Name = "playSoundWhenMETARIsFetchedToolStripMenuItem";
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Text = "Play sound when METAR is fetched";
+            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckedChanged += new System.EventHandler(this.playSoundWhenMETARIsFetchedToolStripMenuItem_CheckedChanged);
             // 
             // randomLetterToolStripMenuItem
             // 
@@ -1082,14 +1090,6 @@
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
             // 
-            // playSoundWhenMETARIsFetchedToolStripMenuItem
-            // 
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckOnClick = true;
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Name = "playSoundWhenMETARIsFetchedToolStripMenuItem";
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem.Text = "Play sound when METAR is fetched";
-            this.playSoundWhenMETARIsFetchedToolStripMenuItem.CheckedChanged += new System.EventHandler(this.playSoundWhenMETARIsFetchedToolStripMenuItem_CheckedChanged);
-            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1111,7 +1111,6 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "DutchVACCATISGenerator";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dutch VACC ATIS Generator";
             this.Resize += new System.EventHandler(this.DutchVACCATISGenerator_Resize);
             this.atisIndexGroupBox.ResumeLayout(false);
@@ -1241,7 +1240,7 @@
         private System.Windows.Forms.CheckBox userDefinedExtraCheckBox;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoProcessMETARToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fetchMETAREvery30MinutesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoFetchMETARToolStripMenuItem;
         private System.Windows.Forms.Label fetchMetarLabel;
         private System.Windows.Forms.Timer metarFetchTimer;
         private System.Windows.Forms.ToolStripMenuItem autoLoadEHAMRunwayToolStripMenuItem;
