@@ -202,7 +202,7 @@ namespace DutchVACCATISGenerator
             }
             catch (FormatException)
             {
-                WriteAutoGenerateATISSetting(false);
+                WriteRandomLetterATISSetting(false);
                 return false;
             }
         }
@@ -229,7 +229,7 @@ namespace DutchVACCATISGenerator
             }
             catch (FormatException)
             {
-                WriteAutoGenerateATISSetting(false);
+                WriteEHAMATISSetting(false);
                 return false;
             }
         }
@@ -255,7 +255,7 @@ namespace DutchVACCATISGenerator
             }
             catch (FormatException)
             {
-                WriteAutoGenerateATISSetting(false);
+                WriteEHRDATISSetting(false);
                 return false;
             }
         }
@@ -281,7 +281,7 @@ namespace DutchVACCATISGenerator
             }
             catch (FormatException)
             {
-                WriteAutoGenerateATISSetting(false);
+                WritePlaySoundSetting(false);
                 return false;
             }
         }
