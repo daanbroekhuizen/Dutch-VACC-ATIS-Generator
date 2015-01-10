@@ -11,9 +11,11 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class RunwayInfo : Form
     {
+        private const int OKCOLUMN = 4;
+
         private DutchVACCATISGenerator dutchVACCATISGenerator { get; set; }
         public Metar metar { get; set; }
-
+        
         //Tuple<RunwayHeading, OpositeRunwayHeading, Day Preference, Night Preference>
         private Dictionary<String, Tuple<int, int, String, String>> EHAMlandingRunways = new Dictionary<String, Tuple<int, int, String, String>>()
         {
@@ -157,7 +159,7 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(EHAMlandingRunwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
                 row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = pair.Value.Item4;
@@ -175,7 +177,7 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(EHAMdepartureRunwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
                 row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = pair.Value.Item4;
@@ -202,7 +204,7 @@ namespace DutchVACCATISGenerator
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(runwayInfoDataGridView);
                 row.Cells[0].Value = pair.Key;
-                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1) * -1; //Q&D
+                row.Cells[1].Value = calculateCrosswindComponent(pair.Value.Item1);
                 row.Cells[2].Value = calculateTailwindComponent(pair.Value.Item2) * -1; //Q&D
                 row.Cells[3].Value = pair.Value.Item3;
                 row.Cells[4].Value = checkRunwayComply(pair.Key, calculateCrosswindComponent(pair.Value.Item1), calculateTailwindComponent(pair.Value.Item2));
@@ -453,19 +455,19 @@ namespace DutchVACCATISGenerator
             switch (icaoTab)
             {
                 case "EHBK":
-                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHBKRunways, 4));
+                    dutchVACCATISGenerator.EHBKmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHBKmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHBKRunways));
                     break;
 
                 case "EHRD":
-                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHRDRunways, 4));
+                    dutchVACCATISGenerator.EHRDmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHRDmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHRDRunways));
                     break;
 
                 case "EHGG":
-                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHGGRunways, 4));
+                    dutchVACCATISGenerator.EHGGmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHGGmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHGGRunways));
                     break;
 
                 case "EHEH":
-                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHEHRunways, 4));
+                    dutchVACCATISGenerator.EHEHmainRunwayComboBox.SelectedIndex = dutchVACCATISGenerator.EHEHmainRunwayComboBox.Items.IndexOf(getBestRunway(runwayInfoDataGridView, EHEHRunways));
                     break;
             }
         }
@@ -478,7 +480,7 @@ namespace DutchVACCATISGenerator
         /// <param name="prefColumn">Array position of pref column</param>
         /// <param name="OKColumn">Array position of OK column</param>
         /// <returns></returns>
-        private String getBestRunway(DataGridView runwayInfoDataGridView, Dictionary<String, Tuple<int, int, String>> runwayList, int OKColumn)
+        private String getBestRunway(DataGridView runwayInfoDataGridView, Dictionary<String, Tuple<int, int, String>> runwayList)
         {
             //Best runway holder.
             String runwayString = String.Empty;
@@ -489,7 +491,7 @@ namespace DutchVACCATISGenerator
             foreach (DataGridViewRow row in runwayInfoDataGridView.Rows)
             {
                 //If RWY is OK.
-                if (!(row.Cells[OKColumn].Value.Equals("OK")))
+                if (!(row.Cells[OKCOLUMN].Value.Equals("OK")))
                 {
                     runwayList.Remove(row.Cells[0].Value.ToString());
                 }
