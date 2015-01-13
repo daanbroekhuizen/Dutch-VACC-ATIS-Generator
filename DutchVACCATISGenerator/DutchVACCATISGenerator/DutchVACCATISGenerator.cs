@@ -2133,8 +2133,6 @@ namespace DutchVACCATISGenerator
             }
         }
 
-
-
         /// <summary>
         /// Called when auto load EHAM runway tool strip menu item checked state is changed.
         /// </summary>
