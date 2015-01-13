@@ -36,6 +36,13 @@ namespace DutchVACCATISGenerator
         private Boolean userLetterSelection { get; set; }
 
         /// <summary>
+        /// Retrieves a handle to the foreground window (the window with which the user is currently working).
+        /// </summary>
+        /// <returns>IntPtr - Handle of foreground window</returns>
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+        
+        /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
         public DutchVACCATISGenerator()
@@ -2110,8 +2117,9 @@ namespace DutchVACCATISGenerator
                 getMetarButton_Click(null, null);
 
                 //Flash task bar.
-                FlashingWindow.FlashWindowEx(this);
-
+                if (this.Handle != GetForegroundWindow())
+                    FlashingWindow.FlashWindowEx(this);
+                
                 //Play notification sound.
                 if (playSoundWhenMETARIsFetchedToolStripMenuItem.Checked)
                 {
@@ -2124,6 +2132,8 @@ namespace DutchVACCATISGenerator
                 }
             }
         }
+
+
 
         /// <summary>
         /// Called when auto load EHAM runway tool strip menu item checked state is changed.
