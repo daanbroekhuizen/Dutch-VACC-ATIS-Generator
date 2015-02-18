@@ -144,7 +144,7 @@ namespace DutchVACCATISGenerator
                         #endregion
 
                         #region RVR
-                        if (s.StartsWith("R") && Char.IsNumber(s.ElementAt(1)) && Char.IsNumber(s.ElementAt(2)) && s.Contains("/"))
+                        if (s.StartsWith("R") && Char.IsNumber(s.ElementAt(1)) && Char.IsNumber(s.ElementAt(2)) && !s.Contains("//") && s.Contains("/"))
                         {
                             metar.RVR = true;
 

@@ -737,9 +737,17 @@ namespace DutchVACCATISGenerator
 
                             while(index != length)
                             {
-                                if (!(length - index == 2)) output += "[" + metarPhenomena.phenomena.Substring(index, 2).ToLower() + "]";
-                                
-                                else output += "[" + metarPhenomena.phenomena.Substring(index).ToLower() + "]";
+                                //TODO GET SAMPLE FOR SN
+                                if (!(length - index == 2))
+                                {
+                                    if (!metarPhenomena.phenomena.Substring(index, 2).ToLower().Equals("sn"))
+                                        output += "[" + metarPhenomena.phenomena.Substring(index, 2).ToLower() + "]";
+                                }
+                                else
+                                {
+                                    if (!metarPhenomena.phenomena.Substring(index).ToLower().Equals("sn"))
+                                        output += "[" + metarPhenomena.phenomena.Substring(index).ToLower() + "]";
+                                }
 
                                 index = index + 2;
                             }
@@ -984,7 +992,7 @@ namespace DutchVACCATISGenerator
                 //If selected ICAO tab is EHBK.
                 case "EHBK":
                     //If EHBK main runway check box is checked, generate runway output with value from EHBK main runway combo box.
-                    if (EHBKmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHBKmainRunwayComboBox);
+                    if (EHBKmainRunwayCheckBox.Checked) output += runwayToOutput("[mlrwy]", EHBKmainRunwayComboBox);
                     break;
                 #endregion
 
@@ -992,7 +1000,7 @@ namespace DutchVACCATISGenerator
                 //If selected ICAO tab is EHEH.
                 case "EHEH":
                     //If EHEH main runway check box is checked, generate runway output with value from EHEH main runway combo box.
-                    if (EHEHmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHEHmainRunwayComboBox);
+                    if (EHEHmainRunwayCheckBox.Checked) output += runwayToOutput("[mlrwy]", EHEHmainRunwayComboBox);
                     break;
                 #endregion
 
@@ -1000,7 +1008,7 @@ namespace DutchVACCATISGenerator
                 //If selected ICAO tab is EHGG.
                 case "EHGG":
                     //If EHGG main runway check box is checked, generate runway output with value from EHGG main runway combo box.
-                    if (EHGGmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHGGmainRunwayComboBox);
+                    if (EHGGmainRunwayCheckBox.Checked) output += runwayToOutput("[mlrwy]", EHGGmainRunwayComboBox);
                     break;
                 #endregion
 
@@ -1008,7 +1016,7 @@ namespace DutchVACCATISGenerator
                 //If selected ICAO tab is EHRD.
                 case "EHRD":
                     //If EHRD main runway check box is checked, generate runway output with value from EHRD main runway combo box.
-                    if (EHRDmainRunwayCheckBox.Checked) output += runwayToOutput("[mrwy]", EHRDmainRunwayComboBox);
+                    if (EHRDmainRunwayCheckBox.Checked) output += runwayToOutput("[mlrwy]", EHRDmainRunwayComboBox);
                     break;
                 #endregion
             }
