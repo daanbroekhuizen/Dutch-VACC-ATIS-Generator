@@ -722,7 +722,6 @@ namespace DutchVACCATISGenerator
                     //SKIP THESE PHENOMENA
                     else if (metarPhenomena.phenomena.ToLower().Contains("SN"))
                     {
-                        //COMMENT
                         //Console.WriteLine("Skipping: " + metarPhenomena.phenomena.ToLower());
                         continue;
                     }
@@ -2120,13 +2119,20 @@ namespace DutchVACCATISGenerator
             
             //If 30 minutes have passed, update the METAR.
             if ((DateTime.UtcNow - timerEnabled).Minutes > 29)
+            //if ((DateTime.UtcNow - timerEnabled).Seconds > 10)
             {
                 //Update METAR.
                 getMetarButton_Click(null, null);
 
                 //Flash task bar.
                 if (this.Handle != GetForegroundWindow())
-                    FlashingWindow.FlashWindowEx(this);
+                {
+                    try
+                    {
+                        FlashingWindow.FlashWindowEx(this);
+                    }
+                    catch (Exception) { }
+                }
                 
                 //Play notification sound.
                 if (playSoundWhenMETARIsFetchedToolStripMenuItem.Checked)
