@@ -552,9 +552,9 @@
             this.outputTextBox.Location = new System.Drawing.Point(3, 9);
             this.outputTextBox.Multiline = true;
             this.outputTextBox.Name = "outputTextBox";
+            this.outputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.outputTextBox.Size = new System.Drawing.Size(529, 81);
             this.outputTextBox.TabIndex = 22;
-            this.outputTextBox.TextChanged += new System.EventHandler(this.outputTextBox_TextChanged);
             // 
             // ICAOTabControl
             // 

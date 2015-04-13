@@ -89,6 +89,7 @@
             // 
             // buildATISButton
             // 
+            this.buildATISButton.Enabled = false;
             this.buildATISButton.Location = new System.Drawing.Point(6, 19);
             this.buildATISButton.Name = "buildATISButton";
             this.buildATISButton.Size = new System.Drawing.Size(105, 34);
@@ -135,6 +136,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 145);
+            this.ControlBox = false;
             this.Controls.Add(this.playGroupBox);
             this.Controls.Add(this.buildGroupBox);
             this.Controls.Add(this.atisehamFileGroupBox);

@@ -144,7 +144,7 @@ namespace DutchVACCATISGenerator
             playATISButton.Text = "Play ATIS";
 
             //Re-enable the build ATIS button.
-            if (!dutchVACCATISGenerator.outputTextBox.Text.Trim().Equals(String.Empty))
+            if (dutchVACCATISGenerator.atisSamples != null && dutchVACCATISGenerator.atisSamples.Count != 0)
                 buildATISButton.Enabled = true;
             
             //Dispose the AudioFileReader to release the file.
@@ -159,11 +159,10 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called when build ATIS button is clicked.
+        /// Build atis.wav file.
         /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void buildATISButton_Click(object sender, EventArgs e)
+        /// <param name="atisSamples">List<String> ATIS samples to build atis.wav from</String></param>
+        public void buildAtis(List<String> atisSamples)
         {
             //Try to read atiseham.txt and start the build ATIS background worker.
             try
@@ -179,18 +178,15 @@ namespace DutchVACCATISGenerator
                     browseButton.PerformClick();
                 }
 
-                //Disable play ATIS button, prevents user from trying to build and play atis.wav at the same time.
-                playATISButton.Enabled = false;
-
-                //Try to open and read the atiseham.txt file.
+                //Try to open and read the atisamples.txt file.
                 try
                 {
-                    using (StreamReader sr = new StreamReader(atisehamFileTextBox.Text)) line = sr.ReadToEnd();
+                    using (StreamReader sr = new StreamReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\samples\\ehamsamples.txt")) line = sr.ReadToEnd();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(String.Format("Unable to open atiseham.txt. Check if the correct atiseham.txt file is selected.\n\nError: {0}", ex.Message), "Error"); 
-                    
+                    MessageBox.Show(String.Format("Unable to open atiseham.txt. Check if the correct atiseham.txt file is selected.\n\nError: {0}", ex.Message), "Error");
+
                     //Re-enable the play ATIS button if reading of the atiseham.text has failed.
                     playATISButton.Enabled = true;
                     return;
@@ -219,43 +215,29 @@ namespace DutchVACCATISGenerator
                         records.Add(split[1], split[2]);
                     }
                 }
-                
-                //Create new List of Strings to store parts to play in.
-                List<String> textToPlay = new List<String>();
-
-                //Split ATIS output to parts to play.
-                string[] result = Regex.Split(dutchVACCATISGenerator.outputTextBox.Text, @"[\[-\]]");
-
-                //Add parts to play from array to textToPlay list.
-                foreach (String s in result)
-                {
-                    //If s is not empty.
-                    if (!s.Equals(String.Empty))
-                    {
-                        //If s is digits only.
-                        if (s.All(Char.IsDigit))
-                        {
-                            //Split s up in separate digits.
-                            String[] splitArray = Regex.Split(s, @"(?=[0-9])");
-
-                            //Add each digit to textToPlay list.
-                            foreach (String split in splitArray)
-                            {
-                                if (!split.Equals(String.Empty)) textToPlay.Add(split);
-                            }
-                        }
-                        //If s is text only.
-                        else textToPlay.Add(s);
-                    }
-                }
 
                 //Start build ATIS backgroundWorker to start building the atis.wav file.
-                buildATISbackgroundWorker.RunWorkerAsync(new Object[] { textToPlay, records });
+                buildATISbackgroundWorker.RunWorkerAsync(new Object[] { atisSamples, records });
+
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to build ATIS. Check if the right atiseham.txt is selected.\n\nError: {0}", ex.Message), "Error"); return;
             }
+        }
+        
+        /// <summary>
+        /// Method called when build ATIS button is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void buildATISButton_Click(object sender, EventArgs e)
+        {
+            buildATISButton.Enabled = false;
+
+            //TODO ERROR CHECKING
+            buildAtis(dutchVACCATISGenerator.atisSamples);
         }
 
         /// <summary>
@@ -287,7 +269,7 @@ namespace DutchVACCATISGenerator
                     try
                     {
                         //Using the WaveFileReader, get the file to write to the atis.wave from the records list.
-                        using (WaveFileReader reader = new WaveFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\" + ((e.Argument as Object[])[1] as Dictionary<String, String>)[sourceFile.ToLower()]))
+                        using (WaveFileReader reader = new WaveFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\samples\\" + ((e.Argument as Object[])[1] as Dictionary<String, String>)[sourceFile]))
                         {
                             //Initialize new WaveFileWriter.
                             if (waveFileWriter == null) waveFileWriter = new WaveFileWriter(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav", reader.WaveFormat);
@@ -361,6 +343,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void buildATISbackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            buildATISButton.Enabled = true;
             playATISButton.Enabled = true;
         }
 
@@ -371,12 +354,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void Sound_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (dutchVACCATISGenerator.soundButton.Text.Equals("▲")) dutchVACCATISGenerator.soundButton.Text = "▼";
-
-            dutchVACCATISGenerator.soundToolStripMenuItem.BackColor = SystemColors.Control;
-            
-            if(wavePlayer != null)
-                wavePlayer.Stop();
+            e.Cancel = true;
         }
 
         /// <summary>
