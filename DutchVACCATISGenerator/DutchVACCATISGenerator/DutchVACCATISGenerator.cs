@@ -865,7 +865,11 @@ namespace DutchVACCATISGenerator
                     else output += phenomenaToFullSpelling(metarPhenomena.phenomena);
 
                     //If loop phenomena is not the last phenomena of the list, add [and].
-                    if (metarPhenomena != (MetarPhenomena)Convert.ChangeType(input.Last(), typeof(MetarPhenomena))) output += " [AND]";
+                    if (metarPhenomena != (MetarPhenomena)Convert.ChangeType(input.Last(), typeof(MetarPhenomena)))
+                    {
+                        atisSamples.Add("and");
+                        output += " [AND]";
+                    }
                 }
             }
             #endregion

@@ -134,7 +134,7 @@ namespace DutchVACCATISGenerator
                 //Set user Agent, make the site think we're not a bot.
                 client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
 
-                //Make web request to http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html.
+                //Make web request to get TAF.
                 taf = client.DownloadString("http://www.aviationweather.gov/adds/tafs?station_ids=EHAM&std_trans=standard&submit_taf=Get+TAFs");
                 //taf = client.DownloadString("http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html");
             }
