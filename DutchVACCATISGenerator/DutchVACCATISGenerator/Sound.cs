@@ -236,8 +236,9 @@ namespace DutchVACCATISGenerator
         {
             buildATISButton.Enabled = false;
 
-            //TODO ERROR CHECKING
-            buildAtis(dutchVACCATISGenerator.atisSamples);
+            //Build ATIS.
+            if (dutchVACCATISGenerator.atisSamples != null && dutchVACCATISGenerator.atisSamples.Count != 0)
+                buildAtis(dutchVACCATISGenerator.atisSamples);
         }
 
         /// <summary>
