@@ -1390,8 +1390,8 @@ namespace DutchVACCATISGenerator
                     //Else generate runway output with the value from the EHAM main landing runway combo box.
                     else
                     {
-                        atisSamples.Add("mrwy");
-                        output += runwayToOutput(" MAIN RUNWAY", EHAMmainLandingRunwayComboBox);
+                        atisSamples.Add("mlrwy");
+                        output += runwayToOutput(" MAIN LANDING RUNWAY", EHAMmainLandingRunwayComboBox);
                     }
                     #endregion
 
@@ -3039,6 +3039,40 @@ namespace DutchVACCATISGenerator
             {
                 if (!string.IsNullOrEmpty(digit))
                     atisSamples.Add(digit);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dutchVACCATISGeneratorV2ManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(Application.StartupPath + "\\manuals\\Handleiding Dutch VACC ATIS Generator v2.pdf");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to open ATC Operational Information manual.", "Error"); return;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void atcOperationalInformationManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(Application.StartupPath + "\\manuals\\Handleiding ATC Operational Information.pdf");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to open ATC Operational Information manual.", "Error"); return;
             }
         }
     }

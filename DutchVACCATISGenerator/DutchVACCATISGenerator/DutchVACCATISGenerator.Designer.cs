@@ -119,6 +119,12 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.atcOperationalInformationManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorAboutToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.seperatorDutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.seperatorAutoProcessToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.seperatorEHRDToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -826,6 +832,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.amsterdamInfoToolStripMenuItem,
             this.dutchVACCToolStripMenuItem,
+            this.seperatorDutchVACCToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -861,8 +868,10 @@
             this.autoGenerateATISToolStripMenuItem,
             this.autoLoadEHAMRunwayToolStripMenuItem,
             this.autoProcessMETARToolStripMenuItem,
+            this.seperatorAutoProcessToolStripMenuItem,
             this.ehamToolStripMenuItem,
             this.ehrdToolStripMenuItem,
+            this.seperatorEHRDToolStripMenuItem,
             this.playSoundWhenMETARIsFetchedToolStripMenuItem,
             this.randomLetterToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
@@ -959,15 +968,18 @@
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.seperatorAboutToolStripMenuItem,
+            this.atcOperationalInformationManualToolStripMenuItem,
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem});
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.infoToolStripMenuItem.Text = "Info";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.infoToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1089,6 +1101,40 @@
             // 
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
+            // 
+            // atcOperationalInformationManualToolStripMenuItem
+            // 
+            this.atcOperationalInformationManualToolStripMenuItem.Name = "atcOperationalInformationManualToolStripMenuItem";
+            this.atcOperationalInformationManualToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.atcOperationalInformationManualToolStripMenuItem.Text = "ATC Operational Information Manual";
+            this.atcOperationalInformationManualToolStripMenuItem.Click += new System.EventHandler(this.atcOperationalInformationManualToolStripMenuItem_Click);
+            // 
+            // dutchVACCATISGeneratorV2ManualToolStripMenuItem
+            // 
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Name = "dutchVACCATISGeneratorV2ManualToolStripMenuItem";
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Text = "Dutch VACC ATIS Generator v2 Manual";
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Click += new System.EventHandler(this.dutchVACCATISGeneratorV2ManualToolStripMenuItem_Click);
+            // 
+            // seperatorAboutToolStripMenuItem
+            // 
+            this.seperatorAboutToolStripMenuItem.Name = "seperatorAboutToolStripMenuItem";
+            this.seperatorAboutToolStripMenuItem.Size = new System.Drawing.Size(277, 6);
+            // 
+            // seperatorDutchVACCToolStripMenuItem
+            // 
+            this.seperatorDutchVACCToolStripMenuItem.Name = "seperatorDutchVACCToolStripMenuItem";
+            this.seperatorDutchVACCToolStripMenuItem.Size = new System.Drawing.Size(157, 6);
+            // 
+            // seperatorAutoProcessToolStripMenuItem
+            // 
+            this.seperatorAutoProcessToolStripMenuItem.Name = "seperatorAutoProcessToolStripMenuItem";
+            this.seperatorAutoProcessToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
+            // 
+            // seperatorEHRDToolStripMenuItem
+            // 
+            this.seperatorEHRDToolStripMenuItem.Name = "seperatorEHRDToolStripMenuItem";
+            this.seperatorEHRDToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
             // 
             // DutchVACCATISGenerator
             // 
@@ -1250,6 +1296,12 @@
         private System.Windows.Forms.ToolStripMenuItem ehrdToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomLetterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playSoundWhenMETARIsFetchedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem atcOperationalInformationManualToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dutchVACCATISGeneratorV2ManualToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator seperatorAboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator seperatorDutchVACCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator seperatorAutoProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator seperatorEHRDToolStripMenuItem;
     }
 }
 
