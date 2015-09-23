@@ -70,8 +70,10 @@ namespace DutchVACCATISGenerator
             {
                 atisehamFileTextBox.Text = openFileDialog.FileName;
 
-                //Save selected path to properties files.
+                //Save selected path to settings.
                 Properties.Settings.Default.atisehamPath = atisehamFileTextBox.Text;
+
+                //Save setting.
                 Properties.Settings.Default.Save();
             }
         }
@@ -96,7 +98,10 @@ namespace DutchVACCATISGenerator
                     {
                         atisehamFileTextBox.Text = openFileDialog.FileName;
 
+                        //Write value to settings.
                         Properties.Settings.Default.atisehamPath = atisehamFileTextBox.Text;
+
+                        //Save setting.
                         Properties.Settings.Default.Save();
                     }
                     //If user didn't selected a file

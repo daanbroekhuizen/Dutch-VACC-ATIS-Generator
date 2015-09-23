@@ -134,8 +134,8 @@ namespace DutchVACCATISGenerator
                 client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
 
                 //Make web request to get TAF.
-                taf = client.DownloadString("http://www.aviationweather.gov/adds/tafs?station_ids=EHAM&std_trans=standard&submit_taf=Get+TAFs");
-                //taf = client.DownloadString("http://www.knmi.nl/waarschuwingen_en_verwachtingen/luchtvaart/nederlandse_vliegveldverwachtingen.html");
+                //taf = client.DownloadString("http://www.aviationweather.gov/adds/tafs?station_ids=EHAM&std_trans=standard&submit_taf=Get+TAFs");
+                taf = client.DownloadString("https://www.knmi.nl/nederland-nu/luchtvaart/vliegveldverwachtingen");
             }
             catch (Exception)
             {
@@ -175,7 +175,7 @@ namespace DutchVACCATISGenerator
                 else
                 {
                     //Get TAF part from loaded HTML code.
-                    string[] split = (determineTAFToLoad() + taf.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "</font>" }, StringSplitOptions.None)[0].Split(new string[] { "\n" }, StringSplitOptions.None);
+                    string[] split = (determineTAFToLoad() + taf.Split(new string[] { determineTAFToLoad() }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\n" }, StringSplitOptions.None);
 
                     foreach (string s in split)
                         TAFRichTextBox.Text += s.TrimEnd() + "\r\n";

@@ -5,3 +5,7 @@ DutchVACCATISGenerator/DutchVACCATISGenerator/obj/
 DutchVACCATISGenerator/DutchVACCATISGenerator.v12.suo
 Handleidingen/Handleiding Dutch VACC ATIS Generator v2/Handleiding Dutch VACC ATIS Generator v2.pdf
 Handleidingen/Handleiding ATC Operational Information/Handleiding ATC Operational Information.pdf
+DutchVACCATISGenerator/DutchVACCATISGenerator.WPF/
+DutchVACCATISGenerator/DutchVACCATISGenerator.Test/obj/
+DutchVACCATISGenerator/DutchVACCATISGenerator.Test/bin/
+DutchVACCATISGenerator/TestResults/

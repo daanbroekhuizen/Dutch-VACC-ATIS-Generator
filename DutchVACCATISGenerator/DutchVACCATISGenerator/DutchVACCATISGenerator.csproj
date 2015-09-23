@@ -119,7 +119,6 @@
       <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="FlashingWindow.cs" />
-    <Compile Include="IniFile.cs" />
     <Compile Include="Metar\MetarBECMG.cs" />
     <Compile Include="Metar\Metar.cs" />
     <Compile Include="Metar\MetarCloud.cs" />
