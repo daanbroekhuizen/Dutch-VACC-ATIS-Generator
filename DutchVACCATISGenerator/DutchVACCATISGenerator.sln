@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator", "DutchVACCATISGenerator\DutchVACCATISGenerator.csproj", "{427ADEB6-4116-42A1-8FB6-06A4A5B33879}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator.Test", "DutchVACCATISGenerator.Test\DutchVACCATISGenerator.Test.csproj", "{0BA28619-60A4-420E-9159-81F4A41B069C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator.WPF", "DutchVACCATISGenerator.WPF\DutchVACCATISGenerator.WPF.csproj", "{90A2168F-451E-4F08-93E0-E02DE0BC990F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +21,11 @@ Global
 		{0BA28619-60A4-420E-9159-81F4A41B069C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BA28619-60A4-420E-9159-81F4A41B069C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BA28619-60A4-420E-9159-81F4A41B069C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90A2168F-451E-4F08-93E0-E02DE0BC990F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90A2168F-451E-4F08-93E0-E02DE0BC990F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90A2168F-451E-4F08-93E0-E02DE0BC990F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90A2168F-451E-4F08-93E0-E02DE0BC990F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B08CD33-9792-4D85-BCFE-2CA2A170DC79}
 	EndGlobalSection
 EndGlobal

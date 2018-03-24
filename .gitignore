@@ -1,5 +1,7 @@
 bin/
 obj/
+.vs/
+packages/
 Installer/Manuals/
 Installer/Dutch VACC ATIS Generator - Setup.exe
 Sound files/
@@ -7,5 +9,3 @@ TestResults/
 *.suo
 *.pdf
 *.zip
-DutchVACCATISGenerator.Old/
-DutchVACCATISGenerator/.vs/

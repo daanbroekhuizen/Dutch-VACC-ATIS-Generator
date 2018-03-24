@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -42,7 +43,7 @@ namespace DutchVACCATISGenerator
         /// <returns>IntPtr - Handle of foreground window</returns>
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
-        
+
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
@@ -67,7 +68,7 @@ namespace DutchVACCATISGenerator
 
             //Load EHAM METAR.
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
-           
+
             //Check if temp directory exists, if so, delete it.
             if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
             {
@@ -88,7 +89,7 @@ namespace DutchVACCATISGenerator
                 realRunwayBackgroundWorker.RunWorkerAsync();
 
             //If auto generate ATIS is selected.
-            if(autoGenerateATISToolStripMenuItem.Checked)
+            if (autoGenerateATISToolStripMenuItem.Checked)
                 autoGenerateATISBackgroundWorker.RunWorkerAsync();
 
             //Initialize sound form.
@@ -109,7 +110,7 @@ namespace DutchVACCATISGenerator
             String _ICAO = icaoTextBox.Text;
 
             //If no ICAO has been entered.
-            if(_ICAO == String.Empty)
+            if (_ICAO == String.Empty)
             {
                 MessageBox.Show("Enter an ICAO code.", "Warning"); return;
             }
@@ -134,7 +135,7 @@ namespace DutchVACCATISGenerator
             {
                 //Request METAR.
                 WebRequest request = WebRequest.Create("http://metar.vatsim.net/metar.php?id=" + e.Argument);
-                WebResponse response = request.GetResponse();          
+                WebResponse response = request.GetResponse();
 
                 //Read METAR.
                 System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
@@ -162,7 +163,7 @@ namespace DutchVACCATISGenerator
             //If auto process METAR check box is checked, automatically process the METAR.
             if (autoProcessMETARToolStripMenuItem.Checked && metar != null)
                 processMetarButton_Click(null, null);
-                        
+
             //Re-enable the get METAR button.
             getMetarButton.Enabled = true;
         }
@@ -332,7 +333,7 @@ namespace DutchVACCATISGenerator
             {
                 MessageBox.Show("Error parsing the METAR, check if METAR is in correct format.", "Error"); return;
             }
-            
+
             //Clear output and METAR text box.
             outputTextBox.Clear();
             metarTextBox.Clear();
@@ -352,9 +353,9 @@ namespace DutchVACCATISGenerator
             //Set processed METAR in last processed METAR label.
             if (metar.Length > 140)
                 lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69, 69).Trim() + "...";
-            else if (metar.Length > 69) 
+            else if (metar.Length > 69)
                 lastLabel.Text = "Last successful processed METAR:\n" + metar.Substring(0, 69).Trim() + "\n" + metar.Substring(69).Trim();
-            else 
+            else
                 lastLabel.Text = "Last successful processed METAR:\n" + metar;
 
             //Set ATIS letter in ATIS letter label.
@@ -558,7 +559,7 @@ namespace DutchVACCATISGenerator
 
             foreach (String digit in splitArray)
             {
-                if(!string.IsNullOrEmpty(digit))
+                if (!string.IsNullOrEmpty(digit))
                     atisSamples.Add(digit);
             }
 
@@ -939,7 +940,7 @@ namespace DutchVACCATISGenerator
 
                     atisSamples.Add("ft");
                     output += " FEET";
-    
+
                     //If cloud type has addition (e.g. CB, TCU).
                     if (metarCloud.addition != null) output += cloudAddiationToFullSpelling(metarCloud.addition);
                 }
@@ -956,7 +957,7 @@ namespace DutchVACCATISGenerator
         /// <returns></returns>
         private string phenomenaToFullSpelling(string cloudType)
         {
-            switch(cloudType)
+            switch (cloudType)
             {
                 case "BC":
                     atisSamples.Add("bc");
@@ -1089,7 +1090,7 @@ namespace DutchVACCATISGenerator
         /// <returns></returns>
         private string cloudTypeToFullSpelling(string cloudType)
         {
-            switch(cloudType)
+            switch (cloudType)
             {
                 case "FEW":
                     atisSamples.Add("few");
@@ -1118,7 +1119,7 @@ namespace DutchVACCATISGenerator
         /// <returns></returns>
         private string cloudAddiationToFullSpelling(string addition)
         {
-            switch(addition)
+            switch (addition)
             {
                 case "CB":
                     atisSamples.Add("cb");
@@ -1131,7 +1132,7 @@ namespace DutchVACCATISGenerator
 
             return string.Empty;
         }
-        
+
         /// <summary>
         /// Generate visibility output.
         /// </summary>
@@ -1148,7 +1149,7 @@ namespace DutchVACCATISGenerator
                 atisSamples.Add("<");
                 addIndividualDigitsToATISSamples("800");
                 atisSamples.Add("meters");
-                
+
                 output += " LESS THAN 8 HUNDRED METERS";
             }
             //If visibility is lower than 1000 meters (add hundred).
@@ -1168,7 +1169,7 @@ namespace DutchVACCATISGenerator
                 addIndividualDigitsToATISSamples(Convert.ToString((input % 1000) / 100));
                 atisSamples.Add("hundred");
                 atisSamples.Add("meters");
-                
+
                 output += " " + Convert.ToString(input / 1000) + " THOUSAND " + Convert.ToString((input % 1000) / 100) + " HUNDRED METERS";
             }
             //If visibility is >= 9999 (10 km phrase).
@@ -1361,7 +1362,7 @@ namespace DutchVACCATISGenerator
                     }
 
                     return true;
-                #endregion
+                    #endregion
             }
 
             return false;
@@ -1408,7 +1409,7 @@ namespace DutchVACCATISGenerator
                     //If the EHAM main departure runway check box is checked, generate runway output with the value from the EHAM main departure runway combo box.
                     if (EHAMmainDepartureRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text))
                     {
-                        atisSamples.Add("mtrwy"); 
+                        atisSamples.Add("mtrwy");
                         output += runwayToOutput(" MAIN TAKEOFF RUNWAY", EHAMmainDepartureRunwayComboBox);
                     }
                     #endregion
@@ -1470,12 +1471,12 @@ namespace DutchVACCATISGenerator
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHRDmainRunwayComboBox);
                     }
                     break;
-                #endregion
+                    #endregion
             }
 
             return output;
         }
-        
+
         /// <summary>
         /// Method called when generate ATIS button is clicked. Processes field from MetarProcessor to output string.
         /// </summary>
@@ -1529,7 +1530,7 @@ namespace DutchVACCATISGenerator
                 case "EHRD":
                     atisSamples.Add("ehrdatis");
                     output += "THIS IS ROTTERDAM INFORMATION";
-                break;
+                    break;
             }
             #endregion
 
@@ -1579,7 +1580,7 @@ namespace DutchVACCATISGenerator
                 output += " CAVOK";
             }
             #endregion
-            
+
             #region VISIBILITY
             //If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
             if (metarProcessor.metar.Visibility > 0) output += visibilityToOutput(metarProcessor.metar.Visibility);
@@ -1611,7 +1612,7 @@ namespace DutchVACCATISGenerator
             {
                 atisSamples.Add("sc");
                 output += " NO SIGNIFICANT CLOUDS";
-            } 
+            }
             #endregion
 
             #region CLOUDS
@@ -1767,7 +1768,7 @@ namespace DutchVACCATISGenerator
                 #endregion
             }
             #endregion
-          
+
             #region BECMG
             //If processed METAR has e BECMG trend.
             if (metarProcessor.metar.metarBECMG != null)
@@ -1864,7 +1865,7 @@ namespace DutchVACCATISGenerator
                 output += " CONTACT APPROACH AND ARRIVAL CALLSIGN ONLY";
             }
             #endregion
-            
+
             #region END
             //Add end to output.
             atisSamples.Add("end");
@@ -1981,7 +1982,7 @@ namespace DutchVACCATISGenerator
             {
                 if (taf.tafBackgroundWorker.IsBusy)
                     taf.tafBackgroundWorker.CancelAsync();
-                    
+
                 taf.tafBackgroundWorker.RunWorkerAsync();
             }
             #endregion
@@ -1994,7 +1995,7 @@ namespace DutchVACCATISGenerator
             setPhoneticAlphabet();
 
             //Set ATIS index and label.
-            randomizeATISLetter();     
+            randomizeATISLetter();
         }
 
         /// <summary>
@@ -2067,7 +2068,7 @@ namespace DutchVACCATISGenerator
                 //Hide runwayInfo form.
                 if (runwayInfo != null && !runwayInfo.IsDisposed) runwayInfo.Visible = false;
                 //Hide sound form.
-                 if (sound != null && !sound.IsDisposed) sound.Visible = false;
+                if (sound != null && !sound.IsDisposed) sound.Visible = false;
             }
         }
 
@@ -2087,7 +2088,7 @@ namespace DutchVACCATISGenerator
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void versionBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {   
+        {
             try
             {
                 //Request latest version.
@@ -2119,12 +2120,12 @@ namespace DutchVACCATISGenerator
         private void versionBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //If a latest version has been pulled.
-            if(latestVersion != null && !latestVersion.Equals(String.Empty))
+            if (latestVersion != null && !latestVersion.Equals(String.Empty))
             {
                 //If a newer version is available.
-                if(!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
+                if (!latestVersion.Equals(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Trim()))
                 {
-                    while(latestVersion.Contains("."))
+                    while (latestVersion.Contains("."))
                     {
                         latestVersion = latestVersion.Remove(latestVersion.IndexOf("."), 1);
                     }
@@ -2148,13 +2149,19 @@ namespace DutchVACCATISGenerator
             }
         }
 
+        public class SPIData
+        {
+            public string lvnl_start { get; set; }
+            public string lvnl_land { get; set; }
+        }
+
         /// <summary>
         /// Method called when real runway background workers is started. Gets the real EHAM runway configuration.
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
         private void realRunwayBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {            	
+        {
             //Initialize runway list to get rid of previous stored runways.
             departureRunways = new List<String>();
             landingRunways = new List<String>();
@@ -2163,45 +2170,17 @@ namespace DutchVACCATISGenerator
             {
                 //Create web client.
                 WebClient client = new WebClient();
-                
-                //Set user Agent, make the site think we're not a bot.
-                client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
 
-                //Make web request to http://www.lvnl.nl/nl/airtraffic.
-                string data = client.DownloadString("http://www.lvnl.nl/nl/airtraffic");
-            
-                #region Remove redundant HTML code.
-                try
-                {
-                    data = data.Split(new string[] { "<ul id=\"runwayVisual\">" }, StringSplitOptions.None)[1].Split(new string[] {"</ul>"} , StringSplitOptions.None)[0];
-                }
-                catch(Exception) { }
-                #endregion
+                //Make web request to https://spi.dutchvacc.nl/api_atisgenerator.php?action=retrieve_lvnlrunways
+                var data = new WebClient().DownloadString("https://spi.dutchvacc.nl/api_atisgenerator.php?action=retrieve_lvnlrunways").Trim();
 
-                //If received data contains HTML <li> tag.
-                while (data.Contains("<li"))
-                {
-                    //Get <li>...</lI>
-                    String runwayListItem = data.Substring(data.IndexOf("<li"), (data.IndexOf("</li>") + "</li>".Length) - data.IndexOf("<li"));
+                //Parse data.
+                var spiData = JsonConvert.DeserializeObject<List<SPIData>>(data);
 
-                    //If found list item is landing runway.
-                    if (runwayListItem.Contains("class=\"lb"))
-                    {
-                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"lb") + "class=\"lb".Length));
-                        landingRunways.Add(runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                    }
-                    //If found list item is departure runway.
-                    else if (runwayListItem.Contains("class=\"sb"))
-                    {
-                        runwayListItem = runwayListItem.Substring(runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length, runwayListItem.Length - (runwayListItem.IndexOf("class=\"sb") + "class=\"sb".Length));
-                        departureRunways.Add(runwayListItem = runwayListItem.Substring(0, runwayListItem.IndexOf("\">")));
-                    }
-
-                    //Remove list item from received data.
-                    data = data.Substring(data.IndexOf("</li>") + "</li>".Length, (data.Length - (data.IndexOf("</li>") + "</li>".Length)));
-                }
+                landingRunways.AddRange(spiData.Single().lvnl_land.Split(',').Select(s => s.Trim()));
+                departureRunways.AddRange(spiData.Single().lvnl_start.Split(',').Select(s => s.Trim()));
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //Show error.
                 MessageBox.Show("Unable to get real EHAM runway combination from the Internet.", "Error");
@@ -2319,7 +2298,7 @@ namespace DutchVACCATISGenerator
 
             #region DEPARTURE RUNWAYS
             //If there are more than two departure runways found.
-            if(departureRunways.Count > 1)
+            if (departureRunways.Count > 1)
             {
                 String firstRunway = departureRunways.First();
                 String secondRunway = departureRunways.Last();
@@ -2330,12 +2309,12 @@ namespace DutchVACCATISGenerator
                     /* 36L combinations */
                     { new Tuple<String, String>("36L", "24")},
                     { new Tuple<String, String>("36L", "36C")},
-                    { new Tuple<String, String>("36L", "18L")},                    
-                    { new Tuple<String, String>("36L", "18C")},        
-                    { new Tuple<String, String>("36L", "09")}, 
-                    { new Tuple<String, String>("36L", "27")}, 
-                    { new Tuple<String, String>("36L", "06")}, 
-                    { new Tuple<String, String>("36L", "22")}, 
+                    { new Tuple<String, String>("36L", "18L")},
+                    { new Tuple<String, String>("36L", "18C")},
+                    { new Tuple<String, String>("36L", "09")},
+                    { new Tuple<String, String>("36L", "27")},
+                    { new Tuple<String, String>("36L", "06")},
+                    { new Tuple<String, String>("36L", "22")},
                     { new Tuple<String, String>("36L", "04")}, 
                     /* 24 combinations */
                     { new Tuple<String, String>("24", "36C")},
@@ -2403,7 +2382,7 @@ namespace DutchVACCATISGenerator
         {
             setRunwayInfoForm();
         }
-        
+
         /// <summary>
         /// Method called hen sound tool strip menu item is clicked.
         /// </summary>
@@ -2422,7 +2401,7 @@ namespace DutchVACCATISGenerator
         private void amsterdamInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open Amsterdam Info page of the Dutch VACC site.
-             System.Diagnostics.Process.Start("http://www.dutchvacc.nl/index.php?option=com_content&view=article&id=127&Itemid=70");
+            System.Diagnostics.Process.Start("http://www.dutchvacc.nl/index.php?option=com_content&view=article&id=127&Itemid=70");
         }
 
         /// <summary>
@@ -2630,7 +2609,7 @@ namespace DutchVACCATISGenerator
             //Save setting.
             Properties.Settings.Default.Save();
 
-            if(autoFetchMETARToolStripMenuItem.Checked)
+            if (autoFetchMETARToolStripMenuItem.Checked)
             {
                 //Set new time to check to
                 timerEnabled = DateTime.UtcNow;
@@ -2697,7 +2676,7 @@ namespace DutchVACCATISGenerator
         {
             //Update fetch METAR label.
             fetchMetarLabel.Text = "Fetching METAR in: " + (30 - (DateTime.UtcNow - timerEnabled).Minutes) + " minutes.";
-            
+
             //If 30 minutes have passed, update the METAR.
             if ((DateTime.UtcNow - timerEnabled).Minutes > 29)
             //if ((DateTime.UtcNow - timerEnabled).Seconds > 10)
@@ -2714,7 +2693,7 @@ namespace DutchVACCATISGenerator
                     }
                     catch (Exception) { }
                 }
-                
+
                 //Play notification sound.
                 if (playSoundWhenMETARIsFetchedToolStripMenuItem.Checked)
                 {
@@ -2742,7 +2721,7 @@ namespace DutchVACCATISGenerator
             Properties.Settings.Default.Save();
 
             if (autoLoadEHAMRunwayToolStripMenuItem.Checked && autoProcessMETARToolStripMenuItem.Checked)
-                    autoGenerateATISToolStripMenuItem.Enabled = true;
+                autoGenerateATISToolStripMenuItem.Enabled = true;
 
             else
                 autoGenerateATISToolStripMenuItem.Enabled = autoGenerateATISToolStripMenuItem.Checked = false;
@@ -2771,10 +2750,10 @@ namespace DutchVACCATISGenerator
             {
                 generateATISButton_Click(null, null);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Unable to auto generate the ATIS.\nGenerate the ATIS manually.", "Error");
-            }    
+            }
         }
 
         /// <summary>
@@ -2798,7 +2777,7 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void ICAOTabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if(metarBackgroundWorker.IsBusy)
+            if (metarBackgroundWorker.IsBusy)
                 e.Cancel = true;
         }
 
@@ -2906,7 +2885,7 @@ namespace DutchVACCATISGenerator
             if (atisIndex > phoneticAlphabet.Count)
                 atisIndex = phoneticAlphabet.Count - 1;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
