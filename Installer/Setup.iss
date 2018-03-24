@@ -22,7 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}{#FolderPath}
 DefaultGroupName={#FolderPath}
 AllowNoIcons=true
-OutputDir=D:\Dropbox\GitHub\Dutch-VACC-ATIS-Generator\Installer
+OutputDir=C:\src\Dutch-VACC-ATIS-Generator\Installer
 OutputBaseFilename=Dutch VACC ATIS Generator - Setup
 Compression=lzma
 SolidCompression=true
@@ -45,6 +45,7 @@ Source: "Files\Dutch VACC - ATIS Generator.exe"; DestDir: "{app}"; Flags: ignore
 ; DLLS
 Source: "Files\NAudio.dll"; DestDir: "{app}"; Flags: ignoreversion uninsremovereadonly overwritereadonly; Attribs: readonly; Components: main\NAudio
 Source: "Files\NAudio.WindowsMediaFormat.dll"; DestDir: "{app}"; Flags: ignoreversion uninsremovereadonly overwritereadonly; Attribs: readonly; Components: main\NAudio_WindowsMediaFormat
+Source: "Files\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion uninsremovereadonly overwritereadonly; Attribs: readonly; Components: main\Newtonsoft_Json
 ; ALERT SOUND
 Source: "Files\alert.wav"; DestDir: "{app}/sounds"; Flags: ignoreversion; Components: main\alertsound
 ; ATIS MAIN FILES
@@ -206,6 +207,7 @@ Name: main; Description: Dutch VACC - ATIS Generator.exe; Types: full compact cu
 Name: main\alertsound; Description: alert.wav; Types: full compact custom; Flags: fixed
 Name: main\NAudio; Description: NAudio.dll; Types: full compact custom; Flags: fixed
 Name: main\NAudio_WindowsMediaFormat; Description: NAudio.WindowsMediaFormat.dll; Types: full compact custom; Flags: fixed
+Name: main\Newtonsoft_Json; Description: Newtonsoft.Json.dll; Types: full compact custom; Flags: fixed
 Name: sounds; Description: ATIS Sound Files; Types: full compact custom; Flags: fixed
 Name: sounds\Samples; Description: ATIS Samples; Types: full compact custom; Flags: fixed
 Name: manuals; Description: Manuals; Types: full compact custom; Flags: fixed

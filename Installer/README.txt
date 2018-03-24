@@ -102,3 +102,13 @@ ATIS descriptor file installed in the "*\Documents\EuroScope\atis" folder.
 * Changed "main runway" sample to "main landing runway" for regional airfields.
 * Fixed bug in flashing window method.
 
+= 2.0.0.1 = 
+* Changed main runway to main landing runway for single runway operations for Schiphol (EHAM).
+
+* Added shortcut for ATC Operational Information manual.
+
+* Added shortcut for v2 manual.
+
+* Load TAF from KNMI.
+* Gets Schiphol runways from Dutch VACC SPI.
+
