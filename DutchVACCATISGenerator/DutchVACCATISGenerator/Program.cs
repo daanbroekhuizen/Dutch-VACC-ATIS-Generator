@@ -1,15 +1,27 @@
-﻿using System;
+﻿using DutchVACCATISGenerator.Extensions;
+using SimpleInjector;
+using System;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
 {
     static class Program
     {
+        private static readonly Container container;
+
         /// <summary>
-        /// Main entry point for the application.
+        /// Constructor.
+        /// </summary>
+        static Program()
+        {
+            container = container.RegisterDependency();
+        }
+
+        /// <summary>
+        /// Main entry point of application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
