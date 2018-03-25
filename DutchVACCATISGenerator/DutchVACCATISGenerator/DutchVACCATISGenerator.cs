@@ -1,5 +1,6 @@
 ﻿using DutchVACCATISGenerator.Forms;
 using DutchVACCATISGenerator.Helpers;
+using DutchVACCATISGenerator.Types.Application;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class DutchVACCATISGenerator : Form
     {
+        private readonly ApplicationVariables applicationVariables;
         private readonly IFormOpenerHelper formOpener;
 
         private int atisIndex { get; set; }
@@ -50,10 +52,12 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
-        public DutchVACCATISGenerator(IFormOpenerHelper formOpener)
+        public DutchVACCATISGenerator(ApplicationVariables applicationVariables, 
+            IFormOpenerHelper formOpener)
         {
+            this.applicationVariables = applicationVariables;
             this.formOpener = formOpener;
-
+            
             InitializeComponent();
 
             //Load settings.
@@ -1929,6 +1933,10 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            applicationVariables.SelectedAirport = ICAOTabControl.SelectedTab.Name;
+
+            ApplicationEvents.SelectedAirportChanged(sender, e);
+
             //Set ICAO tab switched boolean.
             icaoTabSwitched = true;
 
@@ -1978,19 +1986,6 @@ namespace DutchVACCATISGenerator
                 //Else keep disable it.
                 else
                     getSelectBestRunwayButton.Enabled = false;
-            }
-            #endregion
-
-            #region TAF FORM UPDATE
-            //Update TAF in TAF form.
-            if (formOpener.IsOpen<TerminalAerodromeForecastForm>())
-            {
-                var terminalAerodromeForecastForm = formOpener.GetForm<TerminalAerodromeForecastForm>();
-
-                if (terminalAerodromeForecastForm.tafBackgroundWorker.IsBusy)
-                    terminalAerodromeForecastForm.tafBackgroundWorker.CancelAsync();
-
-                terminalAerodromeForecastForm.tafBackgroundWorker.RunWorkerAsync();
             }
             #endregion
 
@@ -2545,8 +2540,8 @@ namespace DutchVACCATISGenerator
             {
                 var terminalAerodromeForecastForm = formOpener.GetForm<TerminalAerodromeForecastForm>();
 
-                if (terminalAerodromeForecastForm.tafBackgroundWorker.IsBusy)
-                    terminalAerodromeForecastForm.tafBackgroundWorker.CancelAsync();
+                if (terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.IsBusy)
+                    terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.CancelAsync();
 
                 formOpener.CloseForm<TerminalAerodromeForecastForm>();
             }
@@ -2554,7 +2549,7 @@ namespace DutchVACCATISGenerator
             {
                 formOpener.ShowModelessForm<TerminalAerodromeForecastForm>();
 
-                formOpener.GetForm<TerminalAerodromeForecastForm>().tafBackgroundWorker.RunWorkerAsync();
+                formOpener.GetForm<TerminalAerodromeForecastForm>().terminalAerodromeForecastBackgroundWorker.RunWorkerAsync();
             }
 
             terminalAerodromeForecastToolStripMenuItem.BackColor = formOpener.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.Control : SystemColors.GradientActiveCaption;

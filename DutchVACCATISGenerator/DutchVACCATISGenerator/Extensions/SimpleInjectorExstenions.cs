@@ -1,7 +1,7 @@
 ﻿using DutchVACCATISGenerator.Helpers;
 using DutchVACCATISGenerator.Logic;
+using DutchVACCATISGenerator.Types.Application;
 using SimpleInjector;
-using SimpleInjector.Diagnostics;
 using System;
 
 namespace DutchVACCATISGenerator.Extensions
@@ -17,8 +17,6 @@ namespace DutchVACCATISGenerator.Extensions
                 container.RegisterHelpers();
                 container.RegisterLogic();
                 container.RegisterSingletons();
-
-                container.SuppressDutchVACCATISGeneratorDiagnosticWarning();
 
                 container.Verify();
             }
@@ -42,14 +40,7 @@ namespace DutchVACCATISGenerator.Extensions
 
         private static void RegisterSingletons(this Container container)
         {
-            container.RegisterSingleton<DutchVACCATISGenerator>();
-        }
-
-        private static void SuppressDutchVACCATISGeneratorDiagnosticWarning(this Container container)
-        {
-            var registration = container.GetRegistration(typeof(DutchVACCATISGenerator)).Registration;
-
-            registration.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "Main form (DutchVACCATISGenerator) will be automatically disposed by runtime as it is registered using Application.Run()");
+            container.RegisterSingleton<ApplicationVariables>();
         }
     }
 }

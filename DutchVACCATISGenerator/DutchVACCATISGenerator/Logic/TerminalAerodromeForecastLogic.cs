@@ -1,115 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DutchVACCATISGenerator.Types.Application;
+using System;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DutchVACCATISGenerator.Logic
 {
     public interface ITerminalAerodromeForecastLogic
     {
-        string GetTerminalAerodromeForecast();
-        string DetermineTAFToLoad();
-        string DetermineTAFAMDToLoad();
-        string DetermineTAFCORToLoad();
+        /// <summary>
+        /// Downloads terminal aerodrome forecast from the web.
+        /// </summary>
+        /// <returns>String containing terminal aerodrome forecast</returns>
+        string DownloadTerminalAerodromeForecast();
+
+        /// <summary>
+        /// Gets terminal aerodrome forecast from raw downloaded terminal aerodrome forecast.
+        /// </summary>
+        /// <param name="terminalAerodromeForecastRaw">Downloaded terminal aerodrome forecast</param>
+        /// <returns>Terminal aerodrome forecast</returns>
+        string GetTerminalAerodromeForecast(string terminalAerodromeForecastRaw);
     }
 
     public class TerminalAerodromeForecastLogic : ITerminalAerodromeForecastLogic
     {
-        private readonly DutchVACCATISGenerator dutchVACCATISGenerator;
+        private readonly ApplicationVariables applicationVariables;
 
-        public TerminalAerodromeForecastLogic(DutchVACCATISGenerator dutchVACCATISGenerator)
+        public TerminalAerodromeForecastLogic(ApplicationVariables applicationVariables)
         {
-            this.dutchVACCATISGenerator = dutchVACCATISGenerator;
+            this.applicationVariables = applicationVariables;
         }
 
-        public string GetTerminalAerodromeForecast()
+        public string DownloadTerminalAerodromeForecast()
         {
             WebClient client = new WebClient();
 
             //Set user Agent, makes the site think we're not a bot.
             client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0"; //(Windows; U; Windows NT 6.1; en-US; rv:1.9.2.4) Gecko/20100611 Firefox/3.6.4";
 
-            //Make web request to get TAF.
+            //Make web request to get terminal aerodrome forecast.
             return client.DownloadString("https://www.knmi.nl/nederland-nu/luchtvaart/vliegveldverwachtingen");
         }
 
-
-        /// <summary>
-        /// Method to determine TAF to load.
-        /// </summary>
-        /// <returns>String indicating TAF to load</returns>
-        public string DetermineTAFToLoad()
+        public string GetTerminalAerodromeForecast(string terminalAerodromeForecastRaw)
         {
-            switch (dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Name)
-            {
-                case "EHAM":
-                    return "TAF EHAM";
+            string terminalAerodromeForecast = string.Empty;
 
-                case "EHBK":
-                    return "TAF EHBK";
+            //Get terminal aerodrome forecast part from loaded HTML code.
+            var split = (DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) + terminalAerodromeForecastRaw.Split(new string[] { DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
 
-                case "EHEH":
-                    return "TAF EHEH";
+            foreach (string s in split)
+                terminalAerodromeForecast += s.TrimEnd() + "\r\n";
 
-                case "EHGG":
-                    return "TAF EHGG";
-
-                case "EHRD":
-                    return "TAF EHRD";
-            }
-
-            return String.Empty;
+            return terminalAerodromeForecast;
         }
 
-        /// <summary>
-        /// Method to determine if TAF contains AMD.
-        /// </summary>
-        /// <returns>String indicating TAF AMD to determine</returns>
-        public string DetermineTAFAMDToLoad()
+        private string DetermineTerminalAerodromeForcast(string terminalAerodromeForecastRaw)
         {
-            switch (dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Name)
-            {
-                case "EHAM":
-                    return "TAF AMD EHAM";
+            string standardTerminalAerodromeForecast = $"TAF {applicationVariables.SelectedAirport}";
+            string amdTerminalAerodromeForecast = $"TAF AMD {applicationVariables.SelectedAirport}";
+            string corTerminalAerodromeForecast = $"TAF COR {applicationVariables.SelectedAirport}";
 
-                case "EHBK":
-                    return "TAF AMD EHBK";
-
-                case "EHEH":
-                    return "TAF AMD EHEH";
-
-                case "EHGG":
-                    return "TAF AMD EHGG";
-
-                case "EHRD":
-                    return "TAF AMD EHRD";
-            }
-
-            return String.Empty;
-        }
-        public string DetermineTAFCORToLoad()
-        {
-            switch (dutchVACCATISGenerator.ICAOTabControl.SelectedTab.Name)
-            {
-                case "EHAM":
-                    return "TAF COR EHAM";
-
-                case "EHBK":
-                    return "TAF COR EHBK";
-
-                case "EHEH":
-                    return "TAF COR EHEH";
-
-                case "EHGG":
-                    return "TAF COR EHGG";
-
-                case "EHRD":
-                    return "TAF COR EHRD";
-            }
-
-            return String.Empty;
+            if (terminalAerodromeForecastRaw.Contains(corTerminalAerodromeForecast))
+                return corTerminalAerodromeForecast;
+            else if (terminalAerodromeForecastRaw.Contains(amdTerminalAerodromeForecast))
+                return amdTerminalAerodromeForecast;
+            else
+                return standardTerminalAerodromeForecast;
         }
     }
 }

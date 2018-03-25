@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TerminalAerodromeForecastForm));
             this.terminalAerodromeForecastRichTextBox = new System.Windows.Forms.RichTextBox();
             this.terminalAerodromeForecastGroupBox = new System.Windows.Forms.GroupBox();
-            this.tafBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.terminalAerodromeForecastBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.terminalAerodromeForecastGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,10 +54,10 @@
             this.terminalAerodromeForecastGroupBox.TabIndex = 1;
             this.terminalAerodromeForecastGroupBox.TabStop = false;
             // 
-            // tafBackgroundWorker
+            // terminalAerodromeForecastBackgroundWorker
             // 
-            this.tafBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TafBackgroundWorker_DoWork);
-            this.tafBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TafBackgroundWorker_RunWorkerCompleted);
+            this.terminalAerodromeForecastBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TerminalAerodromeForecastBackgroundWorker_DoWork);
+            this.terminalAerodromeForecastBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TerminalAerodromeForecastBackgroundWorker_RunWorkerCompleted);
             // 
             // TerminalAerodromeForecastForm
             // 
@@ -79,7 +79,7 @@
 
         private System.Windows.Forms.RichTextBox terminalAerodromeForecastRichTextBox;
         private System.Windows.Forms.GroupBox terminalAerodromeForecastGroupBox;
-        public System.ComponentModel.BackgroundWorker tafBackgroundWorker;
+        public System.ComponentModel.BackgroundWorker terminalAerodromeForecastBackgroundWorker;
 
     }
 }

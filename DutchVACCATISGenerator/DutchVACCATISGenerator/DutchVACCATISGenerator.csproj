@@ -156,6 +156,8 @@
     <Compile Include="Forms\TerminalAerodromeForecastForm.Designer.cs">
       <DependentUpon>TerminalAerodromeForecastForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Types\Application\ApplicationEvents.cs" />
+    <Compile Include="Types\Application\ApplicationVariables.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
