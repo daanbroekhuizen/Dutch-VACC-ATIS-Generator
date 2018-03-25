@@ -21,7 +21,7 @@ namespace DutchVACCATISGenerator
     /// </summary>
     public partial class DutchVACCATISGenerator : Form
     {
-        private readonly IFormOpener formOpener;
+        private readonly IFormOpenerHelper formOpener;
 
         private int atisIndex { get; set; }
         public List<String> atisSamples { get; set; }
@@ -50,7 +50,7 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Constructor of DutchVACCATISGenerator.
         /// </summary>
-        public DutchVACCATISGenerator(IFormOpener formOpener)
+        public DutchVACCATISGenerator(IFormOpenerHelper formOpener)
         {
             this.formOpener = formOpener;
 
@@ -1983,13 +1983,15 @@ namespace DutchVACCATISGenerator
 
             #region TAF FORM UPDATE
             //Update TAF in TAF form.
-            //if (terminalAerodromeForecastForm != null && !terminalAerodromeForecastForm.IsDisposed)
-            //{
-            //    if (terminalAerodromeForecastForm.tafBackgroundWorker.IsBusy)
-            //        terminalAerodromeForecastForm.tafBackgroundWorker.CancelAsync();
+            if (formOpener.IsOpen<TerminalAerodromeForecastForm>())
+            {
+                var terminalAerodromeForecastForm = formOpener.GetForm<TerminalAerodromeForecastForm>();
 
-            //    terminalAerodromeForecastForm.tafBackgroundWorker.RunWorkerAsync();
-            //}
+                if (terminalAerodromeForecastForm.tafBackgroundWorker.IsBusy)
+                    terminalAerodromeForecastForm.tafBackgroundWorker.CancelAsync();
+
+                terminalAerodromeForecastForm.tafBackgroundWorker.RunWorkerAsync();
+            }
             #endregion
 
             #region AUTO LOAD METAR
@@ -2498,23 +2500,6 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Sets all controls for opening and closing the TAF form.
-        /// </summary>
-        private void setTAFForm()
-        {
-            if (formOpener.IsOpen<TerminalAerodromeForecastForm>())
-            {
-                formOpener.CloseForm<TerminalAerodromeForecastForm>();
-            }
-            else
-            {
-                formOpener.ShowModelessForm<TerminalAerodromeForecastForm>();
-            }
-
-            tAFToolStripMenuItem.BackColor = formOpener.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.Control : SystemColors.GradientActiveCaption;
-        }
-
-        /// <summary>
         /// Method called when dutch VACC tool strip menu item is clicked.
         /// </summary>
         /// <param name="sender">Object sender</param>
@@ -2554,9 +2539,25 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
-        private void tAFToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TerminalAerodromeForecastToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setTAFForm();
+            if (formOpener.IsOpen<TerminalAerodromeForecastForm>())
+            {
+                var terminalAerodromeForecastForm = formOpener.GetForm<TerminalAerodromeForecastForm>();
+
+                if (terminalAerodromeForecastForm.tafBackgroundWorker.IsBusy)
+                    terminalAerodromeForecastForm.tafBackgroundWorker.CancelAsync();
+
+                formOpener.CloseForm<TerminalAerodromeForecastForm>();
+            }
+            else
+            {
+                formOpener.ShowModelessForm<TerminalAerodromeForecastForm>();
+
+                formOpener.GetForm<TerminalAerodromeForecastForm>().tafBackgroundWorker.RunWorkerAsync();
+            }
+
+            terminalAerodromeForecastToolStripMenuItem.BackColor = formOpener.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.Control : SystemColors.GradientActiveCaption;
         }
 
         /// <summary>

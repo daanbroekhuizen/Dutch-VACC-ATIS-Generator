@@ -1,6 +1,7 @@
 ﻿using DutchVACCATISGenerator.Helpers;
 using DutchVACCATISGenerator.Logic;
 using SimpleInjector;
+using SimpleInjector.Diagnostics;
 using System;
 
 namespace DutchVACCATISGenerator.Extensions
@@ -13,8 +14,11 @@ namespace DutchVACCATISGenerator.Extensions
             {
                 container = new Container();
 
-                container.RegisterSingleton<IFormOpener, FormOpener>();
-                container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
+                container.RegisterHelpers();
+                container.RegisterLogic();
+                container.RegisterSingletons();
+
+                container.SuppressDutchVACCATISGeneratorDiagnosticWarning();
 
                 container.Verify();
             }
@@ -24,6 +28,28 @@ namespace DutchVACCATISGenerator.Extensions
             }
 
             return container;
+        }
+
+        private static void RegisterHelpers(this Container container)
+        {
+            container.RegisterSingleton<IFormOpenerHelper, FormOpenerHelper>();
+        }
+
+        private static void RegisterLogic(this Container container)
+        {
+            container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
+        }
+
+        private static void RegisterSingletons(this Container container)
+        {
+            container.RegisterSingleton<DutchVACCATISGenerator>();
+        }
+
+        private static void SuppressDutchVACCATISGeneratorDiagnosticWarning(this Container container)
+        {
+            var registration = container.GetRegistration(typeof(DutchVACCATISGenerator)).Registration;
+
+            registration.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "Main form (DutchVACCATISGenerator) will be automatically disposed by runtime as it is registered using Application.Run()");
         }
     }
 }

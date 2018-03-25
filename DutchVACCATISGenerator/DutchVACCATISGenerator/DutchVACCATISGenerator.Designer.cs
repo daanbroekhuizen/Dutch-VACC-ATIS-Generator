@@ -91,21 +91,27 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.amsterdamInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorDutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoFetchMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoGenerateATISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadEHAMRunwayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoProcessMETARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorAutoProcessToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.ehamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ehrdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorEHRDToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.playSoundWhenMETARIsFetchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomLetterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runwayInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tAFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terminalAerodromeForecastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorAboutToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.atcOperationalInformationManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.userDefinedExtraCheckBox = new System.Windows.Forms.CheckBox();
             this.addWindRecordCheckBox = new System.Windows.Forms.CheckBox();
@@ -119,12 +125,6 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.atcOperationalInformationManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.seperatorAboutToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
-            this.seperatorDutchVACCToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
-            this.seperatorAutoProcessToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
-            this.seperatorEHRDToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -819,7 +819,7 @@
             this.settingsToolStripMenuItem,
             this.runwayInfoToolStripMenuItem,
             this.soundToolStripMenuItem,
-            this.tAFToolStripMenuItem,
+            this.terminalAerodromeForecastToolStripMenuItem,
             this.infoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -852,6 +852,11 @@
             this.dutchVACCToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.dutchVACCToolStripMenuItem.Text = "Dutch VACC";
             this.dutchVACCToolStripMenuItem.Click += new System.EventHandler(this.dutchVACCToolStripMenuItem_Click);
+            // 
+            // seperatorDutchVACCToolStripMenuItem
+            // 
+            this.seperatorDutchVACCToolStripMenuItem.Name = "seperatorDutchVACCToolStripMenuItem";
+            this.seperatorDutchVACCToolStripMenuItem.Size = new System.Drawing.Size(157, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -911,6 +916,11 @@
             this.autoProcessMETARToolStripMenuItem.Text = "Auto process METAR";
             this.autoProcessMETARToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autoProcessMETARToolStripMenuItem_CheckedChanged);
             // 
+            // seperatorAutoProcessToolStripMenuItem
+            // 
+            this.seperatorAutoProcessToolStripMenuItem.Name = "seperatorAutoProcessToolStripMenuItem";
+            this.seperatorAutoProcessToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
+            // 
             // ehamToolStripMenuItem
             // 
             this.ehamToolStripMenuItem.CheckOnClick = true;
@@ -926,6 +936,11 @@
             this.ehrdToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.ehrdToolStripMenuItem.Text = "EHRD: N - Z";
             this.ehrdToolStripMenuItem.CheckedChanged += new System.EventHandler(this.ehrdToolStripMenuItem_CheckedChanged);
+            // 
+            // seperatorEHRDToolStripMenuItem
+            // 
+            this.seperatorEHRDToolStripMenuItem.Name = "seperatorEHRDToolStripMenuItem";
+            this.seperatorEHRDToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
             // 
             // playSoundWhenMETARIsFetchedToolStripMenuItem
             // 
@@ -958,12 +973,12 @@
             this.soundToolStripMenuItem.Text = "Sound";
             this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
             // 
-            // tAFToolStripMenuItem
+            // terminalAerodromeForecastToolStripMenuItem
             // 
-            this.tAFToolStripMenuItem.Name = "tAFToolStripMenuItem";
-            this.tAFToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.tAFToolStripMenuItem.Text = "TAF";
-            this.tAFToolStripMenuItem.Click += new System.EventHandler(this.tAFToolStripMenuItem_Click);
+            this.terminalAerodromeForecastToolStripMenuItem.Name = "terminalAerodromeForecastToolStripMenuItem";
+            this.terminalAerodromeForecastToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.terminalAerodromeForecastToolStripMenuItem.Text = "TAF";
+            this.terminalAerodromeForecastToolStripMenuItem.Click += new System.EventHandler(this.TerminalAerodromeForecastToolStripMenuItem_Click);
             // 
             // infoToolStripMenuItem
             // 
@@ -979,9 +994,28 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // seperatorAboutToolStripMenuItem
+            // 
+            this.seperatorAboutToolStripMenuItem.Name = "seperatorAboutToolStripMenuItem";
+            this.seperatorAboutToolStripMenuItem.Size = new System.Drawing.Size(275, 6);
+            // 
+            // atcOperationalInformationManualToolStripMenuItem
+            // 
+            this.atcOperationalInformationManualToolStripMenuItem.Name = "atcOperationalInformationManualToolStripMenuItem";
+            this.atcOperationalInformationManualToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.atcOperationalInformationManualToolStripMenuItem.Text = "ATC Operational Information Manual";
+            this.atcOperationalInformationManualToolStripMenuItem.Click += new System.EventHandler(this.atcOperationalInformationManualToolStripMenuItem_Click);
+            // 
+            // dutchVACCATISGeneratorV2ManualToolStripMenuItem
+            // 
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Name = "dutchVACCATISGeneratorV2ManualToolStripMenuItem";
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Text = "Dutch VACC ATIS Generator v2 Manual";
+            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Click += new System.EventHandler(this.dutchVACCATISGeneratorV2ManualToolStripMenuItem_Click);
             // 
             // additionalOptionsGroupBox
             // 
@@ -1101,40 +1135,6 @@
             // 
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
-            // 
-            // atcOperationalInformationManualToolStripMenuItem
-            // 
-            this.atcOperationalInformationManualToolStripMenuItem.Name = "atcOperationalInformationManualToolStripMenuItem";
-            this.atcOperationalInformationManualToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
-            this.atcOperationalInformationManualToolStripMenuItem.Text = "ATC Operational Information Manual";
-            this.atcOperationalInformationManualToolStripMenuItem.Click += new System.EventHandler(this.atcOperationalInformationManualToolStripMenuItem_Click);
-            // 
-            // dutchVACCATISGeneratorV2ManualToolStripMenuItem
-            // 
-            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Name = "dutchVACCATISGeneratorV2ManualToolStripMenuItem";
-            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
-            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Text = "Dutch VACC ATIS Generator v2 Manual";
-            this.dutchVACCATISGeneratorV2ManualToolStripMenuItem.Click += new System.EventHandler(this.dutchVACCATISGeneratorV2ManualToolStripMenuItem_Click);
-            // 
-            // seperatorAboutToolStripMenuItem
-            // 
-            this.seperatorAboutToolStripMenuItem.Name = "seperatorAboutToolStripMenuItem";
-            this.seperatorAboutToolStripMenuItem.Size = new System.Drawing.Size(277, 6);
-            // 
-            // seperatorDutchVACCToolStripMenuItem
-            // 
-            this.seperatorDutchVACCToolStripMenuItem.Name = "seperatorDutchVACCToolStripMenuItem";
-            this.seperatorDutchVACCToolStripMenuItem.Size = new System.Drawing.Size(157, 6);
-            // 
-            // seperatorAutoProcessToolStripMenuItem
-            // 
-            this.seperatorAutoProcessToolStripMenuItem.Name = "seperatorAutoProcessToolStripMenuItem";
-            this.seperatorAutoProcessToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
-            // 
-            // seperatorEHRDToolStripMenuItem
-            // 
-            this.seperatorEHRDToolStripMenuItem.Name = "seperatorEHRDToolStripMenuItem";
-            this.seperatorEHRDToolStripMenuItem.Size = new System.Drawing.Size(292, 6);
             // 
             // DutchVACCATISGenerator
             // 
@@ -1280,7 +1280,7 @@
         private System.Windows.Forms.ToolStripMenuItem amsterdamInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dutchVACCToolStripMenuItem;
         private System.Windows.Forms.Button getSelectBestRunwayButton;
-        public System.Windows.Forms.ToolStripMenuItem tAFToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem terminalAerodromeForecastToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
         private System.Windows.Forms.CheckBox userDefinedExtraCheckBox;

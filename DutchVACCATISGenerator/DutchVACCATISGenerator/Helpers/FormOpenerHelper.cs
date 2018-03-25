@@ -5,10 +5,11 @@ using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Helpers
 {
-    public interface IFormOpener
+    public interface IFormOpenerHelper
     {
         void ShowModelessForm<TForm>() where TForm : Form;
         DialogResult ShowModalForm<TForm>() where TForm : Form;
+        TForm GetForm<TForm>() where TForm : Form;
         bool IsOpen<TForm>() where TForm : Form;
         void CloseForm<TForm>() where TForm : Form;
     }
@@ -17,12 +18,12 @@ namespace DutchVACCATISGenerator.Helpers
     /// SimpleInjector FormOpener helper.
     /// https://stackoverflow.com/questions/38417654/winforms-how-to-register-forms-with-ioc-container/38421425#38421425
     /// </summary>
-    public class FormOpener : IFormOpener
+    public class FormOpenerHelper : IFormOpenerHelper
     {
         private readonly Container container;
         private readonly Dictionary<Type, Form> openedForms;
 
-        public FormOpener(Container container)
+        public FormOpenerHelper(Container container)
         {
             this.container = container;
             openedForms = new Dictionary<Type, Form>();
@@ -39,7 +40,7 @@ namespace DutchVACCATISGenerator.Helpers
             }
             else
             {
-                form = GetForm<TForm>();
+                form = GetFormFormContainer<TForm>();
 
                 openedForms.Add(form.GetType(), form);
                 //The form will be closed and disposed when form.Closed is called remove it from the cached instances so it can be recreated
@@ -52,10 +53,19 @@ namespace DutchVACCATISGenerator.Helpers
 
         public DialogResult ShowModalForm<TForm>() where TForm : Form
         {
-            using (var form = GetForm<TForm>())
+            using (var form = GetFormFormContainer<TForm>())
             {
                 return form.ShowDialog();
             }
+        }
+        public TForm GetForm<TForm>() where TForm : Form
+        {
+            if (openedForms.ContainsKey(typeof(TForm)))
+            {
+                return (TForm)openedForms[typeof(TForm)];
+            }
+
+            throw new InvalidOperationException($"Form {typeof(TForm).ToString()} has not been opened");
         }
 
         public bool IsOpen<TForm>() where TForm : Form
@@ -71,7 +81,7 @@ namespace DutchVACCATISGenerator.Helpers
             }
         }
 
-        private Form GetForm<TForm>() where TForm : Form
+        private TForm GetFormFormContainer<TForm>() where TForm : Form
         {
             return container.GetInstance<TForm>();
         }
