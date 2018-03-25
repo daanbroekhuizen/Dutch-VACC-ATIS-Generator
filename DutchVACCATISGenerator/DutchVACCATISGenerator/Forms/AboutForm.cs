@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
 {
-    public partial class About : Form
+    public partial class AboutForm : Form
     {
-        public About()
+        public AboutForm()
         {
             InitializeComponent();
 
