@@ -1,17 +1,27 @@
-﻿using DutchVACCATISGenerator.Logic;
+﻿using DutchVACCATISGenerator.Helpers;
+using DutchVACCATISGenerator.Logic;
 using SimpleInjector;
+using System;
 
 namespace DutchVACCATISGenerator.Extensions
 {
     public static class SimpleInjectorExstenions
     {
-        public static Container RegisterDependency(this Container container)
+        public static Container Bootstrap(this Container container)
         {
-            container = new Container();
+            try
+            {
+                container = new Container();
 
-            container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
+                container.RegisterSingleton<IFormOpener, FormOpener>();
+                container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
 
-            container.Verify();
+                container.Verify();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return container;
         }
