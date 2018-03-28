@@ -8,10 +8,11 @@ namespace DutchVACCATISGenerator.Helpers
     public interface IFormOpenerHelper
     {
         void ShowModelessForm<TForm>() where TForm : Form;
-        DialogResult ShowModalForm<TForm>() where TForm : Form;
         TForm GetForm<TForm>() where TForm : Form;
         bool IsOpen<TForm>() where TForm : Form;
         void CloseForm<TForm>() where TForm : Form;
+        void Show<TForm>() where TForm : Form;
+        void Hide<TForm>() where TForm : Form;
     }
 
     /// <summary>
@@ -51,13 +52,6 @@ namespace DutchVACCATISGenerator.Helpers
             form.Show();
         }
 
-        public DialogResult ShowModalForm<TForm>() where TForm : Form
-        {
-            using (var form = GetFormFormContainer<TForm>())
-            {
-                return form.ShowDialog();
-            }
-        }
         public TForm GetForm<TForm>() where TForm : Form
         {
             if (openedForms.ContainsKey(typeof(TForm)))
@@ -78,6 +72,22 @@ namespace DutchVACCATISGenerator.Helpers
             if (openedForms.ContainsKey(typeof(TForm)))
             {
                 openedForms[typeof(TForm)].Close();
+            }
+        }
+
+        public void Show<TForm>() where TForm : Form
+        {
+            if (openedForms.ContainsKey(typeof(TForm)))
+            {
+                openedForms[typeof(TForm)].Show();
+            }
+        }
+
+        public void Hide<TForm>() where TForm : Form
+        {
+            if (openedForms.ContainsKey(typeof(TForm)))
+            {
+                openedForms[typeof(TForm)].Hide();
             }
         }
 

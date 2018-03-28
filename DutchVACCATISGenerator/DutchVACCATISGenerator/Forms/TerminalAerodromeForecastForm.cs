@@ -15,7 +15,7 @@ namespace DutchVACCATISGenerator.Forms
         {
             this.terminalAerodromeForecastLogic = terminalAerodromeForecastLogic;
 
-            ApplicationEvents.SelectedAirportChangedEvent += SelectedAirportChangedEvent;
+            ApplicationEvents.SelectedAirportChangedEvent += SelectedAirportChanged;
 
             InitializeComponent();
         }
@@ -64,7 +64,7 @@ namespace DutchVACCATISGenerator.Forms
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
-        private void SelectedAirportChangedEvent(object sender, EventArgs e)
+        private void SelectedAirportChanged(object sender, EventArgs e)
         {
             if (terminalAerodromeForecastBackgroundWorker.IsBusy)
                 terminalAerodromeForecastBackgroundWorker.CancelAsync();

@@ -1,5 +1,6 @@
 ﻿using DutchVACCATISGenerator.Forms;
 using DutchVACCATISGenerator.Helpers;
+using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types.Application;
 using Newtonsoft.Json;
 using System;
@@ -17,16 +18,13 @@ using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator
 {
-    /// <summary>
-    /// DutchVACCATISGenerator class.
-    /// </summary>
     public partial class DutchVACCATISGenerator : Form
     {
         private readonly ApplicationVariables applicationVariables;
-        private readonly IFormOpenerHelper formOpener;
+        private readonly IFormOpenerHelper formOpenerHelper;
+        private readonly ISoundLogic soundLogic;
 
         private int atisIndex { get; set; }
-        public List<String> atisSamples { get; set; }
         private List<String> departureRunways { get; set; }
         private Boolean icaoTabSwitched { get; set; }
         private List<String> landingRunways { get; set; }
@@ -37,8 +35,6 @@ namespace DutchVACCATISGenerator
         private Boolean randomLetter { get; set; }
         private RunwayInfo runwayInfo { get; set; }
         private Boolean runwayInfoState { get; set; }
-        private Sound sound { get; set; }
-        private Boolean soundState { get; set; }
         private DateTime timerEnabled { get; set; }
         private Boolean userLetterSelection { get; set; }
 
@@ -49,22 +45,23 @@ namespace DutchVACCATISGenerator
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
-        /// <summary>
-        /// Constructor of DutchVACCATISGenerator.
-        /// </summary>
-        public DutchVACCATISGenerator(ApplicationVariables applicationVariables, 
-            IFormOpenerHelper formOpener)
+        public DutchVACCATISGenerator(ApplicationVariables applicationVariables,
+            IFormOpenerHelper formOpenerHelper,
+            ISoundLogic soundLogic)
         {
             this.applicationVariables = applicationVariables;
-            this.formOpener = formOpener;
-            
+            this.formOpenerHelper = formOpenerHelper;
+            this.soundLogic = soundLogic;
+
             InitializeComponent();
+
+            SetWindowBounds();
 
             //Load settings.
             loadSettings();
 
             //Set initial states of boolean.
-            soundState = runwayInfoState = icaoTabSwitched = userLetterSelection = randomLetter = false;
+            runwayInfoState = icaoTabSwitched = userLetterSelection = randomLetter = false;
 
             //Set phonetic alphabet.
             setPhoneticAlphabet();
@@ -100,9 +97,6 @@ namespace DutchVACCATISGenerator
             //If auto generate ATIS is selected.
             if (autoGenerateATISToolStripMenuItem.Checked)
                 autoGenerateATISBackgroundWorker.RunWorkerAsync();
-
-            //Initialize sound form.
-            sound = new Sound(this);
         }
 
         /// <summary>
@@ -521,15 +515,15 @@ namespace DutchVACCATISGenerator
             switch (input)
             {
                 case "L":
-                    atisSamples.Add("left");
+                    applicationVariables.ATISSamples.Add("left");
                     return "L";
 
                 case "C":
-                    atisSamples.Add("center");
+                    applicationVariables.ATISSamples.Add("center");
                     return "C";
 
                 case "R":
-                    atisSamples.Add("right");
+                    applicationVariables.ATISSamples.Add("right");
                     return "R";
             }
 
@@ -569,7 +563,7 @@ namespace DutchVACCATISGenerator
             foreach (String digit in splitArray)
             {
                 if (!string.IsNullOrEmpty(digit))
-                    atisSamples.Add(digit);
+                    applicationVariables.ATISSamples.Add(digit);
             }
 
             //If selected runway contains runway identifier letter.
@@ -589,14 +583,14 @@ namespace DutchVACCATISGenerator
         /// <returns>String output</returns>
         private String operationalReportToOutput()
         {
-            atisSamples.Add("opr");
+            applicationVariables.ATISSamples.Add("opr");
             String output = " OPERATIONAL REPORT";
 
             #region LOW LEVEL VISIBILITY
             //If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
             if (metarProcessor.metar.Visibility != 0 && metarProcessor.metar.Visibility < 1500)
             {
-                atisSamples.Add("lvp");
+                applicationVariables.ATISSamples.Add("lvp");
                 output += " LOW VISIBILITY PROCEDURES IN PROGRESS";
             }
             #endregion
@@ -608,25 +602,25 @@ namespace DutchVACCATISGenerator
                 /* 18R & 18C */
                 if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C"))
                 {
-                    atisSamples.Add("independent");
+                    applicationVariables.ATISSamples.Add("independent");
                     output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R"))
                 {
-                    atisSamples.Add("independent");
+                    applicationVariables.ATISSamples.Add("independent");
                     output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
                 }
                 /* 36R & 36C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C"))
                 {
-                    atisSamples.Add("independent");
+                    applicationVariables.ATISSamples.Add("independent");
                     output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R"))
                 {
-                    atisSamples.Add("independent");
+                    applicationVariables.ATISSamples.Add("independent");
                     output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
                 }
                 #endregion
@@ -634,98 +628,98 @@ namespace DutchVACCATISGenerator
                 /* 06 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 06 & 27 */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 06 & 09 */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("09"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("09") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 06 & 18C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("06") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("06"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 /* 27 & 18C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18C"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 27 & 18R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("18R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("18R"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 27 & 36C */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36C"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36C") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 /* 27 & 36R */
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("27") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("36R"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
 
                 else if (EHAMmainLandingRunwayComboBox.Text.Equals("36R") && EHAMsecondaryLandingRunwayComboBox.Text.Equals("27"))
                 {
-                    atisSamples.Add("convapp");
+                    applicationVariables.ATISSamples.Add("convapp");
                     output += " CONVERGING APPROACHES IN PROGRESS";
                 }
                 #endregion
@@ -737,13 +731,13 @@ namespace DutchVACCATISGenerator
             {
                 if (output.Contains(" INDEPENDENT PARALLEL APPROACHES IN PROGRESS"))
                 {
-                    atisSamples.Insert(atisSamples.IndexOf("independent"), "and");
+                    applicationVariables.ATISSamples.Insert(applicationVariables.ATISSamples.IndexOf("independent"), "and");
                     output = output.Insert(output.IndexOf("IND"), " AND ");
                 }
 
                 else
                 {
-                    atisSamples.Insert(atisSamples.IndexOf("convapp"), "and");
+                    applicationVariables.ATISSamples.Insert(applicationVariables.ATISSamples.IndexOf("convapp"), "and");
                     output = output.Insert(output.IndexOf("CON"), " AND");
                 }
             }
@@ -752,7 +746,7 @@ namespace DutchVACCATISGenerator
             if (!output.Equals(" OPERATIONAL REPORT")) return output;
             else
             {
-                atisSamples.Remove("opr");
+                applicationVariables.ATISSamples.Remove("opr");
                 return "";
             }
         }
@@ -815,7 +809,7 @@ namespace DutchVACCATISGenerator
                     //If phenomena has intensity.
                     if (metarPhenomena.hasIntensity)
                     {
-                        atisSamples.Add("-");
+                        applicationVariables.ATISSamples.Add("-");
                         output += " LIGHT";
                     }
 
@@ -825,27 +819,27 @@ namespace DutchVACCATISGenerator
                         switch (metarPhenomena.phenomena)
                         {
                             case "BCFG":
-                                atisSamples.Add("bcfg");
+                                applicationVariables.ATISSamples.Add("bcfg");
                                 output += " PATCHES OF FOG";
                                 break;
 
                             case "MIFG":
-                                atisSamples.Add("mifg");
+                                applicationVariables.ATISSamples.Add("mifg");
                                 output += " SHALLOW FOG";
                                 break;
 
                             case "SHRA":
-                                atisSamples.Add("shra");
+                                applicationVariables.ATISSamples.Add("shra");
                                 output += " SHOWERS OF RAIN";
                                 break;
 
                             case "VCSH":
-                                atisSamples.Add("vcsh");
+                                applicationVariables.ATISSamples.Add("vcsh");
                                 output += " SHOWERS IN VICINITY";
                                 break;
 
                             case "VCTS":
-                                atisSamples.Add("vcts");
+                                applicationVariables.ATISSamples.Add("vcts");
                                 output += " THUNDERSTORMS IN VICINITY";
                                 break;
                         }
@@ -877,7 +871,7 @@ namespace DutchVACCATISGenerator
                     //If loop phenomena is not the last phenomena of the list, add [and].
                     if (metarPhenomena != (MetarPhenomena)Convert.ChangeType(input.Last(), typeof(MetarPhenomena)))
                     {
-                        atisSamples.Add("and");
+                        applicationVariables.ATISSamples.Add("and");
                         output += " [AND]";
                     }
                 }
@@ -905,7 +899,7 @@ namespace DutchVACCATISGenerator
                     else if (metarCloud.altitude % 100 == 0)
                     {
                         addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0");
-                        atisSamples.Add("thousand");
+                        applicationVariables.ATISSamples.Add("thousand");
 
                         output += " " + Math.Floor(Convert.ToDouble(metarCloud.altitude / 100)).ToString() + "0" + " THOUSAND";
                     }
@@ -922,8 +916,8 @@ namespace DutchVACCATISGenerator
                             //If cloud altitude has a ten-thousand and hundred value (e.g. 10200 (102), 20800 (208), 40700 (407)).
                             if (metarCloud.altitude.ToString().Substring(1, 1).Equals("0"))
                             {
-                                atisSamples.Add("0");
-                                atisSamples.Add("thousand");
+                                applicationVariables.ATISSamples.Add("0");
+                                applicationVariables.ATISSamples.Add("thousand");
                                 output += " 0 THOUSAND";
                             }
                         }
@@ -932,7 +926,7 @@ namespace DutchVACCATISGenerator
                         if ((metarCloud.altitude / 10) % 10 > 0)
                         {
                             addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)).ToString());
-                            atisSamples.Add("thousand");
+                            applicationVariables.ATISSamples.Add("thousand");
 
                             output += " " + Math.Floor(Convert.ToDouble((metarCloud.altitude / 10) % 10)) + " THOUSAND";
                         }
@@ -941,13 +935,13 @@ namespace DutchVACCATISGenerator
                         if (metarCloud.altitude % 10 > 0)
                         {
                             addIndividualDigitsToATISSamples(Convert.ToString(metarCloud.altitude % 10));
-                            atisSamples.Add("hundred");
+                            applicationVariables.ATISSamples.Add("hundred");
 
                             output += " " + metarCloud.altitude % 10 + " HUNDRED";
                         }
                     }
 
-                    atisSamples.Add("ft");
+                    applicationVariables.ATISSamples.Add("ft");
                     output += " FEET";
 
                     //If cloud type has addition (e.g. CB, TCU).
@@ -969,7 +963,7 @@ namespace DutchVACCATISGenerator
             switch (cloudType)
             {
                 case "BC":
-                    atisSamples.Add("bc");
+                    applicationVariables.ATISSamples.Add("bc");
                     return " PATCHES";
 
                 //TODO GET SAMPLE
@@ -977,7 +971,7 @@ namespace DutchVACCATISGenerator
                     return " BLOWING";
 
                 case "BR":
-                    atisSamples.Add("br");
+                    applicationVariables.ATISSamples.Add("br");
                     return " MIST";
 
                 //TODO GET SAMPLE
@@ -993,7 +987,7 @@ namespace DutchVACCATISGenerator
                     return " WIDESPREAD DUST";
 
                 case "DZ":
-                    atisSamples.Add("dz");
+                    applicationVariables.ATISSamples.Add("dz");
                     return " DRIZZLE";
 
                 //TODO GET SAMPLE
@@ -1001,7 +995,7 @@ namespace DutchVACCATISGenerator
                     return " FUNNEL CLOUD";
 
                 case "FG":
-                    atisSamples.Add("fg");
+                    applicationVariables.ATISSamples.Add("fg");
                     return " FOG";
 
                 //TODO GET SAMPLE
@@ -1009,19 +1003,19 @@ namespace DutchVACCATISGenerator
                     return " SMOKE";
 
                 case "FZ":
-                    atisSamples.Add("fz");
+                    applicationVariables.ATISSamples.Add("fz");
                     return " FREEZING";
 
                 case "GR":
-                    atisSamples.Add("gr");
+                    applicationVariables.ATISSamples.Add("gr");
                     return " HAIL";
 
                 case "GS":
-                    atisSamples.Add("gs");
+                    applicationVariables.ATISSamples.Add("gs");
                     return " SOFT HAIL";
 
                 case "HZ":
-                    atisSamples.Add("hz");
+                    applicationVariables.ATISSamples.Add("hz");
                     return " HAZE";
 
                 //TODO GET SAMPLE
@@ -1029,7 +1023,7 @@ namespace DutchVACCATISGenerator
                     return " ICE CRYSTALS";
 
                 case "MI":
-                    atisSamples.Add("mi");
+                    applicationVariables.ATISSamples.Add("mi");
                     return " SHALLOW";
 
                 //TODO GET SAMPLE
@@ -1049,7 +1043,7 @@ namespace DutchVACCATISGenerator
                     return " SPRAY";
 
                 case "RA":
-                    atisSamples.Add("ra");
+                    applicationVariables.ATISSamples.Add("ra");
                     return " RAIN";
 
                 //TODO GET SAMPLE
@@ -1057,15 +1051,15 @@ namespace DutchVACCATISGenerator
                     return " SAND";
 
                 case "SG":
-                    atisSamples.Add("sg");
+                    applicationVariables.ATISSamples.Add("sg");
                     return " SNOW GRAINS";
 
                 case "SH":
-                    atisSamples.Add("sh");
+                    applicationVariables.ATISSamples.Add("sh");
                     return " SHOWERS";
 
                 case "SN":
-                    atisSamples.Add("sn");
+                    applicationVariables.ATISSamples.Add("sn");
                     return " SNOW";
 
                 //TODO GET SAMPLE
@@ -1077,7 +1071,7 @@ namespace DutchVACCATISGenerator
                     return " SQUALL";
 
                 case "TS":
-                    atisSamples.Add("ts");
+                    applicationVariables.ATISSamples.Add("ts");
                     return " THUNDERSTORMS";
 
                 //TODO GET SAMPLE
@@ -1102,19 +1096,19 @@ namespace DutchVACCATISGenerator
             switch (cloudType)
             {
                 case "FEW":
-                    atisSamples.Add("few");
+                    applicationVariables.ATISSamples.Add("few");
                     return " FEW";
 
                 case "BKN":
-                    atisSamples.Add("bkn");
+                    applicationVariables.ATISSamples.Add("bkn");
                     return " BROKEN";
 
                 case "OVC":
-                    atisSamples.Add("ovc");
+                    applicationVariables.ATISSamples.Add("ovc");
                     return " OVERCAST";
 
                 case "SCT":
-                    atisSamples.Add("sct");
+                    applicationVariables.ATISSamples.Add("sct");
                     return " SCATTERED";
             }
 
@@ -1131,11 +1125,11 @@ namespace DutchVACCATISGenerator
             switch (addition)
             {
                 case "CB":
-                    atisSamples.Add("cb");
+                    applicationVariables.ATISSamples.Add("cb");
                     return " CUMULONIMBUS";
 
                 case "TCU":
-                    atisSamples.Add("tcu");
+                    applicationVariables.ATISSamples.Add("tcu");
                     return " TOWERING CUMULONIMBUS";
             }
 
@@ -1149,15 +1143,15 @@ namespace DutchVACCATISGenerator
         /// <returns>String output</returns>
         private String visibilityToOutput(int input)
         {
-            atisSamples.Add("vis");
+            applicationVariables.ATISSamples.Add("vis");
             String output = " VISIBILITY";
 
             //If visibility is lower than 800 meters (less than 800 meters phrase).
             if (input < 800)
             {
-                atisSamples.Add("<");
+                applicationVariables.ATISSamples.Add("<");
                 addIndividualDigitsToATISSamples("800");
-                atisSamples.Add("meters");
+                applicationVariables.ATISSamples.Add("meters");
 
                 output += " LESS THAN 8 HUNDRED METERS";
             }
@@ -1165,8 +1159,8 @@ namespace DutchVACCATISGenerator
             else if (input < 1000)
             {
                 addIndividualDigitsToATISSamples(Convert.ToString(input / 100));
-                atisSamples.Add("hundred");
-                atisSamples.Add("meters");
+                applicationVariables.ATISSamples.Add("hundred");
+                applicationVariables.ATISSamples.Add("meters");
 
                 output += " " + Convert.ToString(input / 100) + " HUNDRED METERS";
             }
@@ -1174,10 +1168,10 @@ namespace DutchVACCATISGenerator
             else if (input < 5000 && (input % 1000) != 0)
             {
                 addIndividualDigitsToATISSamples(Convert.ToString(input / 1000));
-                atisSamples.Add("thousand");
+                applicationVariables.ATISSamples.Add("thousand");
                 addIndividualDigitsToATISSamples(Convert.ToString((input % 1000) / 100));
-                atisSamples.Add("hundred");
-                atisSamples.Add("meters");
+                applicationVariables.ATISSamples.Add("hundred");
+                applicationVariables.ATISSamples.Add("meters");
 
                 output += " " + Convert.ToString(input / 1000) + " THOUSAND " + Convert.ToString((input % 1000) / 100) + " HUNDRED METERS";
             }
@@ -1185,7 +1179,7 @@ namespace DutchVACCATISGenerator
             else if (input >= 9999)
             {
                 addIndividualDigitsToATISSamples("10");
-                atisSamples.Add("km");
+                applicationVariables.ATISSamples.Add("km");
 
                 output += " 10 KILOMETERS";
             }
@@ -1193,7 +1187,7 @@ namespace DutchVACCATISGenerator
             else
             {
                 addIndividualDigitsToATISSamples(Convert.ToString(input / 1000));
-                atisSamples.Add("km");
+                applicationVariables.ATISSamples.Add("km");
 
                 output += " " + Convert.ToString(input / 1000) + " KILOMETERS";
             }
@@ -1214,11 +1208,11 @@ namespace DutchVACCATISGenerator
             if (input.VRB)
             {
                 #region ADD SAMPLES TO ATISSAMPLES
-                atisSamples.Add("vrb");
+                applicationVariables.ATISSamples.Add("vrb");
 
                 addIndividualDigitsToATISSamples(input.windKnots);
 
-                atisSamples.Add("kt");
+                applicationVariables.ATISSamples.Add("kt");
                 #endregion
 
                 output += " VARIABLE " + input.windKnots + " KNOTS";
@@ -1229,15 +1223,15 @@ namespace DutchVACCATISGenerator
                 #region ADD SAMPLES TO ATISSAMPLES
                 addIndividualDigitsToATISSamples(input.windHeading);
 
-                atisSamples.Add("deg");
+                applicationVariables.ATISSamples.Add("deg");
 
                 addIndividualDigitsToATISSamples(input.windGustMin);
 
-                atisSamples.Add("max");
+                applicationVariables.ATISSamples.Add("max");
 
                 addIndividualDigitsToATISSamples(input.windGustMax);
 
-                atisSamples.Add("kt");
+                applicationVariables.ATISSamples.Add("kt");
                 #endregion
 
                 output += " " + input.windHeading + " DEGREES" + input.windGustMin + " MAXIMUM " + input.windGustMax + " KNOTS";
@@ -1248,11 +1242,11 @@ namespace DutchVACCATISGenerator
                 #region ADD SAMPLES TO ATISSAMPLES
                 addIndividualDigitsToATISSamples(input.windHeading);
 
-                atisSamples.Add("deg");
+                applicationVariables.ATISSamples.Add("deg");
 
                 addIndividualDigitsToATISSamples(input.windKnots);
 
-                atisSamples.Add("kt");
+                applicationVariables.ATISSamples.Add("kt");
                 #endregion
 
                 output += " " + input.windHeading + " DEGREES " + input.windKnots + " KNOTS";
@@ -1262,15 +1256,15 @@ namespace DutchVACCATISGenerator
             if (input.windVariableLeft != null)
             {
                 #region ADD SAMPLES TO ATISSAMPLES
-                atisSamples.Add("vrbbtn");
+                applicationVariables.ATISSamples.Add("vrbbtn");
 
                 addIndividualDigitsToATISSamples(input.windVariableLeft);
 
-                atisSamples.Add("and");
+                applicationVariables.ATISSamples.Add("and");
 
                 addIndividualDigitsToATISSamples(input.windVariableRight);
 
-                atisSamples.Add("deg");
+                applicationVariables.ATISSamples.Add("deg");
                 #endregion
 
                 output += " VARIABLE BETWEEN " + input.windVariableLeft + " AND " + input.windVariableRight + " DEGREES";
@@ -1394,13 +1388,13 @@ namespace DutchVACCATISGenerator
                     //If the EHAM main landing runway check box is checked AND the EHAM main landing runway combo box value doesn't equal the EHAM main departure runway combo box value, generate runway output with value from EHAM main landing runway combo box.
                     if (EHAMmainLandingRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text))
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHAMmainLandingRunwayComboBox);
                     }
                     //Else generate runway output with the value from the EHAM main landing runway combo box.
                     else
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHAMmainLandingRunwayComboBox);
                     }
                     #endregion
@@ -1409,7 +1403,7 @@ namespace DutchVACCATISGenerator
                     //If the EHAM secondary landing runway check box is checked, generate runway output with the value from the EHAM secondary landing runway combo box.
                     if (EHAMsecondaryLandingRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("slrwy");
+                        applicationVariables.ATISSamples.Add("slrwy");
                         output += runwayToOutput(" SECONDARY LANDING RUNWAY", EHAMsecondaryLandingRunwayComboBox);
                     }
                     #endregion
@@ -1418,7 +1412,7 @@ namespace DutchVACCATISGenerator
                     //If the EHAM main departure runway check box is checked, generate runway output with the value from the EHAM main departure runway combo box.
                     if (EHAMmainDepartureRunwayCheckBox.Checked && !EHAMmainLandingRunwayComboBox.Text.Equals(EHAMmainDepartureRunwayComboBox.Text))
                     {
-                        atisSamples.Add("mtrwy");
+                        applicationVariables.ATISSamples.Add("mtrwy");
                         output += runwayToOutput(" MAIN TAKEOFF RUNWAY", EHAMmainDepartureRunwayComboBox);
                     }
                     #endregion
@@ -1427,7 +1421,7 @@ namespace DutchVACCATISGenerator
                     //If the EHAM secondary departure runway check box is checked, generate runway output with the value from the EHAM secondary departure runway combo box.
                     if (EHAMsecondaryDepartureRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("strwy");
+                        applicationVariables.ATISSamples.Add("strwy");
                         output += runwayToOutput(" SECONDARY TAKEOFF RUNWAY", EHAMsecondaryDepartureRunwayComboBox);
                     }
                     #endregion
@@ -1440,7 +1434,7 @@ namespace DutchVACCATISGenerator
                     //If EHBK main runway check box is checked, generate runway output with value from EHBK main runway combo box.
                     if (EHBKmainRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHBKmainRunwayComboBox);
                     }
                     break;
@@ -1452,7 +1446,7 @@ namespace DutchVACCATISGenerator
                     //If EHEH main runway check box is checked, generate runway output with value from EHEH main runway combo box.
                     if (EHEHmainRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHEHmainRunwayComboBox);
                     }
                     break;
@@ -1464,7 +1458,7 @@ namespace DutchVACCATISGenerator
                     //If EHGG main runway check box is checked, generate runway output with value from EHGG main runway combo box.
                     if (EHGGmainRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHGGmainRunwayComboBox);
                     }
                     break;
@@ -1476,7 +1470,7 @@ namespace DutchVACCATISGenerator
                     //If EHRD main runway check box is checked, generate runway output with value from EHRD main runway combo box.
                     if (EHRDmainRunwayCheckBox.Checked)
                     {
-                        atisSamples.Add("mlrwy");
+                        applicationVariables.ATISSamples.Add("mlrwy");
                         output += runwayToOutput(" MAIN LANDING RUNWAY", EHRDmainRunwayComboBox);
                     }
                     break;
@@ -1503,8 +1497,7 @@ namespace DutchVACCATISGenerator
             //Check runways selected.
             if (!checkRunwaySelected()) return;
 
-            atisSamples = new List<String>();
-
+            applicationVariables.ATISSamples = new List<string>();
             String output = String.Empty;
 
             #region ICAO
@@ -1513,31 +1506,31 @@ namespace DutchVACCATISGenerator
             {
                 //If processed ICAO is EHAM.
                 case "EHAM":
-                    atisSamples.Add("ehamatis");
+                    applicationVariables.ATISSamples.Add("ehamatis");
                     output += "THIS IS SCHIPHOL INFORMATION";
                     break;
 
                 //If processed ICAO is EHBK.
                 case "EHBK":
-                    atisSamples.Add("ehbkatis");
+                    applicationVariables.ATISSamples.Add("ehbkatis");
                     output += "THIS IS BEEK INFORMATION";
                     break;
 
                 //If processed ICAO is EHEH.
                 case "EHEH":
-                    atisSamples.Add("ehehatis");
+                    applicationVariables.ATISSamples.Add("ehehatis");
                     output += "THIS IS EINDHOVEN INFORMATION";
                     break;
 
                 //If processed ICAO is EHGG.
                 case "EHGG":
-                    atisSamples.Add("ehggatis");
+                    applicationVariables.ATISSamples.Add("ehggatis");
                     output += "THIS IS EELDE INFORMATION";
                     break;
 
                 //If processed ICAO is EHRD.
                 case "EHRD":
-                    atisSamples.Add("ehrdatis");
+                    applicationVariables.ATISSamples.Add("ehrdatis");
                     output += "THIS IS ROTTERDAM INFORMATION";
                     break;
             }
@@ -1548,7 +1541,7 @@ namespace DutchVACCATISGenerator
             output += atisLetterToFullSpelling(phoneticAlphabet[atisIndex]);
             #endregion
 
-            atisSamples.Add("pause");
+            applicationVariables.ATISSamples.Add("pause");
 
             #region RUNWAYS
             //Add runway output to output.
@@ -1557,7 +1550,7 @@ namespace DutchVACCATISGenerator
 
             #region TL
             //Add transition level to output.
-            atisSamples.Add("trl");
+            applicationVariables.ATISSamples.Add("trl");
             output += " TRANSITION LEVEL";
             //Calculate and add transition level to output.
             addIndividualDigitsToATISSamples(calculateTransitionLevel().ToString());
@@ -1569,13 +1562,13 @@ namespace DutchVACCATISGenerator
             output += operationalReportToOutput();
             #endregion
 
-            atisSamples.Add("pause");
+            applicationVariables.ATISSamples.Add("pause");
 
             #region WIND
             //If processed METAR has wind, generate and add wind output to output. 
             if (addWindRecordCheckBox.Checked)
             {
-                atisSamples.Add("wind");
+                applicationVariables.ATISSamples.Add("wind");
                 output += " WIND";
             }
             if (metarProcessor.metar.Wind != null) output += windToOutput(metarProcessor.metar.Wind);
@@ -1585,7 +1578,7 @@ namespace DutchVACCATISGenerator
             //If processed METAR has CAVOK, add CAVOK to output.
             if (metarProcessor.metar.CAVOK)
             {
-                atisSamples.Add("cavok");
+                applicationVariables.ATISSamples.Add("cavok");
                 output += " CAVOK";
             }
             #endregion
@@ -1599,7 +1592,7 @@ namespace DutchVACCATISGenerator
             //If processed METAR has RVR, add RVR to output. 
             if (metarProcessor.metar.RVR)
             {
-                atisSamples.Add("rvronatc");
+                applicationVariables.ATISSamples.Add("rvronatc");
                 output += " RVR AVAILABLE ON ATC FREQUENCY";
             }
             #endregion
@@ -1613,13 +1606,13 @@ namespace DutchVACCATISGenerator
             //If processed METAR has SKC, add SKC to output. 
             if (metarProcessor.metar.SKC)
             {
-                atisSamples.Add("skc");
+                applicationVariables.ATISSamples.Add("skc");
                 output += " SKY CLEAR";
             }
             //If processed METAR has NSC, add NSC to output. 
             if (metarProcessor.metar.NSC)
             {
-                atisSamples.Add("sc");
+                applicationVariables.ATISSamples.Add("sc");
                 output += " NO SIGNIFICANT CLOUDS";
             }
             #endregion
@@ -1633,10 +1626,10 @@ namespace DutchVACCATISGenerator
             //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
             if (metarProcessor.metar.VerticalVisibility > 0)
             {
-                atisSamples.Add("vv");
+                applicationVariables.ATISSamples.Add("vv");
                 addIndividualDigitsToATISSamples(metarProcessor.metar.VerticalVisibility.ToString());
-                atisSamples.Add("hunderd");
-                atisSamples.Add("meters");
+                applicationVariables.ATISSamples.Add("hunderd");
+                applicationVariables.ATISSamples.Add("meters");
 
                 output += " VERTICAL VISIBILITY " + metarProcessor.metar.VerticalVisibility + " HUNDERD METERS";
             }
@@ -1644,13 +1637,13 @@ namespace DutchVACCATISGenerator
 
             #region TEMPERATURE
             //Add temperature to output.
-            atisSamples.Add("temp");
+            applicationVariables.ATISSamples.Add("temp");
             output += " TEMPERATURE";
 
             //If processed METAR has a minus temperature.
             if (metarProcessor.metar.Temperature.StartsWith("M"))
             {
-                atisSamples.Add("minus");
+                applicationVariables.ATISSamples.Add("minus");
 
                 addIndividualDigitsToATISSamples(Convert.ToInt32(metarProcessor.metar.Temperature.ToString().Substring(1, 2)).ToString());
 
@@ -1667,13 +1660,13 @@ namespace DutchVACCATISGenerator
 
             #region DEWPOINT
             //Add dewpoint to output.
-            atisSamples.Add("dp");
+            applicationVariables.ATISSamples.Add("dp");
             output += " DEWPOINT";
 
             //If processed METAR has a minus dewpoint.
             if (metarProcessor.metar.Dewpoint.StartsWith("M"))
             {
-                atisSamples.Add("minus");
+                applicationVariables.ATISSamples.Add("minus");
 
                 addIndividualDigitsToATISSamples(Convert.ToInt32(metarProcessor.metar.Dewpoint.ToString().Substring(1, 2)).ToString());
 
@@ -1691,11 +1684,11 @@ namespace DutchVACCATISGenerator
 
             #region QNH
             //Add QNH to output.
-            atisSamples.Add("qnh");
+            applicationVariables.ATISSamples.Add("qnh");
             output += " QNH";
             addIndividualDigitsToATISSamples(metarProcessor.metar.QNH.ToString());
             output += " " + metarProcessor.metar.QNH.ToString();
-            atisSamples.Add("hpa");
+            applicationVariables.ATISSamples.Add("hpa");
             output += " HECTOPASCAL";
             #endregion
 
@@ -1703,7 +1696,7 @@ namespace DutchVACCATISGenerator
             //If processed METAR has NOSIG, add NOSIG to output.
             if (metarProcessor.metar.NOSIG)
             {
-                atisSamples.Add("nosig");
+                applicationVariables.ATISSamples.Add("nosig");
                 output += " NO SIGNIFICANT CHANGE";
             }
             #endregion
@@ -1713,7 +1706,7 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.metarTEMPO != null)
             {
                 //Add TEMPO to output.
-                atisSamples.Add("tempo");
+                applicationVariables.ATISSamples.Add("tempo");
                 output += " TEMPORARY";
 
                 #region TEMPO WIND
@@ -1725,7 +1718,7 @@ namespace DutchVACCATISGenerator
                 //If processed TEMPO trend has CAVOK, add CAVOK to output.
                 if (metarProcessor.metar.metarTEMPO.CAVOK)
                 {
-                    atisSamples.Add("cavok");
+                    applicationVariables.ATISSamples.Add("cavok");
                     output += " CAVOK";
                 }
                 #endregion
@@ -1744,7 +1737,7 @@ namespace DutchVACCATISGenerator
                 //If TEMPO trend has SKC, add SKC to output. 
                 if (metarProcessor.metar.metarTEMPO.SKC)
                 {
-                    atisSamples.Add("skc");
+                    applicationVariables.ATISSamples.Add("skc");
                     output += " SKY CLEAR";
                 }
                 #endregion
@@ -1753,7 +1746,7 @@ namespace DutchVACCATISGenerator
                 //If TEMPO trend has NSW, add NSW to output. 
                 if (metarProcessor.metar.metarTEMPO.NSW)
                 {
-                    atisSamples.Add("nsw");
+                    applicationVariables.ATISSamples.Add("nsw");
                     output += " NO SIGNIFICANT WEATHER";
                 }
                 #endregion
@@ -1767,10 +1760,10 @@ namespace DutchVACCATISGenerator
                 //If TEMPO trend has a vertical visibility greater than 0, add TEMPO trend vertical visibility to output.
                 if (metarProcessor.metar.metarTEMPO.VerticalVisibility > 0)
                 {
-                    atisSamples.Add("vv");
+                    applicationVariables.ATISSamples.Add("vv");
                     addIndividualDigitsToATISSamples(metarProcessor.metar.metarTEMPO.VerticalVisibility.ToString());
-                    atisSamples.Add("hunderd");
-                    atisSamples.Add("meters");
+                    applicationVariables.ATISSamples.Add("hunderd");
+                    applicationVariables.ATISSamples.Add("meters");
 
                     output += " VERTICAL VISIBILITY " + metarProcessor.metar.metarTEMPO.VerticalVisibility + " HUNDERD METERS";
                 }
@@ -1783,7 +1776,7 @@ namespace DutchVACCATISGenerator
             if (metarProcessor.metar.metarBECMG != null)
             {
                 //Add BECMG to output.
-                atisSamples.Add("becmg");
+                applicationVariables.ATISSamples.Add("becmg");
                 output += " BECOMING";
 
                 #region BECMG WIND
@@ -1795,7 +1788,7 @@ namespace DutchVACCATISGenerator
                 //If processed BECMG trend has CAVOK, add CAVOK to output.
                 if (metarProcessor.metar.metarBECMG.CAVOK)
                 {
-                    atisSamples.Add("cavok");
+                    applicationVariables.ATISSamples.Add("cavok");
                     output += " CAVOK";
                 }
                 #endregion
@@ -1814,7 +1807,7 @@ namespace DutchVACCATISGenerator
                 //If BECMG trend has SKC, add SKC to output. 
                 if (metarProcessor.metar.metarBECMG.SKC)
                 {
-                    atisSamples.Add("skc");
+                    applicationVariables.ATISSamples.Add("skc");
                     output += " SKY CLEAR";
                 }
                 #endregion
@@ -1823,7 +1816,7 @@ namespace DutchVACCATISGenerator
                 //If BECMG trend has NSW, add NSW to output. 
                 if (metarProcessor.metar.metarBECMG.NSW)
                 {
-                    atisSamples.Add("nsw");
+                    applicationVariables.ATISSamples.Add("nsw");
                     output += " NO SIGNIFICANT WEATHER";
                 }
                 #endregion
@@ -1837,10 +1830,10 @@ namespace DutchVACCATISGenerator
                 //If BECMG trend has a vertical visibility greater than 0, add BECMG trend vertical visibility to output.
                 if (metarProcessor.metar.metarBECMG.VerticalVisibility > 0)
                 {
-                    atisSamples.Add("vv");
+                    applicationVariables.ATISSamples.Add("vv");
                     addIndividualDigitsToATISSamples(metarProcessor.metar.metarBECMG.VerticalVisibility.ToString());
-                    atisSamples.Add("hunderd");
-                    atisSamples.Add("meters");
+                    applicationVariables.ATISSamples.Add("hunderd");
+                    applicationVariables.ATISSamples.Add("meters");
 
                     output += " VERTICAL VISIBILITY" + metarProcessor.metar.metarBECMG.VerticalVisibility + " HUNDERD METERS";
                 }
@@ -1852,32 +1845,32 @@ namespace DutchVACCATISGenerator
             //If inverted surface temperature check box is checked.
             if (markTempCheckBox.Checked)
             {
-                atisSamples.Add("marktemp");
+                applicationVariables.ATISSamples.Add("marktemp");
                 output += " MARK TEMPERATURE INVERSION NEAR THE SURFACE";
             }
             //If arrival only check box is checked.
             if (arrOnlyCheckBox.Checked)
             {
-                atisSamples.Add("call1");
+                applicationVariables.ATISSamples.Add("call1");
                 output += " CONTACT ARRIVAL CALLSIGN ONLY";
             }
             //If approach only check box is checked.
             if (appOnlyCheckBox.Checked)
             {
-                atisSamples.Add("call2");
+                applicationVariables.ATISSamples.Add("call2");
                 output += " CONTACT APPROACH CALLSIGN ONLY";
             }
             //If arrival and approach only check box is checked.
             if (appArrOnlyCheckBox.Checked)
             {
-                atisSamples.Add("call3");
+                applicationVariables.ATISSamples.Add("call3");
                 output += " CONTACT APPROACH AND ARRIVAL CALLSIGN ONLY";
             }
             #endregion
 
             #region END
             //Add end to output.
-            atisSamples.Add("end");
+            applicationVariables.ATISSamples.Add("end");
             output += " END OF INFORMATION";
             output += atisLetterToFullSpelling(phoneticAlphabet[atisIndex]);
             #endregion
@@ -1885,7 +1878,7 @@ namespace DutchVACCATISGenerator
             #region USER WAVE
             if (userDefinedExtraCheckBox.Checked)
             {
-                atisSamples.Add("extra");
+                applicationVariables.ATISSamples.Add("extra");
                 output += " EXTRA (VOICE ONLY)";
             }
             #endregion
@@ -1896,23 +1889,8 @@ namespace DutchVACCATISGenerator
             //Set generated ATIS output in output text box.
             outputTextBox.Text = output;
 
-            #region DEBUG
-            //Console.WriteLine();
-
-            //foreach (String temp in atisSamples)
-            //{
-            //    if (temp.All(Char.IsDigit))
-            //        Console.Write(temp);
-
-            //    else
-            //        Console.Write("[" + temp + "]");
-            //}
-
-            //Console.WriteLine();
-            #endregion
-
             //Build ATIS file.
-            sound.buildAtis(atisSamples);
+            soundLogic.Build();
         }
 
         /// <summary>
@@ -2054,14 +2032,11 @@ namespace DutchVACCATISGenerator
                     runwayInfo.Visible = true;
                     runwayInfo.BringToFront();
                 }
-                //Show sound form.
-                if (sound != null && !sound.IsDisposed && soundState)
-                {
-                    sound.Visible = true;
-                    sound.BringToFront();
-                }
 
-                this.BringToFront();
+                //Show sound form.
+                formOpenerHelper.Show<SoundForm>();
+
+                this.Show();
             }
 
             //If form is minimized.
@@ -2069,19 +2044,10 @@ namespace DutchVACCATISGenerator
             {
                 //Hide runwayInfo form.
                 if (runwayInfo != null && !runwayInfo.IsDisposed) runwayInfo.Visible = false;
-                //Hide sound form.
-                if (sound != null && !sound.IsDisposed) sound.Visible = false;
-            }
-        }
 
-        /// <summary>
-        /// Method called if sound button is clicked.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void soundButton_Click(object sender, EventArgs e)
-        {
-            setSoundForm();
+                //Hide sound form.
+                formOpenerHelper.Hide<SoundForm>();
+            }
         }
 
         /// <summary>
@@ -2390,9 +2356,19 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="sender">Object sender</param>
         /// <param name="e">Event arguments</param>
-        private void soundToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SoundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setSoundForm();
+            SetSoundForm();
+        }
+
+        /// <summary>
+        /// Method called if sound button is clicked.
+        /// </summary>
+        /// <param name="sender">Object sender</param>
+        /// <param name="e">Event arguments</param>
+        private void SoundButton_Click(object sender, EventArgs e)
+        {
+            SetSoundForm();
         }
 
         /// <summary>
@@ -2455,43 +2431,25 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Sets all controls for opening and closing the sound form.
         /// </summary>
-        private void setSoundForm()
+        private void SetSoundForm()
         {
-            #region OPENING
-            //If sound form doesn't exists OR isn't visible.
-            if (sound == null || !sound.Visible)
+            if (formOpenerHelper.IsOpen<SoundForm>())
             {
-                //Create new Sound form.
-                soundButton.Text = "▲";
-                sound.Show();
-                sound.showRelativeToDutchVACCATISGenerator(this);
+                formOpenerHelper.CloseForm<SoundForm>();
 
-                //Inverse sound state boolean.
-                soundState = !soundState;
-
-                //Set runway sound tool strip menu item back color to gradient active caption.
-                soundToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
-            }
-            #endregion
-
-            #region CLOSING
-            else
-            {
                 soundButton.Text = "▼";
 
-                //Hide the sound form.
-                sound.Visible = false;
-
-                //Stop the wavePlayer.
-                if (sound.wavePlayer != null) sound.wavePlayer.Stop();
-
-                //Inverse sound state boolean.
-                soundState = !soundState;
-
-                //Set sound tool strip menu item back color to control.
-                soundToolStripMenuItem.BackColor = SystemColors.Control;
+                //Stop playback.
+                soundLogic.Stop();
             }
-            #endregion
+            else
+            {
+                formOpenerHelper.ShowModelessForm<SoundForm>();
+
+                soundButton.Text = "▲";
+            }
+
+            soundToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<SoundForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
         }
 
         /// <summary>
@@ -2536,23 +2494,23 @@ namespace DutchVACCATISGenerator
         /// <param name="e">Event arguments</param>
         private void TerminalAerodromeForecastToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (formOpener.IsOpen<TerminalAerodromeForecastForm>())
+            if (formOpenerHelper.IsOpen<TerminalAerodromeForecastForm>())
             {
-                var terminalAerodromeForecastForm = formOpener.GetForm<TerminalAerodromeForecastForm>();
+                var terminalAerodromeForecastForm = formOpenerHelper.GetForm<TerminalAerodromeForecastForm>();
 
                 if (terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.IsBusy)
                     terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.CancelAsync();
 
-                formOpener.CloseForm<TerminalAerodromeForecastForm>();
+                formOpenerHelper.CloseForm<TerminalAerodromeForecastForm>();
             }
             else
             {
-                formOpener.ShowModelessForm<TerminalAerodromeForecastForm>();
+                formOpenerHelper.ShowModelessForm<TerminalAerodromeForecastForm>();
 
-                formOpener.GetForm<TerminalAerodromeForecastForm>().terminalAerodromeForecastBackgroundWorker.RunWorkerAsync();
+                formOpenerHelper.GetForm<TerminalAerodromeForecastForm>().terminalAerodromeForecastBackgroundWorker.RunWorkerAsync();
             }
 
-            terminalAerodromeForecastToolStripMenuItem.BackColor = formOpener.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.Control : SystemColors.GradientActiveCaption;
+            terminalAerodromeForecastToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
         }
 
         /// <summary>
@@ -2884,107 +2842,107 @@ namespace DutchVACCATISGenerator
             switch (atisLetter)
             {
                 case "A":
-                    atisSamples.Add("a");
+                    applicationVariables.ATISSamples.Add("a");
                     return " ALPHA";
 
                 case "B":
-                    atisSamples.Add("b");
+                    applicationVariables.ATISSamples.Add("b");
                     return " BRAVO";
 
                 case "C":
-                    atisSamples.Add("c");
+                    applicationVariables.ATISSamples.Add("c");
                     return " CHARLIE";
 
                 case "D":
-                    atisSamples.Add("d");
+                    applicationVariables.ATISSamples.Add("d");
                     return " DELTA";
 
                 case "E":
-                    atisSamples.Add("e");
+                    applicationVariables.ATISSamples.Add("e");
                     return " ECHO";
 
                 case "F":
-                    atisSamples.Add("f");
+                    applicationVariables.ATISSamples.Add("f");
                     return " FOXTROT";
 
                 case "G":
-                    atisSamples.Add("g");
+                    applicationVariables.ATISSamples.Add("g");
                     return " GOLF";
 
                 case "H":
-                    atisSamples.Add("h");
+                    applicationVariables.ATISSamples.Add("h");
                     return " HOTEL";
 
                 case "I":
-                    atisSamples.Add("i");
+                    applicationVariables.ATISSamples.Add("i");
                     return " INDIA";
 
                 case "J":
-                    atisSamples.Add("j");
+                    applicationVariables.ATISSamples.Add("j");
                     return " JULIET";
 
                 case "K":
-                    atisSamples.Add("k");
+                    applicationVariables.ATISSamples.Add("k");
                     return " KILO";
 
                 case "L":
-                    atisSamples.Add("l");
+                    applicationVariables.ATISSamples.Add("l");
                     return " LIMA";
 
                 case "M":
-                    atisSamples.Add("m");
+                    applicationVariables.ATISSamples.Add("m");
                     return " MIKE";
 
                 case "N":
-                    atisSamples.Add("n");
+                    applicationVariables.ATISSamples.Add("n");
                     return " NOVEMBER";
 
                 case "O":
-                    atisSamples.Add("o");
+                    applicationVariables.ATISSamples.Add("o");
                     return " OSCAR";
 
                 case "P":
-                    atisSamples.Add("p");
+                    applicationVariables.ATISSamples.Add("p");
                     return " PAPA";
 
                 case "Q":
-                    atisSamples.Add("q");
+                    applicationVariables.ATISSamples.Add("q");
                     return " QUEBEC";
 
                 case "R":
-                    atisSamples.Add("r");
+                    applicationVariables.ATISSamples.Add("r");
                     return " ROMEO";
 
                 case "S":
-                    atisSamples.Add("s");
+                    applicationVariables.ATISSamples.Add("s");
                     return " SIERRA";
 
                 case "T":
-                    atisSamples.Add("t");
+                    applicationVariables.ATISSamples.Add("t");
                     return " TANGO";
 
                 case "U":
-                    atisSamples.Add("u");
+                    applicationVariables.ATISSamples.Add("u");
                     return " UNIFORM";
 
                 case "V":
-                    atisSamples.Add("v");
+                    applicationVariables.ATISSamples.Add("v");
                     return " VICTOR";
 
                 case "W":
-                    atisSamples.Add("w");
+                    applicationVariables.ATISSamples.Add("w");
                     return " WHISKEY";
 
                 case "X":
-                    atisSamples.Add("x");
+                    applicationVariables.ATISSamples.Add("x");
                     return " XRAY";
 
                 case "Y":
-                    atisSamples.Add("y");
+                    applicationVariables.ATISSamples.Add("y");
                     return " YANKEE";
 
                 case "Z":
-                    atisSamples.Add("z");
+                    applicationVariables.ATISSamples.Add("z");
                     return " ZULU";
             }
 
@@ -3002,7 +2960,7 @@ namespace DutchVACCATISGenerator
             foreach (String digit in processed)
             {
                 if (!string.IsNullOrEmpty(digit))
-                    atisSamples.Add(digit);
+                    applicationVariables.ATISSamples.Add(digit);
             }
         }
 
@@ -3038,6 +2996,18 @@ namespace DutchVACCATISGenerator
             {
                 MessageBox.Show("Unable to open ATC Operational Information manual.", "Error"); return;
             }
+        }
+
+        private void DutchVACCATISGenerator_LocationChanged(object sender, EventArgs e)
+        {
+            SetWindowBounds();
+
+            ApplicationEvents.MainFormMoved(sender, e);
+        }
+
+        private void SetWindowBounds()
+        {
+            this.applicationVariables.MainFormBounds = this.Bounds;
         }
     }
 }

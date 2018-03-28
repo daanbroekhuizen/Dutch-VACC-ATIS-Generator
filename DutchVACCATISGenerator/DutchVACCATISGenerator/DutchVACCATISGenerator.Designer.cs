@@ -971,7 +971,7 @@
             this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
             this.soundToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.soundToolStripMenuItem.Text = "Sound";
-            this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
+            this.soundToolStripMenuItem.Click += new System.EventHandler(this.SoundToolStripMenuItem_Click);
             // 
             // terminalAerodromeForecastToolStripMenuItem
             // 
@@ -1114,7 +1114,7 @@
             this.soundButton.TabIndex = 24;
             this.soundButton.Text = "▼";
             this.soundButton.UseVisualStyleBackColor = true;
-            this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
+            this.soundButton.Click += new System.EventHandler(this.SoundButton_Click);
             // 
             // versionBackgroundWorker
             // 
@@ -1158,6 +1158,7 @@
             this.MaximizeBox = false;
             this.Name = "DutchVACCATISGenerator";
             this.Text = "Dutch VACC ATIS Generator";
+            this.LocationChanged += new System.EventHandler(this.DutchVACCATISGenerator_LocationChanged);
             this.Resize += new System.EventHandler(this.DutchVACCATISGenerator_Resize);
             this.atisIndexGroupBox.ResumeLayout(false);
             this.atisIndexGroupBox.PerformLayout();

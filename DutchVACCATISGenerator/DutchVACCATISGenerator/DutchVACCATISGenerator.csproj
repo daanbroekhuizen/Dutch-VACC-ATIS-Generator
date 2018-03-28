@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="FlashingWindow.cs" />
     <Compile Include="Helpers\FormOpenerHelper.cs" />
+    <Compile Include="Logic\SoundLogic.cs" />
     <Compile Include="Logic\TerminalAerodromeForecastLogic.cs" />
     <Compile Include="Metar\MetarBECMG.cs" />
     <Compile Include="Metar\Metar.cs" />
@@ -144,11 +145,11 @@
     <Compile Include="RunwayInfo.Designer.cs">
       <DependentUpon>RunwayInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sound.cs">
+    <Compile Include="Forms\SoundForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sound.Designer.cs">
-      <DependentUpon>Sound.cs</DependentUpon>
+    <Compile Include="Forms\SoundForm.Designer.cs">
+      <DependentUpon>SoundForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\TerminalAerodromeForecastForm.cs">
       <SubType>Form</SubType>
@@ -180,8 +181,8 @@
     <EmbeddedResource Include="RunwayInfo.resx">
       <DependentUpon>RunwayInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sound.resx">
-      <DependentUpon>Sound.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SoundForm.resx">
+      <DependentUpon>SoundForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TerminalAerodromeForecastForm.resx">
       <DependentUpon>TerminalAerodromeForecastForm.cs</DependentUpon>
@@ -199,7 +200,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
