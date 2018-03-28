@@ -69,7 +69,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TerminalAerodromeForecastForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TAF Dialog";
+            this.Text = "TAF";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TerminalAerodromeForecastForm_FormClosing);
             this.terminalAerodromeForecastGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 

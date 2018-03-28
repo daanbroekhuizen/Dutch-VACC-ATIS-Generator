@@ -57,6 +57,9 @@ namespace DutchVACCATISGenerator
 
             SetWindowBounds();
 
+            //Register application events.
+            ApplicationEvents.TerminalAerodromeForecastFormClosingEvent += TerminalAerodromeForecastFormClosing;
+
             //Load settings.
             loadSettings();
 
@@ -98,7 +101,7 @@ namespace DutchVACCATISGenerator
             if (autoGenerateATISToolStripMenuItem.Checked)
                 autoGenerateATISBackgroundWorker.RunWorkerAsync();
         }
-
+            
         /// <summary>
         /// Method called when get METAR button is clicked. Starts a background worker which pulls the METAR from the VATSIM METAR website.
         /// </summary>
@@ -3003,6 +3006,11 @@ namespace DutchVACCATISGenerator
             SetWindowBounds();
 
             ApplicationEvents.MainFormMoved(sender, e);
+        }
+
+        private void TerminalAerodromeForecastFormClosing(object sender, FormClosingEventArgs e)
+        {
+            terminalAerodromeForecastToolStripMenuItem.BackColor = SystemColors.Control;
         }
 
         private void SetWindowBounds()

@@ -20,11 +20,11 @@ namespace DutchVACCATISGenerator.Forms
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Called when the TAF background worker is started.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
+        private void TerminalAerodromeForecastForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ApplicationEvents.TerminalAerodromeForecastFormClosing(sender, e);
+        }
+
         private void TerminalAerodromeForecastBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             try
@@ -33,16 +33,10 @@ namespace DutchVACCATISGenerator.Forms
             }
             catch (Exception)
             {
-                //Show error.
                 MessageBox.Show("Unable to load TAF from the Internet.", "Error");
             }
         }
 
-        /// <summary>
-        /// Called when the TAF background worker is finished.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
         private void TerminalAerodromeForecastBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             //Remove/clear old TAF from rich text box.
@@ -54,16 +48,10 @@ namespace DutchVACCATISGenerator.Forms
             }
             catch (Exception)
             {
-                //Show error.
                 MessageBox.Show("Unable to load TAF from the Internet.", "Error");
             }
         }
 
-        /// <summary>
-        /// Fired when other airport tab is selected.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
         private void SelectedAirportChanged(object sender, EventArgs e)
         {
             if (terminalAerodromeForecastBackgroundWorker.IsBusy)
