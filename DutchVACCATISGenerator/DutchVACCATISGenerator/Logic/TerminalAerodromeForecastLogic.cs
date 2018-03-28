@@ -46,7 +46,11 @@ namespace DutchVACCATISGenerator.Logic
             string terminalAerodromeForecast = string.Empty;
 
             //Get terminal aerodrome forecast part from loaded HTML code.
-            var split = (DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) + terminalAerodromeForecastRaw.Split(new string[] { DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) }, StringSplitOptions.None)[1]).Split(new string[] { "=" }, StringSplitOptions.None)[0].Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
+            var split = (DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) + terminalAerodromeForecastRaw
+                .Split(new string[] { DetermineTerminalAerodromeForcast(terminalAerodromeForecastRaw) }, StringSplitOptions.None)[1])
+                .Split(new string[] { "=" }, StringSplitOptions.None)[0]
+                .Split(new string[] { "\n" }, StringSplitOptions.None)
+                .ToList();
 
             foreach (string s in split)
                 terminalAerodromeForecast += s.TrimEnd() + "\r\n";
