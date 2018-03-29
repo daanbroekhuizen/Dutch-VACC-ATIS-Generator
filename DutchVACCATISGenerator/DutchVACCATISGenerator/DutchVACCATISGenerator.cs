@@ -58,6 +58,8 @@ namespace DutchVACCATISGenerator
             SetWindowBounds();
 
             //Register application events.
+            ApplicationEvents.BuildAITSCompletedEvent += BuildAITSCompleted;
+            ApplicationEvents.BuildAITSStartedEvent += BuildAITSStarted;
             ApplicationEvents.TerminalAerodromeForecastFormClosingEvent += TerminalAerodromeForecastFormClosing;
 
             //Load settings.
@@ -101,7 +103,7 @@ namespace DutchVACCATISGenerator
             if (autoGenerateATISToolStripMenuItem.Checked)
                 autoGenerateATISBackgroundWorker.RunWorkerAsync();
         }
-            
+
         /// <summary>
         /// Method called when get METAR button is clicked. Starts a background worker which pulls the METAR from the VATSIM METAR website.
         /// </summary>
@@ -1892,8 +1894,37 @@ namespace DutchVACCATISGenerator
             //Set generated ATIS output in output text box.
             outputTextBox.Text = output;
 
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.atisfile))
+            {
+                MessageBox.Show("No path to atiseham.txt provided.", "Warning");
+
+                //Open file dialog for user to set the path to atiseham.txt.
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Set properties.
+                    Properties.Settings.Default.atisfile = openFileDialog.FileName;
+
+                    //Save setting.
+                    Properties.Settings.Default.Save();
+                }
+                //User didn't selected a file.
+                else
+                    return;
+            }
+
             //Build ATIS file.
-            soundLogic.Build();
+            try
+            {
+                generateATISButton.Enabled = false;
+                
+                soundLogic.Build(Properties.Settings.Default.atisfile);
+            }
+            catch (Exception ex)
+            {
+                generateATISButton.Enabled = true;
+
+                MessageBox.Show(String.Format("Unable to build ATIS.\n\nError: {0}", ex.Message), "Error");
+            }
         }
 
         /// <summary>
@@ -3006,6 +3037,22 @@ namespace DutchVACCATISGenerator
             SetWindowBounds();
 
             ApplicationEvents.MainFormMoved(sender, e);
+        }
+
+        private void BuildAITSCompleted(object sender, EventArgs e)
+        {
+            if (generateATISButton.InvokeRequired)
+                generateATISButton.Invoke(new Action(() => generateATISButton.Enabled = true));
+            else
+                generateATISButton.Enabled = true;
+        }
+
+        private void BuildAITSStarted(object sender, EventArgs e)
+        {
+            if (generateATISButton.InvokeRequired)
+                generateATISButton.Invoke(new Action(() => generateATISButton.Enabled = false));
+            else
+                generateATISButton.Enabled = false;
         }
 
         private void TerminalAerodromeForecastFormClosing(object sender, FormClosingEventArgs e)

@@ -125,6 +125,7 @@
             this.realRunwayBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.metarFetchTimer = new System.Windows.Forms.Timer(this.components);
             this.autoGenerateATISBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.atisIndexGroupBox.SuspendLayout();
             this.EHAMmainRunwaysGroupBox.SuspendLayout();
             this.EHAMmainLandingRunwayGroupBox.SuspendLayout();
@@ -1136,6 +1137,10 @@
             this.autoGenerateATISBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.autoGenerateATISBackgroundWorker_DoWork);
             this.autoGenerateATISBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.autoGenerateATISBackgroundWorker_RunWorkerCompleted);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            // 
             // DutchVACCATISGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1303,6 +1308,7 @@
         private System.Windows.Forms.ToolStripSeparator seperatorDutchVACCToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator seperatorAutoProcessToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator seperatorEHRDToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 
