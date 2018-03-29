@@ -83,8 +83,15 @@ namespace DutchVACCATISGenerator
 
         private void BuildAITSCompleted(object sender, EventArgs e)
         {
-            buildATISButton.Enabled = true;
-            playATISButton.Enabled = true;
+            if (buildATISButton.InvokeRequired)
+                buildATISButton.Invoke(new Action(() => buildATISButton.Enabled = true));
+            else
+                buildATISButton.Enabled = true;
+
+            if (playATISButton.InvokeRequired)
+                playATISButton.Invoke(new Action(() => playATISButton.Enabled = true));
+            else
+                playATISButton.Enabled = true;
         }
 
         private void MainFormMoved(object sender, EventArgs e)
@@ -94,7 +101,10 @@ namespace DutchVACCATISGenerator
 
         private void BuildAITSProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
+            if (progressBar.InvokeRequired)
+                progressBar.Invoke(new Action(() => progressBar.Value = e.ProgressPercentage));
+            else
+                progressBar.Value = e.ProgressPercentage;
         }
 
         private void PlaybackStopped(object sender, EventArgs e)
