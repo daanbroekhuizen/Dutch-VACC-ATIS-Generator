@@ -9,7 +9,7 @@ namespace DutchVACCATISGenerator.Extensions
 {
     public static class FileExstensions
     {
-        public static bool FileIsLocked(this FileInfo file)
+        public static bool IsLocked(this FileInfo file)
         {
             FileStream stream = null;
 
