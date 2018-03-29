@@ -57,7 +57,7 @@ namespace DutchVACCATISGenerator
 
         private void PlayATISButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(ATISFileTextBox.Text) && !ShowNoATISFileSelectedWarning())
+            if (string.IsNullOrWhiteSpace(ATISFileTextBox.Text) && !ShowNoATISFileSelectedWarning())
                 return;
 
             buildATISButton.Enabled = false;
