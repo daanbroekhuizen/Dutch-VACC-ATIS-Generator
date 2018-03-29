@@ -23,12 +23,13 @@ namespace DutchVACCATISGenerator
             //Register application events.
             ApplicationEvents.BuildAITSCompletedEvent += BuildAITSCompleted;
             ApplicationEvents.BuildAITSProgressChangedEvent += BuildAITSProgressChanged;
+            ApplicationEvents.BuildAITSStartedEvent += BuildAITSStarted;
             ApplicationEvents.MainFormMovedEvent += MainFormMoved;
             ApplicationEvents.PlaybackStoppedEvent += PlaybackStopped;
 
             //Enable the build ATIS button if the ATIS has already been generated.
             if (applicationVariables.ATISSamples.Any())
-                buildATISButton.Enabled = false;
+                buildATISButton.Enabled = true;
 
             //Get and set the property of the path to the ATIS folder if it has been saved before. 
             //Else sets the path to the user document folder + \EuroScope\atis\atiseham.txt.
@@ -105,6 +106,14 @@ namespace DutchVACCATISGenerator
                 progressBar.Invoke(new Action(() => progressBar.Value = e.ProgressPercentage));
             else
                 progressBar.Value = e.ProgressPercentage;
+        }
+
+        private void BuildAITSStarted(object sender, EventArgs e)
+        {
+            if (buildATISButton.InvokeRequired)
+                buildATISButton.Invoke(new Action(() => buildATISButton.Enabled = false));
+            else
+                buildATISButton.Enabled = false;
         }
 
         private void PlaybackStopped(object sender, EventArgs e)

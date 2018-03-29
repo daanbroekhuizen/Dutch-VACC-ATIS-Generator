@@ -1,31 +1,61 @@
-﻿using DutchVACCATISGenerator.Types.Application;
+﻿using DutchVACCATISGenerator.Extensions;
+using DutchVACCATISGenerator.Types.Application;
 using NAudio.Wave;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace DutchVACCATISGenerator.Logic
 {
     public interface ISoundLogic
     {
-        void Build(string atisFile = null);
+        /// <summary>
+        /// Builds an ATIS.
+        /// </summary>
+        /// <param name="atisFile">Path to ATIS descriptor file.</param>
+        void Build(string atisFile);
+
+        /// <summary>
+        /// Plays or stops the ATIS.
+        /// </summary>
+        /// <param name="atisFile">Path to ATIS descriptor file.</param>
         void Play(string atisFile);
+
+        /// <summary>
+        /// Stops the ATIS from playing.
+        /// </summary>
         void Stop();
     }
 
     public class SoundLogic : ISoundLogic
     {
+        private ApplicationVariables applicationVariables;
         private AudioFileReader audioFileReader;
         private IWavePlayer wavePlayer;
 
-        public void Build(string atisFile = null)
+        public SoundLogic(ApplicationVariables applicationVariables)
         {
+            this.applicationVariables = applicationVariables;
+        }
 
+        public void Build(string atisFile)
+        {
+            if (string.IsNullOrWhiteSpace(atisFile) || !File.Exists(atisFile))
+                throw new FileNotFoundException(atisFile);
+
+            ///Start build asynchronous.
+            BuildAsync(atisFile, GetRecords(atisFile));
         }
 
         public void Play(string atisFile)
         {
+            //Check if player is playing (else stop is clicked).
             if (wavePlayer?.PlaybackState == PlaybackState.Playing)
             {
-                wavePlayer.Stop();
+                Stop();
                 return;
             }
 
@@ -50,7 +80,7 @@ namespace DutchVACCATISGenerator.Logic
 
         public void Stop()
         {
-            wavePlayer.Stop();
+            wavePlayer?.Stop();
         }
 
         private void PlaybackStopped(object sender, StoppedEventArgs e)
@@ -61,161 +91,123 @@ namespace DutchVACCATISGenerator.Logic
             audioFileReader.Dispose();
         }
 
+        private Dictionary<string, string> GetRecords(string atisFile)
+        {
+            var text = File.ReadAllText($"{Path.GetDirectoryName(atisFile)}\\samples\\ehamsamples.txt");
 
+            var lines = SplitOnAndRemoveEmptyLines(text);
 
-        /// <summary>
-        /// Build atis.wav file.
-        /// </summary>
-        /// <param name="atisSamples">List<String> ATIS samples to build atis.wav from</String></param>
-        //public void BuildAtis(List<String> atisSamples)
-        //{
-        //    //Try to read atiseham.txt and start the build ATIS background worker.
-        //    try
-        //    {
-        //        String line = String.Empty;
+            //Create new dictionary to store .wav files value in. I.E.: a = ehamatis1_a.wav
+            var records = new Dictionary<string, string>();
 
-        //        //If path to atiseham.txt is not set.
-        //        if (atisehamFileTextBox.Text.Trim().Equals(String.Empty))
-        //        {
-        //            MessageBox.Show("No path to atiseham.txt provided.", "Error");
+            //Add linesWithItem items to the records dictionary.
+            foreach (string line in lines)
+            {
+                //Add item to records dictionary if it starts with RECORD.
+                if (line.StartsWith("RECORD"))
+                {
+                    var regexSplit = Regex.Split(line, @":");
 
-        //            //Force user to select atiseham.txt.
-        //            browseButton.PerformClick();
-        //        }
+                    records.Add(regexSplit[1], regexSplit[2]);
+                }
+            }
 
-        //        //Try to open and read the atisamples.txt file.
-        //        try
-        //        {
-        //            using (StreamReader sr = new StreamReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\samples\\ehamsamples.txt")) line = sr.ReadToEnd();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(String.Format("Unable to open atiseham.txt. Check if the correct atiseham.txt file is selected.\n\nError: {0}", ex.Message), "Error");
+            return records;
+        }
 
-        //            //Re-enable the play ATIS button if reading of the atiseham.text has failed.
-        //            playATISButton.Enabled = true;
-        //            return;
-        //        }
+        private List<string> SplitOnAndRemoveEmptyLines(string text)
+        {
+            //Split read atiseham.txt file on end of line.
+            var fileLines = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-        //        //Split read atiseham.txt file on end of line.
-        //        string[] fileLines = line.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+            //Initialize new List of Strings with the split array.
+            var linesWithItem = new List<String>(fileLines);
 
-        //        //Initialize new List of Strings with the split array.
-        //        List<String> linesWithItem = new List<String>(fileLines);
+            //Remove any empty entries at the end of the linesWithItem list.
+            while (linesWithItem.Last().Equals(String.Empty))
+                linesWithItem.RemoveAt(linesWithItem.Count() - 1);
 
-        //        //Remove any empty entries at the end of the linesWithItem list.
-        //        while (linesWithItem.Last().Equals(String.Empty)) linesWithItem.RemoveAt(linesWithItem.Count() - 1);
+            return linesWithItem;
+        }
 
-        //        //Create new dictionary to store .wav files value in. I.E.: a = ehamatis1_a.wav
-        //        Dictionary<String, String> records = new Dictionary<String, String>();
+        private async void BuildAsync(string atisFile, Dictionary<string, string> records)
+        {
+            await Task.Run(() =>
+             {
+                 ApplicationEvents.BuildAITSStarted();
 
-        //        //Add linesWithItem items to the records dictionary.
-        //        foreach (String s in linesWithItem)
-        //        {
-        //            //Add item to records dictionary if it starts with RECORD.
-        //            if (s.StartsWith("RECORD"))
-        //            {
-        //                String[] split = Regex.Split(s, @":");
+                 if (new FileInfo($"{Path.GetDirectoryName(atisFile)}\\atis.wav").IsLocked())
+                     throw new IOException("Cannot generate new atis.wav file. File does not exist or is in use by another process.");
 
-        //                records.Add(split[1], split[2]);
-        //            }
-        //        }
+                 int i = 0;
 
-        //        //Start build ATIS backgroundWorker to start building the atis.wav file.
-        //        buildATISbackgroundWorker.RunWorkerAsync(new Object[] { atisSamples, records });
+                 WaveFileWriter waveFileWriter = null;
 
+                 //Try to generate and build atis.wav.
+                 try
+                 {
+                     foreach (string sample in applicationVariables.ATISSamples)
+                     {
+                         //Open WaveFileReader to write to atis.wav.
+                         try
+                         {
+                             //Using the WaveFileReader, get the file to write to the atis.wave from the records list.
+                             using (WaveFileReader reader = new WaveFileReader($"{Path.GetDirectoryName(atisFile)}\\samples\\{records[sample]}"))
+                             {
+                                 //Initialize new WaveFileWriter.
+                                 if (waveFileWriter == null)
+                                     waveFileWriter = new WaveFileWriter($"{Path.GetDirectoryName(atisFile)}\\atis.wav", reader.WaveFormat);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(String.Format("Unable to build ATIS. Check if the right atiseham.txt is selected.\n\nError: {0}", ex.Message), "Error"); return;
-        //    }
-        //}
+                                 else
+                                 {
+                                     //If loaded .wav does not watch the format of the atis.wav output file.
+                                     if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat))
+                                         throw new InvalidOperationException("Can't concatenate .wav files that don't share the same format");
+                                 }
 
-        /// <summary>
-        /// Method called when build ATIS background worker is started.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        //private void buildATISbackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    byte[] buffer = new byte[1024];
+                                 var buffer = new byte[1024];
+                                 int read;
 
-        //    WaveFileWriter waveFileWriter = null;
+                                 //Write loaded .wav file to atis.wav.
+                                 while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
+                                     waveFileWriter.Write(buffer, 0, read);
+                             }
+                         }
+                         catch (KeyNotFoundException)
+                         {
+                             //Do nothing...
+                         }
+                         catch (InvalidOperationException)
+                         {
+                             //Do nothing...
+                         }
+                         catch (FileNotFoundException)
+                         {
+                             //Do nothing...
+                         }
 
-        //    //If file is in use by another process.
-        //    if (IsFileLocked(new FileInfo(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav")))
-        //    {
-        //        MessageBox.Show("Cannot generate new atis.wav file. File does not exist or is in use by another process.", "Error"); return;
-        //    }
+                         RaiseProgressChanged(i);
+                         i++;
+                     }
+                 }
+                 finally
+                 {
+                     //Dispose waveFileWriter when finished.
+                     if (waveFileWriter != null)
+                         waveFileWriter.Dispose();
+                 }
 
-        //    //Try to generate and build atis.wav.
-        //    try
-        //    {
-        //        int i = 0;
+                 //Raise event.
+                 ApplicationEvents.BuildAITSCompleted();
+             });
+        }
 
-        //        //For each String in textToPlay list.
-        //        foreach (string sourceFile in ((e.Argument as Object[])[0] as List<String>))
-        //        {
-        //            //Open WaveFileReader to write to atis.wav.
-        //            try
-        //            {
-        //                //Using the WaveFileReader, get the file to write to the atis.wave from the records list.
-        //                using (WaveFileReader reader = new WaveFileReader(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\samples\\" + ((e.Argument as Object[])[1] as Dictionary<String, String>)[sourceFile]))
-        //                {
-        //                    //Initialize new WaveFileWriter.
-        //                    if (waveFileWriter == null) waveFileWriter = new WaveFileWriter(Path.GetDirectoryName(atisehamFileTextBox.Text) + "\\atis.wav", reader.WaveFormat);
+        private void RaiseProgressChanged(int i)
+        {
+            var percentage = (i + 1) * 100 / applicationVariables.ATISSamples.Count();
 
-        //                    else
-        //                    {
-        //                        //If loaded .wav does not watch the format of the atis.wav output file.
-        //                        if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat)) throw new InvalidOperationException("Can't concatenate .wav files that don't share the same format");
-        //                    }
-
-        //                    int read;
-
-        //                    //Write loaded .wav file to atis.wav.
-        //                    while ((read = reader.Read(buffer, 0, buffer.Length)) > 0) waveFileWriter.Write(buffer, 0, read);
-        //                }
-
-        //                //Update progress bar by sending an report progress call to the build ATIS background worker.
-        //                int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
-        //                buildATISbackgroundWorker.ReportProgress(percentage);
-        //                i++;
-        //            }
-        //            catch (KeyNotFoundException)
-        //            {
-        //                //Update progress bar by sending an report progress call to the build ATIS background worker.
-        //                int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
-        //                buildATISbackgroundWorker.ReportProgress(percentage);
-        //                i++;
-        //                continue;
-        //            }
-        //            catch (InvalidOperationException)
-        //            {
-        //                //Update progress bar by sending an report progress call to the build ATIS background worker.
-        //                int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
-        //                buildATISbackgroundWorker.ReportProgress(percentage);
-        //                i++;
-        //                continue;
-        //            }
-        //            catch (FileNotFoundException ex)
-        //            {
-        //                MessageBox.Show(ex.Message + "\n\natis.wav will be generated without this file.", "Error");
-
-        //                //Update progress bar by sending an report progress call to the build ATIS background worker.
-        //                int percentage = (i + 1) * 100 / ((e.Argument as Object[])[0] as List<String>).Count();
-        //                buildATISbackgroundWorker.ReportProgress(percentage);
-        //                i++;
-        //                continue;
-        //            }
-        //        }
-        //    }
-        //    //Dispose waveFileWriter when finished.
-        //    finally
-        //    {
-        //        if (waveFileWriter != null) waveFileWriter.Dispose();
-        //    }
-        //}
+            //Update progress bar.
+            ApplicationEvents.BuildAITSProgressChanged(percentage);
+        }
     }
 }
