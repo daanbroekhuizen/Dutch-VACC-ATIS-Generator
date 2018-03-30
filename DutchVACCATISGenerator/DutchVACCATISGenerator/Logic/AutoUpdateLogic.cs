@@ -93,7 +93,6 @@ namespace DutchVACCATISGenerator.Logic
             }
             catch
             {
-                //TODO What happens here?
                 throw;
             }
         }
