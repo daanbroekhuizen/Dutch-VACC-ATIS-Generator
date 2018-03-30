@@ -7,11 +7,49 @@ namespace DutchVACCATISGenerator.Helpers
 {
     public interface IFormOpenerHelper
     {
+        /// <summary>
+        /// Open modeless form.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
         void ShowModelessForm<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Open modal form.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
+        /// <returns>Dialog result of opened modal</returns>
+        DialogResult ShowModalForm<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Gets form from the container.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
+        /// <returns>Type of requested form</returns>
         TForm GetForm<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Indicates if a form is open.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
+        /// <returns>True if open, else false</returns>
         bool IsOpen<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Closes a form.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
         void CloseForm<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Show a form.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
         void Show<TForm>() where TForm : Form;
+
+        /// <summary>
+        /// Hides a form.
+        /// </summary>
+        /// <typeparam name="TForm">Type of form</typeparam>
         void Hide<TForm>() where TForm : Form;
     }
 
@@ -50,6 +88,14 @@ namespace DutchVACCATISGenerator.Helpers
             }
 
             form.Show();
+        }
+
+        public DialogResult ShowModalForm<TForm>() where TForm : Form
+        {
+            using (var form = this.GetFormFormContainer<TForm>())
+            {
+                return form.ShowDialog();
+            }
         }
 
         public TForm GetForm<TForm>() where TForm : Form
