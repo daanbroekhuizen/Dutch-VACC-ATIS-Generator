@@ -2094,7 +2094,11 @@ namespace DutchVACCATISGenerator
             try
             {
                 //Request latest version.
+#if DEBUG
+                WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch VACC/Dutch VACC ATIS Generator/Version/version2.php");
+#else
                 WebRequest request = WebRequest.Create("http://daanbroekhuizen.com/Dutch VACC/Dutch VACC ATIS Generator/Version/version.php");
+#endif
                 WebResponse response = request.GetResponse();
 
                 //Read latest version.
@@ -2143,8 +2147,7 @@ namespace DutchVACCATISGenerator
                     {
                         if (MessageBox.Show("Newer version is available.\nDownload latest version?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
                         {
-                            Form autoUpdater = new AutoUpdater();
-                            autoUpdater.ShowDialog();
+                            formOpenerHelper.ShowModalForm<AutoUpdaterForm>();
                         }
                     }
                 }
@@ -2223,7 +2226,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void processMultipleRunways()
         {
-            #region LANDING RUNWAYS
+#region LANDING RUNWAYS
             //If there are more than two landing runways.
             if (landingRunways.Count > 1)
             {
@@ -2296,9 +2299,9 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
-            #endregion
+#endregion
 
-            #region DEPARTURE RUNWAYS
+#region DEPARTURE RUNWAYS
             //If there are more than two departure runways found.
             if (departureRunways.Count > 1)
             {
@@ -2372,7 +2375,7 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
-            #endregion
+#endregion
         }
 
         /// <summary>
@@ -2421,7 +2424,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void setRunwayInfoForm()
         {
-            #region OPENING
+#region OPENING
             //If runway info form doesn't exists OR isn't visible.
             if (runwayInfo == null || !runwayInfo.Visible)
             {
@@ -2442,9 +2445,9 @@ namespace DutchVACCATISGenerator
                 //Set runway info tool strip menu item back color to gradient active caption.
                 runwayInfoToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
             }
-            #endregion
+#endregion
 
-            #region CLOSING
+#region CLOSING
             //If runway info is opened.
             else
             {
@@ -2459,7 +2462,7 @@ namespace DutchVACCATISGenerator
                 //Set runway info tool strip menu item back color to control.
                 runwayInfoToolStripMenuItem.BackColor = SystemColors.Control;
             }
-            #endregion
+#endregion
         }
 
         /// <summary>

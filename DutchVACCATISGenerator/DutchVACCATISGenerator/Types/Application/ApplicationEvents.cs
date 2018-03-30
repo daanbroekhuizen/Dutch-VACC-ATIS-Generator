@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Types.Application
@@ -9,6 +10,7 @@ namespace DutchVACCATISGenerator.Types.Application
         public static event EventHandler BuildAITSCompletedEvent;
         public static event ProgressChangedEventHandler BuildAITSProgressChangedEvent;
         public static event EventHandler BuildAITSStartedEvent;
+        public static event DownloadProgressChangedEventHandler DownloadProgressChangedEvent;
         public static event EventHandler MainFormMovedEvent;
         public static event EventHandler PlaybackStoppedEvent;
         public static event EventHandler SelectedAirportChangedEvent;
@@ -27,6 +29,11 @@ namespace DutchVACCATISGenerator.Types.Application
         internal static void BuildAITSStarted()
         {
             BuildAITSStartedEvent?.Invoke(null, null);
+        }
+
+        internal static void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            DownloadProgressChangedEvent?.Invoke(sender, e);
         }
 
         internal static void MainFormMoved(object sender, EventArgs e)

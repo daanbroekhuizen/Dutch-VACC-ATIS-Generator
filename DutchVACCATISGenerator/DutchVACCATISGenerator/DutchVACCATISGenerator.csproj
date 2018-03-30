@@ -111,11 +111,11 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutoUpdater.cs">
+    <Compile Include="Forms\AutoUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AutoUpdater.Designer.cs">
-      <DependentUpon>AutoUpdater.cs</DependentUpon>
+    <Compile Include="Forms\AutoUpdateForm.Designer.cs">
+      <DependentUpon>AutoUpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DutchVACCATISGenerator.cs">
       <SubType>Form</SubType>
@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="FlashingWindow.cs" />
     <Compile Include="Helpers\FormOpenerHelper.cs" />
+    <Compile Include="Logic\AutoUpdateLogic.cs" />
     <Compile Include="Logic\SoundLogic.cs" />
     <Compile Include="Logic\TerminalAerodromeForecastLogic.cs" />
     <Compile Include="Types\Metar\MetarBECMG.cs" />
@@ -160,8 +161,8 @@
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AutoUpdater.resx">
-      <DependentUpon>AutoUpdater.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AutoUpdateForm.resx">
+      <DependentUpon>AutoUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DutchVACCATISGenerator.resx">
       <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
