@@ -1,4 +1,4 @@
-﻿using DutchVACCATISGenerator.Types.Application;
+﻿using DutchVACCATISGenerator.Types;
 using System;
 using System.Linq;
 using System.Net;

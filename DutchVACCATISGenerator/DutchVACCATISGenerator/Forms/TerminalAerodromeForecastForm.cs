@@ -1,5 +1,5 @@
 ﻿using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using System;
 using System.Windows.Forms;
 

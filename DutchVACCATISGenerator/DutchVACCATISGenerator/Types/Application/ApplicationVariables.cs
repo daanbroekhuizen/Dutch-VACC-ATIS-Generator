@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace DutchVACCATISGenerator.Types.Application
+namespace DutchVACCATISGenerator.Types
 {
     public class ApplicationVariables
     {

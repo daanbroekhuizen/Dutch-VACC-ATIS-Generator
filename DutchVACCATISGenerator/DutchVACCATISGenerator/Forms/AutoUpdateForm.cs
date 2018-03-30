@@ -1,10 +1,10 @@
 ﻿using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using System;
 using System.Net;
 using System.Windows.Forms;
 
-namespace DutchVACCATISGenerator
+namespace DutchVACCATISGenerator.Forms
 {
     public partial class AutoUpdaterForm : Form
     {

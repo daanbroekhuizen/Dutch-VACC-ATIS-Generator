@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows.Forms;
 
-namespace DutchVACCATISGenerator.Types.Application
+namespace DutchVACCATISGenerator.Types
 {
     public static class ApplicationEvents
     {

@@ -1,6 +1,6 @@
 ﻿using DutchVACCATISGenerator.Helpers;
 using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using SimpleInjector;
 using System;
 

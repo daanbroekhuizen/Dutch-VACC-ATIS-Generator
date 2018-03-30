@@ -1,4 +1,4 @@
-﻿namespace DutchVACCATISGenerator
+﻿namespace DutchVACCATISGenerator.Forms
 {
     partial class AutoUpdaterForm
     {

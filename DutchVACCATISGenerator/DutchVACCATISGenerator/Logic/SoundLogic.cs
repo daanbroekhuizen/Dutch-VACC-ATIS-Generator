@@ -1,5 +1,5 @@
 ﻿using DutchVACCATISGenerator.Extensions;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;

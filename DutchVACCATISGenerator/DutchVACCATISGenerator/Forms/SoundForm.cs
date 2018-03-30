@@ -1,12 +1,12 @@
 ﻿using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DutchVACCATISGenerator
+namespace DutchVACCATISGenerator.Forms
 {
     public partial class SoundForm : Form
     {

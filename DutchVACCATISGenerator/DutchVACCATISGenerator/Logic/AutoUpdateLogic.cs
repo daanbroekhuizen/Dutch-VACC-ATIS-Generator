@@ -1,4 +1,4 @@
-﻿using DutchVACCATISGenerator.Types.Application;
+﻿using DutchVACCATISGenerator.Types;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
