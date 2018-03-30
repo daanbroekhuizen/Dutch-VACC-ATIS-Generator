@@ -24,7 +24,7 @@ namespace DutchVACCATISGenerator
             Application.Run(container.GetInstance<DutchVACCATISGenerator>());
         }
 
-        private static void ThreadExceptionEventHandler(object sender, ThreadExceptionEventArgs t)
+        private static void ThreadExceptionEventHandler(object sender, ThreadExceptionEventArgs e)
         {
             MessageBox.Show("An unexpected error has occurred. The application will now exit.", "Error");
 
