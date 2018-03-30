@@ -123,7 +123,7 @@
     <Compile Include="DutchVACCATISGenerator.Designer.cs">
       <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlashingWindow.cs" />
+    <Compile Include="Utilities\FlashingWindow.cs" />
     <Compile Include="Helpers\FormOpenerHelper.cs" />
     <Compile Include="Logic\AutoUpdateLogic.cs" />
     <Compile Include="Logic\SoundLogic.cs" />
