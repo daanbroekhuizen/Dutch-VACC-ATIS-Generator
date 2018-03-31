@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace DutchVACCATISGenerator.Extensions
 {
-    public static class FileExstensions
+    public static class FileExtensions
     {
         public static bool IsLocked(this FileInfo file)
         {

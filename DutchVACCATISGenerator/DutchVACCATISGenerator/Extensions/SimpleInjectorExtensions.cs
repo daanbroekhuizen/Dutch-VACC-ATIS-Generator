@@ -6,7 +6,7 @@ using System;
 
 namespace DutchVACCATISGenerator.Extensions
 {
-    public static class SimpleInjectorExstenions
+    public static class SimpleInjectorExtensions
     {
         public static Container Bootstrap(this Container container)
         {
@@ -36,6 +36,7 @@ namespace DutchVACCATISGenerator.Extensions
         private static void RegisterLogic(this Container container)
         {
             container.Register<IAutoUpdateLogic, AutoUpdateLogic>();
+            container.Register<IRunwayLogic, RunwayLogic>();
             container.Register<ISoundLogic, SoundLogic>();
             container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
         }

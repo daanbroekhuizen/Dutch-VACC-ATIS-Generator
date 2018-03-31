@@ -1,4 +1,5 @@
-﻿using DutchVACCATISGenerator.Logic;
+﻿using DutchVACCATISGenerator.Extensions;
+using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
 using System;
 using System.ComponentModel;
@@ -79,7 +80,7 @@ namespace DutchVACCATISGenerator.Forms
 
         private void Sound_Load(object sender, EventArgs e)
         {
-            SetRelativeToMainForm();
+            this.SetRelativeBottom(this.applicationVariables.MainFormBounds);
         }
 
         private void BuildAITSCompleted(object sender, EventArgs e)
@@ -97,7 +98,7 @@ namespace DutchVACCATISGenerator.Forms
 
         private void MainFormMoved(object sender, EventArgs e)
         {
-            SetRelativeToMainForm();
+            this.SetRelativeBottom(this.applicationVariables.MainFormBounds);
         }
 
         private void BuildAITSProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -148,13 +149,6 @@ namespace DutchVACCATISGenerator.Forms
 
             //Save setting.
             Properties.Settings.Default.Save();
-        }
-
-        private void SetRelativeToMainForm()
-        {
-            this.Left = this.applicationVariables.MainFormBounds.Left;
-            this.Top = this.applicationVariables.MainFormBounds.Bottom;
-            this.Refresh();
         }
     }
 }
