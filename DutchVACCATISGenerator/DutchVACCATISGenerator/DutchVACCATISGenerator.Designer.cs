@@ -60,7 +60,7 @@
             this.generateATISButton = new System.Windows.Forms.Button();
             this.metarInputGroupBox = new System.Windows.Forms.GroupBox();
             this.fetchMetarLabel = new System.Windows.Forms.Label();
-            this.getSelectBestRunwayButton = new System.Windows.Forms.Button();
+            this.selectBestRunwayButton = new System.Windows.Forms.Button();
             this.copyOutputCheckBox = new System.Windows.Forms.CheckBox();
             this.outputOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.outputGroupBox = new System.Windows.Forms.GroupBox();
@@ -489,7 +489,7 @@
             // metarInputGroupBox
             // 
             this.metarInputGroupBox.Controls.Add(this.fetchMetarLabel);
-            this.metarInputGroupBox.Controls.Add(this.getSelectBestRunwayButton);
+            this.metarInputGroupBox.Controls.Add(this.selectBestRunwayButton);
             this.metarInputGroupBox.Controls.Add(this.icaoTextBox);
             this.metarInputGroupBox.Controls.Add(this.getMetarButton);
             this.metarInputGroupBox.Controls.Add(this.metarTextBox);
@@ -513,15 +513,15 @@
             this.fetchMetarLabel.Text = "Fetching METAR in: ";
             this.fetchMetarLabel.Visible = false;
             // 
-            // getSelectBestRunwayButton
+            // selectBestRunwayButton
             // 
-            this.getSelectBestRunwayButton.Location = new System.Drawing.Point(415, 18);
-            this.getSelectBestRunwayButton.Name = "getSelectBestRunwayButton";
-            this.getSelectBestRunwayButton.Size = new System.Drawing.Size(114, 22);
-            this.getSelectBestRunwayButton.TabIndex = 8;
-            this.getSelectBestRunwayButton.Text = "Get EHAM runway(s)";
-            this.getSelectBestRunwayButton.UseVisualStyleBackColor = true;
-            this.getSelectBestRunwayButton.Click += new System.EventHandler(this.getSelectBestRunwayButton_Click);
+            this.selectBestRunwayButton.Location = new System.Drawing.Point(415, 18);
+            this.selectBestRunwayButton.Name = "selectBestRunwayButton";
+            this.selectBestRunwayButton.Size = new System.Drawing.Size(114, 22);
+            this.selectBestRunwayButton.TabIndex = 8;
+            this.selectBestRunwayButton.Text = "Get EHAM runway(s)";
+            this.selectBestRunwayButton.UseVisualStyleBackColor = true;
+            this.selectBestRunwayButton.Click += new System.EventHandler(this.getSelectBestRunwayButton_Click);
             // 
             // copyOutputCheckBox
             // 
@@ -965,7 +965,7 @@
             this.runwayInfoToolStripMenuItem.Name = "runwayInfoToolStripMenuItem";
             this.runwayInfoToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
             this.runwayInfoToolStripMenuItem.Text = "Runway Info";
-            this.runwayInfoToolStripMenuItem.Click += new System.EventHandler(this.runwayInfoToolStripMenuItem_Click);
+            this.runwayInfoToolStripMenuItem.Click += new System.EventHandler(this.RunwayToolStripMenuItem_Click);
             // 
             // soundToolStripMenuItem
             // 
@@ -1105,7 +1105,7 @@
             this.runwayInfoButton.TabIndex = 23;
             this.runwayInfoButton.Text = ">";
             this.runwayInfoButton.UseVisualStyleBackColor = true;
-            this.runwayInfoButton.Click += new System.EventHandler(this.runwayInfoButton_Click);
+            this.runwayInfoButton.Click += new System.EventHandler(this.RunwayButton_Click);
             // 
             // soundButton
             // 
@@ -1285,7 +1285,7 @@
         private System.Windows.Forms.CheckBox addWindRecordCheckBox;
         private System.Windows.Forms.ToolStripMenuItem amsterdamInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dutchVACCToolStripMenuItem;
-        private System.Windows.Forms.Button getSelectBestRunwayButton;
+        private System.Windows.Forms.Button selectBestRunwayButton;
         public System.Windows.Forms.ToolStripMenuItem terminalAerodromeForecastToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem runwayInfoToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;

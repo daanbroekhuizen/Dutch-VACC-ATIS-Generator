@@ -1,7 +1,8 @@
-﻿using DutchVACCATISGenerator.Forms;
+﻿using DutchVACCATISGenerator.Extensions;
+using DutchVACCATISGenerator.Forms;
 using DutchVACCATISGenerator.Helpers;
 using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types.Application;
+using DutchVACCATISGenerator.Types;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace DutchVACCATISGenerator
     {
         private readonly ApplicationVariables applicationVariables;
         private readonly IFormOpenerHelper formOpenerHelper;
+        private readonly IRunwayLogic runwayLogic;
         private readonly ISoundLogic soundLogic;
 
         private int atisIndex { get; set; }
@@ -33,8 +35,6 @@ namespace DutchVACCATISGenerator
         private MetarProcessor metarProcessor { get; set; }
         private List<String> phoneticAlphabet { get; set; }
         private Boolean randomLetter { get; set; }
-        private RunwayInfo runwayInfo { get; set; }
-        private Boolean runwayInfoState { get; set; }
         private DateTime timerEnabled { get; set; }
         private Boolean userLetterSelection { get; set; }
 
@@ -47,10 +47,12 @@ namespace DutchVACCATISGenerator
 
         public DutchVACCATISGenerator(ApplicationVariables applicationVariables,
             IFormOpenerHelper formOpenerHelper,
+            IRunwayLogic runwayLogic,
             ISoundLogic soundLogic)
         {
             this.applicationVariables = applicationVariables;
             this.formOpenerHelper = formOpenerHelper;
+            this.runwayLogic = runwayLogic;
             this.soundLogic = soundLogic;
 
             InitializeComponent();
@@ -66,7 +68,7 @@ namespace DutchVACCATISGenerator
             loadSettings();
 
             //Set initial states of boolean.
-            runwayInfoState = icaoTabSwitched = userLetterSelection = randomLetter = false;
+            icaoTabSwitched = userLetterSelection = randomLetter = false;
 
             //Set phonetic alphabet.
             setPhoneticAlphabet();
@@ -84,7 +86,7 @@ namespace DutchVACCATISGenerator
             if (Directory.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp"))
             {
                 //Check if setup.exe is still being used.
-                if (!IsFileLocked(new FileInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp" + "\\Dutch VACC ATIS Generator - Setup.exe")))
+                if (new FileInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp" + "\\Dutch VACC ATIS Generator - Setup.exe").IsLocked())
                 {
                     //Remove hidden attribute.
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp");
@@ -373,19 +375,18 @@ namespace DutchVACCATISGenerator
             generateATISButton.Enabled = true;
             runwayInfoButton.Enabled = runwayInfoToolStripMenuItem.Enabled = true;
 
-            //If runwayInfo is null, create RunwayInfo form.
-            if ((runwayInfo != null && runwayInfo.IsDisposed) || runwayInfo == null) runwayInfo = new RunwayInfo(this, metarProcessor.metar);
-            else
-            {
-                //Update runway info form.
-                runwayInfo.metar = metarProcessor.metar;
-                runwayInfo.setVisibleRunwayInfoDataGrid(ICAOTabControl.SelectedTab.Text);
-                runwayInfo.checkICAOTabSelected();
-            }
+            ApplicationEvents.METARProcessed(sender, e);
+
+            //Update METAR.
+            applicationVariables.METAR = metarProcessor.metar;
+
+            //Check if selected ICAO tab matches the ICAO of the processed applicationVariables.METAR.
+            if (!(applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport)))
+                MessageBox.Show($"Last processed METAR ICAO does not match the selected ICAO tab.\nRunway criteria will be calculated of the wrong METAR ({applicationVariables.METAR.ICAO})!", "Warning");
 
             //If processed METAR equals the selected ICAO.
-            if (runwayInfo.metar.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
-                getSelectBestRunwayButton.Enabled = true;
+            if (applicationVariables.METAR.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
+                selectBestRunwayButton.Enabled = true;
         }
 
         /// <summary>
@@ -1916,7 +1917,7 @@ namespace DutchVACCATISGenerator
             try
             {
                 generateATISButton.Enabled = false;
-                
+
                 soundLogic.Build(Properties.Settings.Default.atisfile);
             }
             catch (Exception ex)
@@ -1953,57 +1954,32 @@ namespace DutchVACCATISGenerator
             icaoTabSwitched = true;
 
             //Set ICAO of selected ICAO tab in ICAO text box.
-            #region EHAM
-            if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
-                icaoTextBox.Text = "EHAM";
-            #endregion
-
-            #region EHBK
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHBK"))
-                icaoTextBox.Text = "EHBK";
-            #endregion
-
-            #region EHEH
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHEH"))
-                icaoTextBox.Text = "EHEH";
-            #endregion
-
-            #region EHGG
-            else if (ICAOTabControl.SelectedTab.Name.Equals("EHGG"))
-                icaoTextBox.Text = "EHGG";
-            #endregion
-
-            #region EHRD
-            else
-                icaoTextBox.Text = "EHRD";
-            #endregion
+            icaoTextBox.Text = ICAOTabControl.SelectedTab.Name;
 
             #region SETTING OF THE GET SELECT BEST RUNWAY BUTTON
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
             {
                 //Set text of get select best runway button.
-                getSelectBestRunwayButton.Text = "Get EHAM runway(s)";
+                selectBestRunwayButton.Text = "Get EHAM runway(s)";
 
                 //Enable get select best runway button.
-                getSelectBestRunwayButton.Enabled = true;
+                selectBestRunwayButton.Enabled = true;
             }
             else
             {
                 //Set text of get select best runway button.
-                getSelectBestRunwayButton.Text = "Select best runway";
+                selectBestRunwayButton.Text = "Select best runway";
 
                 //If selected ICAO equals the ICAO of the last processed METAR, enable the get select best runway button.
-                if (runwayInfo != null && ICAOTabControl.SelectedTab.Name.Equals(runwayInfo.metar.ICAO))
-                    getSelectBestRunwayButton.Enabled = true;
+                if (applicationVariables.METAR.ICAO.Equals(ICAOTabControl.SelectedTab.Name))
+                    selectBestRunwayButton.Enabled = true;
                 //Else keep disable it.
                 else
-                    getSelectBestRunwayButton.Enabled = false;
+                    selectBestRunwayButton.Enabled = false;
             }
             #endregion
 
-            #region AUTO LOAD METAR
             metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
-            #endregion
 
             //Set phonetic alphabet.
             setPhoneticAlphabet();
@@ -2041,16 +2017,6 @@ namespace DutchVACCATISGenerator
         }
 
         /// <summary>
-        /// Method called of runway info button is clicked.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void runwayInfoButton_Click(object sender, EventArgs e)
-        {
-            setRunwayInfoForm();
-        }
-
-        /// <summary>
         /// Method called if DutchVACCATISGenerator form is resized (e.g. minimize, maximize, resize (duh!))
         /// </summary>
         /// <param name="sender">Object sender</param>
@@ -2060,14 +2026,7 @@ namespace DutchVACCATISGenerator
             //If form is restored to normal window state.
             if (WindowState == FormWindowState.Normal)
             {
-                //Show runwayInfo form.
-                if (runwayInfo != null && !runwayInfo.IsDisposed && runwayInfoState)
-                {
-                    runwayInfo.Visible = true;
-                    runwayInfo.BringToFront();
-                }
-
-                //Show sound form.
+                formOpenerHelper.Show<RunwayForm>();
                 formOpenerHelper.Show<SoundForm>();
 
                 this.Show();
@@ -2076,10 +2035,7 @@ namespace DutchVACCATISGenerator
             //If form is minimized.
             if (WindowState == FormWindowState.Minimized)
             {
-                //Hide runwayInfo form.
-                if (runwayInfo != null && !runwayInfo.IsDisposed) runwayInfo.Visible = false;
-
-                //Hide sound form.
+                formOpenerHelper.Hide<RunwayForm>();
                 formOpenerHelper.Hide<SoundForm>();
             }
         }
@@ -2215,7 +2171,7 @@ namespace DutchVACCATISGenerator
                 processMultipleRunways();
 
             //Re-enable get select best runway button.
-            getSelectBestRunwayButton.Enabled = true;
+            selectBestRunwayButton.Enabled = true;
 
             if (landingRunways.Count() > 0 || departureRunways.Count > 0)
                 MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
@@ -2226,7 +2182,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         private void processMultipleRunways()
         {
-#region LANDING RUNWAYS
+            #region LANDING RUNWAYS
             //If there are more than two landing runways.
             if (landingRunways.Count > 1)
             {
@@ -2299,9 +2255,9 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
-#endregion
+            #endregion
 
-#region DEPARTURE RUNWAYS
+            #region DEPARTURE RUNWAYS
             //If there are more than two departure runways found.
             if (departureRunways.Count > 1)
             {
@@ -2375,35 +2331,25 @@ namespace DutchVACCATISGenerator
                     }
                 }
             }
-#endregion
+            #endregion
         }
 
-        /// <summary>
-        /// Method called hen runway info tool strip menu item is clicked.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void runwayInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RunwayButton_Click(object sender, EventArgs e)
         {
-            setRunwayInfoForm();
+            SetRunwayInfoForm();
         }
 
-        /// <summary>
-        /// Method called hen sound tool strip menu item is clicked.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void SoundToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RunwayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetRunwayInfoForm();
+        }
+
+        private void SoundButton_Click(object sender, EventArgs e)
         {
             SetSoundForm();
         }
 
-        /// <summary>
-        /// Method called if sound button is clicked.
-        /// </summary>
-        /// <param name="sender">Object sender</param>
-        /// <param name="e">Event arguments</param>
-        private void SoundButton_Click(object sender, EventArgs e)
+        private void SoundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetSoundForm();
         }
@@ -2422,47 +2368,22 @@ namespace DutchVACCATISGenerator
         /// <summary>
         /// Sets all controls for opening and closing the runway info form.
         /// </summary>
-        private void setRunwayInfoForm()
+        private void SetRunwayInfoForm()
         {
-#region OPENING
-            //If runway info form doesn't exists OR isn't visible.
-            if (runwayInfo == null || !runwayInfo.Visible)
+            if (formOpenerHelper.IsOpen<RunwayForm>())
             {
-                runwayInfo = new RunwayInfo(this, metarProcessor.metar);
+                formOpenerHelper.CloseForm<RunwayForm>();
 
-                //Initialize new RunwayInfo form.
-                runwayInfoButton.Text = "<";
-
-                //Show runway info form.
-                runwayInfo.Show();
-
-                //Set runway info position relative to this.
-                runwayInfo.showRelativeToDutchVACCATISGenerator(this);
-
-                //Inverse runway info state boolean.
-                runwayInfoState = !runwayInfoState;
-
-                //Set runway info tool strip menu item back color to gradient active caption.
-                runwayInfoToolStripMenuItem.BackColor = SystemColors.GradientActiveCaption;
+                runwayInfoButton.Text = ">";
             }
-#endregion
-
-#region CLOSING
-            //If runway info is opened.
             else
             {
-                runwayInfoButton.Text = ">";
+                formOpenerHelper.ShowModelessForm<RunwayForm>();
 
-                //Hide runway info form.
-                runwayInfo.Visible = false;
-
-                //Inverse runway info state boolean.
-                runwayInfoState = !runwayInfoState;
-
-                //Set runway info tool strip menu item back color to control.
-                runwayInfoToolStripMenuItem.BackColor = SystemColors.Control;
+                runwayInfoButton.Text = "<";
             }
-#endregion
+
+            runwayInfoToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<RunwayForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
         }
 
         /// <summary>
@@ -2510,7 +2431,7 @@ namespace DutchVACCATISGenerator
             if (ICAOTabControl.SelectedTab.Name.Equals("EHAM"))
             {
                 //Disable get select best runway button;
-                getSelectBestRunwayButton.Enabled = false;
+                selectBestRunwayButton.Enabled = false;
 
                 //Start real runway background worker.
                 realRunwayBackgroundWorker.RunWorkerAsync();
@@ -2518,9 +2439,31 @@ namespace DutchVACCATISGenerator
             else
             {
                 //Get best runway for selected airport.
-                runwayInfo.ICAOBestRunway(ICAOTabControl.SelectedTab.Name);
+                SelectBestRunway();
 
                 MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
+            }
+        }
+        
+        private void SelectBestRunway()
+        {
+            switch (applicationVariables.SelectedAirport)
+            {
+                case "EHBK":
+                    EHBKmainRunwayComboBox.SelectedIndex = EHBKmainRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Beek));
+                    break;
+
+                case "EHRD":
+                    EHRDmainRunwayComboBox.SelectedIndex = EHRDmainRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Rotterdam));
+                    break;
+
+                case "EHGG":
+                    EHGGmainRunwayComboBox.SelectedIndex = EHGGmainRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Groningen));
+                    break;
+
+                case "EHEH":
+                    EHEHmainRunwayComboBox.SelectedIndex = EHEHmainRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Eindhoven));
+                    break;
             }
         }
 
@@ -2548,35 +2491,6 @@ namespace DutchVACCATISGenerator
             }
 
             terminalAerodromeForecastToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
-        }
-
-        /// <summary>
-        /// Check if file is in use by another process.
-        /// </summary>
-        /// <param name="file">File to check.</param>
-        /// <returns>Boolean indicating if file is in use by another process.</returns>
-        protected virtual bool IsFileLocked(FileInfo file)
-        {
-            FileStream stream = null;
-
-            //Try to open file using the FileStream.
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //File locked.
-                return true;
-            }
-            //Close FileStream.
-            finally
-            {
-                if (stream != null) stream.Close();
-            }
-
-            //File not locked.
-            return false;
         }
 
         /// <summary>
