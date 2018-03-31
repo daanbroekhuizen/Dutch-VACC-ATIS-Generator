@@ -268,7 +268,7 @@
             this.estimatedRwyFrictionLabel.TabIndex = 1;
             this.estimatedRwyFrictionLabel.Text = "Estimated runway friction:";
             // 
-            // runwayFrictionComboBox
+            // frictionComboBox
             // 
             this.frictionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.frictionComboBox.FormattingEnabled = true;
@@ -279,7 +279,7 @@
             "Medium to poor",
             "Poor"});
             this.frictionComboBox.Location = new System.Drawing.Point(214, 17);
-            this.frictionComboBox.Name = "runwayFrictionComboBox";
+            this.frictionComboBox.Name = "frictionComboBox";
             this.frictionComboBox.Size = new System.Drawing.Size(153, 21);
             this.frictionComboBox.TabIndex = 0;
             this.frictionComboBox.SelectedIndexChanged += new System.EventHandler(this.RunwayFrictionComboBox_SelectedIndexChanged);
@@ -377,7 +377,7 @@
             this.MinimizeBox = false;
             this.Name = "RunwayForm";
             this.ShowInTaskbar = false;
-            this.Text = "Runway Weather Criteria";
+            this.Text = "Runway criteria";
             this.Load += new System.EventHandler(this.Runway_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EHAMlandingRunwayInfoDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EHAMdepartureRunwayInfoDataGridView)).EndInit();

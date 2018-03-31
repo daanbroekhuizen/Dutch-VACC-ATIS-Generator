@@ -128,7 +128,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 145);
-            this.ControlBox = false;
             this.Controls.Add(this.playGroupBox);
             this.Controls.Add(this.buildGroupBox);
             this.Controls.Add(this.ATISFileGroupBox);
@@ -139,7 +138,7 @@
             this.Name = "SoundForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Sound Dialog";
+            this.Text = "Sound";
             this.Load += new System.EventHandler(this.Sound_Load);
             this.ATISFileGroupBox.ResumeLayout(false);
             this.ATISFileGroupBox.PerformLayout();
