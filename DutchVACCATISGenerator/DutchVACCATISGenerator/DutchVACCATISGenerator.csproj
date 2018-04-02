@@ -106,6 +106,7 @@
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,27 +119,30 @@
     <Compile Include="Forms\AutoUpdateForm.Designer.cs">
       <DependentUpon>AutoUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DutchVACCATISGenerator.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DutchVACCATISGenerator.Designer.cs">
-      <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\AITSLogic.cs" />
+    <Compile Include="Logic\FileLogic.cs" />
+    <Compile Include="Logic\METARLogic.cs" />
     <Compile Include="Logic\RunwayLogic.cs" />
+    <Compile Include="Logic\VersionLogic.cs" />
     <Compile Include="Types\Runways.cs" />
+    <Compile Include="Types\SchipholPlanningInterface.cs" />
     <Compile Include="Utilities\FlashingWindow.cs" />
     <Compile Include="Helpers\FormOpenerHelper.cs" />
     <Compile Include="Logic\AutoUpdateLogic.cs" />
     <Compile Include="Logic\SoundLogic.cs" />
     <Compile Include="Logic\TerminalAerodromeForecastLogic.cs" />
-    <Compile Include="Types\Metar\MetarBECMG.cs" />
-    <Compile Include="Types\Metar\Metar.cs" />
-    <Compile Include="Types\Metar\MetarCloud.cs" />
-    <Compile Include="Types\Metar\MetarPhenoma.cs" />
-    <Compile Include="Types\Metar\MetarProcessor.cs" />
-    <Compile Include="Types\Metar\MetarTEMPO.cs" />
-    <Compile Include="Types\Metar\MetarWind.cs" />
-    <Compile Include="Types\Metar\TrendType.cs" />
+    <Compile Include="Types\METAR\Trend.cs" />
+    <Compile Include="Types\METAR\METAR.cs" />
+    <Compile Include="Types\METAR\Cloud.cs" />
+    <Compile Include="Types\METAR\Phenoma.cs" />
+    <Compile Include="Types\METAR\Wind.cs" />
+    <Compile Include="Types\METAR\Type.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\RunwayForm.cs">
@@ -159,16 +163,16 @@
     <Compile Include="Forms\TerminalAerodromeForecastForm.Designer.cs">
       <DependentUpon>TerminalAerodromeForecastForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Types\Application\ApplicationEvents.cs" />
-    <Compile Include="Types\Application\ApplicationVariables.cs" />
+    <Compile Include="Types\ApplicationEvents.cs" />
+    <Compile Include="Types\ApplicationVariables.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AutoUpdateForm.resx">
       <DependentUpon>AutoUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DutchVACCATISGenerator.resx">
-      <DependentUpon>DutchVACCATISGenerator.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -56,6 +56,7 @@ namespace DutchVACCATISGenerator.Forms
             //Register application events.
             ApplicationEvents.BuildAITSCompletedEvent += BuildAITSCompleted;
             ApplicationEvents.BuildAITSStartedEvent += BuildAITSStarted;
+            ApplicationEvents.METARDownloadedEvent += METARDownloaded;
             ApplicationEvents.NewVersionEvent += NewVersion;
             ApplicationEvents.SchipholRunwaysEvent += SchipholRunways;
             ApplicationEvents.TerminalAerodromeForecastFormClosingEvent += TerminalAerodromeForecastFormClosing;
@@ -72,17 +73,15 @@ namespace DutchVACCATISGenerator.Forms
             //Check for new version.
             versionLogic.NewVersion();
 
-            //TODO fix
             //Load EHAM METAR.
-            //metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
+            DownloadMETAR();
 
             //Delete installer files.
             fileLogic.DeleteInstallerFiles(Assembly.GetExecutingAssembly().Location);
 
             //If auto load EHAM runways is selected.
-            //TODO Fix
-            //if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
-            //realRunwayBackgroundWorker.RunWorkerAsync();
+            if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
+                runwayLogic.SchipholRunways();
         }
 
         #region UI events
@@ -188,10 +187,8 @@ namespace DutchVACCATISGenerator.Forms
             //Disable the get METAR button so the user can't overload it.
             getMetarButton.Enabled = false;
 
-            //TODO fix
-            //Start METAR background worker to start pulling the METAR.
-            //if (!metarBackgroundWorker.IsBusy)
-            //    metarBackgroundWorker.RunWorkerAsync(icao);
+            //Get METAR.
+            METARLogic.Download(applicationVariables.SelectedAirport);
         }
 
         private void ICAOTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -218,12 +215,13 @@ namespace DutchVACCATISGenerator.Forms
                 //Set text of get select best runway button.
                 selectBestRunwayButton.Text = "Select best runway";
 
-                //If selected ICAO equals the ICAO of the last processed METAR, enable the get select best runway button.
-                selectBestRunwayButton.Enabled = applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport);
+                if (applicationVariables.METAR != null)
+                    //If selected ICAO equals the ICAO of the last processed METAR, enable the get select best runway button.
+                    selectBestRunwayButton.Enabled = applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport);
             }
 
-            //TODO fix getting METAR.
-            //metarBackgroundWorker.RunWorkerAsync(icaoTextBox.Text);
+            //Get METAR.
+            METARLogic.Download(applicationVariables.SelectedAirport);
 
             //Set phonetic alphabet.
             ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked || ehrdToolStripMenuItem.Checked);
@@ -245,8 +243,8 @@ namespace DutchVACCATISGenerator.Forms
 #endif
             {
                 //Update METAR.
-                //TODO call this an other way
-                //GetMetarButton_Click(null, null);
+                //TODO call this some other way
+                GetMetarButton_Click(null, null);
 
                 //Flash task bar.
                 if (this.Handle != GetForegroundWindow())
@@ -312,7 +310,7 @@ namespace DutchVACCATISGenerator.Forms
             }
 
             //Update METAR.
-            applicationVariables.METAR = new METAR(METARTextBox.Text.Trim()); 
+            applicationVariables.METAR = new METAR(METARTextBox.Text.Trim());
 
             //Calculate the transition level.
             try
@@ -585,7 +583,7 @@ namespace DutchVACCATISGenerator.Forms
                 fetchMETARTimer.Start();
 
                 //TODO call this some other way
-                //METARFetchTimer_Tick(null, null);
+                METARFetchTimer_Tick(null, null);
             }
             else
             {
@@ -671,6 +669,22 @@ namespace DutchVACCATISGenerator.Forms
             generateATISButton.Invoke(new Action(() => generateATISButton.Enabled = false));
         }
 
+        private void METARDownloaded(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() =>
+            {
+                //Set pulled METAR in the METAR text box.
+                METARTextBox.Text = applicationVariables.DownloadedMETAR;
+
+                //If auto process METAR check box is checked, automatically process the METAR.
+                if (!string.IsNullOrWhiteSpace(applicationVariables.DownloadedMETAR) && autoProcessMETARToolStripMenuItem.Checked)
+                    ProcessMETARButton_Click(null, null);
+
+                //Re-enable the get METAR button.
+                getMetarButton.Enabled = true;
+            }));
+        }
+
         private void NewVersion(object sender, EventArgs e)
         {
             if (MessageBox.Show("Newer version is available.\nDownload latest version?",
@@ -717,6 +731,21 @@ namespace DutchVACCATISGenerator.Forms
             terminalAerodromeForecastToolStripMenuItem.BackColor = SystemColors.Control;
         }
         #endregion
+
+        private void DownloadMETAR()
+        {
+            try
+            {
+                METARLogic.Download(applicationVariables.SelectedAirport);
+            }
+            catch
+            {
+                MessageBox.Show("Unable to get the METAR from the Internet.\nPlease provide a METAR.", "Error");
+
+                //Re-enable the get METAR button.
+                getMetarButton.Enabled = true;
+            }
+        }
 
         /// <summary>
         /// Loads all settings and sets menu strip items.

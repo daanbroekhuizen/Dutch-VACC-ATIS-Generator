@@ -7,6 +7,7 @@ namespace DutchVACCATISGenerator.Types
     {
         public int ATISIndex { get; set; }
         public List<string> ATISSamples { get; set; }
+        public string DownloadedMETAR { get; set; }
         public Rectangle MainFormBounds { get; set; }
         public METAR METAR { get; set; }
         public List<string> PhoneticAlphabet { get; set; }
