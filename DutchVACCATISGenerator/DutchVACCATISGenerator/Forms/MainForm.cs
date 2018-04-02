@@ -327,20 +327,7 @@ namespace DutchVACCATISGenerator.Forms
             //Clear output and METAR text box.
             outputTextBox.Clear();
             METARTextBox.Clear();
-
-            //TODO check code below
-            //Checks if ATIS index has to be increased.
-            //if (!(userLetterSelection | randomLetter | icaoTabSwitched | (lastLabel.Text == string.Empty)))
-            //{
-            //    if (applicationVariables.ATISIndex == phoneticAlphabet.Count - 1)
-            //        applicationVariables.ATISIndex = 0;
-            //    else
-            //        applicationVariables.ATISIndex++;
-            //}
-
-            //Set all letter booleans to false for next generation.
-            //randomLetter = userLetterSelection = icaoTabSwitched = false;
-
+     
             //Set processed METAR in last processed METAR label.
             if (applicationVariables.METAR.OriginalMETAR.Length > 140)
                 lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR.Substring(0, 69).Trim()}\n{applicationVariables.METAR.OriginalMETAR.Substring(69, 69).Trim()}...";
