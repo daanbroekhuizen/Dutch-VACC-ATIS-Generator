@@ -64,11 +64,8 @@ namespace DutchVACCATISGenerator.Forms
             //Load settings.
             LoadSettings();
 
-            //Set phonetic alphabet.
-            ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked || ehrdToolStripMenuItem.Checked);
-
             //Set ATIS index and label.
-            RandomizeATISLetter();
+            RandomizeATISLetter(true);
 
             //Check for new version.
             versionLogic.NewVersion();
@@ -224,7 +221,7 @@ namespace DutchVACCATISGenerator.Forms
             METARLogic.Download(applicationVariables.SelectedAirport);
 
             //Set phonetic alphabet.
-            ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked || ehrdToolStripMenuItem.Checked);
+            RandomizeATISLetter(true);
 
             //Set ATIS index and label.
             RandomizeATISLetter();
@@ -277,20 +274,24 @@ namespace DutchVACCATISGenerator.Forms
 
         private void NextATISLetterButton_Click(object sender, EventArgs e)
         {
-            applicationVariables.ATISIndex =
-                (applicationVariables.ATISIndex == applicationVariables.PhoneticAlphabet.Count - 1) ? 0 : applicationVariables.ATISIndex++;
+            if (applicationVariables.ATISIndex == applicationVariables.PhoneticAlphabet.Count - 1)
+                applicationVariables.ATISIndex = 0;
+            else
+                applicationVariables.ATISIndex++;
 
             //Set ATIS letter in ATIS letter label.
-            atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
+            SetATISLabel();
         }
 
         private void PreviousATISLetterButton_Click(object sender, EventArgs e)
         {
-            applicationVariables.ATISIndex =
-                (applicationVariables.ATISIndex == 0) ? applicationVariables.ATISIndex = applicationVariables.PhoneticAlphabet.Count - 1 : applicationVariables.ATISIndex--;
+            if (applicationVariables.ATISIndex == 0)
+                applicationVariables.ATISIndex = applicationVariables.PhoneticAlphabet.Count - 1;
+            else
+                applicationVariables.ATISIndex--;
 
             //Set ATIS letter in ATIS letter label.
-            atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
+            SetATISLabel();
         }
 
         private void ProcessMETARButton_Click(object sender, EventArgs e)
@@ -349,7 +350,7 @@ namespace DutchVACCATISGenerator.Forms
                 lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR}";
 
             //Set ATIS letter in ATIS letter label.
-            atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
+            SetATISLabel();
 
             //Enable generate ATIS and runway info button.
             generateATISButton.Enabled = true;
@@ -622,7 +623,10 @@ namespace DutchVACCATISGenerator.Forms
             Properties.Settings.Default.Save();
 
             //Set phonetic alphabet.
-            ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked || ehrdToolStripMenuItem.Checked);
+            RandomizeATISLetter(true);
+
+            //Set ATIS label.
+            SetATISLabel();
         }
 
         private void EHRDToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -634,7 +638,10 @@ namespace DutchVACCATISGenerator.Forms
             Properties.Settings.Default.Save();
 
             //Set phonetic alphabet.
-            ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked || ehrdToolStripMenuItem.Checked);
+            RandomizeATISLetter(true);
+
+            //Set ATIS label.
+            SetATISLabel();
         }
 
         private void PlaySoundWhenMETARIsFetchedToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -804,18 +811,11 @@ namespace DutchVACCATISGenerator.Forms
         /// <summary>
         /// Randomizes ATIS letter.
         /// </summary>
-        private void RandomizeATISLetter()
+        private void RandomizeATISLetter(bool reset = false)
         {
-            //Random ATIS letter.
-            if (randomLetterToolStripMenuItem.Checked)
-                applicationVariables.ATISIndex = new Random().Next(0, applicationVariables.PhoneticAlphabet.Count - 1);
+            ATISLogic.SetPhoneticAlphabet(ehamToolStripMenuItem.Checked, ehrdToolStripMenuItem.Checked, randomLetterToolStripMenuItem.Checked, reset);
 
-            //Set ATIS index to Z for first generation.
-            else
-                applicationVariables.ATISIndex = 0;
-
-            //Set ATIS label.
-            atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
+            SetATISLabel();
         }
 
         /// <summary>
@@ -936,6 +936,15 @@ namespace DutchVACCATISGenerator.Forms
                     EindhovenRunwayComboBox.SelectedIndex = EindhovenRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Eindhoven));
                     break;
             }
+        }
+
+        /// <summary>
+        /// Set ATIS label.
+        /// </summary>
+        private void SetATISLabel()
+        {
+            //Set ATIS letter in ATIS letter label.
+            atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
         }
 
         /// <summary>
