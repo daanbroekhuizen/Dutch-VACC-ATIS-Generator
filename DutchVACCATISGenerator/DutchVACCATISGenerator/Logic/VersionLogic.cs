@@ -43,30 +43,19 @@ namespace DutchVACCATISGenerator.Logic
 
         public async Task<string> LatestVersion()
         {
-            try
-            {
-                //Request latest version.
+            //Request latest version.
 #if DEBUG
-                var request = WebRequest.Create($"{baseURL}/Dutch VACC/Dutch VACC ATIS Generator/Version/version2.php");
+            var request = WebRequest.Create($"{baseURL}/Dutch VACC/Dutch VACC ATIS Generator/Version/version2.php");
 #else
                 var request = WebRequest.Create($"{baseURL}/Dutch VACC/Dutch VACC ATIS Generator/Version/version.php");
 #endif
-                var response = await request.GetResponseAsync();
+            var response = await request.GetResponseAsync();
 
-                //Read latest version.
-                var reader = new StreamReader(response.GetResponseStream());
+            //Read latest version.
+            var reader = new StreamReader(response.GetResponseStream());
 
-                //Trim latest version string.
-                return reader.ReadToEnd().Trim();
-            }
-            catch (WebException)
-            {
-                return string.Empty;
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
+            //Trim latest version string.
+            return reader.ReadToEnd().Trim();
         }
     }
 }
