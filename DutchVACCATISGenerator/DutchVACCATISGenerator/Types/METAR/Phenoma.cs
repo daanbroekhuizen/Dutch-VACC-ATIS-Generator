@@ -1,20 +1,15 @@
-﻿using System;
-
-namespace DutchVACCATISGenerator
+﻿namespace DutchVACCATISGenerator.Types
 {
-    /// <summary>
-    /// Represents the phenomena of a METAR as easy accessible fields.
-    /// </summary>
-    public class MetarPhenomena
+    public class Phenomena
     {
-        public Boolean hasIntensity { get; set; }
-        public String phenomena { get; set; }
+        public bool hasIntensity { get; set; }
+        public string phenomena { get; set; }
 
         /// <summary>
         /// Constructs a MetarPhenomena.
         /// </summary>
         /// <param name="phenoma">Phenomena observed.</param>
-        public MetarPhenomena(String phenoma)
+        public Phenomena(string phenoma)
         {
             this.phenomena = phenoma;
         }
@@ -24,7 +19,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="hasIntensity">Indicates if the phenomena has a intensity indicator.</param>
         /// <param name="phenomena">Phenomena observed.</param>
-        public MetarPhenomena(Boolean hasIntensity, String phenomena)
+        public Phenomena(bool hasIntensity, string phenomena)
         {
             this.hasIntensity = hasIntensity;
             this.phenomena = phenomena;

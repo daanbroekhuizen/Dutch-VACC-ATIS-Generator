@@ -1,26 +1,21 @@
-﻿using System;
-
-namespace DutchVACCATISGenerator
+﻿namespace DutchVACCATISGenerator.Types
 {
-    /// <summary>
-    /// Represents the wind of a METAR as easy accessible fields.
-    /// </summary>
-    public class MetarWind
+    public class Wind
     {
-        public Boolean VRB { get; set; }
-        public String windHeading { get; set; }
-        public String windKnots { get; set; }
-        public String windGustMin { get; set; }
-        public String windGustMax { get; set; }
-        public String windVariableLeft { get; set; }
-        public String windVariableRight { get; set; }
+        public bool VRB { get; set; }
+        public string windHeading { get; set; }
+        public string windKnots { get; set; }
+        public string windGustMin { get; set; }
+        public string windGustMax { get; set; }
+        public string windVariableLeft { get; set; }
+        public string windVariableRight { get; set; }
 
         /// <summary>
         /// Constructs a MetarWind with a variable wind and wind strength.
         /// </summary>
         /// <param name="VRB">Indicates that the wind is variable.</param>
         /// <param name="windKnots">Wind strength (knots).</param>
-        public MetarWind(Boolean VRB, String windKnots)
+        public Wind(bool VRB, string windKnots)
         {
             this.VRB = VRB;
             this.windKnots = windKnots;
@@ -31,7 +26,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="windHeading">Heading of the wind.</param>
         /// <param name="windKnots">Wind strength (knots).</param>
-        public MetarWind(String windHeading, String windKnots)
+        public Wind(string windHeading, string windKnots)
         {
             this.windHeading = windHeading;
             this.windKnots = windKnots;
@@ -43,7 +38,7 @@ namespace DutchVACCATISGenerator
         /// <param name="windHeading">Heading of the wind.</param>
         /// <param name="windGustMin">Minimal speed of the wind (knots).</param>
         /// <param name="windGustMax">Maximum speed of the wind (knots).</param>
-        public MetarWind(String windHeading, String windGustMin, String windGustMax)
+        public Wind(string windHeading, string windGustMin, string windGustMax)
         {
             this.windHeading = windHeading;
             this.windGustMin = windGustMin;

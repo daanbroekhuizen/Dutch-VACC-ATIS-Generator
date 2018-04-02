@@ -1,13 +1,8 @@
-﻿using System;
-
-namespace DutchVACCATISGenerator
+﻿namespace DutchVACCATISGenerator.Types
 {
-    /// <summary>
-    /// Represents the cloud of a METAR as easy accessible fields.
-    /// </summary>
-    public class MetarCloud
+    public class Cloud
     {
-        public String cloudType { get; set; }
+        public string cloudType { get; set; }
         public int altitude { get; set; }
         public string addition { get; set; }
 
@@ -16,7 +11,7 @@ namespace DutchVACCATISGenerator
         /// </summary>
         /// <param name="cloudType">Type of the cloud.</param>
         /// <param name="altitude">Altitude of the cloud.</param>
-        public MetarCloud(String cloudType, int altitude)
+        public Cloud(string cloudType, int altitude)
         {
             this.cloudType = cloudType;
             this.altitude = altitude;
@@ -28,7 +23,7 @@ namespace DutchVACCATISGenerator
         /// <param name="cloudType">Type of the cloud.</param>
         /// <param name="altitude">Altitude of the cloud.</param>
         /// <param name="addition">Addition of the cloud.</param>
-        public MetarCloud(String cloudType, int altitude, string addition)
+        public Cloud(string cloudType, int altitude, string addition)
         {
             this.cloudType = cloudType;
             this.altitude = altitude;
