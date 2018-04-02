@@ -1,9 +1,10 @@
 ﻿namespace DutchVACCATISGenerator.Types
 {
-    public enum Type
+    public enum Part
     {
-        FULL,
+        BASE,
         BECMG,
+        MILITARY,
         TEMPO
     }
 }
