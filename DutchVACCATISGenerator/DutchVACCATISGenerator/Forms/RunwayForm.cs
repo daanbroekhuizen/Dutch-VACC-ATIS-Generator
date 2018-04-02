@@ -120,7 +120,7 @@ namespace DutchVACCATISGenerator.Forms
                     break;
 
                 case "EHGG":
-                    SetDataGrid(Runways.Groningen);
+                    SetDataGrid(Runways.Eelde);
                     break;
 
                 case "EHEH":
