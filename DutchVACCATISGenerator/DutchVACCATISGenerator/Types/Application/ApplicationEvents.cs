@@ -13,6 +13,7 @@ namespace DutchVACCATISGenerator.Types
         public static event DownloadProgressChangedEventHandler DownloadProgressChangedEvent;
         public static event EventHandler MainFormMovedEvent;
         public static event EventHandler METARProcessedEvent;
+        public static event EventHandler NewVersionEvent;
         public static event EventHandler PlaybackStoppedEvent;
         public static event EventHandler SelectedAirportChangedEvent;
         public static event FormClosingEventHandler TerminalAerodromeForecastFormClosingEvent;
@@ -45,6 +46,11 @@ namespace DutchVACCATISGenerator.Types
         internal static void METARProcessed(object sender, EventArgs e)
         {
             METARProcessedEvent?.Invoke(sender, e);
+        }
+        
+        internal static void NewVersion()
+        {
+            NewVersionEvent?.Invoke(null, null);
         }
 
         internal static void PlaybackStopped(object sender, EventArgs e)
