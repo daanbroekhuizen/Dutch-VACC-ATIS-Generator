@@ -20,11 +20,14 @@ namespace DutchVACCATISGenerator.Forms
             InitializeComponent();
         }
 
+        #region UI events
         private void TerminalAerodromeForecastForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ApplicationEvents.TerminalAerodromeForecastFormClosing(sender, e);
         }
+        #endregion
 
+        #region Application events
         private void TerminalAerodromeForecastBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             try
@@ -51,6 +54,7 @@ namespace DutchVACCATISGenerator.Forms
                 MessageBox.Show("Unable to load TAF from the Internet.", "Error");
             }
         }
+        #endregion
 
         private void SelectedAirportChanged(object sender, EventArgs e)
         {

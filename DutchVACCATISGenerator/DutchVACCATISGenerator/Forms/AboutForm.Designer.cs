@@ -29,25 +29,25 @@
         private void InitializeComponent()
         {
             this.contentGroupBox = new System.Windows.Forms.GroupBox();
-            this.ApplicationVersionLabel = new System.Windows.Forms.Label();
-            this.VersionLabel = new System.Windows.Forms.Label();
-            this.DutchVACCLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.CreditLabel2 = new System.Windows.Forms.Label();
-            this.CreditLabel1 = new System.Windows.Forms.Label();
-            this.DescriptionLabel = new System.Windows.Forms.Label();
-            this.TitleLabel = new System.Windows.Forms.Label();
+            this.applicationVersionLabel = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.dutchVACCLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.creditLabel2 = new System.Windows.Forms.Label();
+            this.creditLabel1 = new System.Windows.Forms.Label();
+            this.descriptionLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.contentGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // contentGroupBox
             // 
-            this.contentGroupBox.Controls.Add(this.ApplicationVersionLabel);
-            this.contentGroupBox.Controls.Add(this.VersionLabel);
-            this.contentGroupBox.Controls.Add(this.DutchVACCLinkLabel);
-            this.contentGroupBox.Controls.Add(this.CreditLabel2);
-            this.contentGroupBox.Controls.Add(this.CreditLabel1);
-            this.contentGroupBox.Controls.Add(this.DescriptionLabel);
-            this.contentGroupBox.Controls.Add(this.TitleLabel);
+            this.contentGroupBox.Controls.Add(this.applicationVersionLabel);
+            this.contentGroupBox.Controls.Add(this.versionLabel);
+            this.contentGroupBox.Controls.Add(this.dutchVACCLinkLabel);
+            this.contentGroupBox.Controls.Add(this.creditLabel2);
+            this.contentGroupBox.Controls.Add(this.creditLabel1);
+            this.contentGroupBox.Controls.Add(this.descriptionLabel);
+            this.contentGroupBox.Controls.Add(this.titleLabel);
             this.contentGroupBox.Location = new System.Drawing.Point(12, 6);
             this.contentGroupBox.Name = "contentGroupBox";
             this.contentGroupBox.Size = new System.Drawing.Size(207, 133);
@@ -56,72 +56,72 @@
             // 
             // ApplicationVersionLabel
             // 
-            this.ApplicationVersionLabel.AutoSize = true;
-            this.ApplicationVersionLabel.Location = new System.Drawing.Point(93, 65);
-            this.ApplicationVersionLabel.Name = "ApplicationVersionLabel";
-            this.ApplicationVersionLabel.Size = new System.Drawing.Size(64, 13);
-            this.ApplicationVersionLabel.TabIndex = 6;
-            this.ApplicationVersionLabel.Text = "placeHolder";
+            this.applicationVersionLabel.AutoSize = true;
+            this.applicationVersionLabel.Location = new System.Drawing.Point(93, 65);
+            this.applicationVersionLabel.Name = "ApplicationVersionLabel";
+            this.applicationVersionLabel.Size = new System.Drawing.Size(64, 13);
+            this.applicationVersionLabel.TabIndex = 6;
+            this.applicationVersionLabel.Text = "placeHolder";
             // 
             // VersionLabel
             // 
-            this.VersionLabel.AutoSize = true;
-            this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VersionLabel.Location = new System.Drawing.Point(44, 65);
-            this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(53, 13);
-            this.VersionLabel.TabIndex = 5;
-            this.VersionLabel.Text = "Version:";
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.Location = new System.Drawing.Point(44, 65);
+            this.versionLabel.Name = "VersionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(53, 13);
+            this.versionLabel.TabIndex = 5;
+            this.versionLabel.Text = "Version:";
             // 
             // DutchVACCLinkLabel
             // 
-            this.DutchVACCLinkLabel.AutoSize = true;
-            this.DutchVACCLinkLabel.Location = new System.Drawing.Point(36, 110);
-            this.DutchVACCLinkLabel.Name = "DutchVACCLinkLabel";
-            this.DutchVACCLinkLabel.Size = new System.Drawing.Size(132, 13);
-            this.DutchVACCLinkLabel.TabIndex = 4;
-            this.DutchVACCLinkLabel.TabStop = true;
-            this.DutchVACCLinkLabel.Text = "http://www.dutchvacc.nl/";
-            this.DutchVACCLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DutchVACCLinkLabel_LinkClicked);
+            this.dutchVACCLinkLabel.AutoSize = true;
+            this.dutchVACCLinkLabel.Location = new System.Drawing.Point(36, 110);
+            this.dutchVACCLinkLabel.Name = "DutchVACCLinkLabel";
+            this.dutchVACCLinkLabel.Size = new System.Drawing.Size(132, 13);
+            this.dutchVACCLinkLabel.TabIndex = 4;
+            this.dutchVACCLinkLabel.TabStop = true;
+            this.dutchVACCLinkLabel.Text = "http://www.dutchvacc.nl/";
+            this.dutchVACCLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DutchVACCLinkLabel_LinkClicked);
             // 
             // CreditLabel2
             // 
-            this.CreditLabel2.AutoSize = true;
-            this.CreditLabel2.Location = new System.Drawing.Point(25, 97);
-            this.CreditLabel2.Name = "CreditLabel2";
-            this.CreditLabel2.Size = new System.Drawing.Size(156, 13);
-            this.CreditLabel2.TabIndex = 3;
-            this.CreditLabel2.Text = "Sounds by Robert van der Leije";
+            this.creditLabel2.AutoSize = true;
+            this.creditLabel2.Location = new System.Drawing.Point(25, 97);
+            this.creditLabel2.Name = "CreditLabel2";
+            this.creditLabel2.Size = new System.Drawing.Size(156, 13);
+            this.creditLabel2.TabIndex = 3;
+            this.creditLabel2.Text = "Sounds by Robert van der Leije";
             // 
             // CreditLabel1
             // 
-            this.CreditLabel1.AutoSize = true;
-            this.CreditLabel1.Location = new System.Drawing.Point(28, 84);
-            this.CreditLabel1.Name = "CreditLabel1";
-            this.CreditLabel1.Size = new System.Drawing.Size(149, 13);
-            this.CreditLabel1.TabIndex = 2;
-            this.CreditLabel1.Text = "Created by Daan Broekhuizen";
+            this.creditLabel1.AutoSize = true;
+            this.creditLabel1.Location = new System.Drawing.Point(28, 84);
+            this.creditLabel1.Name = "CreditLabel1";
+            this.creditLabel1.Size = new System.Drawing.Size(149, 13);
+            this.creditLabel1.TabIndex = 2;
+            this.creditLabel1.Text = "Created by Daan Broekhuizen";
             // 
             // DescriptionLabel
             // 
-            this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(8, 33);
-            this.DescriptionLabel.Name = "DescriptionLabel";
-            this.DescriptionLabel.Size = new System.Drawing.Size(189, 26);
-            this.DescriptionLabel.TabIndex = 1;
-            this.DescriptionLabel.Text = "Utility to generate a text ouput used to \r\nsetup a voice ATIS in EuroScope.";
-            this.DescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.descriptionLabel.AutoSize = true;
+            this.descriptionLabel.Location = new System.Drawing.Point(8, 33);
+            this.descriptionLabel.Name = "DescriptionLabel";
+            this.descriptionLabel.Size = new System.Drawing.Size(189, 26);
+            this.descriptionLabel.TabIndex = 1;
+            this.descriptionLabel.Text = "Utility to generate a text ouput used to \r\nsetup a voice ATIS in EuroScope.";
+            this.descriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TitleLabel
             // 
-            this.TitleLabel.AutoSize = true;
-            this.TitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleLabel.Location = new System.Drawing.Point(19, 16);
-            this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(169, 13);
-            this.TitleLabel.TabIndex = 0;
-            this.TitleLabel.Text = "Dutch VACC ATIS Generator";
-            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.Location = new System.Drawing.Point(19, 16);
+            this.titleLabel.Name = "TitleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(169, 13);
+            this.titleLabel.TabIndex = 0;
+            this.titleLabel.Text = "Dutch VACC ATIS Generator";
+            this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // About
             // 
@@ -146,12 +146,12 @@
         #endregion
 
         private System.Windows.Forms.GroupBox contentGroupBox;
-        private System.Windows.Forms.Label TitleLabel;
-        private System.Windows.Forms.LinkLabel DutchVACCLinkLabel;
-        private System.Windows.Forms.Label CreditLabel2;
-        private System.Windows.Forms.Label CreditLabel1;
-        private System.Windows.Forms.Label DescriptionLabel;
-        private System.Windows.Forms.Label VersionLabel;
-        private System.Windows.Forms.Label ApplicationVersionLabel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.LinkLabel dutchVACCLinkLabel;
+        private System.Windows.Forms.Label creditLabel2;
+        private System.Windows.Forms.Label creditLabel1;
+        private System.Windows.Forms.Label descriptionLabel;
+        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label applicationVersionLabel;
     }
 }
