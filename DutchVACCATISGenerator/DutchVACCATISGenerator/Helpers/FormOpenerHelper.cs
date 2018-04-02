@@ -60,12 +60,12 @@ namespace DutchVACCATISGenerator.Helpers
     public class FormOpenerHelper : IFormOpenerHelper
     {
         private readonly Container container;
-        private readonly Dictionary<Type, Form> openedForms;
+        private readonly Dictionary<System.Type, Form> openedForms;
 
         public FormOpenerHelper(Container container)
         {
             this.container = container;
-            openedForms = new Dictionary<Type, Form>();
+            openedForms = new Dictionary<System.Type, Form>();
         }
 
         public void ShowModelessForm<TForm>() where TForm : Form

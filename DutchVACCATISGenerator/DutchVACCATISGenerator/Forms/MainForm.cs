@@ -24,7 +24,6 @@ namespace DutchVACCATISGenerator.Forms
         private readonly ISoundLogic soundLogic;
 
         private DateTime fetchMETARTime;
-        private MetarProcessor metarProcessor;
 
         /// <summary>
         /// Retrieves a handle to the foreground window (the window with which the user is currently working).
@@ -116,9 +115,8 @@ namespace DutchVACCATISGenerator.Forms
 
         private void GenerateATISButton_Click(object sender, EventArgs e)
         {
-            //TODO metar should not come from processor class. Use METAR class instead.
             //If the ICAO code of the processed METAR doesn't equals the ICAO of the selected ICAO tab.
-            if (!metarProcessor.metar.ICAO.Equals(applicationVariables.SelectedAirport))
+            if (!applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport))
             {
                 //Show warning message.
                 MessageBox.Show("Selected ICAO tab does not match the ICAO of the processed METAR.", "Error");
@@ -130,7 +128,7 @@ namespace DutchVACCATISGenerator.Forms
                 return;
 
             //Generate output.
-            string output = ATISLogic.GenerateOutput(metarProcessor);
+            string output = ATISLogic.GenerateOutput(applicationVariables.METAR);
 
             //If copy output check box is checked, copy ATIS output to clipboard.
             if (copyOutputCheckBox.Checked)
@@ -313,17 +311,13 @@ namespace DutchVACCATISGenerator.Forms
                 return;
             }
 
-            //TODO this should be set in the METAR class.
-            //TODO change METAR code.
-            //Set METAR.
-            string METAR = METARTextBox.Text.Trim();
-
-            metarProcessor = METARLogic.SplitMetar(METAR);
+            //Update METAR.
+            applicationVariables.METAR = new METAR(METARTextBox.Text.Trim()); 
 
             //Calculate the transition level.
             try
             {
-                tlOutLabel.Text = METARLogic.CalculateTransitionLevel(metarProcessor.metar.Temperature, metarProcessor.metar.QNH).ToString();
+                tlOutLabel.Text = METARLogic.CalculateTransitionLevel(applicationVariables.METAR.Temperature, applicationVariables.METAR.QNH).ToString();
             }
             catch (Exception)
             {
@@ -349,12 +343,12 @@ namespace DutchVACCATISGenerator.Forms
             //randomLetter = userLetterSelection = icaoTabSwitched = false;
 
             //Set processed METAR in last processed METAR label.
-            if (METAR.Length > 140)
-                lastLabel.Text = $"Last successful processed METAR:\n{METAR.Substring(0, 69).Trim()}\n{METAR.Substring(69, 69).Trim()}...";
-            else if (METAR.Length > 69)
-                lastLabel.Text = $"Last successful processed METAR:\n{METAR.Substring(0, 69).Trim()}\n{METAR.Substring(69).Trim()}";
+            if (applicationVariables.METAR.OriginalMETAR.Length > 140)
+                lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR.Substring(0, 69).Trim()}\n{applicationVariables.METAR.OriginalMETAR.Substring(69, 69).Trim()}...";
+            else if (applicationVariables.METAR.OriginalMETAR.Length > 69)
+                lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR.Substring(0, 69).Trim()}\n{applicationVariables.METAR.OriginalMETAR.Substring(69).Trim()}";
             else
-                lastLabel.Text = $"Last successful processed METAR:\n{METAR}";
+                lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR}";
 
             //Set ATIS letter in ATIS letter label.
             atisLetterLabel.Text = applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex];
@@ -367,9 +361,6 @@ namespace DutchVACCATISGenerator.Forms
             //Trigger METAR processed event.
             ApplicationEvents.METARProcessed(sender, e);
 
-            //Update METAR.
-            //TODO this should be set in the METAR class.
-            applicationVariables.METAR = metarProcessor.metar;
 
             //Check if selected ICAO tab matches the ICAO of the processed applicationVariables.METAR.
             if (!(applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport)))
