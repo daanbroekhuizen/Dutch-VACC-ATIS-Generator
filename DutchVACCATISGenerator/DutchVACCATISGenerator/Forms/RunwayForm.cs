@@ -30,6 +30,19 @@ namespace DutchVACCATISGenerator.Forms
             frictionComboBox.SelectedIndex = 0;
         }
 
+        #region UI events
+        private void Runway_Load(object sender, EventArgs e)
+        {
+            this.SetRelativeRight(this.applicationVariables.MainFormBounds);
+        }
+
+        private void RunwayFrictionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetDataGrid();
+        }
+        #endregion
+
+        #region Application events
         private void MainFormMoved(object sender, EventArgs e)
         {
             this.SetRelativeRight(this.applicationVariables.MainFormBounds);
@@ -40,16 +53,7 @@ namespace DutchVACCATISGenerator.Forms
             this.SetVisibleDataGrid(this.applicationVariables.SelectedAirport);
             this.SetDataGrid();
         }
-
-        private void Runway_Load(object sender, EventArgs e)
-        {
-            this.SetRelativeRight(this.applicationVariables.MainFormBounds);
-        }
-
-        private void RunwayFrictionComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetDataGrid();
-        }
+        #endregion
 
         /// <summary>
         /// Sets runway info data grid to be visible depending on the selected ICAO tab.
@@ -60,12 +64,12 @@ namespace DutchVACCATISGenerator.Forms
             switch (airport)
             {
                 case "EHAM":
-                    EHAMdepartureRunwayInfoDataGridView.Visible =
-                        EHAMlandingRunwayInfoDataGridView.Visible =
-                        EHAMdepartureRunwaysGroupBox.Visible =
-                        EHAMLandingRunwaysGroupBox.Visible = true;
+                    schipholDepartureDataGridView.Visible =
+                        schipholLandingDataGridView.Visible =
+                        schipholDepartureRunwaysGroupBox.Visible =
+                        schipholLandingRunwaysGroupBox.Visible = true;
 
-                    runwayInfoDataGridView.Visible = false;
+                    dataGridView.Visible = false;
 
                     //Set the form size to 414 by 645.
                     this.Size = new Size(414, 645);
@@ -75,12 +79,12 @@ namespace DutchVACCATISGenerator.Forms
                 case "EHEH":
                 case "EHGG":
                 case "EHRD":
-                    EHAMdepartureRunwayInfoDataGridView.Visible =
-                        EHAMlandingRunwayInfoDataGridView.Visible =
-                        EHAMdepartureRunwaysGroupBox.Visible =
-                        EHAMLandingRunwaysGroupBox.Visible = false;
+                    schipholDepartureDataGridView.Visible =
+                        schipholLandingDataGridView.Visible =
+                        schipholDepartureRunwaysGroupBox.Visible =
+                        schipholLandingRunwaysGroupBox.Visible = false;
 
-                    runwayInfoDataGridView.Visible = true;
+                    dataGridView.Visible = true;
 
                     //Set the form size to 414 by 373.
                     this.Size = new Size(414, 373);
@@ -130,15 +134,15 @@ namespace DutchVACCATISGenerator.Forms
         /// </summary>
         private void SetSchipholDataGrids()
         {
-            EHAMlandingRunwayInfoDataGridView.Rows.Clear();
+            schipholLandingDataGridView.Rows.Clear();
 
             foreach (var pair in Runways.SchipholLanding)
-                EHAMlandingRunwayInfoDataGridView.Rows.Add(GetDataRow(EHAMlandingRunwayInfoDataGridView, pair));
+                schipholLandingDataGridView.Rows.Add(GetDataRow(schipholLandingDataGridView, pair));
 
-            EHAMdepartureRunwayInfoDataGridView.Rows.Clear();
+            schipholDepartureDataGridView.Rows.Clear();
 
             foreach (var pair in Runways.SchipholLanding)
-                EHAMdepartureRunwayInfoDataGridView.Rows.Add(GetDataRow(EHAMdepartureRunwayInfoDataGridView, pair));
+                schipholDepartureDataGridView.Rows.Add(GetDataRow(schipholDepartureDataGridView, pair));
 
             AddToolTip();
         }
@@ -149,18 +153,42 @@ namespace DutchVACCATISGenerator.Forms
         /// <param name="runways">Runways</param>
         private void SetDataGrid(Dictionary<string, Tuple<int, int, string>> runways)
         {
-            runwayInfoDataGridView.Rows.Clear();
+            dataGridView.Rows.Clear();
 
             foreach (var pair in runways)
-                runwayInfoDataGridView.Rows.Add(GetDataRow(runwayInfoDataGridView, pair));
+                dataGridView.Rows.Add(GetDataRow(dataGridView, pair));
         }
 
         /// <summary>
-        /// TODO
+        /// Get a data row for KeyValuePair<string, Tuple<int, int, string>> runway.
         /// </summary>
-        /// <param name="dataGridView"></param>
-        /// <param name="runway"></param>
-        /// <returns></returns>
+        /// <param name="dataGridView">Data grid view to add row to</param>
+        /// <param name="runway">Runway KeyValuePair</param>
+        /// <returns>DataGridViewRow to add data grid</returns>
+        private DataGridViewRow GetDataRow(DataGridView dataGridView, KeyValuePair<string, Tuple<int, int, string>> runway)
+        {
+            var row = new DataGridViewRow();
+
+            row.CreateCells(dataGridView);
+
+            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1);
+            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2);
+
+            row.Cells[0].Value = runway.Key;
+            row.Cells[1].Value = crosswindComponent;
+            row.Cells[2].Value = tailwindComponent * -1; //Q&D
+            row.Cells[3].Value = runway.Value.Item3;
+            row.Cells[4].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, runway.Key, crosswindComponent, tailwindComponent);
+
+            return row;
+        }
+
+        /// <summary>
+        /// Get a data row for KeyValuePair<string, Tuple<int, int, string, string>> runway.
+        /// </summary>
+        /// <param name="dataGridView">Data grid view to add row to</param>
+        /// <param name="runway">Runway KeyValuePair</param>
+        /// <returns>DataGridViewRow to add data grid</returns>
         private DataGridViewRow GetDataRow(DataGridView dataGridView, KeyValuePair<string, Tuple<int, int, string, string>> runway)
         {
             var row = new DataGridViewRow();
@@ -181,36 +209,12 @@ namespace DutchVACCATISGenerator.Forms
         }
 
         /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="dataGridView"></param>
-        /// <param name="runway"></param>
-        /// <returns></returns>
-        private DataGridViewRow GetDataRow(DataGridView dataGridView, KeyValuePair<string, Tuple<int, int, string>> runway)
-        {
-            var row = new DataGridViewRow();
-
-            row.CreateCells(dataGridView);
-
-            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1);
-            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2);
-
-            row.Cells[0].Value = runway.Key;
-            row.Cells[1].Value = crosswindComponent;
-            row.Cells[2].Value = tailwindComponent * -1; //Q&D
-            row.Cells[3].Value = runway.Value.Item3;
-            row.Cells[4].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, runway.Key, crosswindComponent, tailwindComponent);
-
-            return row;
-        }
-
-        /// <summary>
         /// Adds a tool tip to the EHAM runway info grids if the value of a cell is --.
         /// </summary>
         private void AddToolTip()
         {
             //Add tool tip to EHAM landing- runway info DataGridView.
-            foreach (DataGridViewRow row in EHAMlandingRunwayInfoDataGridView.Rows)
+            foreach (DataGridViewRow row in schipholLandingDataGridView.Rows)
             {
                 if (row.Cells[3].FormattedValue.Equals("--"))
                     row.Cells[3].ToolTipText = "-- = Not allowed during night hours.";
@@ -220,7 +224,7 @@ namespace DutchVACCATISGenerator.Forms
             }
 
             //Add tool tip to EHAM departure runway info DataGridView.
-            foreach (DataGridViewRow row in EHAMdepartureRunwayInfoDataGridView.Rows)
+            foreach (DataGridViewRow row in schipholDepartureDataGridView.Rows)
             {
                 if (row.Cells[3].FormattedValue.Equals("--"))
                     row.Cells[3].ToolTipText = "-- = Not allowed during night hours.";
