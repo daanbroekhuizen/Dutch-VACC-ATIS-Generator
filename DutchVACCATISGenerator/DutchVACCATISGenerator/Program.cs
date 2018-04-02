@@ -1,4 +1,5 @@
 ﻿using DutchVACCATISGenerator.Extensions;
+using DutchVACCATISGenerator.Forms;
 using SimpleInjector;
 using System;
 using System.Threading;
@@ -21,7 +22,7 @@ namespace DutchVACCATISGenerator
 
             Application.ThreadException += new ThreadExceptionEventHandler(ThreadExceptionEventHandler);
 
-            Application.Run(container.GetInstance<DutchVACCATISGenerator>());
+            Application.Run(container.GetInstance<MainForm>());
         }
 
         private static void ThreadExceptionEventHandler(object sender, ThreadExceptionEventArgs e)

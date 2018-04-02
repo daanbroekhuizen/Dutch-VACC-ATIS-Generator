@@ -1,7 +1,11 @@
 ﻿using DutchVACCATISGenerator.Types;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace DutchVACCATISGenerator.Logic
 {
@@ -36,11 +40,15 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="tailwind">Runway tail wind component</param>
         /// <returns>Indication if the a runway complies with the weather criteria for that runway</returns>
         string RunwayComplies(int frictionIndex, string runway, int crosswind, int tailwind);
+
+        Task SchipholRunways();
     }
 
     public class RunwayLogic : IRunwayLogic
     {
         private readonly ApplicationVariables applicationVariables;
+
+        private const string schipholPlanningInterfaceURL = "https://spi.dutchvacc.nl/api_atisgenerator.php?action=retrieve_lvnlrunways";
 
         public RunwayLogic(ApplicationVariables applicationVariables)
         {
@@ -150,6 +158,13 @@ namespace DutchVACCATISGenerator.Logic
             }
         }
 
+        public async Task SchipholRunways()
+        {
+            applicationVariables.SchipholPlanningInterfaceData = await GetSchipholPlanningInterfaceData();
+
+            ApplicationEvents.SchipholRunways();
+        }
+
         /// <summary>
         /// Checks if the wind on a runway complies with the wind criteria for that runway.
         /// </summary>
@@ -218,6 +233,29 @@ namespace DutchVACCATISGenerator.Logic
         private double DegreeToRadian(int degree)
         {
             return degree * (Math.PI / 180);
+        }
+
+        /// <summary>
+        /// Gets data from Schiphol Planning Interface website.
+        /// </summary>
+        /// <returns>SchipholPlanningInterfaceData object representing the Schiphol landing and departure runways</returns>
+        private async Task<SchipholPlanningInterfaceData> GetSchipholPlanningInterfaceData()
+        {
+            var request = WebRequest.Create(schipholPlanningInterfaceURL);
+
+            var response = await request.GetResponseAsync();
+
+            var reader = new StreamReader(response.GetResponseStream());
+
+            var json = reader.ReadToEnd().Trim();
+
+            var data = JsonConvert.DeserializeObject<List<SchipholPlanningInterface>>(json);
+
+            return new SchipholPlanningInterfaceData
+            {
+                DepartureRunways = data.Single().Start.Split(',').Select(s => s.Trim()).ToList(),
+                LandingRunways = data.Single().Landing.Split(',').Select(s => s.Trim()).ToList(),
+            };
         }
     }
 }

@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Logic\AutoUpdateTests.cs" />
+    <Compile Include="Logic\RunwayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

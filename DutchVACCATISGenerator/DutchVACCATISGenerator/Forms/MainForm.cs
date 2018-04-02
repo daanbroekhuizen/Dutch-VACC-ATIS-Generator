@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -57,6 +58,7 @@ namespace DutchVACCATISGenerator.Forms
             ApplicationEvents.BuildAITSCompletedEvent += BuildAITSCompleted;
             ApplicationEvents.BuildAITSStartedEvent += BuildAITSStarted;
             ApplicationEvents.NewVersionEvent += NewVersion;
+            ApplicationEvents.SchipholRunwaysEvent += SchipholRunways;
             ApplicationEvents.TerminalAerodromeForecastFormClosingEvent += TerminalAerodromeForecastFormClosing;
 
             //Load settings.
@@ -305,7 +307,7 @@ namespace DutchVACCATISGenerator.Forms
             }
 
             //Check if entered METAR ICAO matches the selected ICAO tab.
-            if (!METARTextBox.Text.Trim().StartsWith((applicationVariables.SelectedAirport )))
+            if (!METARTextBox.Text.Trim().StartsWith((applicationVariables.SelectedAirport)))
             {
                 MessageBox.Show("Selected ICAO tab does not match the ICAO of the entered METAR.", "Warning");
                 return;
@@ -385,8 +387,16 @@ namespace DutchVACCATISGenerator.Forms
                 //Disable get select best runway button;
                 selectBestRunwayButton.Enabled = false;
 
-                //TODO fix
-                //Start real runway background worker.
+                //Get Schiphol runways.
+                try
+                {
+                    runwayLogic.SchipholRunways();
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to get real EHAM runway combination from the Internet.", "Error");
+                }
+
                 //realRunwayBackgroundWorker.RunWorkerAsync();
             }
             else
@@ -681,17 +691,45 @@ namespace DutchVACCATISGenerator.Forms
             }
         }
 
+        private void SchipholRunways(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() =>
+            {
+                //Clear runway combo boxes.
+                SchipholMainDepartureRunwayComboBox.Text =
+                 SchipholMainLandingRunwayComboBox.Text =
+                 SchipholSecondaryDepartureRunwayComboBox.Text =
+                 SchipholScondaryLandingRunwayComboBox.Text = string.Empty;
+
+                //Only one departure runway found.
+                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count == 1)
+                    SchipholMainDepartureRunwayComboBox.Text = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.First();
+
+                //Only one landing runway found.
+                if (applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count == 1)
+                    SchipholMainLandingRunwayComboBox.Text = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.First();
+
+                //Two or more landing or departure runways found.
+                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count > 1 || applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 1)
+                    SchipholMultipleRunways();
+
+                //Re-enable get select best runway button.
+                selectBestRunwayButton.Enabled = true;
+
+                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count() > 0 || applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 0)
+                    MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
+            }));
+        }
+
         private void TerminalAerodromeForecastFormClosing(object sender, FormClosingEventArgs e)
         {
             terminalAerodromeForecastToolStripMenuItem.BackColor = SystemColors.Control;
         }
-
-        private void SetWindowBounds()
-        {
-            applicationVariables.MainFormBounds = this.Bounds;
-        }
         #endregion
 
+        /// <summary>
+        /// Loads all settings and sets menu strip items.
+        /// </summary>
         private void LoadSettings()
         {
             autoFetchMETARToolStripMenuItem.Checked = Properties.Settings.Default.autofetch;
@@ -701,6 +739,46 @@ namespace DutchVACCATISGenerator.Forms
             ehrdToolStripMenuItem.Checked = Properties.Settings.Default.ehrd;
             playSoundWhenMETARIsFetchedToolStripMenuItem.Checked = Properties.Settings.Default.playsound;
             randomLetterToolStripMenuItem.Checked = Properties.Settings.Default.randomletter;
+        }
+
+        /// <summary>
+        /// Processes Schiphol runways.
+        /// </summary>
+        private void SchipholMultipleRunways()
+        {
+            //If there are more than two departure runways found.
+            if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count > 1)
+            {
+                string firstRunway = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.First();
+                string secondRunway = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Last();
+
+                //Check which runways are found and set the correct main and secondary departure runway.
+                foreach (var runwayCombination in Runways.SchipholDepartureRunwayCombinations)
+                {
+                    if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
+                    {
+                        SchipholMainDepartureRunwayComboBox.Text = runwayCombination.Item1;
+                        SchipholSecondaryDepartureRunwayComboBox.Text = runwayCombination.Item2;
+                    }
+                }
+            }
+
+            //If there are more than two landing runways.
+            if (applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 1)
+            {
+                string firstRunway = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.First();
+                string secondRunway = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Last();
+
+                //Check which runways are found and set the correct main and secondary landing runway.
+                foreach (var runwayCombination in Runways.SchipholLandingRunwayCombinations)
+                {
+                    if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
+                    {
+                        SchipholMainLandingRunwayComboBox.Text = runwayCombination.Item1;
+                        SchipholScondaryLandingRunwayComboBox.Text = runwayCombination.Item2;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -883,6 +961,14 @@ namespace DutchVACCATISGenerator.Forms
             }
 
             soundToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<SoundForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
+        }
+
+        /// <summary>
+        /// Sets the main form windows bounds in the application variables class.
+        /// </summary>
+        private void SetWindowBounds()
+        {
+            applicationVariables.MainFormBounds = this.Bounds;
         }
     }
 }
