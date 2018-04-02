@@ -21,8 +21,15 @@ namespace DutchVACCATISGenerator.Logic
 
     public class AutoUpdateLogic : IAutoUpdateLogic
     {
+        private readonly IFileLogic fileLogic;
+
         private string executablePath;
         private string zipName;
+
+        public AutoUpdateLogic(IFileLogic fileLogic)
+        {
+            this.fileLogic = fileLogic;
+        }
 
         public async Task AutoUpdate()
         {
@@ -71,9 +78,8 @@ namespace DutchVACCATISGenerator.Logic
         {
             try
             {
-                //Delete temp folder if exists.
-                if (Directory.Exists($@"{Path.GetDirectoryName(executablePath)}\temp"))
-                    Directory.Delete($@"{executablePath}\temp", true);
+                //Delete installer files.
+                fileLogic.DeleteInstallerFiles(executablePath);
 
                 //Extract zip.
                 ZipFile.ExtractToDirectory(executablePath + zipName, executablePath + @"\temp");

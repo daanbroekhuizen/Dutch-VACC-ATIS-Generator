@@ -1,10 +1,6 @@
 ﻿using DutchVACCATISGenerator.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Moq;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -15,7 +11,9 @@ namespace DutchVACCATISGenerator.Test.Logic
 
         public AutoUpdateTests()
         {
-            autoUpdateLogic = new AutoUpdateLogic();
+            var fileLogicMock = new Mock<IFileLogic>();
+
+            autoUpdateLogic = new AutoUpdateLogic(fileLogicMock.Object);
         }
 
         [TestMethod]

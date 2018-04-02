@@ -36,6 +36,7 @@ namespace DutchVACCATISGenerator.Extensions
         private static void RegisterLogic(this Container container)
         {
             container.Register<IAutoUpdateLogic, AutoUpdateLogic>();
+            container.Register<IFileLogic, FileLogic>();
             container.Register<IRunwayLogic, RunwayLogic>();
             container.Register<ISoundLogic, SoundLogic>();
             container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
