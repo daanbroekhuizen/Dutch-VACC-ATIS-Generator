@@ -2,47 +2,47 @@
 {
     public class Wind
     {
-        public bool VRB { get; set; }
-        public string windHeading { get; set; }
-        public string windKnots { get; set; }
-        public string windGustMin { get; set; }
-        public string windGustMax { get; set; }
-        public string windVariableLeft { get; set; }
-        public string windVariableRight { get; set; }
+        public string GustMax { get; set; }
+        public string GustMin { get; set; }
+        public string Heading { get; set; }
+        public string Knots { get; set; }
+        public bool Variable { get; set; }
+        public string VariableLeft { get; set; }
+        public string VariableRight { get; set; }
 
         /// <summary>
-        /// Constructs a MetarWind with a variable wind and wind strength.
+        /// Constructs a Wind with a variable wind and strength.
         /// </summary>
-        /// <param name="VRB">Indicates that the wind is variable.</param>
-        /// <param name="windKnots">Wind strength (knots).</param>
-        public Wind(bool VRB, string windKnots)
+        /// <param name="variable">Indicates that the wind is variable</param>
+        /// <param name="knots">Wind strength</param>
+        public Wind(bool variable, string knots)
         {
-            this.VRB = VRB;
-            this.windKnots = windKnots;
+            Variable = variable;
+            Knots = knots;
         }
 
         /// <summary>
-        /// Constructs a MetarWind with the wind heading and wind strength.
+        /// Constructs a Wind with the heading and strength.
         /// </summary>
-        /// <param name="windHeading">Heading of the wind.</param>
-        /// <param name="windKnots">Wind strength (knots).</param>
-        public Wind(string windHeading, string windKnots)
+        /// <param name="heading">Heading of the wind</param>
+        /// <param name="knots">Wind strength</param>
+        public Wind(string heading, string knots)
         {
-            this.windHeading = windHeading;
-            this.windKnots = windKnots;
+            Heading = heading;
+            Knots = knots;
         }
 
         /// <summary>
-        /// Constructs a MetarWind with a wind heading, minimal wind gust and maximum wind gust.
+        /// Constructs a Wind with a heading, minimal gust and maximum gust.
         /// </summary>
-        /// <param name="windHeading">Heading of the wind.</param>
-        /// <param name="windGustMin">Minimal speed of the wind (knots).</param>
-        /// <param name="windGustMax">Maximum speed of the wind (knots).</param>
-        public Wind(string windHeading, string windGustMin, string windGustMax)
+        /// <param name="heading">Heading of the wind</param>
+        /// <param name="gustMin">Minimal speed of the wind</param>
+        /// <param name="gustMax">Maximum speed of the wind</param>
+        public Wind(string heading, string gustMin, string gustMax)
         {
-            this.windHeading = windHeading;
-            this.windGustMin = windGustMin;
-            this.windGustMax = windGustMax;
+            Heading = heading;
+            GustMin = gustMin;
+            GustMax = gustMax;
         }
     }
 }

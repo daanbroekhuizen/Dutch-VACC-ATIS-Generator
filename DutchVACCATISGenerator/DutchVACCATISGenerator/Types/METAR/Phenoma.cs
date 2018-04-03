@@ -2,27 +2,20 @@
 {
     public class Phenomena
     {
-        public bool hasIntensity { get; set; }
-        public string phenomena { get; set; }
+        public PhenomenaItensity Intensity { get; set; }
+        public string Type { get; set; }
 
-        /// <summary>
-        /// Constructs a MetarPhenomena.
-        /// </summary>
-        /// <param name="phenoma">Phenomena observed.</param>
-        public Phenomena(string phenoma)
+        public Phenomena(PhenomenaItensity intensity, string type)
         {
-            this.phenomena = phenoma;
+            Intensity = intensity;
+            Type = type;
         }
+    }
 
-        /// <summary>
-        /// Constructs a MetarPhenomena with intensity.
-        /// </summary>
-        /// <param name="hasIntensity">Indicates if the phenomena has a intensity indicator.</param>
-        /// <param name="phenomena">Phenomena observed.</param>
-        public Phenomena(bool hasIntensity, string phenomena)
-        {
-            this.hasIntensity = hasIntensity;
-            this.phenomena = phenomena;
-        }
+    public enum PhenomenaItensity
+    {
+        NORMAL,
+        LIGHT,
+        HEAVY
     }
 }

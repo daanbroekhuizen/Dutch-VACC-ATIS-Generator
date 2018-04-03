@@ -2,32 +2,59 @@
 {
     public class Cloud
     {
-        public string cloudType { get; set; }
-        public int altitude { get; set; }
-        public string addition { get; set; }
+        public CloudAddition Addition { get; set; }
+        public int Altitude { get; set; }
+        public bool SkyObscured  { get; set; }
+        public CloudType Type { get; set; }
 
         /// <summary>
-        /// Constructs a MetarCloud with a cloud type and the altitude of the cloud.
+        /// Constructs a Cloud with a type and altitude.
         /// </summary>
-        /// <param name="cloudType">Type of the cloud.</param>
-        /// <param name="altitude">Altitude of the cloud.</param>
-        public Cloud(string cloudType, int altitude)
+        /// <param name="cloudType">Cloud type</param>
+        /// <param name="altitude">Altitude</param>
+        public Cloud(CloudType cloudType, int altitude)
         {
-            this.cloudType = cloudType;
-            this.altitude = altitude;
+            Type = cloudType;
+            Altitude = altitude;
         }
 
         /// <summary>
-        /// Constructs a MetarCloud with a cloud type, the altitude of the cloud and any addition to the cloud.
+        /// Constructs a Cloud with a type, altitude and addition.
         /// </summary>
-        /// <param name="cloudType">Type of the cloud.</param>
-        /// <param name="altitude">Altitude of the cloud.</param>
-        /// <param name="addition">Addition of the cloud.</param>
-        public Cloud(string cloudType, int altitude, string addition)
+        /// <param name="cloudType">Cloud type</param>
+        /// <param name="altitude">Altitude</param>
+        /// <param name="addition">Addition</param>
+        public Cloud(CloudType cloudType, int altitude, CloudAddition addition)
         {
-            this.cloudType = cloudType;
-            this.altitude = altitude;
-            this.addition = addition;
+            Type = cloudType;
+            Altitude = altitude;
+            Addition = addition;
         }
+
+        /// <summary>
+        /// Constructs a Cloud with a type and SkyObscured = true.
+        /// </summary>
+        /// <param name="cloudType">Cloud type</param>
+        public Cloud(CloudType cloudType)
+        {
+            Type = cloudType;
+            SkyObscured = true;
+        }
+    }
+
+    public enum CloudType
+    {
+        BKN,
+        FEW,
+        OVC,
+        SCT
+    }
+
+    public enum CloudAddition {
+        TCU, //Towering Cumulus
+        CB, //Cumulonimbu
+        CBMAM, //Cumulonimbus mammatus (implying turbulent air in the vicinity)
+        ACC, //Altocumulus castellatus (medium level vigorous instability)
+        CLD //Standing lenticular or rotor clouds.
     }
 }

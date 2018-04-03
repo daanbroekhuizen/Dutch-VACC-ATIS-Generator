@@ -103,8 +103,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Extensions\METARExtensions.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\AboutForm.cs">
@@ -138,11 +140,10 @@
     <Compile Include="Logic\SoundLogic.cs" />
     <Compile Include="Logic\TerminalAerodromeForecastLogic.cs" />
     <Compile Include="Types\METAR\Trend.cs" />
-    <Compile Include="Types\METAR\METAR.cs" />
+    <Compile Include="Types\METAR.cs" />
     <Compile Include="Types\METAR\Cloud.cs" />
     <Compile Include="Types\METAR\Phenoma.cs" />
     <Compile Include="Types\METAR\Wind.cs" />
-    <Compile Include="Types\METAR\Type.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\RunwayForm.cs">
