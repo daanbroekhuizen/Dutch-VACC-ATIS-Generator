@@ -67,6 +67,7 @@
     <Compile Include="Logic\AutoUpdateTests.cs" />
     <Compile Include="Logic\RunwayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\METARTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DutchVACCATISGenerator\DutchVACCATISGenerator.csproj">
