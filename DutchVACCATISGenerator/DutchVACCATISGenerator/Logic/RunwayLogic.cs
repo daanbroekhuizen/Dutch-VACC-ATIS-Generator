@@ -85,22 +85,22 @@ namespace DutchVACCATISGenerator.Logic
             int crosswind;
 
             //If applicationVariables.METAR has a gust wind.
-            if (applicationVariables.METAR.Wind.windGustMin != null)
+            if (applicationVariables.METAR.Wind.GustMin != null)
             {
                 //If gust is greater than 10 knots, include gust wind.
-                if (Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.windGustMax) - Convert.ToInt32(applicationVariables.METAR.Wind.windGustMin)) >= 10)
+                if (Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.GustMax) - Convert.ToInt32(applicationVariables.METAR.Wind.GustMin)) >= 10)
                 {
-                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.windGustMax));
+                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.GustMax));
                 }
                 //Else do not include gust, calculate with min gust wind.
                 else
                 {
-                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.windGustMin));
+                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.GustMin));
                 }
             }
             else
             {
-                crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.windKnots));
+                crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.Knots));
             }
 
             //If calculated crosswind is negative, multiply by -1 to make it positive.
@@ -113,22 +113,22 @@ namespace DutchVACCATISGenerator.Logic
         public int CalculateTailwindComponent(int runwayHeading)
         {
             //If applicationVariables.METAR has a gust wind.
-            if (this.applicationVariables.METAR.Wind.windGustMin != null)
+            if (this.applicationVariables.METAR.Wind.GustMin != null)
             {
                 //If gust is greater than 10 knots, include gust wind.
-                if (Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.windGustMax) - Convert.ToInt32(this.applicationVariables.METAR.Wind.windGustMin)) >= 10)
+                if (Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMax) - Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMin)) >= 10)
                 {
-                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.windGustMax));
+                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMax));
                 }
                 //Else do not include gust, calculate with min gust wind.
                 else
                 {
-                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.windGustMin));
+                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMin));
                 }
             }
             else
             {
-                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.windHeading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.windKnots));
+                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.Knots));
             }
 
         }
@@ -203,7 +203,7 @@ namespace DutchVACCATISGenerator.Logic
             else
             {
                 //If cloud layer > 200 feet.
-                return (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().altitude >= 2 : true);
+                return (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().Altitude >= 2 : true);
             }
         }
 
@@ -215,11 +215,11 @@ namespace DutchVACCATISGenerator.Logic
         private bool CompliesWithRVR(int rvr)
         {
             //If RVR > 500 and cloud layer is > 200 feet.
-            if (rvr >= 550 && (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().altitude >= 2 : true))
+            if (rvr >= 550 && (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().Altitude >= 2 : true))
                 return true;
 
             //If RVR < 500 and cloud layer is < 200 feet.
-            else if (rvr < 550 || (applicationVariables.METAR.Clouds.Count != 0 && applicationVariables.METAR.Clouds.First().altitude < 2))
+            else if (rvr < 550 || (applicationVariables.METAR.Clouds.Count != 0 && applicationVariables.METAR.Clouds.First().Altitude < 2))
                 return false;
 
             else return false;
