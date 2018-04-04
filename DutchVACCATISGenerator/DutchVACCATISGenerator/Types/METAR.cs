@@ -10,7 +10,7 @@ namespace DutchVACCATISGenerator.Types
     {
         public bool CAVOK { get; set; }
         public List<Cloud> Clouds { get; set; }
-        public string Dewpoint { get; set; }
+        public int? DewPoint { get; set; }
         public string ICAO { get; set; }
         public bool NOSIG { get; set; }
         public bool NSC { get; set; }
@@ -20,7 +20,7 @@ namespace DutchVACCATISGenerator.Types
         public bool RVR { get; set; }
         public Dictionary<string, int> RVRValues { get; set; }
         public bool SKC { get; set; }
-        public string Temperature { get; set; }
+        public int Temperature { get; set; }
         public string Time { get; set; }
         public int VerticalVisibility { get; set; }
         public int Visibility { get; set; }
@@ -143,7 +143,7 @@ namespace DutchVACCATISGenerator.Types
                         Time = s;
                         continue;
                     }
-                    
+
                     //Temperature
                     if (ProcessTemperature(s))
                         continue;
@@ -181,7 +181,7 @@ namespace DutchVACCATISGenerator.Types
 
                 //Clouds
                 if (ProcessClouds(s, part))
-                    continue;             
+                    continue;
             }
         }
 
@@ -572,24 +572,25 @@ namespace DutchVACCATISGenerator.Types
                 //Contains addition
                 else if (input.Length > 6)
                 {
+                    //Auto observed.
                     if (input.EndsWith("///"))
                     {
                         switch (part)
                         {
                             case Part.BASE:
-                                Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3))));
+                                Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3)), true));
                                 break;
 
                             case Part.BECMG:
-                                BECMG.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3))));
+                                BECMG.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3)), true));
                                 break;
 
                             case Part.MILITARY:
-                                Military.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3))));
+                                Military.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3)), true));
                                 break;
 
                             case Part.TEMPO:
-                                TEMPO.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3))));
+                                TEMPO.Clouds.Add(new Cloud(input.Substring(0, 3).ParseEnum<CloudType>(), Convert.ToInt32(input.Substring(3, 3)), true));
                                 break;
                         }
                     }
@@ -649,31 +650,11 @@ namespace DutchVACCATISGenerator.Types
         {
             if (input.Contains("/") && (input.Length == 5 || (input.Length == 6 && input.Contains('M')) || (input.Length == 7 && input.Contains('M'))))
             {
-                switch (input.Length)
-                {
-                    case 5:
-                        Temperature = input.Substring(0, 2);
-                        Dewpoint = input.Substring(3);
-                        break;
+                var split = input.Split(new[] { '/' }, 2);
 
-                    case 6:
-                        if (input.Substring(0, 3).StartsWith("M"))
-                        {
-                            Temperature = input.Substring(0, 3);
-                            Dewpoint = input.Substring(4);
-                        }
-                        else
-                        {
-                            Temperature = input.Substring(0, 2);
-                            Dewpoint = input.Substring(3);
-                        }
-                        break;
+                Temperature = split.First().StartsWith("M") ? split.First().Substring(1, 2).ParseInt() * -1 : split.First().ParseInt();
+                DewPoint = split.Last().All(c => c.Equals('/')) ? (int?) null : (split.Last().StartsWith("M") ? split.Last().Substring(1, 2).ParseInt() * -1 : split.Last().ParseInt());
 
-                    case 7:
-                        Temperature = input.Substring(0, 3);
-                        Dewpoint = input.Substring(4);
-                        break;
-                }
                 return true;
             }
 
