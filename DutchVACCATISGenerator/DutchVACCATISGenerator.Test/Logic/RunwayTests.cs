@@ -1,7 +1,5 @@
 ﻿using DutchVACCATISGenerator.Logic;
-using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -12,9 +10,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
         public RunwayTests()
         {
-            var applicationVariablesMock = new Mock<ApplicationVariables>();
-
-            runwayLogic = new RunwayLogic(applicationVariablesMock.Object);
+            runwayLogic = new RunwayLogic();
         }
 
         [TestMethod]

@@ -16,7 +16,7 @@ namespace DutchVACCATISGenerator.Types
         public static event EventHandler METARProcessedEvent;
         public static event EventHandler NewVersionEvent;
         public static event EventHandler PlaybackStoppedEvent;
-        public static event EventHandler SchipholRunwaysEvent;
+        public static event EventHandler<SchipholRunwaysEventArgs> SchipholRunwaysEvent;
         public static event EventHandler SelectedAirportChangedEvent;
         public static event FormClosingEventHandler TerminalAerodromeForecastFormClosingEvent;
 
@@ -65,9 +65,9 @@ namespace DutchVACCATISGenerator.Types
             PlaybackStoppedEvent?.Invoke(sender, e);
         }
 
-        internal static void SchipholRunways()
+        internal static void SchipholRunways(SchipholRunwaysEventArgs e)
         {
-            SchipholRunwaysEvent?.Invoke(null, null);
+            SchipholRunwaysEvent?.Invoke(null, e);
         }
 
         internal static void SelectedAirportChanged(object sender, EventArgs e)

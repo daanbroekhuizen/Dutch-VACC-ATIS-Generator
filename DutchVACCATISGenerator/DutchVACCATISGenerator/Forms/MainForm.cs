@@ -690,7 +690,7 @@ namespace DutchVACCATISGenerator.Forms
             }
         }
 
-        private void SchipholRunways(object sender, EventArgs e)
+        private void SchipholRunways(object sender, SchipholRunwaysEventArgs e)
         {
             this.Invoke(new Action(() =>
             {
@@ -701,21 +701,21 @@ namespace DutchVACCATISGenerator.Forms
                  SchipholScondaryLandingRunwayComboBox.Text = string.Empty;
 
                 //Only one departure runway found.
-                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count == 1)
-                    SchipholMainDepartureRunwayComboBox.Text = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.First();
+                if (e.SchipholPlanningInterfaceData.DepartureRunways.Count == 1)
+                    SchipholMainDepartureRunwayComboBox.Text = e.SchipholPlanningInterfaceData.DepartureRunways.First();
 
                 //Only one landing runway found.
-                if (applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count == 1)
-                    SchipholMainLandingRunwayComboBox.Text = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.First();
+                if (e.SchipholPlanningInterfaceData.LandingRunways.Count == 1)
+                    SchipholMainLandingRunwayComboBox.Text = e.SchipholPlanningInterfaceData.LandingRunways.First();
 
                 //Two or more landing or departure runways found.
-                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count > 1 || applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 1)
-                    SchipholMultipleRunways();
+                if (e.SchipholPlanningInterfaceData.DepartureRunways.Count > 1 || e.SchipholPlanningInterfaceData.LandingRunways.Count > 1)
+                    SchipholMultipleRunways(e.SchipholPlanningInterfaceData);
 
                 //Re-enable get select best runway button.
                 selectBestRunwayButton.Enabled = true;
 
-                if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count() > 0 || applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 0)
+                if (e.SchipholPlanningInterfaceData.DepartureRunways.Count() > 0 || e.SchipholPlanningInterfaceData.LandingRunways.Count > 0)
                     MessageBox.Show("Controller notice! Verify auto selected runway(s).", "Warning");
             }));
         }
@@ -758,13 +758,14 @@ namespace DutchVACCATISGenerator.Forms
         /// <summary>
         /// Processes Schiphol runways.
         /// </summary>
-        private void SchipholMultipleRunways()
+        /// <param name="schipholPlanningInterfaceData">Schiphol planning interface data</param>
+        private void SchipholMultipleRunways(SchipholPlanningInterfaceData schipholPlanningInterfaceData)
         {
             //If there are more than two departure runways found.
-            if (applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Count > 1)
+            if (schipholPlanningInterfaceData.DepartureRunways.Count > 1)
             {
-                string firstRunway = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.First();
-                string secondRunway = applicationVariables.SchipholPlanningInterfaceData.DepartureRunways.Last();
+                string firstRunway = schipholPlanningInterfaceData.DepartureRunways.First();
+                string secondRunway = schipholPlanningInterfaceData.DepartureRunways.Last();
 
                 //Check which runways are found and set the correct main and secondary departure runway.
                 foreach (var runwayCombination in Runways.SchipholDepartureRunwayCombinations)
@@ -778,10 +779,10 @@ namespace DutchVACCATISGenerator.Forms
             }
 
             //If there are more than two landing runways.
-            if (applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Count > 1)
+            if (schipholPlanningInterfaceData.LandingRunways.Count > 1)
             {
-                string firstRunway = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.First();
-                string secondRunway = applicationVariables.SchipholPlanningInterfaceData.LandingRunways.Last();
+                string firstRunway = schipholPlanningInterfaceData.LandingRunways.First();
+                string secondRunway = schipholPlanningInterfaceData.LandingRunways.Last();
 
                 //Check which runways are found and set the correct main and secondary landing runway.
                 foreach (var runwayCombination in Runways.SchipholLandingRunwayCombinations)

@@ -11,7 +11,7 @@ namespace DutchVACCATISGenerator.Types
         public METAR METAR { get; set; }
         public List<string> PhoneticAlphabet { get; set; }
         public string SelectedAirport { get; set; }
-        public SchipholPlanningInterfaceData SchipholPlanningInterfaceData { get; set; }
+        
 
         public ApplicationVariables()
         {
