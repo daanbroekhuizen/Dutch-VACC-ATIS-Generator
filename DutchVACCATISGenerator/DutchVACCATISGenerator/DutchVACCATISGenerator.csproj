@@ -133,6 +133,7 @@
     <Compile Include="Logic\METARLogic.cs" />
     <Compile Include="Logic\RunwayLogic.cs" />
     <Compile Include="Logic\VersionLogic.cs" />
+    <Compile Include="Types\EventsArgs.cs" />
     <Compile Include="Types\Runways.cs" />
     <Compile Include="Types\SchipholPlanningInterface.cs" />
     <Compile Include="Utilities\FlashingWindow.cs" />

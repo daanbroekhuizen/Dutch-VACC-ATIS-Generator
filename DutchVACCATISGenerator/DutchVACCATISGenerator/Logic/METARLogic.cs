@@ -26,15 +26,7 @@ namespace DutchVACCATISGenerator.Logic
 
     public class METARLogic : IMETARLogic
     {
-        private readonly ApplicationVariables applicationVariables;
-
         private const string METARURL = "http://metar.vatsim.net/metar.php?id=";
-
-        public METARLogic(ApplicationVariables applicationVariables)
-        {
-            this.applicationVariables = applicationVariables;
-
-        }
 
         public int CalculateTransitionLevel(int temperature, int QNH)
         {
@@ -50,9 +42,10 @@ namespace DutchVACCATISGenerator.Logic
 
             var reader = new StreamReader(response.GetResponseStream());
 
-            applicationVariables.DownloadedMETAR = reader.ReadToEnd().Trim();
-
-            ApplicationEvents.METARDownloaded();
+            ApplicationEvents.METARDownloaded(new METARDownloadEventArgs
+            {
+                METAR = reader.ReadToEnd().Trim()
+            });
         }
     }
 }

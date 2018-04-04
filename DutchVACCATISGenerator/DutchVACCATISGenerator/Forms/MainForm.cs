@@ -327,7 +327,7 @@ namespace DutchVACCATISGenerator.Forms
             //Clear output and METAR text box.
             outputTextBox.Clear();
             METARTextBox.Clear();
-     
+
             //Set processed METAR in last processed METAR label.
             if (applicationVariables.METAR.OriginalMETAR.Length > 140)
                 lastLabel.Text = $"Last successful processed METAR:\n{applicationVariables.METAR.OriginalMETAR.Substring(0, 69).Trim()}\n{applicationVariables.METAR.OriginalMETAR.Substring(69, 69).Trim()}...";
@@ -663,15 +663,15 @@ namespace DutchVACCATISGenerator.Forms
             generateATISButton.Invoke(new Action(() => generateATISButton.Enabled = false));
         }
 
-        private void METARDownloaded(object sender, EventArgs e)
+        private void METARDownloaded(object sender, METARDownloadEventArgs e)
         {
             this.Invoke(new Action(() =>
             {
                 //Set pulled METAR in the METAR text box.
-                METARTextBox.Text = applicationVariables.DownloadedMETAR;
+                METARTextBox.Text = e.METAR;
 
                 //If auto process METAR check box is checked, automatically process the METAR.
-                if (!string.IsNullOrWhiteSpace(applicationVariables.DownloadedMETAR) && autoProcessMETARToolStripMenuItem.Checked)
+                if (!string.IsNullOrWhiteSpace(e.METAR) && autoProcessMETARToolStripMenuItem.Checked)
                     ProcessMETARButton_Click(null, null);
 
                 //Re-enable the get METAR button.
