@@ -171,14 +171,30 @@ namespace DutchVACCATISGenerator.Forms
 
             row.CreateCells(dataGridView);
 
-            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1);
-            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2);
+            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1,
+                applicationVariables.METAR.Wind.Heading,
+                applicationVariables.METAR.Wind.Knots,
+                applicationVariables.METAR.Wind.GustMin,
+                applicationVariables.METAR.Wind.GustMax);
+
+            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2,
+                applicationVariables.METAR.Wind.Heading,
+                applicationVariables.METAR.Wind.Knots,
+                applicationVariables.METAR.Wind.GustMin,
+                applicationVariables.METAR.Wind.GustMax);
 
             row.Cells[0].Value = runway.Key;
             row.Cells[1].Value = crosswindComponent;
             row.Cells[2].Value = tailwindComponent * -1; //Q&D
             row.Cells[3].Value = runway.Value.Item3;
-            row.Cells[4].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, runway.Key, crosswindComponent, tailwindComponent);
+            row.Cells[4].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex,
+                runway.Key,
+                applicationVariables.METAR.RVR,
+                applicationVariables.METAR.RVRValues,
+                applicationVariables.METAR.Visibility,
+                applicationVariables.METAR.Clouds,
+                crosswindComponent,
+                tailwindComponent);
 
             return row;
         }
@@ -195,15 +211,31 @@ namespace DutchVACCATISGenerator.Forms
 
             row.CreateCells(dataGridView);
 
-            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1);
-            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2);
+            var crosswindComponent = runwayLogic.CalculateCrosswindComponent(runway.Value.Item1,
+                applicationVariables.METAR.Wind.Heading,
+                applicationVariables.METAR.Wind.Knots,
+                applicationVariables.METAR.Wind.GustMin,
+                applicationVariables.METAR.Wind.GustMax);
+
+            var tailwindComponent = runwayLogic.CalculateTailwindComponent(runway.Value.Item2,
+                applicationVariables.METAR.Wind.Heading,
+                applicationVariables.METAR.Wind.Knots,
+                applicationVariables.METAR.Wind.GustMin,
+                applicationVariables.METAR.Wind.GustMax);
 
             row.Cells[0].Value = runway.Key;
             row.Cells[1].Value = crosswindComponent;
             row.Cells[2].Value = tailwindComponent * -1; //Q&D
             row.Cells[3].Value = runway.Value.Item3;
             row.Cells[4].Value = runway.Value.Item4;
-            row.Cells[5].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, runway.Key, crosswindComponent, tailwindComponent);
+            row.Cells[5].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, 
+                runway.Key, 
+                applicationVariables.METAR.RVR,
+                applicationVariables.METAR.RVRValues,
+                applicationVariables.METAR.Visibility,
+                applicationVariables.METAR.Clouds,
+                crosswindComponent, 
+                tailwindComponent);
 
             return row;
         }

@@ -12,18 +12,26 @@ namespace DutchVACCATISGenerator.Logic
     public interface IRunwayLogic
     {
         /// <summary>
-        /// Calculate the tail wind component of a runway.
-        /// </summary>
-        /// <param name="runwayHeading">Opposite runway heading</param>
-        /// <returns>Calculated tail wind component of a runway</returns>
-        int CalculateTailwindComponent(int runwayHeading);
-
-        /// <summary>
-        /// Calculate the cross wind component of a runway.
+        /// Calculates the cross wind component of a runway.
         /// </summary>
         /// <param name="runwayHeading">Runway heading</param>
-        /// <returns>Calculated cross wind component of a runway</returns>
-        int CalculateCrosswindComponent(int runwayHeading);
+        /// <param name="windHeading">Wind heading</param>
+        /// <param name="windKnots">Wind speed (in knots)</param>
+        /// <param name="gustMin">Wind gust min (in knots)</param>
+        /// <param name="gustMax">Wind gust max (in knots)</param>
+        /// <returns></returns>
+        int CalculateCrosswindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax);
+
+        /// <summary>
+        /// Calculates the tail wind component of a runway.
+        /// </summary>
+        /// <param name="runwayHeading">Opposite runway heading</param>
+        /// <param name="windHeading">Wind heading</param>
+        /// <param name="windKnots">Wind speed (in knots)</param>
+        /// <param name="gustMin">Wind gust min (in knots)</param>
+        /// <param name="gustMax">Wind gust max (in knots)</param>
+        /// <returns>Calculated tail wind component</returns>
+        int CalculateTailwindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax);
 
         /// <summary>
         /// Gets the best preferred runway.
@@ -36,10 +44,15 @@ namespace DutchVACCATISGenerator.Logic
         /// Check if a runway complies with weather criteria for a runway.
         /// </summary>
         /// <param name="frictionIndex">Selected index of friction combo box</param>
+        /// <param name="runway">Runway</param>
+        /// <param name="RVR">RVR</param>
+        /// <param name="RVRValues">Dictionary of RVR-values</param>
+        /// <param name="visibility">Visibility</param>
+        /// <param name="clouds">List of clouds</param>
         /// <param name="crosswind">Runway cross wind component</param>
         /// <param name="tailwind">Runway tail wind component</param>
         /// <returns>Indication if the a runway complies with the weather criteria for that runway</returns>
-        string RunwayComplies(int frictionIndex, string runway, int crosswind, int tailwind);
+        string RunwayComplies(int frictionIndex, string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds, int crosswind, int tailwind);
 
         Task SchipholRunways();
     }
@@ -80,28 +93,16 @@ namespace DutchVACCATISGenerator.Logic
             return runway;
         }
 
-        public int CalculateCrosswindComponent(int runwayHeading)
+        public int CalculateCrosswindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax)
         {
             int crosswind;
 
-            //If applicationVariables.METAR has a gust wind.
-            if (applicationVariables.METAR.Wind.GustMin != null)
-            {
-                //If gust is greater than 10 knots, include gust wind.
-                if (Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.GustMax) - Convert.ToInt32(applicationVariables.METAR.Wind.GustMin)) >= 10)
-                {
-                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.GustMax));
-                }
-                //Else do not include gust, calculate with min gust wind.
-                else
-                {
-                    crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.GustMin));
-                }
-            }
+            //If gust wind.
+            if (gustMin != null)
+                //If gust is greater than 10 knots, include gust wind. Else do not include gust, calculate with min gust wind.
+                crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
             else
-            {
-                crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(Convert.ToInt32(applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(applicationVariables.METAR.Wind.Knots));
-            }
+                crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * windKnots);
 
             //If calculated crosswind is negative, multiply by -1 to make it positive.
             if (crosswind < -0)
@@ -110,47 +111,34 @@ namespace DutchVACCATISGenerator.Logic
                 return crosswind;
         }
 
-        public int CalculateTailwindComponent(int runwayHeading)
+        public int CalculateTailwindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax)
         {
-            //If applicationVariables.METAR has a gust wind.
-            if (this.applicationVariables.METAR.Wind.GustMin != null)
-            {
-                //If gust is greater than 10 knots, include gust wind.
-                if (Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMax) - Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMin)) >= 10)
-                {
-                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMax));
-                }
-                //Else do not include gust, calculate with min gust wind.
-                else
-                {
-                    return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.GustMin));
-                }
-            }
+            //If gust wind.
+            if (gustMin != null)
+                //If gust is greater than 10 knots, include gust wind. Else do not include gust, calculate with min gust wind.
+                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
             else
-            {
-                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(Convert.ToInt32(this.applicationVariables.METAR.Wind.Heading) - runwayHeading))) * Convert.ToInt32(this.applicationVariables.METAR.Wind.Knots));
-            }
-
+                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * windKnots);
         }
 
-        public string RunwayComplies(int frictionIndex, string runway, int crosswind, int tailwind)
+        public string RunwayComplies(int frictionIndex, string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds, int crosswind, int tailwind)
         {
             switch (frictionIndex)
             {
                 case 0:
-                    return CompliesWithVisibility(runway) ?
+                    return CompliesWithVisibility(runway, RVR, RVRValues, visibility, clouds) ?
                         CompliesWithWind(20, 7, crosswind, tailwind) :
                         CompliesWithWind(15, 7, crosswind, tailwind);
 
                 case 1:
                 case 2:
-                    return CompliesWithVisibility(runway) ?
+                    return CompliesWithVisibility(runway, RVR, RVRValues, visibility, clouds) ?
                         CompliesWithWind(10, 0, crosswind, tailwind) :
                         CompliesWithWind(10, 0, crosswind, tailwind);
 
                 case 3:
                 case 4:
-                    return CompliesWithVisibility(runway) ?
+                    return CompliesWithVisibility(runway, RVR, RVRValues, visibility, clouds) ?
                         CompliesWithWind(5, 0, crosswind, tailwind) :
                         CompliesWithWind(5, 0, crosswind, tailwind);
 
@@ -184,26 +172,31 @@ namespace DutchVACCATISGenerator.Logic
         /// <summary>
         /// Check if the visibility on a runway complies with the visibility criteria for that runway.
         /// </summary>
+        /// <param name="runway">Runway</param>
+        /// <param name="RVR">RVR</param>
+        /// <param name="RVRValues">Dictionary of RVR-values</param>
+        /// <param name="visibility">Visibility</param>
+        /// <param name="clouds">List of clouds</param>
         /// <returns>Boolean indicating if the runway visibility complies with the viability criteria for that runway</returns>
-        private bool CompliesWithVisibility(string runway)
+        private bool CompliesWithVisibility(string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds)
         {
             //If applicationVariables.METAR has a RVR.
-            if (applicationVariables.METAR.RVR)
+            if (RVR)
             {
-                foreach (var pair in applicationVariables.METAR.RVRValues)
+                foreach (var pair in RVRValues)
                 {
                     //Check if runway complies with RVR criteria based on the RWY RVR value.
                     if (pair.Key.Equals(runway))
-                        return CompliesWithRVR(pair.Value);
+                        return CompliesWithRVR(pair.Value, clouds);
                 }
 
                 //Check if runway complies with RVR criteria based on the visibility.
-                return CompliesWithRVR(applicationVariables.METAR.Visibility);
+                return CompliesWithRVR(visibility, clouds);
             }
             else
             {
                 //If cloud layer > 200 feet.
-                return (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().Altitude >= 2 : true);
+                return (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true);
             }
         }
 
@@ -211,15 +204,16 @@ namespace DutchVACCATISGenerator.Logic
         /// Check if a runway visibility complies with the RVR criteria for that runway.
         /// </summary>
         /// <param name="rvr">RVR</param>
+        /// <param name="clouds">List of clouds</param>
         /// <returns>Boolean indicating if the runway visibility complies with the RVR criteria for that runway</returns>
-        private bool CompliesWithRVR(int rvr)
+        private bool CompliesWithRVR(int rvr, List<Cloud> clouds)
         {
             //If RVR > 500 and cloud layer is > 200 feet.
-            if (rvr >= 550 && (applicationVariables.METAR.Clouds.Count != 0 ? applicationVariables.METAR.Clouds.First().Altitude >= 2 : true))
+            if (rvr >= 550 && (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true))
                 return true;
 
             //If RVR < 500 and cloud layer is < 200 feet.
-            else if (rvr < 550 || (applicationVariables.METAR.Clouds.Count != 0 && applicationVariables.METAR.Clouds.First().Altitude < 2))
+            else if (rvr < 550 || (clouds.Count != 0 && clouds.First().Altitude < 2))
                 return false;
 
             else return false;
