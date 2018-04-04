@@ -198,19 +198,19 @@ namespace DutchVACCATISGenerator.Types
                 switch (part)
                 {
                     case Part.BASE:
-                        Wind = new Wind(true, input.Substring(3, 2));
+                        Wind = new Wind(true, input.Substring(3, 2).ParseInt());
                         break;
 
                     case Part.BECMG:
-                        BECMG.Wind = new Wind(true, input.Substring(3, 2));
+                        BECMG.Wind = new Wind(true, input.Substring(3, 2).ParseInt());
                         break;
 
                     case Part.MILITARY:
-                        Military.Wind = new Wind(true, input.Substring(3, 2));
+                        Military.Wind = new Wind(true, input.Substring(3, 2).ParseInt());
                         break;
 
                     case Part.TEMPO:
-                        TEMPO.Wind = new Wind(true, input.Substring(3, 2));
+                        TEMPO.Wind = new Wind(true, input.Substring(3, 2).ParseInt());
                         break;
                 }
 
@@ -688,13 +688,13 @@ namespace DutchVACCATISGenerator.Types
         private Wind GetWind(string input)
         {
             if (input.Contains("G"))
-                return new Wind(input.Substring(0, 3), input.Substring(3, 2), input.Substring(6, 2));
+                return new Wind(input.Substring(0, 3).ParseInt(), input.Substring(3, 2).ParseInt(), input.Substring(6, 2).ParseInt());
 
             else if ((input.Substring(3, 1)).Equals("0"))
-                return new Wind(input.Substring(0, 3), input.Substring(4, 1));
+                return new Wind(input.Substring(0, 3).ParseInt(), input.Substring(4, 1).ParseInt());
 
             else
-                return new Wind(input.Substring(0, 3), input.Substring(3, 2));
+                return new Wind(input.Substring(0, 3).ParseInt(), input.Substring(3, 2).ParseInt());
         }
 
         /// <summary>
@@ -705,8 +705,8 @@ namespace DutchVACCATISGenerator.Types
         /// <returns>Wind object with variable wind</returns>
         private Wind VariableWind(Wind wind, string input)
         {
-            wind.VariableLeft = input.Substring(0, 3);
-            wind.VariableRight = input.Substring(4, 3);
+            wind.VariableLeft = input.Substring(0, 3).ParseInt();
+            wind.VariableRight = input.Substring(4, 3).ParseInt();
 
             return wind;
         }

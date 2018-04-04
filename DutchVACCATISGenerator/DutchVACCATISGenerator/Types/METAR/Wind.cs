@@ -2,20 +2,20 @@
 {
     public class Wind
     {
-        public string GustMax { get; set; }
-        public string GustMin { get; set; }
-        public string Heading { get; set; }
-        public string Knots { get; set; }
+        public int? GustMax { get; set; }
+        public int? GustMin { get; set; }
+        public int Heading { get; set; }
+        public int Knots { get; set; }
         public bool Variable { get; set; }
-        public string VariableLeft { get; set; }
-        public string VariableRight { get; set; }
+        public int? VariableLeft { get; set; }
+        public int? VariableRight { get; set; }
 
         /// <summary>
         /// Constructs a Wind with a variable wind and strength.
         /// </summary>
         /// <param name="variable">Indicates that the wind is variable</param>
         /// <param name="knots">Wind strength</param>
-        public Wind(bool variable, string knots)
+        public Wind(bool variable, int knots)
         {
             Variable = variable;
             Knots = knots;
@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="heading">Heading of the wind</param>
         /// <param name="knots">Wind strength</param>
-        public Wind(string heading, string knots)
+        public Wind(int heading, int knots)
         {
             Heading = heading;
             Knots = knots;
@@ -38,7 +38,7 @@
         /// <param name="heading">Heading of the wind</param>
         /// <param name="gustMin">Minimal speed of the wind</param>
         /// <param name="gustMax">Maximum speed of the wind</param>
-        public Wind(string heading, string gustMin, string gustMax)
+        public Wind(int heading, int gustMin, int gustMax)
         {
             Heading = heading;
             GustMin = gustMin;

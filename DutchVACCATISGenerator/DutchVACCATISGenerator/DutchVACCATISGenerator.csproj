@@ -106,6 +106,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\METARExtensions.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
