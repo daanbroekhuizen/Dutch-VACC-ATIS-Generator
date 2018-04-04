@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace DutchVACCATISGenerator.Types
 {
-    //TODO comments
     public class METAR
     {
         public bool CAVOK { get; set; }
@@ -44,6 +43,10 @@ namespace DutchVACCATISGenerator.Types
             ParseMetar(OriginalMETAR);
         }
 
+        /// <summary>
+        /// Splits and parses the provided METAR.
+        /// </summary>
+        /// <param name="METAR">METAR</param>
         private void ParseMetar(string METAR)
         {
             var @base = string.Empty;
@@ -115,6 +118,11 @@ namespace DutchVACCATISGenerator.Types
             }
         }
 
+        /// <summary>
+        /// Processes a part of a METAR.
+        /// </summary>
+        /// <param name="input">Split part of METAR</param>
+        /// <param name="part">Part type of split</param>
         private void ProcessPart(string[] input, Part part)
         {
             foreach (var s in input)
@@ -177,6 +185,12 @@ namespace DutchVACCATISGenerator.Types
             }
         }
 
+        /// <summary>
+        /// Processes wind.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <param name="part"></param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessWind(string input, Part part)
         {
             if (input.StartsWith("VRB"))
@@ -254,6 +268,12 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Processes visibility.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <param name="part">Part type of split</param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessVisibility(string input, Part part)
         {
             if (input.IsNumbersOnly() && (input.IsLength(4) || input.IsLength(3)))
@@ -403,6 +423,11 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Processes RVR and RVR-values.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessRVR(string input)
         {
             if (input.StartsWith("R") && char.IsNumber(input.ElementAt(1)) && char.IsNumber(input.ElementAt(2)) && !input.Contains("//") && input.Contains("/"))
@@ -424,6 +449,12 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Processes phenomena.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <param name="part">Part type of split</param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessPhenomena(string input, Part part)
         {
             var phenomena = new List<string> { "-", "+", "VC", "MI", "PR", "BC", "DR", "BL", "SH", "TS", "FZ", "DZ", "RA", "SN", "SG", "IC", "PL", "GR", "BR", "FG", "FU", "HZ" };
@@ -453,7 +484,6 @@ namespace DutchVACCATISGenerator.Types
 
                     return true;
                 }
-                //TODO ADD SAMPLE FOR + intensity;
                 else if (input.StartsWith("+"))
                 {
                     switch (part)
@@ -505,6 +535,12 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Processes clouds.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <param name="part">Part type of split</param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessClouds(string input, Part part)
         {
             var clouds = new List<string> { "FEW", "SCT", "BKN", "OVC" };
@@ -536,7 +572,6 @@ namespace DutchVACCATISGenerator.Types
                 //Contains addition
                 else if (input.Length > 6)
                 {
-                    //TODO what does /// add after a cloud altitude?
                     if (input.EndsWith("///"))
                     {
                         switch (part)
@@ -605,6 +640,11 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Processes temperature.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <returns>True if input string has been parsed, else false</returns>
         private bool ProcessTemperature(string input)
         {
             if (input.Contains("/") && (input.Length == 5 || (input.Length == 6 && input.Contains('M')) || (input.Length == 7 && input.Contains('M'))))
@@ -640,6 +680,11 @@ namespace DutchVACCATISGenerator.Types
             return false;
         }
 
+        /// <summary>
+        /// Convert input string to Wind object.
+        /// </summary>
+        /// <param name="input">Input string</param>
+        /// <returns>Wind object</returns>
         private Wind GetWind(string input)
         {
             if (input.Contains("G"))
@@ -652,6 +697,12 @@ namespace DutchVACCATISGenerator.Types
                 return new Wind(input.Substring(0, 3), input.Substring(3, 2));
         }
 
+        /// <summary>
+        /// Sets variable wind of Wind object.
+        /// </summary>
+        /// <param name="wind">Wind object</param>
+        /// <param name="input">Input string</param>
+        /// <returns>Wind object with variable wind</returns>
         private Wind VariableWind(Wind wind, string input)
         {
             wind.VariableLeft = input.Substring(0, 3);
