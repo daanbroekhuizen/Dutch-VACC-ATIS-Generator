@@ -135,6 +135,24 @@ namespace DutchVACCATISGenerator.Types
                         Time = s;
                         continue;
                     }
+                    
+                    //Temperature
+                    if (ProcessTemperature(s))
+                        continue;
+
+                    //QNH
+                    if (s.StartsWith("Q") && s.Substring(1).IsNumbersOnly())
+                    {
+                        QNH = Convert.ToInt32(s.Substring(1));
+                        continue;
+                    }
+
+                    //NOSIG
+                    if (s.Equals("NOSIG"))
+                    {
+                        NOSIG = true;
+                        continue;
+                    }
                 }
 
                 //Wind
@@ -155,25 +173,7 @@ namespace DutchVACCATISGenerator.Types
 
                 //Clouds
                 if (ProcessClouds(s, part))
-                    continue;
-
-                //Temperature
-                if (ProcessTemperature(s))
-                    continue;
-
-                //QNH
-                if (s.StartsWith("Q") && s.Substring(1).IsNumbersOnly())
-                {
-                    QNH = Convert.ToInt32(s.Substring(1));
-                    continue;
-                }
-
-                //NOSIG
-                if (s.Equals("NOSIG"))
-                {
-                    NOSIG = true;
-                    continue;
-                }
+                    continue;             
             }
         }
 
