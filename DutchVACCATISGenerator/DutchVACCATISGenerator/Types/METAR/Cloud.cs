@@ -2,6 +2,7 @@
 {
     public class Cloud
     {
+        public bool AutoObservation { get; set; }
         public CloudAddition Addition { get; set; }
         public int Altitude { get; set; }
         public bool SkyObscured  { get; set; }
@@ -29,6 +30,19 @@
             Type = cloudType;
             Altitude = altitude;
             Addition = addition;
+        }
+
+        /// <summary>
+        /// Constructs a Cloud with a type, altitude and autoObservation = true.
+        /// </summary>
+        /// <param name="cloudType"></param>
+        /// <param name="altitude"></param>
+        /// <param name="autoObservation"></param>
+        public Cloud(CloudType cloudType, int altitude, bool autoObservation = true)
+        {
+            Type = cloudType;
+            Altitude = altitude;
+            AutoObservation = true;
         }
 
         /// <summary>
