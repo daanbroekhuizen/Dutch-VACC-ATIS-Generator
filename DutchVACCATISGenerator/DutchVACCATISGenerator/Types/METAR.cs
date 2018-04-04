@@ -1,6 +1,7 @@
 ﻿using DutchVACCATISGenerator.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -21,7 +22,7 @@ namespace DutchVACCATISGenerator.Types
         public Dictionary<string, int> RVRValues { get; set; }
         public bool SKC { get; set; }
         public int Temperature { get; set; }
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
         public int VerticalVisibility { get; set; }
         public int Visibility { get; set; }
         public Wind Wind { get; set; }
@@ -140,7 +141,9 @@ namespace DutchVACCATISGenerator.Types
                     //Time
                     if (s.Last().Equals('Z') && s.Length > 6 && s.Substring(0, 6).IsNumbersOnly())
                     {
-                        Time = s;
+                        DateTime.TryParseExact(s, "ddHHmmZ", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime parsedDate);
+                        Time = parsedDate;
+                        
                         continue;
                     }
 
