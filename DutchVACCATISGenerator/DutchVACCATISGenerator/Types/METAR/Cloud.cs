@@ -66,9 +66,9 @@
 
     public enum CloudAddition {
         TCU, //Towering Cumulus
-        CB, //Cumulonimbu
+        CB, //Cumulonimbus
         CBMAM, //Cumulonimbus mammatus (implying turbulent air in the vicinity)
-        ACC, //Altocumulus castellatus (medium level vigorous instability)
+        ACC, //Alto-cumulus castellatus (medium level vigorous instability)
         CLD //Standing lenticular or rotor clouds.
     }
 }
