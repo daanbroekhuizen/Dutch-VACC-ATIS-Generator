@@ -42,7 +42,7 @@ namespace DutchVACCATISGenerator.Logic
 
             var reader = new StreamReader(response.GetResponseStream());
 
-            ApplicationEvents.METARDownloaded(new METARDownloadEventArgs
+            ApplicationEvents.METARDownloaded(new METARDownloadedEventArgs
             {
                 METAR = reader.ReadToEnd().Trim()
             });
