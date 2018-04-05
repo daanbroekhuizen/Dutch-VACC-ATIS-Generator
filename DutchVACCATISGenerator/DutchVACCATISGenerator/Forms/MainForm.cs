@@ -74,7 +74,7 @@ namespace DutchVACCATISGenerator.Forms
             DownloadMETAR();
 
             //Delete installer files.
-            fileLogic.DeleteInstallerFiles(Assembly.GetExecutingAssembly().Location);
+            fileLogic.DeleteInstallerFiles();
 
             //If auto load EHAM runways is selected.
             if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
@@ -909,19 +909,59 @@ namespace DutchVACCATISGenerator.Forms
             switch (applicationVariables.SelectedAirport)
             {
                 case "EHBK":
-                    BeekRunwayComboBox.SelectedIndex = BeekRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Beek));
+                    BeekRunwayComboBox.SelectedIndex = BeekRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(
+                        Runways.Beek,
+                        applicationVariables.FrictionIndex,
+                        applicationVariables.METAR.RVR,
+                        applicationVariables.METAR.RVRValues,
+                        applicationVariables.METAR.Visibility,
+                        applicationVariables.METAR.Clouds,
+                        applicationVariables.METAR.Wind.Heading,
+                        applicationVariables.METAR.Wind.Knots,
+                        applicationVariables.METAR.Wind.GustMin,
+                        applicationVariables.METAR.Wind.GustMax));
                     break;
 
                 case "EHRD":
-                    RotterdamRunwayComboBox.SelectedIndex = RotterdamRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Rotterdam));
+                    RotterdamRunwayComboBox.SelectedIndex = RotterdamRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(
+                        Runways.Rotterdam,
+                        applicationVariables.FrictionIndex,
+                        applicationVariables.METAR.RVR,
+                        applicationVariables.METAR.RVRValues,
+                        applicationVariables.METAR.Visibility,
+                        applicationVariables.METAR.Clouds,
+                        applicationVariables.METAR.Wind.Heading,
+                        applicationVariables.METAR.Wind.Knots,
+                        applicationVariables.METAR.Wind.GustMin,
+                        applicationVariables.METAR.Wind.GustMax));
                     break;
 
                 case "EHGG":
-                    EeldeRunwayComboBox.SelectedIndex = EeldeRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Eelde));
+                    EeldeRunwayComboBox.SelectedIndex = EeldeRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(
+                        Runways.Eelde,
+                        applicationVariables.FrictionIndex,
+                        applicationVariables.METAR.RVR,
+                        applicationVariables.METAR.RVRValues,
+                        applicationVariables.METAR.Visibility,
+                        applicationVariables.METAR.Clouds,
+                        applicationVariables.METAR.Wind.Heading,
+                        applicationVariables.METAR.Wind.Knots,
+                        applicationVariables.METAR.Wind.GustMin,
+                        applicationVariables.METAR.Wind.GustMax));
                     break;
 
                 case "EHEH":
-                    EindhovenRunwayComboBox.SelectedIndex = EindhovenRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(Runways.Eindhoven));
+                    EindhovenRunwayComboBox.SelectedIndex = EindhovenRunwayComboBox.Items.IndexOf(runwayLogic.BestRunway(
+                        Runways.Eindhoven,
+                        applicationVariables.FrictionIndex,
+                        applicationVariables.METAR.RVR,
+                        applicationVariables.METAR.RVRValues,
+                        applicationVariables.METAR.Visibility,
+                        applicationVariables.METAR.Clouds,
+                        applicationVariables.METAR.Wind.Heading,
+                        applicationVariables.METAR.Wind.Knots,
+                        applicationVariables.METAR.Wind.GustMin,
+                        applicationVariables.METAR.Wind.GustMax));
                     break;
             }
         }

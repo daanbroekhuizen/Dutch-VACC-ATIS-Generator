@@ -25,20 +25,29 @@ namespace DutchVACCATISGenerator.Logic
         /// <summary>
         /// Calculates the tail wind component of a runway.
         /// </summary>
-        /// <param name="runwayHeading">Opposite runway heading</param>
+        /// <param name="oppositeRunwayHeading">Opposite runway heading</param>
         /// <param name="windHeading">Wind heading</param>
         /// <param name="windKnots">Wind speed (in knots)</param>
         /// <param name="gustMin">Wind gust min (in knots)</param>
         /// <param name="gustMax">Wind gust max (in knots)</param>
         /// <returns>Calculated tail wind component</returns>
-        int CalculateTailwindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax);
+        int CalculateTailwindComponent(int oppositeRunwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax);
 
         /// <summary>
         /// Gets the best preferred runway.
         /// </summary>
         /// <param name="runways">Runway list</param>
+        /// <param name="frictionIndex">Selected index of friction combo box</param>
+        /// <param name="RVR">RVR</param>
+        /// <param name="RVRValues">Dictionary of RVR-values</param>
+        /// <param name="visibility">Visibility</param>
+        /// <param name="clouds">List of clouds</param>
+        /// <param name="windHeading">Wind heading</param>
+        /// <param name="windKnots">Wind speed (in knots)</param>
+        /// <param name="gustMin">Wind gust min (in knots)</param>
+        /// <param name="gustMax">Wind gust max (in knots)</param>
         /// <returns>Best runway to use</returns>
-        string BestRunway(Dictionary<string, Tuple<int, int, string>> runways);
+        string BestRunway(Dictionary<string, Tuple<int, int, string>> runways, int frictionIndex, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds, int windHeading, int windKnots, int? gustMin, int? gustMax);
 
         /// <summary>
         /// Check if a runway complies with weather criteria for a runway.
@@ -61,25 +70,36 @@ namespace DutchVACCATISGenerator.Logic
     {
         private const string schipholPlanningInterfaceURL = "https://spi.dutchvacc.nl/api_atisgenerator.php?action=retrieve_lvnlrunways";
 
-        public string BestRunway(Dictionary<string, Tuple<int, int, string>> runways)
+        public string BestRunway(Dictionary<string, Tuple<int, int, string>> runways, int frictionIndex, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds, int windHeading, int windKnots, int? gustMin, int? gustMax)
         {
             var preference = int.MaxValue;
             var runway = string.Empty;
 
-            //TODO remove non complying runways from list.
-
-            foreach (var pair in runways)
+            var validRunways = runways.Where((_runway) =>
             {
-                if (runway.Equals(string.Empty))
-                {
-                    runway = pair.Key;
-                    preference = Convert.ToInt32(pair.Value.Item3);
-                }
+                var crosswind = CalculateCrosswindComponent(_runway.Value.Item1, windHeading, windKnots, gustMin, gustMax);
+                var tailwind = CalculateTailwindComponent(_runway.Value.Item2, windHeading, windKnots, gustMin, gustMax);
 
-                if (Convert.ToInt32(pair.Value.Item3) < preference)
+                return RunwayComplies(frictionIndex, _runway.Key, RVR, RVRValues, visibility, clouds, crosswind, tailwind).Equals("OK");
+            }).ToList();
+
+            if (validRunways.Count() == 1)
+                return validRunways.First().Key;
+            else
+            {
+                foreach (var pair in validRunways)
                 {
-                    runway = pair.Key;
-                    preference = Convert.ToInt32(pair.Value.Item3);
+                    if (runway.Equals(string.Empty))
+                    {
+                        runway = pair.Key;
+                        preference = Convert.ToInt32(pair.Value.Item3);
+                    }
+
+                    if (Convert.ToInt32(pair.Value.Item3) < preference)
+                    {
+                        runway = pair.Key;
+                        preference = Convert.ToInt32(pair.Value.Item3);
+                    }
                 }
             }
 
@@ -104,14 +124,14 @@ namespace DutchVACCATISGenerator.Logic
                 return crosswind;
         }
 
-        public int CalculateTailwindComponent(int runwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax)
+        public int CalculateTailwindComponent(int oppositeRunwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax)
         {
             //If gust wind.
             if (gustMin != null)
                 //If gust is greater than 10 knots, include gust wind. Else do not include gust, calculate with min gust wind.
-                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
+                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - oppositeRunwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
             else
-                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * windKnots);
+                return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - oppositeRunwayHeading))) * windKnots);
         }
 
         public string RunwayComplies(int frictionIndex, string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds, int crosswind, int tailwind)

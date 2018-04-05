@@ -27,7 +27,7 @@ namespace DutchVACCATISGenerator.Forms
             SetVisibleDataGrid(this.applicationVariables.SelectedAirport);
 
             //Set runway friction combo box selection to first item.
-            frictionComboBox.SelectedIndex = 0;
+            frictionComboBox.SelectedIndex = applicationVariables.FrictionIndex;
         }
 
         #region UI events
@@ -36,8 +36,11 @@ namespace DutchVACCATISGenerator.Forms
             this.SetRelativeRight(this.applicationVariables.MainFormBounds);
         }
 
-        private void RunwayFrictionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void FrictionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Update friction index.
+            applicationVariables.FrictionIndex = frictionComboBox.SelectedIndex;
+
             SetDataGrid();
         }
         #endregion
@@ -187,7 +190,7 @@ namespace DutchVACCATISGenerator.Forms
             row.Cells[1].Value = crosswindComponent;
             row.Cells[2].Value = tailwindComponent * -1; //Q&D
             row.Cells[3].Value = runway.Value.Item3;
-            row.Cells[4].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex,
+            row.Cells[4].Value = runwayLogic.RunwayComplies(applicationVariables.FrictionIndex,
                 runway.Key,
                 applicationVariables.METAR.RVR,
                 applicationVariables.METAR.RVRValues,
@@ -228,7 +231,7 @@ namespace DutchVACCATISGenerator.Forms
             row.Cells[2].Value = tailwindComponent * -1; //Q&D
             row.Cells[3].Value = runway.Value.Item3;
             row.Cells[4].Value = runway.Value.Item4;
-            row.Cells[5].Value = runwayLogic.RunwayComplies(frictionComboBox.SelectedIndex, 
+            row.Cells[5].Value = runwayLogic.RunwayComplies(applicationVariables.FrictionIndex, 
                 runway.Key, 
                 applicationVariables.METAR.RVR,
                 applicationVariables.METAR.RVRValues,

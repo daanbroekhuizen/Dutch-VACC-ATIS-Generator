@@ -282,7 +282,7 @@
             this.frictionComboBox.Name = "frictionComboBox";
             this.frictionComboBox.Size = new System.Drawing.Size(153, 21);
             this.frictionComboBox.TabIndex = 0;
-            this.frictionComboBox.SelectedIndexChanged += new System.EventHandler(this.RunwayFrictionComboBox_SelectedIndexChanged);
+            this.frictionComboBox.SelectedIndexChanged += new System.EventHandler(this.FrictionComboBox_SelectedIndexChanged);
             // 
             // runwayGroupBox
             // 
