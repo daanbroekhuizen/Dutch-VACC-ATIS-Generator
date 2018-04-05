@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using DutchVACCATISGenerator.Extensions;
+using System.IO;
 using System.Reflection;
 
 namespace DutchVACCATISGenerator.Logic
@@ -12,6 +13,16 @@ namespace DutchVACCATISGenerator.Logic
     {
         public void DeleteInstallerFiles()
         {
+            //Clean up zips.
+            var zips = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.zip");
+
+            foreach (var zip in zips)
+            {
+                if(!(new FileInfo(zip).IsLocked()))
+                    File.Delete(zip);
+            }
+
+            //Clean up temp folder.
             var tempFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp";
 
             //Delete temp folder if exists.
