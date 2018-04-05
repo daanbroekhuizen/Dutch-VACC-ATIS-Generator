@@ -8,19 +8,19 @@ namespace DutchVACCATISGenerator.Test.Logic
     public class AutoUpdateTests
     {
         private readonly IAutoUpdateLogic autoUpdateLogic;
+        private readonly IFileLogic fileLogic;
 
         public AutoUpdateTests()
         {
-            var fileLogicMock = new Mock<IFileLogic>();
-
-            autoUpdateLogic = new AutoUpdateLogic(fileLogicMock.Object);
+            fileLogic = new FileLogic();
+            autoUpdateLogic = new AutoUpdateLogic(fileLogic);
         }
 
         [TestMethod]
         public void AutoUpdateTest()
         {
             //Act
-            autoUpdateLogic.AutoUpdate().Wait();
+            autoUpdateLogic.AutoUpdate().Wait(5000);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using DutchVACCATISGenerator.Types;
+﻿using DutchVACCATISGenerator.Extensions;
+using DutchVACCATISGenerator.Helpers;
+using DutchVACCATISGenerator.Types;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -82,7 +84,10 @@ namespace DutchVACCATISGenerator.Logic
                 fileLogic.DeleteInstallerFiles(executablePath);
 
                 //Extract zip.
-                ZipFile.ExtractToDirectory(executablePath + zipName, executablePath + @"\temp");
+                using (var zipFile = ZipFile.Open(executablePath + zipName, ZipArchiveMode.Read))
+                {
+                    zipFile.ExtractToDirectory($"{executablePath}temp", true);
+                }
 
                 //Set temp folder to be hidden.
                 DirectoryInfo directoryInfo = Directory.CreateDirectory(executablePath + @"\temp");
@@ -92,7 +97,8 @@ namespace DutchVACCATISGenerator.Logic
                 File.Delete(executablePath + zipName);
 
                 //Start setup.
-                Process.Start(executablePath + @"\temp\" + "Dutch VACC ATIS Generator - Setup.exe");
+                if (!UnitTestHelper.Detect_IsUnitTestRunning())
+                    Process.Start(executablePath + @"\temp\" + "Dutch VACC ATIS Generator - Setup.exe");
 
                 //Exit program to run setup.
                 Application.Exit();
