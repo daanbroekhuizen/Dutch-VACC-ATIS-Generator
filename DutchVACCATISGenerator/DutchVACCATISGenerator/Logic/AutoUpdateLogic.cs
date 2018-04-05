@@ -81,7 +81,7 @@ namespace DutchVACCATISGenerator.Logic
             try
             {
                 //Delete installer files.
-                fileLogic.DeleteInstallerFiles(executablePath);
+                fileLogic.DeleteInstallerFiles();
 
                 //Extract zip.
                 using (var zipFile = ZipFile.Open(executablePath + zipName, ZipArchiveMode.Read))

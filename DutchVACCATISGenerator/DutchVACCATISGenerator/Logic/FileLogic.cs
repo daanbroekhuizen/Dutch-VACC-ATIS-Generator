@@ -1,23 +1,28 @@
 ﻿using System.IO;
+using System.Reflection;
 
 namespace DutchVACCATISGenerator.Logic
 {
     public interface IFileLogic
     {
-        void DeleteInstallerFiles(string executablePath);
+        void DeleteInstallerFiles();
     }
 
     public class FileLogic : IFileLogic
     {
-        public void DeleteInstallerFiles(string executablePath)
+        public void DeleteInstallerFiles()
         {
-            //Remove hidden attribute.
-            DirectoryInfo directoryInfo = Directory.CreateDirectory($@"{Path.GetDirectoryName(executablePath)}\temp");
-            directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
+            var tempFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\temp";
 
             //Delete temp folder if exists.
-            if (Directory.Exists($@"{Path.GetDirectoryName(executablePath)}\temp"))
-                Directory.Delete($@"{executablePath}\temp", true);
+            if (Directory.Exists(tempFolder))
+            {
+                //Remove hidden attribute.
+                DirectoryInfo directoryInfo = Directory.CreateDirectory(tempFolder);
+                directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
+
+                Directory.Delete(tempFolder, true);
+            }
         }
     }
 }
