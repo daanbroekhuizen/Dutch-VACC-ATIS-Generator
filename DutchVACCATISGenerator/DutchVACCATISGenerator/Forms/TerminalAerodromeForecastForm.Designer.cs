@@ -80,7 +80,6 @@
 
         private System.Windows.Forms.RichTextBox terminalAerodromeForecastRichTextBox;
         private System.Windows.Forms.GroupBox terminalAerodromeForecastGroupBox;
-        public System.ComponentModel.BackgroundWorker terminalAerodromeForecastBackgroundWorker;
-
+        private System.ComponentModel.BackgroundWorker terminalAerodromeForecastBackgroundWorker;
     }
 }

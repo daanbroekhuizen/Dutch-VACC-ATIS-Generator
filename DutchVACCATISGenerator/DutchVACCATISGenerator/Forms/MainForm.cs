@@ -240,7 +240,6 @@ namespace DutchVACCATISGenerator.Forms
 #endif
             {
                 //Update METAR.
-                //TODO call this some other way
                 GetMetarButton_Click(null, null);
 
                 //Flash task bar.
@@ -449,18 +448,10 @@ namespace DutchVACCATISGenerator.Forms
             {
                 var terminalAerodromeForecastForm = formOpenerHelper.GetForm<TerminalAerodromeForecastForm>();
 
-                //TODO expose background worker this way?
-                if (terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.IsBusy)
-                    terminalAerodromeForecastForm.terminalAerodromeForecastBackgroundWorker.CancelAsync();
-
                 formOpenerHelper.CloseForm<TerminalAerodromeForecastForm>();
             }
             else
-            {
                 formOpenerHelper.ShowModelessForm<TerminalAerodromeForecastForm>();
-
-                formOpenerHelper.GetForm<TerminalAerodromeForecastForm>().terminalAerodromeForecastBackgroundWorker.RunWorkerAsync();
-            }
 
             terminalAerodromeForecastToolStripMenuItem.BackColor = formOpenerHelper.IsOpen<TerminalAerodromeForecastForm>() ? SystemColors.GradientActiveCaption : SystemColors.Control;
         }
@@ -570,7 +561,7 @@ namespace DutchVACCATISGenerator.Forms
                 //Start the METAR fetch timer.
                 fetchMETARTimer.Start();
 
-                //TODO call this some other way
+                //Trigger fetch tick.
                 METARFetchTimer_Tick(null, null);
             }
             else

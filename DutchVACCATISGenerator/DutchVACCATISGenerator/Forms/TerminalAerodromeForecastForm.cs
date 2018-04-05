@@ -18,6 +18,9 @@ namespace DutchVACCATISGenerator.Forms
             ApplicationEvents.SelectedAirportChangedEvent += SelectedAirportChanged;
 
             InitializeComponent();
+
+            //Run worker.
+            terminalAerodromeForecastBackgroundWorker.RunWorkerAsync();
         }
 
         #region UI events
