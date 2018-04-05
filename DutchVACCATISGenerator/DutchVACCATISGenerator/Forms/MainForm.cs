@@ -663,7 +663,7 @@ namespace DutchVACCATISGenerator.Forms
             generateATISButton.Invoke(new Action(() => generateATISButton.Enabled = false));
         }
 
-        private void METARDownloaded(object sender, METARDownloadEventArgs e)
+        private void METARDownloaded(object sender, METARDownloadedEventArgs e)
         {
             this.Invoke(new Action(() =>
             {

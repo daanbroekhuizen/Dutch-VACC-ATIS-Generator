@@ -2,7 +2,7 @@
 
 namespace DutchVACCATISGenerator.Types
 {
-    public class METARDownloadEventArgs : EventArgs
+    public class METARDownloadedEventArgs : EventArgs
     {
         public string METAR { get; set; }
     }
