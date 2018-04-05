@@ -87,6 +87,7 @@ namespace DutchVACCATISGenerator.Logic
                 return validRunways.First().Key;
             else
             {
+                //TODO this should look at the wind in degree relative to the heading of a runway and preference.
                 foreach (var pair in validRunways)
                 {
                     if (runway.Equals(string.Empty))
