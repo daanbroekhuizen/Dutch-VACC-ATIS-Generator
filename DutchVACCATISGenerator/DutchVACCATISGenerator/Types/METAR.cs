@@ -9,8 +9,10 @@ namespace DutchVACCATISGenerator.Types
 {
     public class METAR
     {
+        public bool Auto { get; set; }
         public bool CAVOK { get; set; }
         public List<Cloud> Clouds { get; set; }
+        public bool Corrected { get; set; }
         public int? DewPoint { get; set; }
         public string ICAO { get; set; }
         public bool NOSIG { get; set; }
@@ -131,6 +133,14 @@ namespace DutchVACCATISGenerator.Types
                 //Only applies to BASE part.
                 if (part == Part.BASE)
                 {
+                    //Auto
+                    if (s.Equals("AUTO"))
+                        Auto = true;
+
+                    //COR
+                    if (s.Equals("COR"))
+                        Corrected = true;
+
                     //ICAO
                     if (s.All(char.IsLetter) && s.IsLength(4) && s.Equals(input[0]))
                     {
