@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DutchVACCATISGenerator.Logic
 {
@@ -76,16 +75,17 @@ namespace DutchVACCATISGenerator.Logic
             //Add transition level to output.
             output += GenerateTransitionLevelOutput(METAR);
 
+            //Add operational report to output.
+            output += GenerateOperationalReportOutput(METAR,
+                schipholSecondaryLandingRunwayChecked,
+                schipholMainLandingRunway,
+                schipholSecondaryLandingRunway);
+
+            //Add pause.
+            AddPause();
+
+
             #region TODO
-
-
-            //#region OPERATIONAL REPORTS
-            ////Generate and add operational report to output.
-            //output += operationalReportToOutput();
-            //#endregion
-
-            //applicationVariables.ATISSamples.Add("pause");
-
             //#region WIND
             ////If processed METAR has wind, generate and add wind output to output. 
             ////if (addWindRecordCheckBox.Checked)
@@ -728,7 +728,7 @@ namespace DutchVACCATISGenerator.Logic
 
             //Calculate and add transition level to output.
             var transitionLevel = METARLogic.CalculateTransitionLevel(METAR.Temperature, METAR.QNH);
-            
+
             //Add to samples.
             AddIndividualDigits(transitionLevel.ToString());
 
@@ -746,6 +746,152 @@ namespace DutchVACCATISGenerator.Logic
         {
             applicationVariables.ATISSamples.AddRange(input.Where(Char.IsDigit).Select(c => c.ToString()));
         }
+
+        /// <summary>
+        /// Generates operational report output.
+        /// </summary>
+        /// <param name="METAR">METAR</param>
+        /// <param name="schipholSecondaryLandingRunwayChecked">Indicates if Schiphol secondary landing selection is made</param>
+        /// <param name="schipholMainLandingRunway">Selected Schiphol main landing runway</param>
+        /// <param name="schipholSecondaryLandingRunway">Selected Schiphol secondary landing runway</param>
+        /// <returns>Generated output</returns>
+        private string GenerateOperationalReportOutput(METAR METAR, bool schipholSecondaryLandingRunwayChecked, string schipholMainLandingRunway, string schipholSecondaryLandingRunway)
+        {
+            applicationVariables.ATISSamples.Add("opr");
+
+            var output = " OPERATIONAL REPORT";
+
+            bool independent = false;
+            bool converging = false;
+
+            //If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
+            output += GenerateLowVisibilityOutput(METAR, out bool visibility);
+
+            if (schipholSecondaryLandingRunwayChecked)
+            {
+                output += GenerateIndependentParallelApproachesOutput(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out independent);
+                output += GenerateConvergingApproachesOutput(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out converging);
+            }
+
+            if (visibility || independent || converging)
+                return output;
+
+            //Not operation report generated, remove sample.
+            applicationVariables.ATISSamples.Remove("opr");
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Generates low viability output.
+        /// </summary>
+        /// <param name="METAR">METAR</param>
+        /// <param name="visibility">Visibility operational report generated</param>
+        /// <returns>Generated output</returns>
+        private string GenerateLowVisibilityOutput(METAR METAR, out bool visibility)
+        {
+            if (METAR.Visibility != 0 && METAR.Visibility < 1500)
+            {
+                applicationVariables.ATISSamples.Add("lvp");
+                visibility = true;
+                return " LOW VISIBILITY PROCEDURES IN PROGRESS";
+            }
+
+            visibility = false;
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Generates independent parallel approaches output.
+        /// </summary>
+        /// <param name="schipholMainLandingRunway">Selected Schiphol main landing runway</param>
+        /// <param name="schipholSecondaryLandingRunway">Selected Schiphol secondary landing runway</param>
+        /// <param name="visibility">Visibility operational report generated</param>
+        /// <param name="independent">Independent approaches operational report generated</param>
+        /// <returns>Generated output</returns>
+        private string GenerateIndependentParallelApproachesOutput(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool independent)
+        {
+            string output = string.Empty;
+
+            if ((schipholMainLandingRunway.Equals("18R") && schipholSecondaryLandingRunway.Equals("18C")) ||
+                (schipholMainLandingRunway.Equals("18C") && schipholSecondaryLandingRunway.Equals("18R")) ||
+                (schipholMainLandingRunway.Equals("36R") && schipholSecondaryLandingRunway.Equals("36C")) ||
+                (schipholMainLandingRunway.Equals("36C") && schipholSecondaryLandingRunway.Equals("36R")))
+            {
+                independent = true;
+
+                if (visibility)
+                    output += AddAnd();
+
+                applicationVariables.ATISSamples.Add("independent");
+                return output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
+            }
+
+            independent = false;
+            return output;
+        }
+
+        /// <summary>
+        /// Generates converging approaches output.
+        /// </summary>
+        /// <param name="schipholMainLandingRunway">Selected Schiphol main landing runway</param>
+        /// <param name="schipholSecondaryLandingRunway">Selected Schiphol secondary landing runway</param>
+        /// <param name="visibility">Visibility operational report generated</param>
+        /// <param name="converging">Converging approaches operational report generated</param>
+        /// <returns>Generated output</returns>
+        private string GenerateConvergingApproachesOutput(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool converging)
+        {
+            string output = string.Empty;
+
+            if (//06
+                (schipholMainLandingRunway.Equals("06") && schipholSecondaryLandingRunway.Equals("36R")) ||
+                (schipholMainLandingRunway.Equals("36R") && schipholSecondaryLandingRunway.Equals("06")) ||
+                (schipholMainLandingRunway.Equals("06") && schipholSecondaryLandingRunway.Equals("27")) ||
+                (schipholMainLandingRunway.Equals("27") && schipholSecondaryLandingRunway.Equals("06")) ||
+                //09
+                (schipholMainLandingRunway.Equals("06") && schipholSecondaryLandingRunway.Equals("09")) ||
+                (schipholMainLandingRunway.Equals("09") && schipholSecondaryLandingRunway.Equals("06")) ||
+                //18C
+                (schipholMainLandingRunway.Equals("06") && schipholSecondaryLandingRunway.Equals("18C")) ||
+                (schipholMainLandingRunway.Equals("18C") && schipholSecondaryLandingRunway.Equals("06")) ||
+                //27
+                (schipholMainLandingRunway.Equals("18C") && schipholSecondaryLandingRunway.Equals("27")) ||
+                (schipholMainLandingRunway.Equals("27") && schipholSecondaryLandingRunway.Equals("18C")) ||
+                (schipholMainLandingRunway.Equals("18R") && schipholSecondaryLandingRunway.Equals("27")) ||
+                (schipholMainLandingRunway.Equals("27") && schipholSecondaryLandingRunway.Equals("18R")) ||
+                //36C
+                (schipholMainLandingRunway.Equals("27") && schipholSecondaryLandingRunway.Equals("36C")) ||
+                (schipholMainLandingRunway.Equals("36C") && schipholSecondaryLandingRunway.Equals("27")) ||
+                //36R
+                (schipholMainLandingRunway.Equals("27") && schipholSecondaryLandingRunway.Equals("36R")) ||
+                (schipholMainLandingRunway.Equals("36R") && schipholSecondaryLandingRunway.Equals("27")))
+            {
+                converging = true;
+
+                if (visibility)
+                    output += AddAnd();
+
+                applicationVariables.ATISSamples.Add("convapp");
+                return output += " CONVERGING APPROACHES IN PROGRESS";
+            }
+
+            converging = false;
+            return output;
+        }
+
+        /// <summary>
+        /// Adds and to ATIS samples.
+        /// </summary>
+        /// <returns>Generated output</returns>
+        private string AddAnd()
+        {
+            applicationVariables.ATISSamples.Add("and");
+            return " AND";
+        }
+
+
+
+
 
 
 
@@ -888,181 +1034,6 @@ namespace DutchVACCATISGenerator.Logic
         //    return output;
         //}
 
-        ///// <summary>
-        ///// Generate operational report.
-        ///// </summary>
-        ///// <returns>String output</returns>
-        //private String operationalReportToOutput()
-        //{
-        //    //applicationVariables.ATISSamples.Add("opr");
-        //    //String output = " OPERATIONAL REPORT";
-
-        //    //#region LOW LEVEL VISIBILITY
-        //    ////If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
-        //    //if (metar.Visibility != 0 && metar.Visibility < 1500)
-        //    //{
-        //    //    applicationVariables.ATISSamples.Add("lvp");
-        //    //    output += " LOW VISIBILITY PROCEDURES IN PROGRESS";
-        //    //}
-        //    //#endregion
-
-        //    //#region RWY CONFIGURATIONS
-        //    //if (SchipholMainLandingRunwayCheckBox.Checked && SchipholSecondaryLandingRunwayCheckBox.Checked)
-        //    //{
-        //    //    #region INDEPENDENT APPROACHES
-        //    //    /* 18R & 18C */
-        //    //    if (SchipholMainLandingRunwayComboBox.Text.Equals("18R") && SchipholScondaryLandingRunwayComboBox.Text.Equals("18C"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("independent");
-        //    //        output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("18C") && SchipholScondaryLandingRunwayComboBox.Text.Equals("18R"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("independent");
-        //    //        output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 36R & 36C */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("36R") && SchipholScondaryLandingRunwayComboBox.Text.Equals("36C"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("independent");
-        //    //        output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("36C") && SchipholScondaryLandingRunwayComboBox.Text.Equals("36R"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("independent");
-        //    //        output += " INDEPENDENT PARALLEL APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    #endregion
-        //    //    #region CONVERGING APPROACHES
-        //    //    /* 06 & 36R */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("06") && SchipholScondaryLandingRunwayComboBox.Text.Equals("36R"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("36R") && SchipholScondaryLandingRunwayComboBox.Text.Equals("06"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 06 & 27 */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("06") && SchipholScondaryLandingRunwayComboBox.Text.Equals("27"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("27") && SchipholScondaryLandingRunwayComboBox.Text.Equals("06"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 06 & 09 */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("06") && SchipholScondaryLandingRunwayComboBox.Text.Equals("09"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("09") && SchipholScondaryLandingRunwayComboBox.Text.Equals("06"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 06 & 18C */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("06") && SchipholScondaryLandingRunwayComboBox.Text.Equals("18C"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("18C") && SchipholScondaryLandingRunwayComboBox.Text.Equals("06"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    /* 27 & 18C */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("18C") && SchipholScondaryLandingRunwayComboBox.Text.Equals("27"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("27") && SchipholScondaryLandingRunwayComboBox.Text.Equals("18C"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 27 & 18R */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("18R") && SchipholScondaryLandingRunwayComboBox.Text.Equals("27"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("27") && SchipholScondaryLandingRunwayComboBox.Text.Equals("18R"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 27 & 36C */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("27") && SchipholScondaryLandingRunwayComboBox.Text.Equals("36C"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("36C") && SchipholScondaryLandingRunwayComboBox.Text.Equals("27"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    /* 27 & 36R */
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("27") && SchipholScondaryLandingRunwayComboBox.Text.Equals("36R"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-
-        //    //    else if (SchipholMainLandingRunwayComboBox.Text.Equals("36R") && SchipholScondaryLandingRunwayComboBox.Text.Equals("27"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Add("convapp");
-        //    //        output += " CONVERGING APPROACHES IN PROGRESS";
-        //    //    }
-        //    //    #endregion
-        //    //}
-        //    //#endregion
-
-        //    //#region CHECK FOR ADDING [AND]
-        //    //if (output.Contains("LOW VISIBILITY PROCEDURES IN PROGRESS") && (output.Contains("INDEPENDENT PARALLEL APPROACHES IN PROGRESS") || output.Contains("CONVERGING APPROACHES IN PROGRESS")))
-        //    //{
-        //    //    if (output.Contains(" INDEPENDENT PARALLEL APPROACHES IN PROGRESS"))
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Insert(applicationVariables.ATISSamples.IndexOf("independent"), "and");
-        //    //        output = output.Insert(output.IndexOf("IND"), " AND ");
-        //    //    }
-
-        //    //    else
-        //    //    {
-        //    //        applicationVariables.ATISSamples.Insert(applicationVariables.ATISSamples.IndexOf("convapp"), "and");
-        //    //        output = output.Insert(output.IndexOf("CON"), " AND");
-        //    //    }
-        //    //}
-        //    //#endregion
-
-        //    //if (!output.Equals(" OPERATIONAL REPORT")) return output;
-        //    //else
-        //    //{
-        //    //    applicationVariables.ATISSamples.Remove("opr");
-        //    //    return "";
-        //    //}
-
-        //    return string.Empty;
-        //}
 
         ///// <summary>
         ///// 
