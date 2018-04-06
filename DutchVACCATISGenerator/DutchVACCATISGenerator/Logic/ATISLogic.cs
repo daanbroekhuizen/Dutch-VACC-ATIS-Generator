@@ -87,31 +87,10 @@ namespace DutchVACCATISGenerator.Logic
             //Add wind.
             output += GenerateWindOutput(METAR);
 
+            //Add visibility.
+            output += GenerateVisibilityOutput(METAR);
+
             #region TODO
-
-
-            //#region CAVOK
-            ////If processed METAR has CAVOK, add CAVOK to output.
-            //if (metar.CAVOK)
-            //{
-            //    applicationVariables.ATISSamples.Add("cavok");
-            //    output += " CAVOK";
-            //}
-            //#endregion
-
-            //#region VISIBILITY
-            ////If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
-            //if (metar.Visibility > 0) output += visibilityToOutput(metar.Visibility);
-            //#endregion
-
-            //#region RVRONATC
-            ////If processed METAR has RVR, add RVR to output. 
-            //if (metar.RVR)
-            //{
-            //    applicationVariables.ATISSamples.Add("rvronatc");
-            //    output += " RVR AVAILABLE ON ATC FREQUENCY";
-            //}
-            //#endregion
 
             //#region PHENOMENA
             ////Generate and add weather phenomena to output.
@@ -954,71 +933,104 @@ namespace DutchVACCATISGenerator.Logic
             return output;
         }
 
+        /// <summary>
+        /// Generates visibility output.
+        /// </summary>
+        /// <param name="METAR">METAR</param>
+        /// <returns>Generated output</returns>
+        private string GenerateVisibilityOutput(METAR METAR)
+        {
+            //CAVOK
+            if (METAR.CAVOK)
+            {
+                applicationVariables.ATISSamples.Add("cavok");
+                return " CAVOK";
+            }
+            else
+            {
+                var output = string.Empty;
+
+                //If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
+                if (METAR.Visibility > 0)
+                    output += GenerateVisibilityOutput(METAR.Visibility);
+
+                //If processed METAR has RVR, add RVR to output. 
+                if (METAR.RVR)
+                {
+                    applicationVariables.ATISSamples.Add("rvronatc");
+                    output += " RVR AVAILABLE ON ATC FREQUENCY";
+                }
+
+                return output;
+            }
+        }
+
+        /// <summary>
+        /// Generates visibility output.
+        /// </summary>
+        /// <param name="visibility">Visibility</param>
+        /// <returns>Generated output</returns>
+        private string GenerateVisibilityOutput(int visibility)
+        {
+            applicationVariables.ATISSamples.Add("vis");
+            string output = " VISIBILITY";
+
+            //If visibility is lower than 800 meters (less than 800 meters phrase).
+            if (visibility < 800)
+            {
+                applicationVariables.ATISSamples.Add("<");
+                AddIndividualDigits("8");
+                applicationVariables.ATISSamples.Add("hundred");
+                applicationVariables.ATISSamples.Add("meters");
+
+                output += " LESS THAN 8 HUNDRED METERS";
+            }
+            //If visibility is lower than 1000 meters (add hundred).
+            else if (visibility < 1000)
+            {
+                AddIndividualDigits(Convert.ToString(visibility / 100));
+                applicationVariables.ATISSamples.Add("hundred");
+                applicationVariables.ATISSamples.Add("meters");
+
+                output += " " + Convert.ToString(visibility / 100) + " HUNDRED METERS";
+            }
+            //If visibility is lower than 5000 meters and visibility is not a thousand number.
+            else if (visibility < 5000 && (visibility % 1000) != 0)
+            {
+                AddIndividualDigits(Convert.ToString(visibility / 1000));
+                applicationVariables.ATISSamples.Add("thousand");
+                AddIndividualDigits(Convert.ToString((visibility % 1000) / 100));
+                applicationVariables.ATISSamples.Add("hundred");
+                applicationVariables.ATISSamples.Add("meters");
+
+                output += " " + Convert.ToString(visibility / 1000) + " THOUSAND " + Convert.ToString((visibility % 1000) / 100) + " HUNDRED METERS";
+            }
+            //If visibility is >= 9999 (10 km phrase).
+            else if (visibility >= 9999)
+            {
+                AddIndividualDigits("10");
+                applicationVariables.ATISSamples.Add("km");
+
+                output += " 10 KILOMETERS";
+            }
+            //If visibility is thousand.
+            else
+            {
+                AddIndividualDigits(Convert.ToString(visibility / 1000));
+                applicationVariables.ATISSamples.Add("km");
+
+                output += " " + Convert.ToString(visibility / 1000) + " KILOMETERS";
+            }
+
+            return output;
+        }
 
 
 
 
 
 
-        ///// <summary>
-        ///// Generate visibility output.
-        ///// </summary>
-        ///// <param name="input">Integer</param>
-        ///// <returns>String output</returns>
-        //private String visibilityToOutput(int input)
-        //{
-        //    applicationVariables.ATISSamples.Add("vis");
-        //    String output = " VISIBILITY";
 
-        //    //If visibility is lower than 800 meters (less than 800 meters phrase).
-        //    if (input < 800)
-        //    {
-        //        applicationVariables.ATISSamples.Add("<");
-        //        addIndividualDigitsToATISSamples("800");
-        //        applicationVariables.ATISSamples.Add("meters");
-
-        //        output += " LESS THAN 8 HUNDRED METERS";
-        //    }
-        //    //If visibility is lower than 1000 meters (add hundred).
-        //    else if (input < 1000)
-        //    {
-        //        addIndividualDigitsToATISSamples(Convert.ToString(input / 100));
-        //        applicationVariables.ATISSamples.Add("hundred");
-        //        applicationVariables.ATISSamples.Add("meters");
-
-        //        output += " " + Convert.ToString(input / 100) + " HUNDRED METERS";
-        //    }
-        //    //If visibility is lower than 5000 meters and visibility is not a thousand number.
-        //    else if (input < 5000 && (input % 1000) != 0)
-        //    {
-        //        addIndividualDigitsToATISSamples(Convert.ToString(input / 1000));
-        //        applicationVariables.ATISSamples.Add("thousand");
-        //        addIndividualDigitsToATISSamples(Convert.ToString((input % 1000) / 100));
-        //        applicationVariables.ATISSamples.Add("hundred");
-        //        applicationVariables.ATISSamples.Add("meters");
-
-        //        output += " " + Convert.ToString(input / 1000) + " THOUSAND " + Convert.ToString((input % 1000) / 100) + " HUNDRED METERS";
-        //    }
-        //    //If visibility is >= 9999 (10 km phrase).
-        //    else if (input >= 9999)
-        //    {
-        //        addIndividualDigitsToATISSamples("10");
-        //        applicationVariables.ATISSamples.Add("km");
-
-        //        output += " 10 KILOMETERS";
-        //    }
-        //    //If visibility is thousand.
-        //    else
-        //    {
-        //        addIndividualDigitsToATISSamples(Convert.ToString(input / 1000));
-        //        applicationVariables.ATISSamples.Add("km");
-
-        //        output += " " + Convert.ToString(input / 1000) + " KILOMETERS";
-        //    }
-
-        //    return output;
-        //}
-        
         ///// <summary>
         ///// 
         ///// </summary>
@@ -1151,7 +1163,7 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return string.Empty;
         //}
-        
+
         ///// <summary>
         ///// 
         ///// </summary>
@@ -1201,7 +1213,7 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return string.Empty;
         //}
-        
+
         ///// <summary>
         ///// Generate output from List<T>
         ///// </summary>
