@@ -112,7 +112,6 @@
             this.dutchVACCATISGeneratorV2ManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.userDefinedExtraCheckBox = new System.Windows.Forms.CheckBox();
-            this.addWindRecordCheckBox = new System.Windows.Forms.CheckBox();
             this.markTempCheckBox = new System.Windows.Forms.CheckBox();
             this.approachAndArrivalCheckBox = new System.Windows.Forms.CheckBox();
             this.arrivalCheckBox = new System.Windows.Forms.CheckBox();
@@ -999,7 +998,6 @@
             // additionalOptionsGroupBox
             // 
             this.additionalOptionsGroupBox.Controls.Add(this.userDefinedExtraCheckBox);
-            this.additionalOptionsGroupBox.Controls.Add(this.addWindRecordCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.markTempCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.approachAndArrivalCheckBox);
             this.additionalOptionsGroupBox.Controls.Add(this.arrivalCheckBox);
@@ -1014,22 +1012,12 @@
             // userDefinedExtraCheckBox
             // 
             this.userDefinedExtraCheckBox.AutoSize = true;
-            this.userDefinedExtraCheckBox.Location = new System.Drawing.Point(6, 159);
+            this.userDefinedExtraCheckBox.Location = new System.Drawing.Point(6, 128);
             this.userDefinedExtraCheckBox.Name = "userDefinedExtraCheckBox";
             this.userDefinedExtraCheckBox.Size = new System.Drawing.Size(112, 17);
             this.userDefinedExtraCheckBox.TabIndex = 19;
             this.userDefinedExtraCheckBox.Text = "User defined extra";
             this.userDefinedExtraCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // addWindRecordCheckBox
-            // 
-            this.addWindRecordCheckBox.AutoSize = true;
-            this.addWindRecordCheckBox.Location = new System.Drawing.Point(6, 131);
-            this.addWindRecordCheckBox.Name = "addWindRecordCheckBox";
-            this.addWindRecordCheckBox.Size = new System.Drawing.Size(84, 17);
-            this.addWindRecordCheckBox.TabIndex = 18;
-            this.addWindRecordCheckBox.Text = "Wind record\r\n";
-            this.addWindRecordCheckBox.UseVisualStyleBackColor = true;
             // 
             // markTempCheckBox
             // 
@@ -1242,7 +1230,6 @@
         public System.Windows.Forms.ComboBox EeldeRunwayComboBox;
         public System.Windows.Forms.ComboBox BeekRunwayComboBox;
         public System.Windows.Forms.ComboBox EindhovenRunwayComboBox;
-        private System.Windows.Forms.CheckBox addWindRecordCheckBox;
         private System.Windows.Forms.ToolStripMenuItem amsterdamInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dutchVACCToolStripMenuItem;
         private System.Windows.Forms.Button selectBestRunwayButton;

@@ -84,17 +84,11 @@ namespace DutchVACCATISGenerator.Logic
             //Add pause.
             AddPause();
 
+            //Add wind.
+            output += GenerateWindOutput(METAR);
 
             #region TODO
-            //#region WIND
-            ////If processed METAR has wind, generate and add wind output to output. 
-            ////if (addWindRecordCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("wind");
-            ////    output += " WIND";
-            ////}
-            //if (metar.Wind != null) output += windToOutput(metar.Wind);
-            //#endregion
+
 
             //#region CAVOK
             ////If processed METAR has CAVOK, add CAVOK to output.
@@ -889,7 +883,76 @@ namespace DutchVACCATISGenerator.Logic
             return " AND";
         }
 
+        /// <summary>
+        /// Generates wind output.
+        /// </summary>
+        /// <param name="METAR">METAR</param>
+        /// <returns>Generated output</returns>
+        private string GenerateWindOutput(METAR METAR)
+        {
+            string output = string.Empty;
 
+            applicationVariables.ATISSamples.Add("wind");
+            output += " WIND";
+
+            //If wind is calm.
+            if (METAR.Wind.Variable)
+            {
+                applicationVariables.ATISSamples.Add("vrb");
+
+                AddIndividualDigits(METAR.Wind.Knots.ToString());
+
+                output += " VARIABLE " + METAR.Wind.Knots + " KNOTS";
+            }
+            else
+            {
+                AddIndividualDigits(METAR.Wind.Heading.ToString());
+
+                applicationVariables.ATISSamples.Add("deg");
+
+                output += " " + METAR.Wind.Heading + " DEGREES";
+
+                //If wind is gusting.
+                if (METAR.Wind.GustMin != null)
+                {
+                    AddIndividualDigits(METAR.Wind?.GustMin.Value.ToString());
+
+                    applicationVariables.ATISSamples.Add("max");
+
+                    AddIndividualDigits(METAR.Wind?.GustMax.Value.ToString());
+
+                    output += " " + METAR.Wind.GustMin + " MAXIMUM " + METAR.Wind.GustMax + " KNOTS";
+                }
+                //If MetarWind has a normal wind.
+                else
+                {
+                    AddIndividualDigits(METAR.Wind.Knots.ToString());
+
+                    output += " " + METAR.Wind.Knots + " KNOTS";
+                }
+            }
+
+            //Add knots record.
+            applicationVariables.ATISSamples.Add("kt");
+
+            //Variable wind
+            if (METAR.Wind.VariableLeft != null)
+            {
+                applicationVariables.ATISSamples.Add("vrbbtn");
+
+                AddIndividualDigits(METAR.Wind?.VariableLeft.Value.ToString());
+
+                applicationVariables.ATISSamples.Add("and");
+
+                AddIndividualDigits(METAR.Wind.VariableRight.Value.ToString());
+
+                applicationVariables.ATISSamples.Add("deg");
+
+                output += " VARIABLE BETWEEN " + METAR.Wind.VariableLeft + " AND " + METAR.Wind.VariableRight + " DEGREES";
+            }
+
+            return output;
+        }
 
 
 
@@ -955,86 +1018,7 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return output;
         //}
-
-        ///// <summary>
-        ///// Generate wind output.
-        ///// </summary>
-        ///// <param name="input">String</param>
-        ///// <returns>String output</returns>
-        //private String windToOutput(Wind input)
-        //{
-        //    String output = String.Empty;
-
-        //    //If MetarWind has a calm wind.
-        //    if (input.Variable)
-        //    {
-        //        #region ADD SAMPLES TO ATISSAMPLES
-        //        applicationVariables.ATISSamples.Add("vrb");
-
-        //        addIndividualDigitsToATISSamples(input.Knots.ToString());
-
-        //        applicationVariables.ATISSamples.Add("kt");
-        //        #endregion
-
-        //        output += " VARIABLE " + input.Knots + " KNOTS";
-        //    }
-        //    //If MetarWind has a gusting wind.
-        //    else if (input.GustMin != null)
-        //    {
-        //        #region ADD SAMPLES TO ATISSAMPLES
-        //        addIndividualDigitsToATISSamples(input.Heading.ToString());
-
-        //        applicationVariables.ATISSamples.Add("deg");
-
-        //        addIndividualDigitsToATISSamples(input?.GustMin.Value.ToString());
-
-        //        applicationVariables.ATISSamples.Add("max");
-
-        //        addIndividualDigitsToATISSamples(input?.GustMax.Value.ToString());
-
-        //        applicationVariables.ATISSamples.Add("kt");
-        //        #endregion
-
-        //        output += " " + input.Heading + " DEGREES" + input.GustMin + " MAXIMUM " + input.GustMax + " KNOTS";
-        //    }
-        //    //If MetarWind has a normal wind.
-        //    else
-        //    {
-        //        #region ADD SAMPLES TO ATISSAMPLES
-        //        addIndividualDigitsToATISSamples(input.Heading.ToString());
-
-        //        applicationVariables.ATISSamples.Add("deg");
-
-        //        addIndividualDigitsToATISSamples(input.Knots.ToString());
-
-        //        applicationVariables.ATISSamples.Add("kt");
-        //        #endregion
-
-        //        output += " " + input.Heading + " DEGREES " + input.Knots + " KNOTS";
-        //    }
-
-        //    /*Variable wind*/
-        //    if (input.VariableLeft != null)
-        //    {
-        //        #region ADD SAMPLES TO ATISSAMPLES
-        //        applicationVariables.ATISSamples.Add("vrbbtn");
-
-        //        addIndividualDigitsToATISSamples(input?.VariableLeft.Value.ToString());
-
-        //        applicationVariables.ATISSamples.Add("and");
-
-        //        addIndividualDigitsToATISSamples(input.VariableRight.Value.ToString());
-
-        //        applicationVariables.ATISSamples.Add("deg");
-        //        #endregion
-
-        //        output += " VARIABLE BETWEEN " + input.VariableLeft + " AND " + input.VariableRight + " DEGREES";
-        //    }
-
-        //    return output;
-        //}
-
-
+        
         ///// <summary>
         ///// 
         ///// </summary>
@@ -1167,8 +1151,7 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return string.Empty;
         //}
-
-
+        
         ///// <summary>
         ///// 
         ///// </summary>
@@ -1218,13 +1201,7 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return string.Empty;
         //}
-
-
-
-
-
-
-
+        
         ///// <summary>
         ///// Generate output from List<T>
         ///// </summary>
