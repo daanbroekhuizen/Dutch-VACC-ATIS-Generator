@@ -123,8 +123,18 @@ namespace DutchVACCATISGenerator.Forms
             if (!RunwaySelected())
                 return;
 
+            //Determine regional runway.
+            var regionalRunway = DetermineRegionalRunway();
+
             //Generate output.
-            string output = ATISLogic.GenerateOutput(applicationVariables.METAR);
+            string output = ATISLogic.GenerateOutput(applicationVariables.METAR,
+                SchipholMainLandingRunwayComboBox.Text,
+                SchipholMainDepartureRunwayComboBox.Text,
+                SchipholSecondaryLandingRunwayCheckBox.Checked,
+                SchipholSecondaryDepartureRunwayCheckBox.Checked,
+                SchipholSecondaryLandingRunwayComboBox.Text,
+                SchipholSecondaryDepartureRunwayComboBox.Text,
+                regionalRunway);
 
             //If copy output check box is checked, copy ATIS output to clipboard.
             if (copyOutputCheckBox.Checked)
@@ -537,7 +547,7 @@ namespace DutchVACCATISGenerator.Forms
 
         private void SchipholSecondaryLandingRunway_CheckedChanged(object sender, EventArgs e)
         {
-            SchipholScondaryLandingRunwayComboBox.Enabled = SchipholSecondaryLandingRunwayCheckBox.Checked;
+            SchipholSecondaryLandingRunwayComboBox.Enabled = SchipholSecondaryLandingRunwayCheckBox.Checked;
         }
         #endregion
 
@@ -689,7 +699,7 @@ namespace DutchVACCATISGenerator.Forms
                 SchipholMainDepartureRunwayComboBox.Text =
                  SchipholMainLandingRunwayComboBox.Text =
                  SchipholSecondaryDepartureRunwayComboBox.Text =
-                 SchipholScondaryLandingRunwayComboBox.Text = string.Empty;
+                 SchipholSecondaryLandingRunwayComboBox.Text = string.Empty;
 
                 //Only one departure runway found.
                 if (e.SchipholPlanningInterfaceData.DepartureRunways.Count == 1)
@@ -716,6 +726,31 @@ namespace DutchVACCATISGenerator.Forms
             terminalAerodromeForecastToolStripMenuItem.BackColor = SystemColors.Control;
         }
         #endregion
+
+        /// <summary>
+        /// Determines selected regional runway.
+        /// </summary>
+        /// <returns>Selected regional runway</returns>
+        private string DetermineRegionalRunway()
+        {
+            switch (applicationVariables.SelectedAirport)
+            {
+                case "EHBK":
+                    return BeekRunwayComboBox.Text;
+
+                case "EHEH":
+                    return EindhovenRunwayComboBox.Text;
+
+                case "EHGG":
+                    return EeldeRunwayComboBox.Text;
+
+                case "EHRD":
+                    return RotterdamRunwayComboBox.Text;
+
+                default:
+                    return string.Empty;
+            }
+        }
 
         private void DownloadMETAR()
         {
@@ -781,7 +816,7 @@ namespace DutchVACCATISGenerator.Forms
                     if ((firstRunway.Equals(runwayCombination.Item1) && secondRunway.Equals(runwayCombination.Item2)) || (firstRunway.Equals(runwayCombination.Item2) && secondRunway.Equals(runwayCombination.Item1)))
                     {
                         SchipholMainLandingRunwayComboBox.Text = runwayCombination.Item1;
-                        SchipholScondaryLandingRunwayComboBox.Text = runwayCombination.Item2;
+                        SchipholSecondaryLandingRunwayComboBox.Text = runwayCombination.Item2;
                     }
                 }
             }
@@ -823,7 +858,7 @@ namespace DutchVACCATISGenerator.Forms
                     }
 
                     //If EHAM secondary landing runway check box is checked OR the EHAM secondary landing runway combo box selection is NULL.
-                    if (SchipholSecondaryLandingRunwayCheckBox.Checked && SchipholScondaryLandingRunwayComboBox.SelectedIndex == -1)
+                    if (SchipholSecondaryLandingRunwayCheckBox.Checked && SchipholSecondaryLandingRunwayComboBox.SelectedIndex == -1)
                     {
                         //Show warning message.
                         MessageBox.Show("Secondary landing runway is checked but no runway is selected.", "Warning");

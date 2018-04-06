@@ -47,7 +47,7 @@
             this.SchipholMainDepartureRunwayCheckBox = new System.Windows.Forms.CheckBox();
             this.SchipholMainDepartureRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.SchipholSecondaryLandingRunwayCheckBox = new System.Windows.Forms.CheckBox();
-            this.SchipholScondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
+            this.SchipholSecondaryLandingRunwayComboBox = new System.Windows.Forms.ComboBox();
             this.EHAMsecondaryLandingRunwayGroupBox = new System.Windows.Forms.GroupBox();
             this.EHAMsecondaryRunwaysGroupBox = new System.Windows.Forms.GroupBox();
             this.EHAMsecondaryDepartureRunwayGroupBox = new System.Windows.Forms.GroupBox();
@@ -350,12 +350,12 @@
             this.SchipholSecondaryLandingRunwayCheckBox.UseVisualStyleBackColor = true;
             this.SchipholSecondaryLandingRunwayCheckBox.CheckedChanged += new System.EventHandler(this.SchipholSecondaryLandingRunway_CheckedChanged);
             // 
-            // SchipholScondaryLandingRunwayComboBox
+            // SchipholSecondaryLandingRunwayComboBox
             // 
-            this.SchipholScondaryLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SchipholScondaryLandingRunwayComboBox.Enabled = false;
-            this.SchipholScondaryLandingRunwayComboBox.FormattingEnabled = true;
-            this.SchipholScondaryLandingRunwayComboBox.Items.AddRange(new object[] {
+            this.SchipholSecondaryLandingRunwayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SchipholSecondaryLandingRunwayComboBox.Enabled = false;
+            this.SchipholSecondaryLandingRunwayComboBox.FormattingEnabled = true;
+            this.SchipholSecondaryLandingRunwayComboBox.Items.AddRange(new object[] {
             "04",
             "06",
             "09",
@@ -366,14 +366,14 @@
             "27",
             "36C",
             "36R"});
-            this.SchipholScondaryLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
-            this.SchipholScondaryLandingRunwayComboBox.Name = "SchipholScondaryLandingRunwayComboBox";
-            this.SchipholScondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
-            this.SchipholScondaryLandingRunwayComboBox.TabIndex = 11;
+            this.SchipholSecondaryLandingRunwayComboBox.Location = new System.Drawing.Point(6, 36);
+            this.SchipholSecondaryLandingRunwayComboBox.Name = "SchipholSecondaryLandingRunwayComboBox";
+            this.SchipholSecondaryLandingRunwayComboBox.Size = new System.Drawing.Size(157, 21);
+            this.SchipholSecondaryLandingRunwayComboBox.TabIndex = 11;
             // 
             // EHAMsecondaryLandingRunwayGroupBox
             // 
-            this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.SchipholScondaryLandingRunwayComboBox);
+            this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.SchipholSecondaryLandingRunwayComboBox);
             this.EHAMsecondaryLandingRunwayGroupBox.Controls.Add(this.SchipholSecondaryLandingRunwayCheckBox);
             this.EHAMsecondaryLandingRunwayGroupBox.Location = new System.Drawing.Point(177, 19);
             this.EHAMsecondaryLandingRunwayGroupBox.Name = "EHAMsecondaryLandingRunwayGroupBox";
@@ -1188,7 +1188,7 @@
         private System.Windows.Forms.GroupBox EHAMmainRunwaysGroupBox;
         private System.Windows.Forms.CheckBox SchipholSecondaryLandingRunwayCheckBox;
         private System.Windows.Forms.CheckBox SchipholMainLandingRunwayCheckBox;
-        private System.Windows.Forms.ComboBox SchipholScondaryLandingRunwayComboBox;
+        private System.Windows.Forms.ComboBox SchipholSecondaryLandingRunwayComboBox;
         private System.Windows.Forms.GroupBox EHAMsecondaryLandingRunwayGroupBox;
         private System.Windows.Forms.GroupBox EHAMmainLandingRunwayGroupBox;
         private System.Windows.Forms.GroupBox EHAMsecondaryRunwaysGroupBox;
