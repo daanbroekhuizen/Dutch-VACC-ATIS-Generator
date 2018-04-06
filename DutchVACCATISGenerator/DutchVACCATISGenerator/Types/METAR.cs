@@ -298,15 +298,15 @@ namespace DutchVACCATISGenerator.Types
                         break;
 
                     case Part.BECMG:
-                        BECMG.Visibility = Visibility = Convert.ToInt32(input);
+                        BECMG.Visibility = Convert.ToInt32(input);
                         break;
 
                     case Part.MILITARY:
-                        Military.Visibility = Visibility = Convert.ToInt32(input);
+                        Military.Visibility = Convert.ToInt32(input);
                         break;
 
                     case Part.TEMPO:
-                        TEMPO.Visibility = Visibility = Convert.ToInt32(input);
+                        TEMPO.Visibility = Convert.ToInt32(input);
                         break;
                 }
 
