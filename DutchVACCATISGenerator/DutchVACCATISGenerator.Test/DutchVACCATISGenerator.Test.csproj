@@ -64,6 +64,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\METARHelper.cs" />
+    <Compile Include="Logic\ATISTests.cs" />
     <Compile Include="Logic\AutoUpdateTests.cs" />
     <Compile Include="Logic\RunwayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
