@@ -90,12 +90,11 @@ namespace DutchVACCATISGenerator.Logic
             //Add visibility.
             output += GenerateVisibilityOutput(METAR);
 
-            #region TODO
+            //Add phenomena.
+            output += GeneratePhenomenaOutput(METAR.Phenomena);
 
-            //#region PHENOMENA
-            ////Generate and add weather phenomena to output.
-            //output += listToOutput(metar.Phenomena);
-            //#endregion
+
+            #region TODO
 
             //#region CLOUDS OPTIONS
             ////If processed METAR has SKC, add SKC to output. 
@@ -1025,144 +1024,323 @@ namespace DutchVACCATISGenerator.Logic
             return output;
         }
 
+        /// <summary>
+        /// Generates phenomena output.
+        /// </summary>
+        /// <param name="phenomenas">List of phenomena</param>
+        /// <returns>Generated output</returns>
+        private string GeneratePhenomenaOutput(List<Phenomena> phenomenas)
+        {
+            string output = string.Empty;
+
+            foreach (var phenomena in phenomenas)
+            {
+                switch (phenomena.Intensity)
+                {
+                    case PhenomenaItensity.NORMAL:
+                        break;
+                    case PhenomenaItensity.LIGHT:
+                        applicationVariables.ATISSamples.Add("-");
+                        output += " LIGHT";
+                        break;
+
+                    case PhenomenaItensity.HEAVY:
+                        //TODO ADD SAMPLE FOR + intensity;
+                        applicationVariables.ATISSamples.Add("+");
+                        output += " HEAVY";
+                        break;
+                }
+                
+                var fourCharacter = new List<string> { "BCFG", "MIFG", "SHRA", "VCSH", "VCTS" };
+
+                //If phenomena is 4 character phenomena (BCFG | MIFG | SHRA | VCSH | VCTS).
+                if (fourCharacter.Any(fc => phenomena.Type.Equals(fc)))
+                {
+                    switch (phenomena.Type)
+                    {
+                        case "BCFG":
+                            applicationVariables.ATISSamples.Add("bcfg");
+                            output += " PATCHES OF FOG";
+                            break;
+
+                        case "MIFG":
+                            applicationVariables.ATISSamples.Add("mifg");
+                            output += " SHALLOW FOG";
+                            break;
+
+                        case "SHRA":
+                            applicationVariables.ATISSamples.Add("shra");
+                            output += " SHOWERS OF RAIN";
+                            break;
+
+                        case "VCSH":
+                            applicationVariables.ATISSamples.Add("vcsh");
+                            output += " SHOWERS IN VICINITY";
+                            break;
+
+                        case "VCTS":
+                            applicationVariables.ATISSamples.Add("vcts");
+                            output += " THUNDERSTORMS IN VICINITY";
+                            break;
+                    }
+                }
+                //If phenomena is multi-phenomena.
+                else if (phenomena.Type.Length > 2)
+                {
+                    if ((phenomena.Type.Length % 2) == 0)
+                    {
+                        int index = 0;
+
+                        while (index != phenomena.Type.Length)
+                        {
+                            if (!(phenomena.Type.Length - index == 2))
+                                output += GeneratePhenomenaOutput(phenomena.Type.Substring(index, 2));
+
+                            else
+                                output += GeneratePhenomenaOutput(phenomena.Type.Substring(index));
+
+                            index = index + 2;
+                        }
+                    }
+                }
+                //If phenomena is 2 char phenomena.
+                else
+                    output += GeneratePhenomenaOutput(phenomena.Type);
+
+                //If multiple phenomena and not the last of phenomena list, add [and].
+                if (phenomenas.Count > 1 && phenomenas.IndexOf(phenomena) != phenomenas.Count - 1)
+                    AddAnd();
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Generates phenomena output.
+        /// </summary>
+        /// <param name="phenomenaType">Phenomena type</param>
+        /// <returns>Generated output</returns>
+        private string GeneratePhenomenaOutput(string phenomenaType)
+        {
+            switch (phenomenaType)
+            {
+                case "BC":
+                    applicationVariables.ATISSamples.Add("bc");
+                    return " PATCHES";
+
+                //TODO GET SAMPLE
+                case "BL":
+                    return " BLOWING";
+
+                case "BR":
+                    applicationVariables.ATISSamples.Add("br");
+                    return " MIST";
+
+                //TODO GET SAMPLE
+                case "DR":
+                    return " LOW DRIFTING";
+
+                //TODO GET SAMPLE
+                case "DS":
+                    return " DUSTSTORM";
+
+                //TODO GET SAMPLE
+                case "DU":
+                    return " WIDESPREAD DUST";
+
+                case "DZ":
+                    applicationVariables.ATISSamples.Add("dz");
+                    return " DRIZZLE";
+
+                //TODO GET SAMPLE
+                case "FC":
+                    return " FUNNEL CLOUD";
+
+                case "FG":
+                    applicationVariables.ATISSamples.Add("fg");
+                    return " FOG";
+
+                //TODO GET SAMPLE
+                case "FU":
+                    return " SMOKE";
+
+                case "FZ":
+                    applicationVariables.ATISSamples.Add("fz");
+                    return " FREEZING";
+
+                case "GR":
+                    applicationVariables.ATISSamples.Add("gr");
+                    return " HAIL";
+
+                case "GS":
+                    applicationVariables.ATISSamples.Add("gs");
+                    return " SOFT HAIL";
+
+                case "HZ":
+                    applicationVariables.ATISSamples.Add("hz");
+                    return " HAZE";
+
+                //TODO GET SAMPLE
+                case "IC":
+                    return " ICE CRYSTALS";
+
+                case "MI":
+                    applicationVariables.ATISSamples.Add("mi");
+                    return " SHALLOW";
+
+                //TODO GET SAMPLE
+                case "PL":
+                    return " ICE PELLETS";
+
+                //TODO GET SAMPLE
+                case "PO":
+                    return " DUST";
+
+                //TODO GET SAMPLE
+                case "PR":
+                    return " PARTIAL";
+
+                //TODO GET SAMPLE
+                case "PY":
+                    return " SPRAY";
+
+                case "RA":
+                    applicationVariables.ATISSamples.Add("ra");
+                    return " RAIN";
+
+                //TODO GET SAMPLE
+                case "SA":
+                    return " SAND";
+
+                case "SG":
+                    applicationVariables.ATISSamples.Add("sg");
+                    return " SNOW GRAINS";
+
+                case "SH":
+                    applicationVariables.ATISSamples.Add("sh");
+                    return " SHOWERS";
+
+                //TODO check SNOW sample.
+                case "SN":
+                    applicationVariables.ATISSamples.Add("sn");
+                    return " SNOW";
+
+                //TODO GET SAMPLE
+                case "SS":
+                    return " SANDSTORM";
+
+                //TODO GET SAMPLE
+                case "SQ":
+                    return " SQUALL";
+
+                case "TS":
+                    applicationVariables.ATISSamples.Add("ts");
+                    return " THUNDERSTORMS";
+
+                //TODO GET SAMPLE
+                case "UP":
+                    return " UNKOWN PRECIPITATION";
+
+                //TODO GET SAMPLE
+                case "VA":
+                    return " VOLCANIC ASH";
+            }
+
+            return string.Empty;
+        }
 
 
 
 
 
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="cloudType"></param>
-        ///// <returns></returns>
-        //private string phenomenaToFullSpelling(string cloudType)
-        //{
-        //    switch (cloudType)
-        //    {
-        //        case "BC":
-        //            applicationVariables.ATISSamples.Add("bc");
-        //            return " PATCHES";
 
-        //        //TODO GET SAMPLE
-        //        case "BL":
-        //            return " BLOWING";
 
-        //        case "BR":
-        //            applicationVariables.ATISSamples.Add("br");
-        //            return " MIST";
 
-        //        //TODO GET SAMPLE
-        //        case "DR":
-        //            return " LOW DRIFTING";
 
-        //        //TODO GET SAMPLE
-        //        case "DS":
-        //            return " DUSTSTORM";
 
-        //        //TODO GET SAMPLE
-        //        case "DU":
-        //            return " WIDESPREAD DUST";
 
-        //        case "DZ":
-        //            applicationVariables.ATISSamples.Add("dz");
-        //            return " DRIZZLE";
 
-        //        //TODO GET SAMPLE
-        //        case "FC":
-        //            return " FUNNEL CLOUD";
 
-        //        case "FG":
-        //            applicationVariables.ATISSamples.Add("fg");
-        //            return " FOG";
 
-        //        //TODO GET SAMPLE
-        //        case "FU":
-        //            return " SMOKE";
 
-        //        case "FZ":
-        //            applicationVariables.ATISSamples.Add("fz");
-        //            return " FREEZING";
 
-        //        case "GR":
-        //            applicationVariables.ATISSamples.Add("gr");
-        //            return " HAIL";
+        private string GenerateCloudOutput(List<Cloud> clouds)
+        {
+            //        foreach (Cloud metarCloud in input as List<Cloud>)
+            //        {
+            //            //TODO fix
+            //            //Add cloud type identifier.
+            //            //output += cloudTypeToFullSpelling(metarCloud.cloudType);
 
-        //        case "GS":
-        //            applicationVariables.ATISSamples.Add("gs");
-        //            return " SOFT HAIL";
+            //            //If cloud altitude equals ground level.
+            //            if (metarCloud.Altitude == 0)
+            //            {
+            //                addIndividualDigitsToATISSamples(metarCloud.Altitude.ToString());
 
-        //        case "HZ":
-        //            applicationVariables.ATISSamples.Add("hz");
-        //            return " HAZE";
+            //                output += " " + metarCloud.Altitude;
+            //            }
 
-        //        //TODO GET SAMPLE
-        //        case "IC":
-        //            return " ICE CRYSTALS";
+            //            //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
+            //            else if (metarCloud.Altitude % 100 == 0)
+            //            {
+            //                addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0");
+            //                applicationVariables.ATISSamples.Add("thousand");
 
-        //        case "MI":
-        //            applicationVariables.ATISSamples.Add("mi");
-        //            return " SHALLOW";
+            //                output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0" + " THOUSAND";
+            //            }
 
-        //        //TODO GET SAMPLE
-        //        case "PL":
-        //            return " ICE PELLETS";
+            //            else
+            //            {
+            //                //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
+            //                if (metarCloud.Altitude / 100 > 0)
+            //                {
+            //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString());
 
-        //        //TODO GET SAMPLE
-        //        case "PO":
-        //            return " DUST";
+            //                    output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString();
 
-        //        //TODO GET SAMPLE
-        //        case "PR":
-        //            return " PARTIAL";
+            //                    //If cloud altitude has a ten-thousand and hundred value (e.g. 10200 (102), 20800 (208), 40700 (407)).
+            //                    if (metarCloud.Altitude.ToString().Substring(1, 1).Equals("0"))
+            //                    {
+            //                        applicationVariables.ATISSamples.Add("0");
+            //                        applicationVariables.ATISSamples.Add("thousand");
+            //                        output += " 0 THOUSAND";
+            //                    }
+            //                }
 
-        //        //TODO GET SAMPLE
-        //        case "PY":
-        //            return " SPRAY";
+            //                //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
+            //                if ((metarCloud.Altitude / 10) % 10 > 0)
+            //                {
+            //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)).ToString());
+            //                    applicationVariables.ATISSamples.Add("thousand");
 
-        //        case "RA":
-        //            applicationVariables.ATISSamples.Add("ra");
-        //            return " RAIN";
+            //                    output += " " + Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)) + " THOUSAND";
+            //                }
 
-        //        //TODO GET SAMPLE
-        //        case "SA":
-        //            return " SAND";
+            //                //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
+            //                if (metarCloud.Altitude % 10 > 0)
+            //                {
+            //                    addIndividualDigitsToATISSamples(Convert.ToString(metarCloud.Altitude % 10));
+            //                    applicationVariables.ATISSamples.Add("hundred");
 
-        //        case "SG":
-        //            applicationVariables.ATISSamples.Add("sg");
-        //            return " SNOW GRAINS";
+            //                    output += " " + metarCloud.Altitude % 10 + " HUNDRED";
+            //                }
+            //            }
 
-        //        case "SH":
-        //            applicationVariables.ATISSamples.Add("sh");
-        //            return " SHOWERS";
+            //            applicationVariables.ATISSamples.Add("ft");
+            //            output += " FEET";
 
-        //        case "SN":
-        //            applicationVariables.ATISSamples.Add("sn");
-        //            return " SNOW";
+            //            //If cloud type has addition (e.g. CB, TCU).
+            //            //TODO fix
+            //            //if (metarCloud.Addition != null) output += cloudAddiationToFullSpelling(metarCloud.Addition);
+            //        }
+            //    }
 
-        //        //TODO GET SAMPLE
-        //        case "SS":
-        //            return " SANDSTORM";
+            return string.Empty;
+        }
 
-        //        //TODO GET SAMPLE
-        //        case "SQ":
-        //            return " SQUALL";
 
-        //        case "TS":
-        //            applicationVariables.ATISSamples.Add("ts");
-        //            return " THUNDERSTORMS";
-
-        //        //TODO GET SAMPLE
-        //        case "UP":
-        //            return " UNKOWN PRECIPITATION";
-
-        //        //TODO GET SAMPLE
-        //        case "VA":
-        //            return " VOLCANIC ASH";
-        //    }
-
-        //    return string.Empty;
-        //}
+        
 
         ///// <summary>
         ///// 
@@ -1213,182 +1391,5 @@ namespace DutchVACCATISGenerator.Logic
 
         //    return string.Empty;
         //}
-
-        ///// <summary>
-        ///// Generate output from List<T>
-        ///// </summary>
-        ///// <typeparam name="T">List type</typeparam>
-        ///// <param name="input">List<T></param>
-        ///// <returns>String output</returns>
-        //private String listToOutput<T>(List<T> input)
-        //{
-        //    String output = String.Empty;
-
-        //    #region MetarPhenomena
-        //    //If list is a MetarPhenomena list.
-        //    if (input is List<Phenomena>)
-        //    {
-        //        foreach (Phenomena metarPhenomena in input as List<Phenomena>)
-        //        {
-        //            //If phenomena has intensity.
-        //            switch (metarPhenomena.Intensity)
-        //            {
-        //                case PhenomenaItensity.NORMAL:
-        //                    break;
-        //                case PhenomenaItensity.LIGHT:
-        //                    applicationVariables.ATISSamples.Add("-");
-        //                    output += " LIGHT";
-        //                    break;
-
-        //                case PhenomenaItensity.HEAVY:
-        //                    //TODO ADD SAMPLE FOR + intensity;
-        //                    output += " HEAVY";
-        //                    break;
-        //            }
-
-        //            //If phenomena is 4 character phenomena (BCFG | MIFG | SHRA | VCSH | VCTS).
-        //            if (metarPhenomena.Type.Equals("BCFG") || metarPhenomena.Type.Equals("MIFG") || metarPhenomena.Type.Equals("SHRA") || metarPhenomena.Type.Equals("VCSH") || metarPhenomena.Type.Equals("VCTS"))
-        //            {
-        //                switch (metarPhenomena.Type)
-        //                {
-        //                    case "BCFG":
-        //                        applicationVariables.ATISSamples.Add("bcfg");
-        //                        output += " PATCHES OF FOG";
-        //                        break;
-
-        //                    case "MIFG":
-        //                        applicationVariables.ATISSamples.Add("mifg");
-        //                        output += " SHALLOW FOG";
-        //                        break;
-
-        //                    case "SHRA":
-        //                        applicationVariables.ATISSamples.Add("shra");
-        //                        output += " SHOWERS OF RAIN";
-        //                        break;
-
-        //                    case "VCSH":
-        //                        applicationVariables.ATISSamples.Add("vcsh");
-        //                        output += " SHOWERS IN VICINITY";
-        //                        break;
-
-        //                    case "VCTS":
-        //                        applicationVariables.ATISSamples.Add("vcts");
-        //                        output += " THUNDERSTORMS IN VICINITY";
-        //                        break;
-        //                }
-        //            }
-        //            //If phenomena is multi-phenomena (count > 2).
-        //            else if (metarPhenomena.Type.Count() > 2)
-        //            {
-        //                int length = metarPhenomena.Type.Length;
-
-        //                if ((length % 2) == 0)
-        //                {
-        //                    int index = 0;
-
-        //                    while (index != length)
-        //                    {
-        //                        if (!(length - index == 2))
-        //                            output += phenomenaToFullSpelling(metarPhenomena.Type.Substring(index, 2));
-
-        //                        else
-        //                            output += phenomenaToFullSpelling(metarPhenomena.Type.Substring(index));
-
-        //                        index = index + 2;
-        //                    }
-        //                }
-        //            }
-        //            //If phenomena is 2 char phenomena.
-        //            else output += phenomenaToFullSpelling(metarPhenomena.Type);
-
-        //            //If loop phenomena is not the last phenomena of the list, add [and].
-        //            if (metarPhenomena != (Phenomena)Convert.ChangeType(input.Last(), typeof(Phenomena)))
-        //            {
-        //                applicationVariables.ATISSamples.Add("and");
-        //                output += " [AND]";
-        //            }
-        //        }
-        //    }
-        //    #endregion
-
-        //    #region MetarCloud
-        //    //If list is a MetarCloud list.
-        //    else if (input is List<Cloud>)
-        //    {
-        //        foreach (Cloud metarCloud in input as List<Cloud>)
-        //        {
-        //            //TODO fix
-        //            //Add cloud type identifier.
-        //            //output += cloudTypeToFullSpelling(metarCloud.cloudType);
-
-        //            //If cloud altitude equals ground level.
-        //            if (metarCloud.Altitude == 0)
-        //            {
-        //                addIndividualDigitsToATISSamples(metarCloud.Altitude.ToString());
-
-        //                output += " " + metarCloud.Altitude;
-        //            }
-
-        //            //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
-        //            else if (metarCloud.Altitude % 100 == 0)
-        //            {
-        //                addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0");
-        //                applicationVariables.ATISSamples.Add("thousand");
-
-        //                output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0" + " THOUSAND";
-        //            }
-
-        //            else
-        //            {
-        //                //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
-        //                if (metarCloud.Altitude / 100 > 0)
-        //                {
-        //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString());
-
-        //                    output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString();
-
-        //                    //If cloud altitude has a ten-thousand and hundred value (e.g. 10200 (102), 20800 (208), 40700 (407)).
-        //                    if (metarCloud.Altitude.ToString().Substring(1, 1).Equals("0"))
-        //                    {
-        //                        applicationVariables.ATISSamples.Add("0");
-        //                        applicationVariables.ATISSamples.Add("thousand");
-        //                        output += " 0 THOUSAND";
-        //                    }
-        //                }
-
-        //                //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
-        //                if ((metarCloud.Altitude / 10) % 10 > 0)
-        //                {
-        //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)).ToString());
-        //                    applicationVariables.ATISSamples.Add("thousand");
-
-        //                    output += " " + Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)) + " THOUSAND";
-        //                }
-
-        //                //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
-        //                if (metarCloud.Altitude % 10 > 0)
-        //                {
-        //                    addIndividualDigitsToATISSamples(Convert.ToString(metarCloud.Altitude % 10));
-        //                    applicationVariables.ATISSamples.Add("hundred");
-
-        //                    output += " " + metarCloud.Altitude % 10 + " HUNDRED";
-        //                }
-        //            }
-
-        //            applicationVariables.ATISSamples.Add("ft");
-        //            output += " FEET";
-
-        //            //If cloud type has addition (e.g. CB, TCU).
-        //            //TODO fix
-        //            //if (metarCloud.Addition != null) output += cloudAddiationToFullSpelling(metarCloud.Addition);
-        //        }
-        //    }
-        //    #endregion
-
-        //    return output;
-        //}
-
-
-
     }
 }
