@@ -133,16 +133,22 @@ namespace DutchVACCATISGenerator.Types
                 //Only applies to BASE part.
                 if (part == Part.BASE)
                 {
-                    //Auto
-                    if (s.Equals("AUTO"))
-                        Auto = true;
-
                     //COR
                     if (s.Equals("COR"))
+                    {
                         Corrected = true;
-
+                        continue;
+                    }
+                        
+                    //Auto
+                    if (s.Equals("AUTO"))
+                    {
+                        Auto = true;
+                        continue;
+                    }
+                    
                     //ICAO
-                    if (s.All(char.IsLetter) && s.IsLength(4) && s.Equals(input[0]))
+                    if (s.All(char.IsLetter) && s.IsLength(4) && (Corrected ? s.Equals(input[1]) : s.Equals(input[0])))
                     {
                         ICAO = s;
                         continue;
@@ -525,19 +531,19 @@ namespace DutchVACCATISGenerator.Types
                     switch (part)
                     {
                         case Part.BASE:
-                            Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input.Substring(1)));
+                            Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input));
                             break;
 
                         case Part.BECMG:
-                            BECMG.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input.Substring(1)));
+                            BECMG.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input));
                             break;
 
                         case Part.MILITARY:
-                            Military.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input.Substring(1)));
+                            Military.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input));
                             break;
 
                         case Part.TEMPO:
-                            TEMPO.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input.Substring(1)));
+                            TEMPO.Phenomena.Add(new Phenomena(PhenomenaItensity.NORMAL, input));
                             break;
                     }
 
