@@ -109,7 +109,7 @@ RECORD:sh:eham1_showers.wav
 RECORD:shra:eham1_showersofrain.wav
 RECORD:skc:eham1_skyclear.wav
 RECORD:slrwy:eham1_slr.wav
-RECORD:sn:eham1_sn.wav
+RECORD:sn:eham1_snow.wav
 RECORD:strwy:eham1_str.wav
 RECORD:t:eham1_t.wav
 RECORD:talt:eham1_talt.wav
