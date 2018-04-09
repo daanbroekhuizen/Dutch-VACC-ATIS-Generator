@@ -18,10 +18,16 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="schipholSecondaryLandingRunway">Selected Schiphol secondary landing runway</param>
         /// <param name="schipholSecondaryDepartureRunway">Selected Schiphol secondary departure runway</param>
         /// <param name="regionalRunway">Selected regional runway</param>
+        /// <param name="markTemperature">Indicates inverted surface temperature selection is made</param>
+        /// <param name="arrival">Indicates if arrival only selection is made</param>
+        /// <param name="approach">Indicates approach only selection is made</param>
+        /// <param name="approachAndArrival">Indicates if approach and arrival only selection is made</param>
+        /// <param name="extra">Indicates if extra selection is made</param>
         /// <returns>Generated output</returns>
         string GenerateOutput(METAR metar, string schipholMainLandingRunway, string schipholMainDepartureRunway,
             bool schipholSecondaryLandingRunwayChecked, bool secondaryDepartureRunwayChecked,
-            string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway);
+            string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway,
+            bool markTemperature, bool arrival, bool approach, bool approachAndArrival, bool extra);
 
         /// <summary>
         /// Sets phonetic alphabet.
@@ -47,7 +53,8 @@ namespace DutchVACCATISGenerator.Logic
 
         public string GenerateOutput(METAR METAR, string schipholMainLandingRunway, string schipholMainDepartureRunway,
             bool schipholSecondaryLandingRunwayChecked, bool schipholSecondaryDepartureRunwayChecked,
-            string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway)
+            string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway,
+            bool markTemperature, bool arrival, bool approach, bool approachAndArrival, bool extra)
         {
             applicationVariables.ATISSamples = new List<string>();
 
@@ -106,49 +113,44 @@ namespace DutchVACCATISGenerator.Logic
             if (METAR.BECMG != null)
                 output += GenerateTrendOuput(METAR.BECMG);
 
-            #region TODO
+            //Inverted surface temperature.
+            if (markTemperature)
+            {
+                applicationVariables.ATISSamples.Add("marktemp");
+                output += " MARK TEMPERATURE INVERSION NEAR THE SURFACE";
+            }
 
-            //#region OPTIONAL
-            ////If inverted surface temperature check box is checked.
-            ////if (markTempCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("marktemp");
-            ////    output += " MARK TEMPERATURE INVERSION NEAR THE SURFACE";
-            ////}
-            //////If arrival only check box is checked.
-            ////if (arrOnlyCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("call1");
-            ////    output += " CONTACT ARRIVAL CALLSIGN ONLY";
-            ////}
-            //////If approach only check box is checked.
-            ////if (appOnlyCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("call2");
-            ////    output += " CONTACT APPROACH CALLSIGN ONLY";
-            ////}
-            //////If arrival and approach only check box is checked.
-            ////if (appArrOnlyCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("call3");
-            ////    output += " CONTACT APPROACH AND ARRIVAL CALLSIGN ONLY";
-            ////}
-            //#endregion
+            //Arrival only.
+            if (arrival)
+            {
+                applicationVariables.ATISSamples.Add("call1");
+                output += " CONTACT ARRIVAL CALLSIGN ONLY";
+            }
 
-            //#region END
-            ////Add end to output.
-            //applicationVariables.ATISSamples.Add("end");
-            //output += " END OF INFORMATION";
-            ////output += atisLetterToFullSpelling(phoneticAlphabet[atisIndex]);
-            ////#endregion
+            //Approach only.
+            if (approach)
+            {
+                applicationVariables.ATISSamples.Add("call2");
+                output += " CONTACT APPROACH CALLSIGN ONLY";
+            }
 
-            ////#region USER WAVE
-            ////if (userDefinedExtraCheckBox.Checked)
-            ////{
-            ////    applicationVariables.ATISSamples.Add("extra");
-            ////    output += " EXTRA (VOICE ONLY)";
-            ////}
-            #endregion
+            //Approach and arrival only.
+            if (approachAndArrival)
+            {
+                applicationVariables.ATISSamples.Add("call3");
+                output += " CONTACT APPROACH AND ARRIVAL CALLSIGN ONLY";
+            }
+
+            //Add end to output.
+            applicationVariables.ATISSamples.Add("end");
+            output += " END OF INFORMATION";
+            output += GenerateATISLetterOutput(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
+
+            if (extra)
+            {
+                applicationVariables.ATISSamples.Add("extra");
+                output += " EXTRA (VOICE ONLY)";
+            }
 
             return output;
         }

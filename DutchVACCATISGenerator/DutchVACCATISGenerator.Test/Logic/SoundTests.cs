@@ -9,6 +9,8 @@ namespace DutchVACCATISGenerator.Test.Logic
     [TestClass]
     public class SoundTests
     {
+        private const string ATISEHAM = @"C:\Users\Virtual\Documents\EuroScope\atis\atiseham.txt";
+
         private readonly ApplicationVariables applicationVariables;
         private readonly IATISLogic ATISLogic;
         private readonly ISoundLogic soundLogic;
@@ -21,6 +23,18 @@ namespace DutchVACCATISGenerator.Test.Logic
             ATISLogic = new ATISLogic(applicationVariables, METARLogic);
 
             soundLogic = new SoundLogic();
+        }
+
+        [TestMethod]
+        public void METARSoundATIS()
+        {
+            //Arrange
+            var METAR = new METAR("EHAM 260125Z 16005KT 8000 NSC 03/03 Q1012 BECMG 6000");
+            applicationVariables.SelectedAirport = METAR.ICAO;
+            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+
+            var output = ATISLogic.GenerateOutput(METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
         }
 
         [TestMethod]
@@ -39,8 +53,8 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             foreach (var METAR in METARHelper.EHAMMETARs)
             {
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24");
-                soundLogic.Build(@"C:\Users\Virtual\Documents\EuroScope\atis\atiseham.txt", applicationVariables.ATISSamples);
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
 
                 while (ATISBuild == false)
                 {

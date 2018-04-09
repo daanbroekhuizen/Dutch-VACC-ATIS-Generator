@@ -23,7 +23,7 @@ namespace DutchVACCATISGenerator.Test.Types
         public void METAR()
         {
             //Act
-            var METAR = new DutchVACCATISGenerator.Types.METAR("EHAM 161725Z 25015KT 9999 VCSH FEW030 05/00 Q0992 NOSIG");
+            var METAR = new DutchVACCATISGenerator.Types.METAR("EHAM 260125Z 16005KT 8000 NSC 03/03 Q1012 BECMG 6000");
         }
     }
 }

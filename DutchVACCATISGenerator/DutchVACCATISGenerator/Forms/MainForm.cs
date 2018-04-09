@@ -134,7 +134,12 @@ namespace DutchVACCATISGenerator.Forms
                 SchipholSecondaryDepartureRunwayCheckBox.Checked,
                 SchipholSecondaryLandingRunwayComboBox.Text,
                 SchipholSecondaryDepartureRunwayComboBox.Text,
-                regionalRunway);
+                regionalRunway,
+                markTempCheckBox.Checked,
+                arrivalCheckBox.Checked,
+                approachCheckBox.Checked,
+                approachAndArrivalCheckBox.Checked,
+                userDefinedExtraCheckBox.Checked);
 
             //If copy output check box is checked, copy ATIS output to clipboard.
             if (copyOutputCheckBox.Checked)

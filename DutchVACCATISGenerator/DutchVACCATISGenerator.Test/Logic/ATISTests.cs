@@ -31,7 +31,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
-                generatedATIS.Add(ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24"));
+                generatedATIS.Add(ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             //Act
             foreach (var METAR in METARHelper.EHRDMETARs)
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24");
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             //Act
             foreach (var METAR in METARHelper.EHEHMETARs)
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24");
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
         }
     }
 }
