@@ -519,7 +519,7 @@ namespace DutchVACCATISGenerator.Logic
             if (visibility || independent || converging)
                 return output;
 
-            //Not operation report generated, remove sample.
+            //No operation report generated, remove sample.
             applicationVariables.ATISSamples.Remove("opr");
 
             return string.Empty;
@@ -1222,7 +1222,7 @@ namespace DutchVACCATISGenerator.Logic
                 output += " " + temperature.ToString();
             }
 
-            return string.Empty;
+            return output;
         }
 
         /// <summary>
