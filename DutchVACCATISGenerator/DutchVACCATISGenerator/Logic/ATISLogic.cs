@@ -93,28 +93,10 @@ namespace DutchVACCATISGenerator.Logic
             //Add phenomena.
             output += GeneratePhenomenaOutput(METAR.Phenomena);
 
+            //Add clouds.
+            output += GenerateCloudOutput(METAR.SKC, METAR.NSC, METAR.Clouds);
 
             #region TODO
-
-            //#region CLOUDS OPTIONS
-            ////If processed METAR has SKC, add SKC to output. 
-            //if (metar.SKC)
-            //{
-            //    applicationVariables.ATISSamples.Add("skc");
-            //    output += " SKY CLEAR";
-            //}
-            ////If processed METAR has NSC, add NSC to output. 
-            //if (metar.NSC)
-            //{
-            //    applicationVariables.ATISSamples.Add("sc");
-            //    output += " NO SIGNIFICANT CLOUDS";
-            //}
-            //#endregion
-
-            //#region CLOUDS
-            ////Generate and add weather clouds to output. 
-            //output += listToOutput(metar.Clouds);
-            //#endregion
 
             //#region VERTICAL VISIBILITY
             ////If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
@@ -1050,7 +1032,7 @@ namespace DutchVACCATISGenerator.Logic
                         output += " HEAVY";
                         break;
                 }
-                
+
                 var fourCharacter = new List<string> { "BCFG", "MIFG", "SHRA", "VCSH", "VCTS" };
 
                 //If phenomena is 4 character phenomena (BCFG | MIFG | SHRA | VCSH | VCTS).
@@ -1249,147 +1231,150 @@ namespace DutchVACCATISGenerator.Logic
             return string.Empty;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private string GenerateCloudOutput(List<Cloud> clouds)
+        /// <summary>
+        /// Generates clouds output.
+        /// </summary>
+        /// <param name="SKC">SKC</param>
+        /// <param name="NSC">NSC</param>
+        /// <param name="clouds">List of clouds</param>
+        /// <returns>Generated output</returns>
+        private string GenerateCloudOutput(bool SKC, bool NSC, List<Cloud> clouds)
         {
-            //        foreach (Cloud metarCloud in input as List<Cloud>)
-            //        {
-            //            //TODO fix
-            //            //Add cloud type identifier.
-            //            //output += cloudTypeToFullSpelling(metarCloud.cloudType);
+            string output = string.Empty;
 
-            //            //If cloud altitude equals ground level.
-            //            if (metarCloud.Altitude == 0)
-            //            {
-            //                addIndividualDigitsToATISSamples(metarCloud.Altitude.ToString());
+            //If processed METAR has SKC, add SKC to output. 
+            if (SKC)
+            {
+                applicationVariables.ATISSamples.Add("skc");
+                return " SKY CLEAR";
+            }
+            //If processed METAR has NSC, add NSC to output. 
+            else if (NSC)
+            {
+                applicationVariables.ATISSamples.Add("sc");
+                return " NO SIGNIFICANT CLOUDS";
+            }
+            else
+            {
+                foreach (var cloud in clouds)
+                {
+                    //Add cloud type identifier.
+                    output += GenerateCloudOutput(cloud.Type);
 
-            //                output += " " + metarCloud.Altitude;
-            //            }
+                    //If cloud altitude equals ground level.
+                    if (cloud.Altitude == 0)
+                    {
+                        AddIndividualDigits(cloud.Altitude.ToString());
 
-            //            //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
-            //            else if (metarCloud.Altitude % 100 == 0)
-            //            {
-            //                addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0");
-            //                applicationVariables.ATISSamples.Add("thousand");
+                        output += " " + cloud.Altitude;
+                    }
 
-            //                output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString() + "0" + " THOUSAND";
-            //            }
+                    //If cloud altitude is round ten-thousand (e.g. 10000 (100), 20000 (200), 30000 (300)).
+                    else if (cloud.Altitude % 100 == 0)
+                    {
+                        AddIndividualDigits(Math.Floor(Convert.ToDouble(cloud.Altitude / 100)).ToString() + "0");
+                        applicationVariables.ATISSamples.Add("thousand");
 
-            //            else
-            //            {
-            //                //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
-            //                if (metarCloud.Altitude / 100 > 0)
-            //                {
-            //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString());
+                        output += " " + Math.Floor(Convert.ToDouble(cloud.Altitude / 100)).ToString() + "0" + " THOUSAND";
+                    }
 
-            //                    output += " " + Math.Floor(Convert.ToDouble(metarCloud.Altitude / 100)).ToString();
+                    else
+                    {
+                        //If cloud altitude is greater than a ten-thousand (e.g. 12000 (120), 23500 (235), 45000 (450)).
+                        if (cloud.Altitude / 100 > 0)
+                        {
+                            AddIndividualDigits(Math.Floor(Convert.ToDouble(cloud.Altitude / 100)).ToString());
 
-            //                    //If cloud altitude has a ten-thousand and hundred value (e.g. 10200 (102), 20800 (208), 40700 (407)).
-            //                    if (metarCloud.Altitude.ToString().Substring(1, 1).Equals("0"))
-            //                    {
-            //                        applicationVariables.ATISSamples.Add("0");
-            //                        applicationVariables.ATISSamples.Add("thousand");
-            //                        output += " 0 THOUSAND";
-            //                    }
-            //                }
+                            output += " " + Math.Floor(Convert.ToDouble(cloud.Altitude / 100)).ToString();
 
-            //                //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
-            //                if ((metarCloud.Altitude / 10) % 10 > 0)
-            //                {
-            //                    addIndividualDigitsToATISSamples(Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)).ToString());
-            //                    applicationVariables.ATISSamples.Add("thousand");
+                            //If cloud altitude has a ten-thousand and hundred value (e.g. 10200 (102), 20800 (208), 40700 (407)).
+                            if (cloud.Altitude.ToString().Substring(1, 1).Equals("0"))
+                            {
+                                applicationVariables.ATISSamples.Add("0");
+                                applicationVariables.ATISSamples.Add("thousand");
+                                output += " 0 THOUSAND";
+                            }
+                        }
 
-            //                    output += " " + Math.Floor(Convert.ToDouble((metarCloud.Altitude / 10) % 10)) + " THOUSAND";
-            //                }
+                        //If cloud altitude has a thousand (e.g. 2000 (020), 4000 (040), 5000 (050)).
+                        if ((cloud.Altitude / 10) % 10 > 0)
+                        {
+                            AddIndividualDigits(Math.Floor(Convert.ToDouble((cloud.Altitude / 10) % 10)).ToString());
+                            applicationVariables.ATISSamples.Add("thousand");
 
-            //                //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
-            //                if (metarCloud.Altitude % 10 > 0)
-            //                {
-            //                    addIndividualDigitsToATISSamples(Convert.ToString(metarCloud.Altitude % 10));
-            //                    applicationVariables.ATISSamples.Add("hundred");
+                            output += " " + Math.Floor(Convert.ToDouble((cloud.Altitude / 10) % 10)) + " THOUSAND";
+                        }
 
-            //                    output += " " + metarCloud.Altitude % 10 + " HUNDRED";
-            //                }
-            //            }
+                        //If cloud altitude has a hundred (e.g. 200 (002), 400 (004), 500 (005)).
+                        if (cloud.Altitude % 10 > 0)
+                        {
+                            AddIndividualDigits(Convert.ToString(cloud.Altitude % 10));
+                            applicationVariables.ATISSamples.Add("hundred");
 
-            //            applicationVariables.ATISSamples.Add("ft");
-            //            output += " FEET";
+                            output += " " + cloud.Altitude % 10 + " HUNDRED";
+                        }
+                    }
 
-            //            //If cloud type has addition (e.g. CB, TCU).
-            //            //TODO fix
-            //            //if (metarCloud.Addition != null) output += cloudAddiationToFullSpelling(metarCloud.Addition);
-            //        }
-            //    }
+                    applicationVariables.ATISSamples.Add("ft");
+                    output += " FEET";
+
+                    //If cloud type has addition (e.g. CB, TCU).
+                    if (cloud.Addition != null)
+                        output += GenerateCloudOutput(cloud.Addition.Value);
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Generates cloud type output.
+        /// </summary>
+        /// <param name="type">Cloud type</param>
+        /// <returns>Generated output</returns>
+        private string GenerateCloudOutput(CloudType type)
+        {
+            switch (type)
+            {
+                case CloudType.FEW:
+                    applicationVariables.ATISSamples.Add("few");
+                    return " FEW";
+
+                case CloudType.BKN:
+                    applicationVariables.ATISSamples.Add("bkn");
+                    return " BROKEN";
+
+                case CloudType.OVC:
+                    applicationVariables.ATISSamples.Add("ovc");
+                    return " OVERCAST";
+
+                case CloudType.SCT:
+                    applicationVariables.ATISSamples.Add("sct");
+                    return " SCATTERED";
+            }
 
             return string.Empty;
         }
 
+        /// <summary>
+        /// Generates cloud addition output.
+        /// </summary>
+        /// <param name="addition">Cloud addition</param>
+        /// <returns>Generated output</returns>
+        private string GenerateCloudOutput(CloudAddition addition)
+        {
+            switch (addition)
+            {
+                case CloudAddition.CB:
+                    applicationVariables.ATISSamples.Add("cb");
+                    return " CUMULONIMBUS";
 
-        
+                case CloudAddition.TCU:
+                    applicationVariables.ATISSamples.Add("tcu");
+                    return " TOWERING CUMULONIMBUS";
+            }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="cloudType"></param>
-        ///// <returns></returns>
-        //private string cloudTypeToFullSpelling(string cloudType)
-        //{
-        //    switch (cloudType)
-        //    {
-        //        case "FEW":
-        //            applicationVariables.ATISSamples.Add("few");
-        //            return " FEW";
-
-        //        case "BKN":
-        //            applicationVariables.ATISSamples.Add("bkn");
-        //            return " BROKEN";
-
-        //        case "OVC":
-        //            applicationVariables.ATISSamples.Add("ovc");
-        //            return " OVERCAST";
-
-        //        case "SCT":
-        //            applicationVariables.ATISSamples.Add("sct");
-        //            return " SCATTERED";
-        //    }
-
-        //    return string.Empty;
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="addition"></param>
-        ///// <returns></returns>
-        //private string cloudAddiationToFullSpelling(string addition)
-        //{
-        //    switch (addition)
-        //    {
-        //        case "CB":
-        //            applicationVariables.ATISSamples.Add("cb");
-        //            return " CUMULONIMBUS";
-
-        //        case "TCU":
-        //            applicationVariables.ATISSamples.Add("tcu");
-        //            return " TOWERING CUMULONIMBUS";
-        //    }
-
-        //    return string.Empty;
-        //}
+            return string.Empty;
+        }
     }
 }

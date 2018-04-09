@@ -3,7 +3,7 @@
     public class Cloud
     {
         public bool AutoObservation { get; set; }
-        public CloudAddition Addition { get; set; }
+        public CloudAddition? Addition { get; set; }
         public int Altitude { get; set; }
         public bool SkyObscured  { get; set; }
         public CloudType Type { get; set; }
