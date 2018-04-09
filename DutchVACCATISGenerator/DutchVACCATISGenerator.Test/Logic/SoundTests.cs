@@ -26,7 +26,7 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void METARSoundATIS()
+        public void METARBuildATIS()
         {
             //Arrange
             var METAR = new METAR("EHAM 260125Z 16005KT 8000 NSC 03/03 Q1012 BECMG 6000");
@@ -38,7 +38,63 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void SchipholSoundATIS()
+        public void EindhovenBuildATIS()
+        {
+            //Arrange
+            applicationVariables.SelectedAirport = "EHEH";
+            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+
+            var ATISBuild = false;
+
+            ApplicationEvents.BuildAITSCompletedEvent += (e, args) =>
+            {
+                ATISBuild = true;
+            };
+
+            foreach (var METAR in METARHelper.EHEHMETARs)
+            {
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
+
+                while (ATISBuild == false)
+                {
+                    Thread.Sleep(10);
+                }
+
+                ATISBuild = false;
+            }
+        }
+
+        [TestMethod]
+        public void RotterdamBuildATIS()
+        {
+            //Arrange
+            applicationVariables.SelectedAirport = "EHRD";
+            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+
+            var ATISBuild = false;
+
+            ApplicationEvents.BuildAITSCompletedEvent += (e, args) =>
+            {
+                ATISBuild = true;
+            };
+
+            foreach (var METAR in METARHelper.EHRDMETARs)
+            {
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
+
+                while (ATISBuild == false)
+                {
+                    Thread.Sleep(10);
+                }
+
+                ATISBuild = false;
+            }
+        }
+
+        [TestMethod]
+        public void SchipholBuildATIS()
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHAM";
