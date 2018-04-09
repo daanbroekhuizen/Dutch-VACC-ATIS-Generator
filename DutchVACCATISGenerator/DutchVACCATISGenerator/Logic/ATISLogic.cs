@@ -1305,7 +1305,8 @@ namespace DutchVACCATISGenerator.Logic
                     break;
             }
 
-            output += GenerateWindOutput(trend.Wind);
+            if(trend.Wind != null)
+                output += GenerateWindOutput(trend.Wind);
 
             output += GenerateVisibilityOutput(trend.CAVOK, trend.Visibility, false);
 
