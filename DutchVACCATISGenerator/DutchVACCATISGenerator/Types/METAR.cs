@@ -104,19 +104,19 @@ namespace DutchVACCATISGenerator.Types
 
             if (!string.IsNullOrWhiteSpace(BECMG))
             {
-                this.BECMG = new Trend();
+                this.BECMG = new Trend(Part.BECMG);
                 ProcessPart(BECMG.Split(' '), Part.BECMG);
             }
 
             if (!string.IsNullOrWhiteSpace(TEMPO))
             {
-                this.TEMPO = new Trend();
+                this.TEMPO = new Trend(Part.TEMPO);
                 ProcessPart(TEMPO.Split(' '), Part.TEMPO);
             }
 
             if (!string.IsNullOrWhiteSpace(military))
             {
-                this.Military = new Trend();
+                this.Military = new Trend(Part.MILITARY);
                 ProcessPart(military.Split(' '), Part.MILITARY);
             }
         }

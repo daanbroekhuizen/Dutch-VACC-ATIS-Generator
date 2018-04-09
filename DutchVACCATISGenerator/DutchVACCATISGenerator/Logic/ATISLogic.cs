@@ -77,9 +77,9 @@ namespace DutchVACCATISGenerator.Logic
 
             AddPause();
 
-            output += GenerateWindOutput(METAR);
+            output += GenerateWindOutput(METAR.Wind);
 
-            output += GenerateVisibilityOutput(METAR);
+            output += GenerateVisibilityOutput(METAR.CAVOK, METAR.Visibility, METAR.RVR);
 
             output += GeneratePhenomenaOutput(METAR.Phenomena);
 
@@ -100,151 +100,13 @@ namespace DutchVACCATISGenerator.Logic
                 output += " NO SIGNIFICANT CHANGE";
             }
 
+            if (METAR.TEMPO != null)
+                output += GenerateTrendOuput(METAR.TEMPO);
+
+            if (METAR.BECMG != null)
+                output += GenerateTrendOuput(METAR.BECMG);
+
             #region TODO
-
-
-
-
-
-            //#region TEMPO
-            ////If processed METAR has a TEMPO trend.
-            //if (metar.TEMPO != null)
-            //{
-            //    //Add TEMPO to output.
-            //    applicationVariables.ATISSamples.Add("tempo");
-            //    output += " TEMPORARY";
-
-            //    #region TEMPO WIND
-            //    //If processed TEMPO trend has wind, generate and add wind output to output. 
-            //    if (metar.TEMPO.Wind != null) output += windToOutput(metar.TEMPO.Wind);
-            //    #endregion
-
-            //    #region TEMPO CAVOK
-            //    //If processed TEMPO trend has CAVOK, add CAVOK to output.
-            //    if (metar.TEMPO.CAVOK)
-            //    {
-            //        applicationVariables.ATISSamples.Add("cavok");
-            //        output += " CAVOK";
-            //    }
-            //    #endregion
-
-            //    #region TEMPO VISIBILITY
-            //    //If processed TEMPO trend has a visibility greater than 0, generate and add visibility output to output. 
-            //    if (metar.TEMPO.Visibility > 0) output += visibilityToOutput(metar.TEMPO.Visibility);
-            //    #endregion
-
-            //    #region TEMPO PHENOMENA
-            //    //If TEMPO trend has 1 or more weather phenomena, generate and add TEMPO trend weather phenomena to output.
-            //    if (metar.TEMPO.Phenomena.Count > 0) output += listToOutput(metar.TEMPO.Phenomena);
-            //    #endregion
-
-            //    #region TEMPO SKC
-            //    //If TEMPO trend has SKC, add SKC to output. 
-            //    if (metar.TEMPO.SKC)
-            //    {
-            //        applicationVariables.ATISSamples.Add("skc");
-            //        output += " SKY CLEAR";
-            //    }
-            //    #endregion
-
-            //    #region TEMPO NSW
-            //    //If TEMPO trend has NSW, add NSW to output. 
-            //    if (metar.TEMPO.NSW)
-            //    {
-            //        applicationVariables.ATISSamples.Add("nsw");
-            //        output += " NO SIGNIFICANT WEATHER";
-            //    }
-            //    #endregion
-
-            //    #region TEMPO CLOUDS
-            //    //If TEMPO trend has 1 or more weather clouds, generate and add TEMPO weather clouds to output. 
-            //    if (metar.TEMPO.Clouds.Count > 0) output += listToOutput(metar.TEMPO.Clouds);
-            //    #endregion
-
-            //    #region TEMPO VERTICAL VISIBILITY
-            //    //If TEMPO trend has a vertical visibility greater than 0, add TEMPO trend vertical visibility to output.
-            //    if (metar.TEMPO.VerticalVisibility > 0)
-            //    {
-            //        applicationVariables.ATISSamples.Add("vv");
-            //        addIndividualDigitsToATISSamples(metar.TEMPO.VerticalVisibility.ToString());
-            //        applicationVariables.ATISSamples.Add("hunderd");
-            //        applicationVariables.ATISSamples.Add("meters");
-
-            //        output += " VERTICAL VISIBILITY " + metar.TEMPO.VerticalVisibility + " HUNDERD METERS";
-            //    }
-            //    #endregion
-            //}
-            //#endregion
-
-            //#region BECMG
-            ////If processed METAR has e BECMG trend.
-            //if (metar.BECMG != null)
-            //{
-            //    //Add BECMG to output.
-            //    applicationVariables.ATISSamples.Add("becmg");
-            //    output += " BECOMING";
-
-            //    #region BECMG WIND
-            //    //If processed BECMG trend has wind, generate and add wind output to output.
-            //    if (metar.BECMG.Wind != null) output += windToOutput(metar.BECMG.Wind);
-            //    #endregion
-
-            //    #region BECMG CAVOK
-            //    //If processed BECMG trend has CAVOK, add CAVOK to output.
-            //    if (metar.BECMG.CAVOK)
-            //    {
-            //        applicationVariables.ATISSamples.Add("cavok");
-            //        output += " CAVOK";
-            //    }
-            //    #endregion
-
-            //    #region BECMG VISIBILITY
-            //    //If processed BECMG trend has a visibility greater than 0, generate and add visibility output to output. 
-            //    if (metar.BECMG.Visibility > 0) output += visibilityToOutput(metar.BECMG.Visibility);
-            //    #endregion
-
-            //    #region BECMG PHENOMENA
-            //    //If BECMG trend has 1 or more weather phenomena, generate and add BECMG trend weather phenomena to output.
-            //    if (metar.BECMG.Phenomena.Count > 0) output += listToOutput(metar.BECMG.Phenomena);
-            //    #endregion
-
-            //    #region BECMG SKC
-            //    //If BECMG trend has SKC, add SKC to output. 
-            //    if (metar.BECMG.SKC)
-            //    {
-            //        applicationVariables.ATISSamples.Add("skc");
-            //        output += " SKY CLEAR";
-            //    }
-            //    #endregion
-
-            //    #region BECMG NSW
-            //    //If BECMG trend has NSW, add NSW to output. 
-            //    if (metar.BECMG.NSW)
-            //    {
-            //        applicationVariables.ATISSamples.Add("nsw");
-            //        output += " NO SIGNIFICANT WEATHER";
-            //    }
-            //    #endregion
-
-            //    #region BECMG CLOUDS
-            //    //If BECMG trend has 1 or more weather clouds, generate and add BECMG weather clouds to output. 
-            //    if (metar.BECMG.Clouds.Count > 0) output += listToOutput(metar.BECMG.Clouds);
-            //    #endregion
-
-            //    #region BECMG VERTICAL VISIBILITY
-            //    //If BECMG trend has a vertical visibility greater than 0, add BECMG trend vertical visibility to output.
-            //    if (metar.BECMG.VerticalVisibility > 0)
-            //    {
-            //        applicationVariables.ATISSamples.Add("vv");
-            //        addIndividualDigitsToATISSamples(metar.BECMG.VerticalVisibility.ToString());
-            //        applicationVariables.ATISSamples.Add("hunderd");
-            //        applicationVariables.ATISSamples.Add("meters");
-
-            //        output += " VERTICAL VISIBILITY" + metar.BECMG.VerticalVisibility + " HUNDERD METERS";
-            //    }
-            //    #endregion
-            //}
-            //#endregion
 
             //#region OPTIONAL
             ////If inverted surface temperature check box is checked.
@@ -775,7 +637,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="METAR">METAR</param>
         /// <returns>Generated output</returns>
-        private string GenerateWindOutput(METAR METAR)
+        private string GenerateWindOutput(Wind wind)
         {
             string output = string.Empty;
 
@@ -783,39 +645,39 @@ namespace DutchVACCATISGenerator.Logic
             output += " WIND";
 
             //If wind is calm.
-            if (METAR.Wind.Variable)
+            if (wind.Variable)
             {
                 applicationVariables.ATISSamples.Add("vrb");
 
-                AddIndividualDigits(METAR.Wind.Knots.ToString());
+                AddIndividualDigits(wind.Knots.ToString());
 
-                output += " VARIABLE " + METAR.Wind.Knots + " KNOTS";
+                output += " VARIABLE " + wind.Knots + " KNOTS";
             }
             else
             {
-                AddIndividualDigits(METAR.Wind.Heading.ToString());
+                AddIndividualDigits(wind.Heading.ToString());
 
                 applicationVariables.ATISSamples.Add("deg");
 
-                output += " " + METAR.Wind.Heading + " DEGREES";
+                output += " " + wind.Heading + " DEGREES";
 
                 //If wind is gusting.
-                if (METAR.Wind.GustMin != null)
+                if (wind.GustMin != null)
                 {
-                    AddIndividualDigits(METAR.Wind?.GustMin.Value.ToString());
+                    AddIndividualDigits(wind?.GustMin.Value.ToString());
 
                     applicationVariables.ATISSamples.Add("max");
 
-                    AddIndividualDigits(METAR.Wind?.GustMax.Value.ToString());
+                    AddIndividualDigits(wind?.GustMax.Value.ToString());
 
-                    output += " " + METAR.Wind.GustMin + " MAXIMUM " + METAR.Wind.GustMax + " KNOTS";
+                    output += " " + wind.GustMin + " MAXIMUM " + wind.GustMax + " KNOTS";
                 }
                 //If MetarWind has a normal wind.
                 else
                 {
-                    AddIndividualDigits(METAR.Wind.Knots.ToString());
+                    AddIndividualDigits(wind.Knots.ToString());
 
-                    output += " " + METAR.Wind.Knots + " KNOTS";
+                    output += " " + wind.Knots + " KNOTS";
                 }
             }
 
@@ -823,19 +685,19 @@ namespace DutchVACCATISGenerator.Logic
             applicationVariables.ATISSamples.Add("kt");
 
             //Variable wind
-            if (METAR.Wind.VariableLeft != null)
+            if (wind.VariableLeft != null)
             {
                 applicationVariables.ATISSamples.Add("vrbbtn");
 
-                AddIndividualDigits(METAR.Wind?.VariableLeft.Value.ToString());
+                AddIndividualDigits(wind?.VariableLeft.Value.ToString());
 
                 applicationVariables.ATISSamples.Add("and");
 
-                AddIndividualDigits(METAR.Wind.VariableRight.Value.ToString());
+                AddIndividualDigits(wind.VariableRight.Value.ToString());
 
                 applicationVariables.ATISSamples.Add("deg");
 
-                output += " VARIABLE BETWEEN " + METAR.Wind.VariableLeft + " AND " + METAR.Wind.VariableRight + " DEGREES";
+                output += " VARIABLE BETWEEN " + wind.VariableLeft + " AND " + wind.VariableRight + " DEGREES";
             }
 
             return output;
@@ -846,10 +708,9 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="METAR">METAR</param>
         /// <returns>Generated output</returns>
-        private string GenerateVisibilityOutput(METAR METAR)
+        private string GenerateVisibilityOutput(bool CAVOK, int visibility, bool RVR)
         {
-            //CAVOK
-            if (METAR.CAVOK)
+            if (CAVOK)
             {
                 applicationVariables.ATISSamples.Add("cavok");
                 return " CAVOK";
@@ -859,11 +720,11 @@ namespace DutchVACCATISGenerator.Logic
                 var output = string.Empty;
 
                 //If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
-                if (METAR.Visibility > 0)
-                    output += GenerateVisibilityOutput(METAR.Visibility);
+                if (visibility > 0)
+                    output += GenerateVisibilityOutput(visibility);
 
                 //If processed METAR has RVR, add RVR to output. 
-                if (METAR.RVR)
+                if (RVR)
                 {
                     applicationVariables.ATISSamples.Add("rvronatc");
                     output += " RVR AVAILABLE ON ATC FREQUENCY";
@@ -1165,7 +1026,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="NSC">NSC</param>
         /// <param name="clouds">List of clouds</param>
         /// <returns>Generated output</returns>
-        private string GenerateCloudOutput(bool SKC, bool NSC, List<Cloud> clouds)
+        private string GenerateCloudOutput(bool SKC, bool NSC, List<Cloud> clouds, bool NSW = false)
         {
             string output = string.Empty;
 
@@ -1177,6 +1038,11 @@ namespace DutchVACCATISGenerator.Logic
             }
             //If processed METAR has NSC, add NSC to output. 
             else if (NSC)
+            {
+                applicationVariables.ATISSamples.Add("sc");
+                return " NO SIGNIFICANT CLOUDS";
+            }
+            else if (NSW)
             {
                 applicationVariables.ATISSamples.Add("sc");
                 return " NO SIGNIFICANT CLOUDS";
@@ -1413,6 +1279,41 @@ namespace DutchVACCATISGenerator.Logic
             output += " " + QNH.ToString();
             applicationVariables.ATISSamples.Add("hpa");
             output += " HECTOPASCAL";
+
+            return output;
+        }
+
+        /// <summary>
+        /// Generates trend output.
+        /// </summary>
+        /// <param name="trend">Trend</param>
+        /// <returns>Generated output</returns>
+        private string GenerateTrendOuput(Trend trend)
+        {
+            var output = string.Empty;
+
+            switch (trend.Part)
+            {
+                case Part.BECMG:
+                    applicationVariables.ATISSamples.Add("tempo");
+                    output += " TEMPORARY";
+                    break;
+
+                case Part.TEMPO:
+                    applicationVariables.ATISSamples.Add("becmg");
+                    output += " BECOMING";
+                    break;
+            }
+
+            output += GenerateWindOutput(trend.Wind);
+
+            output += GenerateVisibilityOutput(trend.CAVOK, trend.Visibility, false);
+
+            output += GeneratePhenomenaOutput(trend.Phenomena);
+
+            output += GenerateCloudOutput(trend.SKC, false, trend.Clouds, trend.NSW);
+
+            output += GenerateVerticalVisibility(trend.VerticalVisibility);
 
             return output;
         }
