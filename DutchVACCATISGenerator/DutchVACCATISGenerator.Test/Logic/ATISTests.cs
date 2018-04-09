@@ -21,17 +21,15 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void GenerateSchipholATIS()
+        public void GenerateEindhovenATIS()
         {
             //Arrange
-            applicationVariables.SelectedAirport = "EHAM";
+            applicationVariables.SelectedAirport = "EHEH";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
 
-            var generatedATIS = new List<string>();
-
             //Act
-            foreach (var METAR in METARHelper.EHAMMETARs)
-                generatedATIS.Add(ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+            foreach (var METAR in METARHelper.EHEHMETARs)
+                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
         }
 
         [TestMethod]
@@ -47,15 +45,17 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void GenerateEindhovenATIS()
+        public void GenerateSchipholATIS()
         {
             //Arrange
-            applicationVariables.SelectedAirport = "EHEH";
+            applicationVariables.SelectedAirport = "EHAM";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
 
+            var generatedATIS = new List<string>();
+
             //Act
-            foreach (var METAR in METARHelper.EHEHMETARs)
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            foreach (var METAR in METARHelper.EHAMMETARs)
+                generatedATIS.Add(ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
         }
     }
 }
