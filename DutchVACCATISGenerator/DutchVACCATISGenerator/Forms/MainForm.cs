@@ -166,7 +166,7 @@ namespace DutchVACCATISGenerator.Forms
             {
                 generateATISButton.Enabled = false;
 
-                soundLogic.Build(Properties.Settings.Default.atisfile);
+                soundLogic.Build(Properties.Settings.Default.atisfile, applicationVariables.ATISSamples);
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@ namespace DutchVACCATISGenerator.Forms
             buildATISButton.Enabled = false;
             playATISButton.Enabled = false;
 
-            soundLogic.Build(ATISFileTextBox.Text);
+            soundLogic.Build(ATISFileTextBox.Text, applicationVariables.ATISSamples);
         }
 
         private void BuildAITSCompleted(object sender, EventArgs e)

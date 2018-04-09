@@ -15,8 +15,9 @@ namespace DutchVACCATISGenerator.Logic
         /// <summary>
         /// Builds an ATIS.
         /// </summary>
-        /// <param name="atisFile">Path to ATIS descriptor file.</param>
-        void Build(string atisFile);
+        /// <param name="atisFile">Path to ATIS descriptor file</param>
+        /// /// <param name="ATISSamples">List of ATIS samples</param>
+        void Build(string atisFile, List<string> ATISSamples);
 
         /// <summary>
         /// Plays or stops the ATIS.
@@ -32,22 +33,16 @@ namespace DutchVACCATISGenerator.Logic
 
     public class SoundLogic : ISoundLogic
     {
-        private ApplicationVariables applicationVariables;
         private AudioFileReader audioFileReader;
         private IWavePlayer wavePlayer;
 
-        public SoundLogic(ApplicationVariables applicationVariables)
-        {
-            this.applicationVariables = applicationVariables;
-        }
-
-        public void Build(string atisFile)
+        public void Build(string atisFile, List<string> ATISSamples)
         {
             if (string.IsNullOrWhiteSpace(atisFile) || !File.Exists(atisFile))
                 throw new FileNotFoundException(atisFile);
 
             ///Start build asynchronous.
-            BuildAsync(atisFile, GetRecords(atisFile));
+            BuildAsync(atisFile, ATISSamples, GetRecords(atisFile));
         }
 
         public void Play(string atisFile)
@@ -130,7 +125,7 @@ namespace DutchVACCATISGenerator.Logic
             return linesWithItem;
         }
 
-        private async void BuildAsync(string atisFile, Dictionary<string, string> records)
+        private async void BuildAsync(string atisFile, List<string> ATISSamples, Dictionary<string, string> records)
         {
             await Task.Run(() =>
              {
@@ -146,7 +141,7 @@ namespace DutchVACCATISGenerator.Logic
                  //Try to generate and build atis.wav.
                  try
                  {
-                     foreach (string sample in applicationVariables.ATISSamples)
+                     foreach (string sample in ATISSamples)
                      {
                          //Open WaveFileReader to write to atis.wav.
                          try
@@ -186,7 +181,7 @@ namespace DutchVACCATISGenerator.Logic
                              //Do nothing...
                          }
 
-                         RaiseProgressChanged(i);
+                         RaiseProgressChanged(i, ATISSamples);
                          i++;
                      }
                  }
@@ -202,9 +197,9 @@ namespace DutchVACCATISGenerator.Logic
              });
         }
 
-        private void RaiseProgressChanged(int i)
+        private void RaiseProgressChanged(int i, List<string> ATISSamples)
         {
-            var percentage = (i + 1) * 100 / applicationVariables.ATISSamples.Count();
+            var percentage = (i + 1) * 100 / ATISSamples.Count();
 
             //Update progress bar.
             ApplicationEvents.BuildAITSProgressChanged(percentage);

@@ -68,6 +68,7 @@
     <Compile Include="Logic\ATISTests.cs" />
     <Compile Include="Logic\AutoUpdateTests.cs" />
     <Compile Include="Logic\RunwayTests.cs" />
+    <Compile Include="Logic\SoundTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\METARTests.cs" />
   </ItemGroup>
