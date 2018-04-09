@@ -53,16 +53,12 @@ namespace DutchVACCATISGenerator.Logic
 
             var output = string.Empty;
 
-            //Generate ICAO output.
             output += GenerateICAOOutput(METAR.ICAO);
 
-            //Add ATIS letter to output/
             output += GenerateATISLetterOutput(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
 
-            //Add pause.
             AddPause();
 
-            //Add runway output to output.
             output += GenerateRunwayOutput(applicationVariables.SelectedAirport,
                 schipholMainLandingRunway,
                 schipholMainDepartureRunway,
@@ -72,104 +68,43 @@ namespace DutchVACCATISGenerator.Logic
                 schipholSecondaryDepartureRunway,
                 regionalRunway);
 
-            //Add transition level to output.
             output += GenerateTransitionLevelOutput(METAR);
 
-            //Add operational report to output.
             output += GenerateOperationalReportOutput(METAR,
                 schipholSecondaryLandingRunwayChecked,
                 schipholMainLandingRunway,
                 schipholSecondaryLandingRunway);
 
-            //Add pause.
             AddPause();
 
-            //Add wind.
             output += GenerateWindOutput(METAR);
 
-            //Add visibility.
             output += GenerateVisibilityOutput(METAR);
 
-            //Add phenomena.
             output += GeneratePhenomenaOutput(METAR.Phenomena);
 
-            //Add clouds.
             output += GenerateCloudOutput(METAR.SKC, METAR.NSC, METAR.Clouds);
 
-            //Vertical visibility.
             output += GenerateVerticalVisibility(METAR.VerticalVisibility);
+
+            output += GenerateTemperatureOutput(METAR.Temperature);
+
+            output += GenerateDewPointOutput(METAR.DewPoint);
+
+            output += GenerateQNHOutput(METAR.QNH);
+
+            //Add NOSIG.
+            if (METAR.NOSIG)
+            {
+                applicationVariables.ATISSamples.Add("nosig");
+                output += " NO SIGNIFICANT CHANGE";
+            }
 
             #region TODO
 
-        
 
-            //TODO fix below
-            //#region TEMPERATURE
-            //Add temperature to output.
-            //applicationVariables.ATISSamples.Add("temp");
-            //output += " TEMPERATURE";
 
-            //If processed METAR has a minus temperature.
-            //if (metar.Temperature.StartsWith("M"))
-            //{
-            //    applicationVariables.ATISSamples.Add("minus");
 
-            //    addIndividualDigitsToATISSamples(Convert.ToInt32(metar.Temperature.ToString().Substring(1, 2)).ToString());
-
-            //    output += " MINUS " + Convert.ToInt32(metar.Temperature.ToString().Substring(1, 2));
-            //}
-            ////Positive temperature.
-            //else
-            //{
-            //    addIndividualDigitsToATISSamples(Convert.ToInt32(metar.Temperature.ToString()).ToString());
-
-            //    output += " " + Convert.ToInt32(metar.Temperature.ToString());
-            //}
-            //#endregion
-
-            //TODO fix below
-            //#region DEWPOINT
-            //Add dewpoint to output.
-            //applicationVariables.ATISSamples.Add("dp");
-            //output += " DEWPOINT";
-
-            //If processed METAR has a minus dewpoint.
-            //if (metar.Dewpoint.StartsWith("M"))
-            //{
-            //    applicationVariables.ATISSamples.Add("minus");
-
-            //    addIndividualDigitsToATISSamples(Convert.ToInt32(metar.Dewpoint.ToString().Substring(1, 2)).ToString());
-
-            //    output += " MINUS " + Convert.ToInt32(metar.Dewpoint.ToString().Substring(1, 2));
-            //}
-
-            //Positive dewpoint.
-            //else
-            //{
-            //    addIndividualDigitsToATISSamples(Convert.ToInt32(metar.Dewpoint.ToString()).ToString());
-
-            //    output += " " + Convert.ToInt32(metar.Dewpoint.ToString());
-            //}
-            //#endregion
-
-            //#region QNH
-            ////Add QNH to output.
-            //applicationVariables.ATISSamples.Add("qnh");
-            //output += " QNH";
-            //addIndividualDigitsToATISSamples(metar.QNH.ToString());
-            //output += " " + metar.QNH.ToString();
-            //applicationVariables.ATISSamples.Add("hpa");
-            //output += " HECTOPASCAL";
-            //#endregion
-
-            //#region NOSIG
-            ////If processed METAR has NOSIG, add NOSIG to output.
-            //if (metar.NOSIG)
-            //{
-            //    applicationVariables.ATISSamples.Add("nosig");
-            //    output += " NO SIGNIFICANT CHANGE";
-            //}
-            //#endregion
 
             //#region TEMPO
             ////If processed METAR has a TEMPO trend.
@@ -1373,7 +1308,7 @@ namespace DutchVACCATISGenerator.Logic
         /// Generates vertical visibility output.
         /// </summary>
         /// <param name="verticalVisibility">Vertical visibility</param>
-        /// <returns></returns>
+        /// <returns>Generated output</returns>
         private string GenerateVerticalVisibility(int? verticalVisibility)
         {
             //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
@@ -1382,7 +1317,7 @@ namespace DutchVACCATISGenerator.Logic
                 applicationVariables.ATISSamples.Add("vv");
                 AddIndividualDigits(verticalVisibility.Value.ToString());
 
-                if(verticalVisibility.Value > 0)
+                if (verticalVisibility.Value > 0)
                     applicationVariables.ATISSamples.Add("hunderd");
 
                 applicationVariables.ATISSamples.Add("meters");
@@ -1391,6 +1326,95 @@ namespace DutchVACCATISGenerator.Logic
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Generates temperature output.
+        /// </summary>
+        /// <param name="temperature">Temperature</param>
+        /// <returns>Generated output</returns>
+        private string GenerateTemperatureOutput(int temperature)
+        {
+            string output = string.Empty;
+
+            applicationVariables.ATISSamples.Add("temp");
+            output += " TEMPERATURE";
+
+            //If temperature is minus.
+            if (temperature < 0)
+            {
+                applicationVariables.ATISSamples.Add("minus");
+
+                AddIndividualDigits(temperature.ToString());
+
+                output += " MINUS " + (temperature * -1).ToString();
+            }
+            else
+            {
+                AddIndividualDigits(temperature.ToString());
+
+                output += " " + temperature.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Generates dew point output.
+        /// </summary>
+        /// <param name="dewPoint">Dew point</param>
+        /// <returns>Generated output</returns>
+        private string GenerateDewPointOutput(int? dewPoint)
+        {
+            var output = string.Empty;
+
+            applicationVariables.ATISSamples.Add("dp");
+            output += " DEWPOINT";
+
+            if (dewPoint.HasValue)
+            {
+                //If dew point is minus.
+                if (dewPoint < 0)
+                {
+                    applicationVariables.ATISSamples.Add("minus");
+
+                    AddIndividualDigits(dewPoint.Value.ToString());
+
+                    output += " MINUS " + (dewPoint.Value * -1).ToString();
+                }
+                else
+                {
+                    AddIndividualDigits(dewPoint.Value.ToString());
+
+                    output += " " + dewPoint.Value.ToString();
+                }
+            }
+            else
+            {
+                applicationVariables.ATISSamples.Add("na");
+                output += " NOT AVAILABLE";
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Generates QNH output.
+        /// </summary>
+        /// <param name="QNH">QNH</param>
+        /// <returns>Generated output</returns>
+        private string GenerateQNHOutput(int QNH)
+        {
+            string output = string.Empty;
+
+            applicationVariables.ATISSamples.Add("qnh");
+            output += " QNH";
+            AddIndividualDigits(QNH.ToString());
+            output += " " + QNH.ToString();
+            applicationVariables.ATISSamples.Add("hpa");
+            output += " HECTOPASCAL";
+
+            return output;
         }
     }
 }
