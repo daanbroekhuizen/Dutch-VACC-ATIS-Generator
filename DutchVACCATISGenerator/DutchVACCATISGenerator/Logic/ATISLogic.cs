@@ -1039,12 +1039,12 @@ namespace DutchVACCATISGenerator.Logic
             //If processed METAR has NSC, add NSC to output. 
             else if (NSC)
             {
-                applicationVariables.ATISSamples.Add("sc");
+                applicationVariables.ATISSamples.Add("nsc");
                 return " NO SIGNIFICANT CLOUDS";
             }
             else if (NSW)
             {
-                applicationVariables.ATISSamples.Add("sc");
+                applicationVariables.ATISSamples.Add("nsw");
                 return " NO SIGNIFICANT CLOUDS";
             }
             else
