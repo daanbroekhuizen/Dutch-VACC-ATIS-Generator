@@ -657,11 +657,11 @@ namespace DutchVACCATISGenerator.Logic
             }
             else
             {
-                AddIndividualDigits(wind.Heading.ToString());
+                AddIndividualDigits(wind.Heading.ToString().PadLeft(3, '0'));
 
                 applicationVariables.ATISSamples.Add("deg");
 
-                output += " " + wind.Heading + " DEGREES";
+                output += " " + wind.Heading.ToString().PadLeft(3, '0') + " DEGREES";
 
                 //If wind is gusting.
                 if (wind.GustMin != null)
@@ -674,7 +674,6 @@ namespace DutchVACCATISGenerator.Logic
 
                     output += " " + wind.GustMin + " MAXIMUM " + wind.GustMax + " KNOTS";
                 }
-                //If MetarWind has a normal wind.
                 else
                 {
                     AddIndividualDigits(wind.Knots.ToString());
@@ -691,15 +690,15 @@ namespace DutchVACCATISGenerator.Logic
             {
                 applicationVariables.ATISSamples.Add("vrbbtn");
 
-                AddIndividualDigits(wind?.VariableLeft.Value.ToString());
+                AddIndividualDigits(wind?.VariableLeft.Value.ToString().PadLeft(3, '0'));
 
                 applicationVariables.ATISSamples.Add("and");
 
-                AddIndividualDigits(wind.VariableRight.Value.ToString());
+                AddIndividualDigits(wind.VariableRight.Value.ToString().PadLeft(3, '0'));
 
                 applicationVariables.ATISSamples.Add("deg");
 
-                output += " VARIABLE BETWEEN " + wind.VariableLeft + " AND " + wind.VariableRight + " DEGREES";
+                output += " VARIABLE BETWEEN " + wind.VariableLeft.ToString().PadLeft(3, '0') + " AND " + wind.VariableRight.ToString().PadLeft(3, '0') + " DEGREES";
             }
 
             return output;
@@ -900,7 +899,7 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("bc");
                     return " PATCHES";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR BL
                 case "BL":
                     return " BLOWING";
 
@@ -908,15 +907,15 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("br");
                     return " MIST";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR DR
                 case "DR":
                     return " LOW DRIFTING";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR DS
                 case "DS":
                     return " DUSTSTORM";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR DU
                 case "DU":
                     return " WIDESPREAD DUST";
 
@@ -924,7 +923,7 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("dz");
                     return " DRIZZLE";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR FC
                 case "FC":
                     return " FUNNEL CLOUD";
 
@@ -932,7 +931,7 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("fg");
                     return " FOG";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR FU
                 case "FU":
                     return " SMOKE";
 
@@ -952,7 +951,7 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("hz");
                     return " HAZE";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR IC
                 case "IC":
                     return " ICE CRYSTALS";
 
@@ -960,19 +959,19 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("mi");
                     return " SHALLOW";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR PL
                 case "PL":
                     return " ICE PELLETS";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR PO
                 case "PO":
                     return " DUST";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR PR
                 case "PR":
                     return " PARTIAL";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR PY
                 case "PY":
                     return " SPRAY";
 
@@ -980,7 +979,7 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("ra");
                     return " RAIN";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR SA
                 case "SA":
                     return " SAND";
 
@@ -996,11 +995,11 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("sn");
                     return " SNOW";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR SS
                 case "SS":
                     return " SANDSTORM";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR SQ
                 case "SQ":
                     return " SQUALL";
 
@@ -1008,11 +1007,11 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("ts");
                     return " THUNDERSTORMS";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR UP
                 case "UP":
                     return " UNKOWN PRECIPITATION";
 
-                //TODO GET SAMPLE
+                //TODO ADD SAMPLE FOR VA
                 case "VA":
                     return " VOLCANIC ASH";
             }
