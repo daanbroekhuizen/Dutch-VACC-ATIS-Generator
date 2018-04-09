@@ -96,20 +96,12 @@ namespace DutchVACCATISGenerator.Logic
             //Add clouds.
             output += GenerateCloudOutput(METAR.SKC, METAR.NSC, METAR.Clouds);
 
+            //Vertical visibility.
+            output += GenerateVerticalVisibility(METAR.VerticalVisibility);
+
             #region TODO
 
-            //#region VERTICAL VISIBILITY
-            ////If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
-            //if (metar.VerticalVisibility > 0)
-            //{
-            //    applicationVariables.ATISSamples.Add("vv");
-            //    addIndividualDigitsToATISSamples(metar.VerticalVisibility.ToString());
-            //    applicationVariables.ATISSamples.Add("hunderd");
-            //    applicationVariables.ATISSamples.Add("meters");
-
-            //    output += " VERTICAL VISIBILITY " + metar.VerticalVisibility + " HUNDERD METERS";
-            //}
-            //#endregion
+        
 
             //TODO fix below
             //#region TEMPERATURE
@@ -1372,6 +1364,30 @@ namespace DutchVACCATISGenerator.Logic
                 case CloudAddition.TCU:
                     applicationVariables.ATISSamples.Add("tcu");
                     return " TOWERING CUMULONIMBUS";
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Generates vertical visibility output.
+        /// </summary>
+        /// <param name="verticalVisibility">Vertical visibility</param>
+        /// <returns></returns>
+        private string GenerateVerticalVisibility(int? verticalVisibility)
+        {
+            //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
+            if (verticalVisibility.HasValue)
+            {
+                applicationVariables.ATISSamples.Add("vv");
+                AddIndividualDigits(verticalVisibility.Value.ToString());
+
+                if(verticalVisibility.Value > 0)
+                    applicationVariables.ATISSamples.Add("hunderd");
+
+                applicationVariables.ATISSamples.Add("meters");
+
+                return " VERTICAL VISIBILITY " + verticalVisibility.Value.ToString() + " HUNDERD METERS";
             }
 
             return string.Empty;

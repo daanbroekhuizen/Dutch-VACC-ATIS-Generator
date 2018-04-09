@@ -25,7 +25,7 @@ namespace DutchVACCATISGenerator.Types
         public bool SKC { get; set; }
         public int Temperature { get; set; }
         public DateTime Time { get; set; }
-        public int VerticalVisibility { get; set; }
+        public int? VerticalVisibility { get; set; }
         public int Visibility { get; set; }
         public Wind Wind { get; set; }
 
