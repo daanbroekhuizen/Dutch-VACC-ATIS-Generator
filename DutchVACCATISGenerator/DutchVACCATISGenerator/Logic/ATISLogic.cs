@@ -990,7 +990,6 @@ namespace DutchVACCATISGenerator.Logic
                     applicationVariables.ATISSamples.Add("sh");
                     return " SHOWERS";
 
-                //TODO check SNOW sample.
                 case "SN":
                     applicationVariables.ATISSamples.Add("sn");
                     return " SNOW";
