@@ -1180,15 +1180,23 @@ namespace DutchVACCATISGenerator.Logic
             //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
             if (verticalVisibility.HasValue)
             {
+                string output = " VERTICAL VISIBILITY";
+
                 applicationVariables.ATISSamples.Add("vv");
                 AddIndividualDigits(verticalVisibility.Value.ToString());
 
+                output += $" {verticalVisibility.Value.ToString()}";
+
                 if (verticalVisibility.Value > 0)
+                {
                     applicationVariables.ATISSamples.Add("hunderd");
+                    output += " HUNDERD";
+                }
 
                 applicationVariables.ATISSamples.Add("meters");
+                output += " METERS";
 
-                return " VERTICAL VISIBILITY " + verticalVisibility.Value.ToString() + " HUNDERD METERS";
+                return output;
             }
 
             return string.Empty;
