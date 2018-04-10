@@ -3,6 +3,7 @@ using DutchVACCATISGenerator.Test.Helpers;
 using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -63,7 +64,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             };
 
             //Act
-            foreach (var METAR in METARHelper.EHEHMETARs)
+            foreach (var METAR in METARHelper.EHEHMETARs.Take(100))
             {
                 ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
@@ -71,8 +72,8 @@ namespace DutchVACCATISGenerator.Test.Logic
             }
 
             //Assert
-            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHEHMETARs.Count);
-            Assert.AreEqual(soundBuilds.Count, METARHelper.EHEHMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHEHMETARs.Take(100).ToList().Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHEHMETARs.Take(100).ToList().Count);
             Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
         }
 
@@ -90,7 +91,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             };
 
             //Act
-            foreach (var METAR in METARHelper.EHRDMETARs)
+            foreach (var METAR in METARHelper.EHRDMETARs.Take(100))
             {
                 ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
@@ -98,8 +99,8 @@ namespace DutchVACCATISGenerator.Test.Logic
             }
 
             //Assert
-            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHRDMETARs.Count);
-            Assert.AreEqual(soundBuilds.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHRDMETARs.Take(100).ToList().Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHRDMETARs.Take(100).ToList().Count);
             Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
         }
 
@@ -117,7 +118,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             };
 
             //Act
-            foreach (var METAR in METARHelper.EHAMMETARs)
+            foreach (var METAR in METARHelper.EHAMMETARs.Take(100))
             {
                 ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
@@ -125,9 +126,46 @@ namespace DutchVACCATISGenerator.Test.Logic
             }
 
             //Assert
-            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHAMMETARs.Count);
-            Assert.AreEqual(soundBuilds.Count, METARHelper.EHAMMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHAMMETARs.Take(100).ToList().Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHAMMETARs.Take(100).ToList().Count);
             Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
+        }
+
+        [TestMethod]
+        public void Play_StartsPlayback_IsTrue()
+        {
+            //Arrange
+            bool playbackStarted = false;
+
+            ApplicationEvents.PlaybackStartedEvent += (sender, args) =>
+            {
+                playbackStarted = true;
+            };
+
+            //Act
+            soundLogic.Play(ATISEHAM);
+
+            //Assert
+            Assert.IsTrue(playbackStarted);
+        }
+
+        [TestMethod]
+        public void Stop_StopsPlayback_IsTrue()
+        {
+            //Arrange
+            bool playbackStopped = false;
+
+            ApplicationEvents.PlaybackStoppedEvent += (sender, args) =>
+            {
+                playbackStopped = true;
+            };
+
+            //Act
+            soundLogic.Play(ATISEHAM);
+            soundLogic.Stop();
+
+            //Assert
+            Assert.IsTrue(playbackStopped);
         }
     }
 }
