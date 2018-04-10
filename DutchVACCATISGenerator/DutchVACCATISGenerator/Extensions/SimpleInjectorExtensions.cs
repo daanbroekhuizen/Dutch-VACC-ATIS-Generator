@@ -2,7 +2,6 @@
 using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
 using SimpleInjector;
-using System;
 
 namespace DutchVACCATISGenerator.Extensions
 {
@@ -10,20 +9,13 @@ namespace DutchVACCATISGenerator.Extensions
     {
         public static Container Bootstrap(this Container container)
         {
-            try
-            {
-                container = new Container();
+            container = new Container();
 
-                container.RegisterHelpers();
-                container.RegisterLogic();
-                container.RegisterSingletons();
+            container.RegisterHelpers();
+            container.RegisterLogic();
+            container.RegisterSingletons();
 
-                container.Verify();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            container.Verify();
 
             return container;
         }
