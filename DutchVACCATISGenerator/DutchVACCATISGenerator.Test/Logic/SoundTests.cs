@@ -2,7 +2,7 @@
 using DutchVACCATISGenerator.Test.Helpers;
 using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading;
+using System.Collections.Generic;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -26,99 +26,108 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void METARBuildATIS()
+        public void Build_IndividualMETAR_Passes()
         {
             //Arrange
-            var METAR = new METAR("EHAM 260125Z 16005KT 8000 NSC 03/03 Q1012 BECMG 6000");
+            var METAR = new METAR(METARHelper.METAR);
             applicationVariables.SelectedAirport = METAR.ICAO;
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+            var eventTriggerd = false;
 
-            var output = ATISLogic.GenerateOutput(METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
-            soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
+            ApplicationEvents.BuildAITSCompletedEvent += (sender, args) =>
+            {
+                eventTriggerd = true;
+            };
+
+            //Act
+            var output = ATISLogic.Generate(METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
+
+            //Assert
+            Assert.IsNotNull(output);
+            Assert.AreNotEqual(output, "");
+            Assert.IsTrue(eventTriggerd);
         }
 
         [TestMethod]
-        public void EindhovenBuildATIS()
+        public void Build_EindhovenMETARs_Passes()
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHEH";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
-
-            var ATISBuild = false;
+            var ATISBuilds = new List<string>();
+            var soundBuilds = new List<bool>();
 
             ApplicationEvents.BuildAITSCompletedEvent += (e, args) =>
             {
-                ATISBuild = true;
+                soundBuilds.Add(true);
             };
 
+            //Act
             foreach (var METAR in METARHelper.EHEHMETARs)
             {
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
-                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
-
-                while (ATISBuild == false)
-                {
-                    Thread.Sleep(10);
-                }
-
-                ATISBuild = false;
+                ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHEHMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHEHMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
         }
 
         [TestMethod]
-        public void RotterdamBuildATIS()
+        public void Build_RotterdamMETARs_Passes()
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHRD";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
-
-            var ATISBuild = false;
+            var ATISBuilds = new List<string>();
+            var soundBuilds = new List<bool>();
 
             ApplicationEvents.BuildAITSCompletedEvent += (e, args) =>
             {
-                ATISBuild = true;
+                soundBuilds.Add(true);
             };
 
+            //Act
             foreach (var METAR in METARHelper.EHRDMETARs)
             {
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
-                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
-
-                while (ATISBuild == false)
-                {
-                    Thread.Sleep(10);
-                }
-
-                ATISBuild = false;
+                ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
         }
 
         [TestMethod]
-        public void SchipholBuildATIS()
+        public void Build_SchipholMETARs_Passes()
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHAM";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
-
-            var ATISBuild = false;
+            var ATISBuilds = new List<string>();
+            var soundBuilds = new List<bool>();
 
             ApplicationEvents.BuildAITSCompletedEvent += (e, args) =>
             {
-                ATISBuild = true;
+                soundBuilds.Add(true);
             };
 
+            //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
             {
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
-                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples);
-
-                while (ATISBuild == false)
-                {
-                    Thread.Sleep(10);
-                }
-
-                ATISBuild = false;
+                ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHAMMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, METARHelper.EHAMMETARs.Count);
+            Assert.AreEqual(soundBuilds.Count, ATISBuilds.Count);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DutchVACCATISGenerator.Test.Helpers;
+using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace DutchVACCATISGenerator.Test.Types
 {
@@ -7,23 +9,55 @@ namespace DutchVACCATISGenerator.Test.Types
     public class METARTests
     {
         [TestMethod]
-        public void MultipleMETARs()
+        public void NewMETAR_IndividualMETAR_InitializesNewMETAR()
         {
-            foreach (var METAR in METARHelper.EHAMMETARs)
-                new DutchVACCATISGenerator.Types.METAR(METAR);
+            //Act
+            var METAR = new METAR(METARHelper.METAR);
 
-            foreach (var METAR in METARHelper.EHEHMETARs)
-                new DutchVACCATISGenerator.Types.METAR(METAR);
-
-            foreach (var METAR in METARHelper.EHRDMETARs)
-                new DutchVACCATISGenerator.Types.METAR(METAR);
+            //Assert
+            Assert.IsNotNull(METAR);
         }
 
         [TestMethod]
-        public void METAR()
+        public void NewMETAR_EindhovenMETARs_InitializesNewMETARs()
         {
+            //Arrange
+            var METARs = new List<METAR>();
+
             //Act
-            var METAR = new DutchVACCATISGenerator.Types.METAR("EHAM 260125Z 16005KT 8000 NSC 03/03 Q1012 BECMG 6000");
+            foreach (var METAR in METARHelper.EHEHMETARs)
+                METARs.Add(new METAR(METAR));
+
+            //Assert
+            Assert.AreEqual(METARs.Count, METARHelper.EHEHMETARs.Count);
+        }
+
+        [TestMethod]
+        public void NewMETAR_RotterdamMETARs_InitializesNewMETARs()
+        {
+            //Arrange
+            var METARs = new List<METAR>();
+
+            //Act
+            foreach (var METAR in METARHelper.EHRDMETARs)
+                METARs.Add(new METAR(METAR));
+
+            //Assert
+            Assert.AreEqual(METARs.Count, METARHelper.EHRDMETARs.Count);
+        }
+
+        [TestMethod]
+        public void NewMETAR_SchipholMETARs_InitializesNewMETARs()
+        {
+            //Arrange
+            var METARs = new List<METAR>();
+
+            //Act
+            foreach (var METAR in METARHelper.EHAMMETARs)
+                METARs.Add(new METAR(METAR));
+
+            //Assert
+            Assert.AreEqual(METARs.Count, METARHelper.EHAMMETARs.Count);
         }
     }
 }
