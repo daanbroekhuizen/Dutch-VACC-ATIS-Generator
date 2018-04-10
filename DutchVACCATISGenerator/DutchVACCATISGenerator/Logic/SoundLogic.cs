@@ -17,7 +17,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="atisFile">Path to ATIS descriptor file</param>
         /// /// <param name="ATISSamples">List of ATIS samples</param>
-        void Build(string atisFile, List<string> ATISSamples);
+        Task Build(string atisFile, List<string> ATISSamples);
 
         /// <summary>
         /// Plays or stops the ATIS.
@@ -36,13 +36,13 @@ namespace DutchVACCATISGenerator.Logic
         private AudioFileReader audioFileReader;
         private IWavePlayer wavePlayer;
 
-        public void Build(string atisFile, List<string> ATISSamples)
+        public Task Build(string atisFile, List<string> ATISSamples)
         {
             if (string.IsNullOrWhiteSpace(atisFile) || !File.Exists(atisFile))
                 throw new FileNotFoundException(atisFile);
 
             ///Start build asynchronous.
-            BuildAsync(atisFile, ATISSamples, GetRecords(atisFile));
+            return BuildAsync(atisFile, ATISSamples, GetRecords(atisFile));
         }
 
         public void Play(string atisFile)
@@ -125,7 +125,7 @@ namespace DutchVACCATISGenerator.Logic
             return linesWithItem;
         }
 
-        private async void BuildAsync(string atisFile, List<string> ATISSamples, Dictionary<string, string> records)
+        private async Task BuildAsync(string atisFile, List<string> ATISSamples, Dictionary<string, string> records)
         {
             await Task.Run(() =>
              {
