@@ -1,6 +1,5 @@
 ﻿using DutchVACCATISGenerator.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -8,19 +7,18 @@ namespace DutchVACCATISGenerator.Test.Logic
     public class AutoUpdateTests
     {
         private readonly IAutoUpdateLogic autoUpdateLogic;
-        private readonly IFileLogic fileLogic;
 
         public AutoUpdateTests()
         {
-            fileLogic = new FileLogic();
+            var fileLogic = new FileLogic();
             autoUpdateLogic = new AutoUpdateLogic(fileLogic);
         }
 
         [TestMethod]
-        public void AutoUpdateTest()
+        public void AutoUpdate_ShouldPass_Passes()
         {
             //Act
-            autoUpdateLogic.AutoUpdate().Wait(5000);
+            autoUpdateLogic.AutoUpdate().Wait();
         }
     }
 }

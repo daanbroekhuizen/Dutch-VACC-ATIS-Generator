@@ -58,7 +58,7 @@ namespace DutchVACCATISGenerator.Logic
             }
             catch
             {
-                throw;
+                //Do nothing, ignore error.
             }
         }
 
@@ -81,7 +81,7 @@ namespace DutchVACCATISGenerator.Logic
             try
             {
                 //Delete installer files.
-                fileLogic.DeleteInstallerFiles();
+                fileLogic.DeleteInstallerFiles(false);
 
                 //Extract zip.
                 using (var zipFile = ZipFile.Open(executablePath + zipName, ZipArchiveMode.Read))
@@ -105,7 +105,7 @@ namespace DutchVACCATISGenerator.Logic
             }
             catch
             {
-                throw;
+                //Do nothing, ignore error.
             }
         }
     }
