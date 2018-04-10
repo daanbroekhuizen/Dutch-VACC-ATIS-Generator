@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Extensions\FileExtensionsTests.cs" />
     <Compile Include="Extensions\FormExtensionsTests.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensionsTests.cs" />
     <Compile Include="Extensions\ZipArchiveExtensionsTests.cs" />
