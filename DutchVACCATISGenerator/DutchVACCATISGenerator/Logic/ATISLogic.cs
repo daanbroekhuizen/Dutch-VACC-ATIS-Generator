@@ -195,33 +195,29 @@ namespace DutchVACCATISGenerator.Logic
         {
             switch (ICAO)
             {
-                //If processed ICAO is EHAM.
                 case "EHAM":
                     applicationVariables.ATISSamples.Add("ehamatis");
                     return "THIS IS SCHIPHOL INFORMATION";
 
-                //If processed ICAO is EHBK.
                 case "EHBK":
                     applicationVariables.ATISSamples.Add("ehbkatis");
                     return "THIS IS BEEK INFORMATION";
 
-                //If processed ICAO is EHEH.
                 case "EHEH":
                     applicationVariables.ATISSamples.Add("ehehatis");
                     return "THIS IS EINDHOVEN INFORMATION";
 
-                //If processed ICAO is EHGG.
                 case "EHGG":
                     applicationVariables.ATISSamples.Add("ehggatis");
                     return "THIS IS EELDE INFORMATION";
 
-                //If processed ICAO is EHRD.
                 case "EHRD":
                     applicationVariables.ATISSamples.Add("ehrdatis");
                     return "THIS IS ROTTERDAM INFORMATION";
-            }
 
-            return string.Empty;
+                default:
+                    return string.Empty;
+            }
         }
 
         /// <summary>
@@ -336,9 +332,10 @@ namespace DutchVACCATISGenerator.Logic
                 case "Z":
                     applicationVariables.ATISSamples.Add("z");
                     return " ZULU";
-            }
 
-            return string.Empty;
+                default:
+                    return string.Empty;
+            }
         }
 
         /// <summary>
@@ -365,11 +362,11 @@ namespace DutchVACCATISGenerator.Logic
             bool schipholSecondaryLandingRunwayChecked, bool schipholSecondaryDepartureRunwayChecked, string schipholSecondaryLandingRunway,
             string schipholSecondaryDepartureRunway, string regionalRunway)
         {
-            string output = string.Empty;
-
             switch (selectedAirport)
             {
                 case "EHAM":
+                    var output = string.Empty;
+
                     //Schiphol main landing runway.
                     applicationVariables.ATISSamples.Add("mlrwy");
                     output += Runway(" MAIN LANDING RUNWAY", schipholMainLandingRunway);
@@ -394,18 +391,19 @@ namespace DutchVACCATISGenerator.Logic
                         applicationVariables.ATISSamples.Add("strwy");
                         output += Runway(" SECONDARY TAKEOFF RUNWAY", schipholSecondaryDepartureRunway);
                     }
-                    break;
+
+                    return output;
 
                 case "EHBK":
                 case "EHEH":
                 case "EHGG":
                 case "EHRD":
                     applicationVariables.ATISSamples.Add("mlrwy");
-                    output += Runway(" MAIN LANDING RUNWAY", regionalRunway);
-                    break;
-            }
+                    return Runway(" MAIN LANDING RUNWAY", regionalRunway);
 
-            return output;
+                default:
+                    return string.Empty;
+            }
         }
 
         /// <summary>
@@ -466,10 +464,8 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string TransitionLevel(METAR METAR)
         {
-            string output = string.Empty;
-
             applicationVariables.ATISSamples.Add("trl");
-            output += " TRANSITION LEVEL";
+            var output = " TRANSITION LEVEL";
 
             //Calculate and add transition level to output.
             var transitionLevel = METARLogic.CalculateTransitionLevel(METAR.Temperature, METAR.QNH);
@@ -478,7 +474,7 @@ namespace DutchVACCATISGenerator.Logic
             AddIndividualDigits(transitionLevel.ToString());
 
             //Add to output.
-            output += " " + transitionLevel;
+            output += $" {transitionLevel.ToString()}";
 
             return output;
         }
@@ -556,7 +552,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string IndependentParallelApproaches(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool independent)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             if ((schipholMainLandingRunway.Equals("18R") && schipholSecondaryLandingRunway.Equals("18C")) ||
                 (schipholMainLandingRunway.Equals("18C") && schipholSecondaryLandingRunway.Equals("18R")) ||
@@ -586,7 +582,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string ConvergingApproaches(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool converging)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             if (//06
                 (schipholMainLandingRunway.Equals("06") && schipholSecondaryLandingRunway.Equals("36R")) ||
@@ -641,7 +637,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string Wind(Wind wind)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             applicationVariables.ATISSamples.Add("wind");
             output += " WIND";
@@ -802,7 +798,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string Phenomena(List<Phenomena> phenomenas)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             foreach (var phenomena in phenomenas)
             {
@@ -1028,7 +1024,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string Cloud(bool SKC, bool NSC, List<Cloud> clouds, bool NSW = false)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             //If processed METAR has SKC, add SKC to output. 
             if (SKC)
@@ -1209,7 +1205,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string Temperature(int temperature)
         {
-            string output = string.Empty;
+            var output = string.Empty;
 
             applicationVariables.ATISSamples.Add("temp");
             output += " TEMPERATURE";
@@ -1279,16 +1275,11 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string QNH(int QNH)
         {
-            string output = string.Empty;
-
             applicationVariables.ATISSamples.Add("qnh");
-            output += " QNH";
             AddIndividualDigits(QNH.ToString());
-            output += " " + QNH.ToString();
             applicationVariables.ATISSamples.Add("hpa");
-            output += " HECTOPASCAL";
 
-            return output;
+            return $" QNH {QNH.ToString()} HECTOPASCAL";
         }
 
         /// <summary>
@@ -1313,7 +1304,7 @@ namespace DutchVACCATISGenerator.Logic
                     break;
             }
 
-            if(trend.Wind != null)
+            if (trend.Wind != null)
                 output += Wind(trend.Wind);
 
             output += Visibility(trend.CAVOK, trend.Visibility, false);
