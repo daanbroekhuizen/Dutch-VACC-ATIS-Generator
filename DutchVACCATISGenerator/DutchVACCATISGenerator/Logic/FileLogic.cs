@@ -6,20 +6,27 @@ namespace DutchVACCATISGenerator.Logic
 {
     public interface IFileLogic
     {
-        void DeleteInstallerFiles();
+        /// <summary>
+        /// Deletes the installer files.
+        /// </summary>
+        /// <param name="removeZips">Remove downloaded zips</param>
+        void DeleteInstallerFiles(bool removeZips);
     }
 
     public class FileLogic : IFileLogic
     {
-        public void DeleteInstallerFiles()
+        public void DeleteInstallerFiles(bool removeZips)
         {
-            //Clean up zips.
-            var zips = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.zip");
-
-            foreach (var zip in zips)
+            if (removeZips)
             {
-                if(!(new FileInfo(zip).IsLocked()))
-                    File.Delete(zip);
+                //Clean up zips.
+                var zips = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.zip");
+
+                foreach (var zip in zips)
+                {
+                    if (!(new FileInfo(zip).IsLocked()))
+                        File.Delete(zip);
+                }
             }
 
             //Clean up temp folder.
