@@ -21,41 +21,97 @@ namespace DutchVACCATISGenerator.Test.Logic
         }
 
         [TestMethod]
-        public void GenerateEindhovenATIS()
+        public void Generate_IndividualMETAR_Passes()
         {
             //Arrange
-            applicationVariables.SelectedAirport = "EHEH";
+            var METAR = new METAR(METARHelper.METAR);
+            applicationVariables.SelectedAirport = METAR.ICAO;
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+
+            //Act
+            var output = ATISLogic.Generate(METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+
+            //Assert
+            Assert.IsNotNull(output);
+            Assert.AreNotEqual(output, "");
+        }
+
+        [TestMethod]
+        public void Generate_EindhovenMETARs_Passes()
+        {
+            //Arrange
+            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+            var ATISBuilds = new List<string>();
+            var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHEHMETARs)
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            {
+                var _METAR = new METAR(METAR);
+
+                METARs.Add(_METAR);
+
+                applicationVariables.SelectedAirport = _METAR.ICAO;
+
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+            }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHEHMETARs.Count);
+            Assert.AreEqual(METARs.Count, METARHelper.EHEHMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARs.Count);
         }
 
         [TestMethod]
-        public void GenerateRotterdamATIS()
+        public void Generate_RotterdamMETARs_Passes()
         {
             //Arrange
-            applicationVariables.SelectedAirport = "EHRD";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+            var ATISBuilds = new List<string>();
+            var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHRDMETARs)
-                ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            {
+                var _METAR = new METAR(METAR);
+
+                METARs.Add(_METAR);
+
+                applicationVariables.SelectedAirport = _METAR.ICAO;
+
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+            }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(METARs.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARs.Count);
         }
 
         [TestMethod]
-        public void GenerateSchipholATIS()
+        public void Generate_SchipholMETARs_Passes()
         {
             //Arrange
-            applicationVariables.SelectedAirport = "EHAM";
             ATISLogic.SetPhoneticAlphabet(false, false, true, false);
-
-            var generatedATIS = new List<string>();
+            var ATISBuilds = new List<string>();
+            var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
-                generatedATIS.Add(ATISLogic.GenerateOutput(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+            {
+                var _METAR = new METAR(METAR);
+
+                METARs.Add(_METAR);
+
+                applicationVariables.SelectedAirport = _METAR.ICAO;
+
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+            }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, METARHelper.EHAMMETARs.Count);
+            Assert.AreEqual(METARs.Count, METARHelper.EHAMMETARs.Count);
+            Assert.AreEqual(ATISBuilds.Count, METARs.Count);
         }
     }
 }
