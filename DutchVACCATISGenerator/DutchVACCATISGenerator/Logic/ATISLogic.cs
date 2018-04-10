@@ -24,7 +24,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="approachAndArrival">Indicates if approach and arrival only selection is made</param>
         /// <param name="extra">Indicates if extra selection is made</param>
         /// <returns>Generated output</returns>
-        string GenerateOutput(METAR metar, string schipholMainLandingRunway, string schipholMainDepartureRunway,
+        string Generate(METAR metar, string schipholMainLandingRunway, string schipholMainDepartureRunway,
             bool schipholSecondaryLandingRunwayChecked, bool secondaryDepartureRunwayChecked,
             string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway,
             bool markTemperature, bool arrival, bool approach, bool approachAndArrival, bool extra);
@@ -51,7 +51,7 @@ namespace DutchVACCATISGenerator.Logic
             this.METARLogic = METARLogic;
         }
 
-        public string GenerateOutput(METAR METAR, string schipholMainLandingRunway, string schipholMainDepartureRunway,
+        public string Generate(METAR METAR, string schipholMainLandingRunway, string schipholMainDepartureRunway,
             bool schipholSecondaryLandingRunwayChecked, bool schipholSecondaryDepartureRunwayChecked,
             string schipholSecondaryLandingRunway, string schipholSecondaryDepartureRunway, string regionalRunway,
             bool markTemperature, bool arrival, bool approach, bool approachAndArrival, bool extra)
@@ -60,13 +60,13 @@ namespace DutchVACCATISGenerator.Logic
 
             var output = string.Empty;
 
-            output += GenerateICAOOutput(METAR.ICAO);
+            output += ICAO(METAR.ICAO);
 
-            output += GenerateATISLetterOutput(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
+            output += ATISLetter(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
 
             AddPause();
 
-            output += GenerateRunwayOutput(applicationVariables.SelectedAirport,
+            output += Runway(applicationVariables.SelectedAirport,
                 schipholMainLandingRunway,
                 schipholMainDepartureRunway,
                 schipholSecondaryLandingRunwayChecked,
@@ -75,30 +75,30 @@ namespace DutchVACCATISGenerator.Logic
                 schipholSecondaryDepartureRunway,
                 regionalRunway);
 
-            output += GenerateTransitionLevelOutput(METAR);
+            output += TransitionLevel(METAR);
 
-            output += GenerateOperationalReportOutput(METAR,
+            output += OperationalReport(METAR,
                 schipholSecondaryLandingRunwayChecked,
                 schipholMainLandingRunway,
                 schipholSecondaryLandingRunway);
 
             AddPause();
 
-            output += GenerateWindOutput(METAR.Wind);
+            output += Wind(METAR.Wind);
 
-            output += GenerateVisibilityOutput(METAR.CAVOK, METAR.Visibility, METAR.RVR);
+            output += Visibility(METAR.CAVOK, METAR.Visibility, METAR.RVR);
 
-            output += GeneratePhenomenaOutput(METAR.Phenomena);
+            output += Phenomena(METAR.Phenomena);
 
-            output += GenerateCloudOutput(METAR.SKC, METAR.NSC, METAR.Clouds);
+            output += Cloud(METAR.SKC, METAR.NSC, METAR.Clouds);
 
-            output += GenerateVerticalVisibility(METAR.VerticalVisibility);
+            output += VerticalVisibility(METAR.VerticalVisibility);
 
-            output += GenerateTemperatureOutput(METAR.Temperature);
+            output += Temperature(METAR.Temperature);
 
-            output += GenerateDewPointOutput(METAR.DewPoint);
+            output += DewPoint(METAR.DewPoint);
 
-            output += GenerateQNHOutput(METAR.QNH);
+            output += QNH(METAR.QNH);
 
             //Add NOSIG.
             if (METAR.NOSIG)
@@ -108,10 +108,10 @@ namespace DutchVACCATISGenerator.Logic
             }
 
             if (METAR.TEMPO != null)
-                output += GenerateTrendOuput(METAR.TEMPO);
+                output += Trend(METAR.TEMPO);
 
             if (METAR.BECMG != null)
-                output += GenerateTrendOuput(METAR.BECMG);
+                output += Trend(METAR.BECMG);
 
             //Inverted surface temperature.
             if (markTemperature)
@@ -144,7 +144,7 @@ namespace DutchVACCATISGenerator.Logic
             //Add end to output.
             applicationVariables.ATISSamples.Add("end");
             output += " END OF INFORMATION";
-            output += GenerateATISLetterOutput(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
+            output += ATISLetter(applicationVariables.PhoneticAlphabet[applicationVariables.ATISIndex]);
 
             if (extra)
             {
@@ -191,7 +191,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="ICAO">Airport ICAO</param>
         /// <returns>Generated output</returns>
-        private string GenerateICAOOutput(string ICAO)
+        private string ICAO(string ICAO)
         {
             switch (ICAO)
             {
@@ -229,7 +229,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="ATISLetter">ATIS letter</param>
         /// <returns>Generated output</returns>
-        private string GenerateATISLetterOutput(string ATISLetter)
+        private string ATISLetter(string ATISLetter)
         {
             switch (ATISLetter)
             {
@@ -361,7 +361,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="schipholSecondaryDepartureRunway">Selected Schiphol secondary departure runway</param>
         /// <param name="regionalRunway">Selected regional runway</param>
         /// <returns>Generated output</returns>
-        private string GenerateRunwayOutput(string selectedAirport, string schipholMainLandingRunway, string schipholMainDepartureRunway,
+        private string Runway(string selectedAirport, string schipholMainLandingRunway, string schipholMainDepartureRunway,
             bool schipholSecondaryLandingRunwayChecked, bool schipholSecondaryDepartureRunwayChecked, string schipholSecondaryLandingRunway,
             string schipholSecondaryDepartureRunway, string regionalRunway)
         {
@@ -372,27 +372,27 @@ namespace DutchVACCATISGenerator.Logic
                 case "EHAM":
                     //Schiphol main landing runway.
                     applicationVariables.ATISSamples.Add("mlrwy");
-                    output += GenerateRunwayOutput(" MAIN LANDING RUNWAY", schipholMainLandingRunway);
+                    output += Runway(" MAIN LANDING RUNWAY", schipholMainLandingRunway);
 
                     //Schiphol secondary landing runway.
                     if (schipholSecondaryLandingRunwayChecked)
                     {
                         applicationVariables.ATISSamples.Add("slrwy");
-                        output += GenerateRunwayOutput(" SECONDARY LANDING RUNWAY", schipholSecondaryLandingRunway);
+                        output += Runway(" SECONDARY LANDING RUNWAY", schipholSecondaryLandingRunway);
                     }
 
                     //Schiphol main departure runway.
                     if (!string.Equals(schipholMainLandingRunway, schipholMainDepartureRunway))
                     {
                         applicationVariables.ATISSamples.Add("mtrwy");
-                        output += GenerateRunwayOutput(" MAIN TAKEOFF RUNWAY", schipholMainDepartureRunway);
+                        output += Runway(" MAIN TAKEOFF RUNWAY", schipholMainDepartureRunway);
                     }
 
                     //Schiphol secondary departure runway.
                     if (schipholSecondaryDepartureRunwayChecked)
                     {
                         applicationVariables.ATISSamples.Add("strwy");
-                        output += GenerateRunwayOutput(" SECONDARY TAKEOFF RUNWAY", schipholSecondaryDepartureRunway);
+                        output += Runway(" SECONDARY TAKEOFF RUNWAY", schipholSecondaryDepartureRunway);
                     }
                     break;
 
@@ -401,7 +401,7 @@ namespace DutchVACCATISGenerator.Logic
                 case "EHGG":
                 case "EHRD":
                     applicationVariables.ATISSamples.Add("mlrwy");
-                    output += GenerateRunwayOutput(" MAIN LANDING RUNWAY", regionalRunway);
+                    output += Runway(" MAIN LANDING RUNWAY", regionalRunway);
                     break;
             }
 
@@ -414,7 +414,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="intro">Runway intro text</param>
         /// <param name="runway">Runway</param>
         /// <returns>Generated output</returns>
-        private string GenerateRunwayOutput(string intro, string runway)
+        private string Runway(string intro, string runway)
         {
             var output = $"{intro} ";
 
@@ -427,7 +427,7 @@ namespace DutchVACCATISGenerator.Logic
                 //Add runway identifier numbers to output.
                 output += runway.Substring(0, 2);
                 //Add runway identifier letter to output.
-                return output += GenerateRunwayOutput(runway.Substring(2));
+                return output += RunwayMarker(runway.Substring(2));
             }
             else
                 return output += runway;
@@ -438,7 +438,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="runwayMarker">Runway marker</param>
         /// <returns>Generated output</returns>
-        private string GenerateRunwayOutput(string runwayMarker)
+        private string RunwayMarker(string runwayMarker)
         {
             switch (runwayMarker)
             {
@@ -464,7 +464,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="metar">METAR</param>
         /// <returns>Generated output</returns>
-        private string GenerateTransitionLevelOutput(METAR METAR)
+        private string TransitionLevel(METAR METAR)
         {
             string output = string.Empty;
 
@@ -500,7 +500,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="schipholMainLandingRunway">Selected Schiphol main landing runway</param>
         /// <param name="schipholSecondaryLandingRunway">Selected Schiphol secondary landing runway</param>
         /// <returns>Generated output</returns>
-        private string GenerateOperationalReportOutput(METAR METAR, bool schipholSecondaryLandingRunwayChecked, string schipholMainLandingRunway, string schipholSecondaryLandingRunway)
+        private string OperationalReport(METAR METAR, bool schipholSecondaryLandingRunwayChecked, string schipholMainLandingRunway, string schipholSecondaryLandingRunway)
         {
             applicationVariables.ATISSamples.Add("opr");
 
@@ -510,12 +510,12 @@ namespace DutchVACCATISGenerator.Logic
             bool converging = false;
 
             //If visibility is not 0 or less than 1500 meter, add low visibility procedure phrase.
-            output += GenerateLowVisibilityOutput(METAR, out bool visibility);
+            output += LowVisibility(METAR, out bool visibility);
 
             if (schipholSecondaryLandingRunwayChecked)
             {
-                output += GenerateIndependentParallelApproachesOutput(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out independent);
-                output += GenerateConvergingApproachesOutput(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out converging);
+                output += IndependentParallelApproaches(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out independent);
+                output += ConvergingApproaches(schipholMainLandingRunway, schipholSecondaryLandingRunway, visibility, out converging);
             }
 
             if (visibility || independent || converging)
@@ -533,7 +533,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="METAR">METAR</param>
         /// <param name="visibility">Visibility operational report generated</param>
         /// <returns>Generated output</returns>
-        private string GenerateLowVisibilityOutput(METAR METAR, out bool visibility)
+        private string LowVisibility(METAR METAR, out bool visibility)
         {
             if (METAR.Visibility != 0 && METAR.Visibility < 1500)
             {
@@ -554,7 +554,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="visibility">Visibility operational report generated</param>
         /// <param name="independent">Independent approaches operational report generated</param>
         /// <returns>Generated output</returns>
-        private string GenerateIndependentParallelApproachesOutput(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool independent)
+        private string IndependentParallelApproaches(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool independent)
         {
             string output = string.Empty;
 
@@ -584,7 +584,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="visibility">Visibility operational report generated</param>
         /// <param name="converging">Converging approaches operational report generated</param>
         /// <returns>Generated output</returns>
-        private string GenerateConvergingApproachesOutput(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool converging)
+        private string ConvergingApproaches(string schipholMainLandingRunway, string schipholSecondaryLandingRunway, bool visibility, out bool converging)
         {
             string output = string.Empty;
 
@@ -639,7 +639,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="METAR">METAR</param>
         /// <returns>Generated output</returns>
-        private string GenerateWindOutput(Wind wind)
+        private string Wind(Wind wind)
         {
             string output = string.Empty;
 
@@ -709,7 +709,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="METAR">METAR</param>
         /// <returns>Generated output</returns>
-        private string GenerateVisibilityOutput(bool CAVOK, int visibility, bool RVR)
+        private string Visibility(bool CAVOK, int visibility, bool RVR)
         {
             if (CAVOK)
             {
@@ -722,7 +722,7 @@ namespace DutchVACCATISGenerator.Logic
 
                 //If processed METAR has a visibility greater than 0, generate and add visibility output to output. 
                 if (visibility > 0)
-                    output += GenerateVisibilityOutput(visibility);
+                    output += Visibility(visibility);
 
                 //If processed METAR has RVR, add RVR to output. 
                 if (RVR)
@@ -740,7 +740,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="visibility">Visibility</param>
         /// <returns>Generated output</returns>
-        private string GenerateVisibilityOutput(int visibility)
+        private string Visibility(int visibility)
         {
             applicationVariables.ATISSamples.Add("vis");
             string output = " VISIBILITY";
@@ -800,7 +800,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="phenomenas">List of phenomena</param>
         /// <returns>Generated output</returns>
-        private string GeneratePhenomenaOutput(List<Phenomena> phenomenas)
+        private string Phenomena(List<Phenomena> phenomenas)
         {
             string output = string.Empty;
 
@@ -865,10 +865,10 @@ namespace DutchVACCATISGenerator.Logic
                         while (index != phenomena.Type.Length)
                         {
                             if (!(phenomena.Type.Length - index == 2))
-                                output += GeneratePhenomenaOutput(phenomena.Type.Substring(index, 2));
+                                output += Phenomena(phenomena.Type.Substring(index, 2));
 
                             else
-                                output += GeneratePhenomenaOutput(phenomena.Type.Substring(index));
+                                output += Phenomena(phenomena.Type.Substring(index));
 
                             index = index + 2;
                         }
@@ -876,7 +876,7 @@ namespace DutchVACCATISGenerator.Logic
                 }
                 //If phenomena is 2 char phenomena.
                 else
-                    output += GeneratePhenomenaOutput(phenomena.Type);
+                    output += Phenomena(phenomena.Type);
 
                 //If multiple phenomena and not the last of phenomena list, add [and].
                 if (phenomenas.Count > 1 && phenomenas.IndexOf(phenomena) != phenomenas.Count - 1)
@@ -889,11 +889,11 @@ namespace DutchVACCATISGenerator.Logic
         /// <summary>
         /// Generates phenomena output.
         /// </summary>
-        /// <param name="phenomenaType">Phenomena type</param>
+        /// <param name="phenomena">Phenomena type</param>
         /// <returns>Generated output</returns>
-        private string GeneratePhenomenaOutput(string phenomenaType)
+        private string Phenomena(string phenomena)
         {
-            switch (phenomenaType)
+            switch (phenomena)
             {
                 case "BC":
                     applicationVariables.ATISSamples.Add("bc");
@@ -1026,7 +1026,7 @@ namespace DutchVACCATISGenerator.Logic
         /// <param name="NSC">NSC</param>
         /// <param name="clouds">List of clouds</param>
         /// <returns>Generated output</returns>
-        private string GenerateCloudOutput(bool SKC, bool NSC, List<Cloud> clouds, bool NSW = false)
+        private string Cloud(bool SKC, bool NSC, List<Cloud> clouds, bool NSW = false)
         {
             string output = string.Empty;
 
@@ -1052,7 +1052,7 @@ namespace DutchVACCATISGenerator.Logic
                 foreach (var cloud in clouds)
                 {
                     //Add cloud type identifier.
-                    output += GenerateCloudOutput(cloud.Type);
+                    output += CloudType(cloud.Type);
 
                     //If cloud altitude equals ground level.
                     if (cloud.Altitude == 0)
@@ -1113,7 +1113,7 @@ namespace DutchVACCATISGenerator.Logic
 
                     //If cloud type has addition (e.g. CB, TCU).
                     if (cloud.Addition != null)
-                        output += GenerateCloudOutput(cloud.Addition.Value);
+                        output += CloudAddition(cloud.Addition.Value);
                 }
             }
 
@@ -1125,23 +1125,23 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="type">Cloud type</param>
         /// <returns>Generated output</returns>
-        private string GenerateCloudOutput(CloudType type)
+        private string CloudType(CloudType type)
         {
             switch (type)
             {
-                case CloudType.FEW:
+                case Types.CloudType.FEW:
                     applicationVariables.ATISSamples.Add("few");
                     return " FEW";
 
-                case CloudType.BKN:
+                case Types.CloudType.BKN:
                     applicationVariables.ATISSamples.Add("bkn");
                     return " BROKEN";
 
-                case CloudType.OVC:
+                case Types.CloudType.OVC:
                     applicationVariables.ATISSamples.Add("ovc");
                     return " OVERCAST";
 
-                case CloudType.SCT:
+                case Types.CloudType.SCT:
                     applicationVariables.ATISSamples.Add("sct");
                     return " SCATTERED";
             }
@@ -1154,15 +1154,15 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="addition">Cloud addition</param>
         /// <returns>Generated output</returns>
-        private string GenerateCloudOutput(CloudAddition addition)
+        private string CloudAddition(CloudAddition addition)
         {
             switch (addition)
             {
-                case CloudAddition.CB:
+                case Types.CloudAddition.CB:
                     applicationVariables.ATISSamples.Add("cb");
                     return " CUMULONIMBUS";
 
-                case CloudAddition.TCU:
+                case Types.CloudAddition.TCU:
                     applicationVariables.ATISSamples.Add("tcu");
                     return " TOWERING CUMULONIMBUS";
             }
@@ -1175,7 +1175,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="verticalVisibility">Vertical visibility</param>
         /// <returns>Generated output</returns>
-        private string GenerateVerticalVisibility(int? verticalVisibility)
+        private string VerticalVisibility(int? verticalVisibility)
         {
             //If processed METAR has a vertical visibility greater than 0, add vertical visibility to output.
             if (verticalVisibility.HasValue)
@@ -1207,7 +1207,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="temperature">Temperature</param>
         /// <returns>Generated output</returns>
-        private string GenerateTemperatureOutput(int temperature)
+        private string Temperature(int temperature)
         {
             string output = string.Empty;
 
@@ -1238,7 +1238,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="dewPoint">Dew point</param>
         /// <returns>Generated output</returns>
-        private string GenerateDewPointOutput(int? dewPoint)
+        private string DewPoint(int? dewPoint)
         {
             var output = string.Empty;
 
@@ -1277,7 +1277,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="QNH">QNH</param>
         /// <returns>Generated output</returns>
-        private string GenerateQNHOutput(int QNH)
+        private string QNH(int QNH)
         {
             string output = string.Empty;
 
@@ -1296,7 +1296,7 @@ namespace DutchVACCATISGenerator.Logic
         /// </summary>
         /// <param name="trend">Trend</param>
         /// <returns>Generated output</returns>
-        private string GenerateTrendOuput(Trend trend)
+        private string Trend(Trend trend)
         {
             var output = string.Empty;
 
@@ -1314,15 +1314,15 @@ namespace DutchVACCATISGenerator.Logic
             }
 
             if(trend.Wind != null)
-                output += GenerateWindOutput(trend.Wind);
+                output += Wind(trend.Wind);
 
-            output += GenerateVisibilityOutput(trend.CAVOK, trend.Visibility, false);
+            output += Visibility(trend.CAVOK, trend.Visibility, false);
 
-            output += GeneratePhenomenaOutput(trend.Phenomena);
+            output += Phenomena(trend.Phenomena);
 
-            output += GenerateCloudOutput(trend.SKC, false, trend.Clouds, trend.NSW);
+            output += Cloud(trend.SKC, false, trend.Clouds, trend.NSW);
 
-            output += GenerateVerticalVisibility(trend.VerticalVisibility);
+            output += VerticalVisibility(trend.VerticalVisibility);
 
             return output;
         }
