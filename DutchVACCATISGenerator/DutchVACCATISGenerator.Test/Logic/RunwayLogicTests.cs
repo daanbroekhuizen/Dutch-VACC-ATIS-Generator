@@ -90,7 +90,7 @@ namespace DutchVACCATISGenerator.Test.Logic
                 METARs.Add(new METAR(METAR));
 
             //Act
-            foreach(var METAR in METARs)
+            foreach (var METAR in METARs)
             {
                 var crosswind = runwayLogic.CalculateCrosswindComponent(Runways.SchipholDeparture.First().Value.Item1, METAR.Wind.Heading, METAR.Wind.Knots, METAR.Wind.GustMin, METAR.Wind.GustMax);
                 var tailwind = runwayLogic.CalculateTailwindComponent(Runways.SchipholDeparture.First().Value.Item1, METAR.Wind.Heading, METAR.Wind.Knots, METAR.Wind.GustMin, METAR.Wind.GustMax);
@@ -100,6 +100,26 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             //Assert
             Assert.AreEqual(compliesList.Count, METARs.Count);
+        }
+
+        [TestMethod]
+        public void BestRunway_RotterdamRunways_AreSelected()
+        {
+            //Arrange
+            var METARs = new List<METAR>();
+            var bestRunwayList = new List<string>();
+
+            foreach (var METAR in METARHelper.EHRDMETARs)
+                METARs.Add(new METAR(METAR));
+
+            //Act
+            foreach (var METAR in METARs)
+                bestRunwayList.Add(runwayLogic.BestRunway(Runways.Rotterdam, new Random().Next(0, 4), METAR.RVR, METAR.RVRValues, METAR.Visibility, METAR.Clouds, METAR.Wind.Heading, METAR.Wind.Knots, METAR.Wind.GustMin, METAR.Wind.GustMax));
+
+            //Assert
+            Assert.AreEqual(bestRunwayList.Count, METARs.Count);
+            Assert.AreEqual(bestRunwayList.Count, METARHelper.EHRDMETARs.Count);
+            Assert.AreEqual(METARs.Count, METARHelper.EHRDMETARs.Count);
         }
     }
 }
