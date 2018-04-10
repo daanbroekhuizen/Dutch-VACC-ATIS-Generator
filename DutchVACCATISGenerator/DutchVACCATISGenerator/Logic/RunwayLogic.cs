@@ -168,103 +168,103 @@ namespace DutchVACCATISGenerator.Logic
             });
         }
 
-    /// <summary>
-    /// Checks if the wind on a runway complies with the wind criteria for that runway.
-    /// </summary>
-    /// <param name="maxCrosswind">Maximum crosswind component</param>
-    /// <param name="maxTailWind">Maximum tailwind component</param>
-    /// <param name="crosswind">Actual crosswind component</param>
-    /// <param name="tailwind">Actual tailwind component</param>
-    /// <returns>Indication if the a runway complies with the weather criteria for that runway</returns>
-    private string CompliesWithWind(int maxCrosswind, int maxTailWind, int crosswind, int tailwind)
-    {
-        if (crosswind <= maxCrosswind && tailwind <= maxTailWind)
-            return "OK";
-        else
-            return "-";
-    }
-
-    /// <summary>
-    /// Check if the visibility on a runway complies with the visibility criteria for that runway.
-    /// </summary>
-    /// <param name="runway">Runway</param>
-    /// <param name="RVR">RVR</param>
-    /// <param name="RVRValues">Dictionary of RVR-values</param>
-    /// <param name="visibility">Visibility</param>
-    /// <param name="clouds">List of clouds</param>
-    /// <returns>Boolean indicating if the runway visibility complies with the viability criteria for that runway</returns>
-    private bool CompliesWithVisibility(string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds)
-    {
-        //If applicationVariables.METAR has a RVR.
-        if (RVR)
+        /// <summary>
+        /// Checks if the wind on a runway complies with the wind criteria for that runway.
+        /// </summary>
+        /// <param name="maxCrosswind">Maximum crosswind component</param>
+        /// <param name="maxTailWind">Maximum tailwind component</param>
+        /// <param name="crosswind">Actual crosswind component</param>
+        /// <param name="tailwind">Actual tailwind component</param>
+        /// <returns>Indication if the a runway complies with the weather criteria for that runway</returns>
+        private string CompliesWithWind(int maxCrosswind, int maxTailWind, int crosswind, int tailwind)
         {
-            foreach (var pair in RVRValues)
+            if (crosswind <= maxCrosswind && tailwind <= maxTailWind)
+                return "OK";
+            else
+                return "-";
+        }
+
+        /// <summary>
+        /// Check if the visibility on a runway complies with the visibility criteria for that runway.
+        /// </summary>
+        /// <param name="runway">Runway</param>
+        /// <param name="RVR">RVR</param>
+        /// <param name="RVRValues">Dictionary of RVR-values</param>
+        /// <param name="visibility">Visibility</param>
+        /// <param name="clouds">List of clouds</param>
+        /// <returns>Boolean indicating if the runway visibility complies with the viability criteria for that runway</returns>
+        private bool CompliesWithVisibility(string runway, bool RVR, Dictionary<string, int> RVRValues, int visibility, List<Cloud> clouds)
+        {
+            //If applicationVariables.METAR has a RVR.
+            if (RVR)
             {
-                //Check if runway complies with RVR criteria based on the RWY RVR value.
-                if (pair.Key.Equals(runway))
-                    return CompliesWithRVR(pair.Value, clouds);
+                foreach (var pair in RVRValues)
+                {
+                    //Check if runway complies with RVR criteria based on the RWY RVR value.
+                    if (pair.Key.Equals(runway))
+                        return CompliesWithRVR(pair.Value, clouds);
+                }
+
+                //Check if runway complies with RVR criteria based on the visibility.
+                return CompliesWithRVR(visibility, clouds);
             }
-
-            //Check if runway complies with RVR criteria based on the visibility.
-            return CompliesWithRVR(visibility, clouds);
+            else
+            {
+                //If cloud layer > 200 feet.
+                return (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true);
+            }
         }
-        else
+
+        /// <summary>
+        /// Check if a runway visibility complies with the RVR criteria for that runway.
+        /// </summary>
+        /// <param name="rvr">RVR</param>
+        /// <param name="clouds">List of clouds</param>
+        /// <returns>Boolean indicating if the runway visibility complies with the RVR criteria for that runway</returns>
+        private bool CompliesWithRVR(int rvr, List<Cloud> clouds)
         {
-            //If cloud layer > 200 feet.
-            return (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true);
+            //If RVR > 500 and cloud layer is > 200 feet.
+            if (rvr >= 550 && (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true))
+                return true;
+
+            //If RVR < 500 and cloud layer is < 200 feet.
+            else if (rvr < 550 || (clouds.Count != 0 && clouds.First().Altitude < 2))
+                return false;
+
+            else return false;
+        }
+
+        /// <summary>
+        /// Converts degree to radian.
+        /// </summary>
+        /// <param name="degree">Degree</param>
+        /// <returns>Radian calculated from degree</returns>
+        private double DegreeToRadian(int degree)
+        {
+            return degree * (Math.PI / 180);
+        }
+
+        /// <summary>
+        /// Gets data from Schiphol Planning Interface website.
+        /// </summary>
+        /// <returns>SchipholPlanningInterfaceData object representing the Schiphol landing and departure runways</returns>
+        private async Task<SchipholPlanningInterfaceData> GetSchipholPlanningInterfaceData()
+        {
+            var request = WebRequest.Create(schipholPlanningInterfaceURL);
+
+            var response = await request.GetResponseAsync();
+
+            var reader = new StreamReader(response.GetResponseStream());
+
+            var json = reader.ReadToEnd().Trim();
+
+            var data = JsonConvert.DeserializeObject<List<SchipholPlanningInterface>>(json);
+
+            return new SchipholPlanningInterfaceData
+            {
+                DepartureRunways = data.Single().Start.Split(',').Select(s => s.Trim()).ToList(),
+                LandingRunways = data.Single().Landing.Split(',').Select(s => s.Trim()).ToList(),
+            };
         }
     }
-
-    /// <summary>
-    /// Check if a runway visibility complies with the RVR criteria for that runway.
-    /// </summary>
-    /// <param name="rvr">RVR</param>
-    /// <param name="clouds">List of clouds</param>
-    /// <returns>Boolean indicating if the runway visibility complies with the RVR criteria for that runway</returns>
-    private bool CompliesWithRVR(int rvr, List<Cloud> clouds)
-    {
-        //If RVR > 500 and cloud layer is > 200 feet.
-        if (rvr >= 550 && (clouds.Count != 0 ? clouds.First().Altitude >= 2 : true))
-            return true;
-
-        //If RVR < 500 and cloud layer is < 200 feet.
-        else if (rvr < 550 || (clouds.Count != 0 && clouds.First().Altitude < 2))
-            return false;
-
-        else return false;
-    }
-
-    /// <summary>
-    /// Converts degree to radian.
-    /// </summary>
-    /// <param name="degree">Degree</param>
-    /// <returns>Radian calculated from degree</returns>
-    private double DegreeToRadian(int degree)
-    {
-        return degree * (Math.PI / 180);
-    }
-
-    /// <summary>
-    /// Gets data from Schiphol Planning Interface website.
-    /// </summary>
-    /// <returns>SchipholPlanningInterfaceData object representing the Schiphol landing and departure runways</returns>
-    private async Task<SchipholPlanningInterfaceData> GetSchipholPlanningInterfaceData()
-    {
-        var request = WebRequest.Create(schipholPlanningInterfaceURL);
-
-        var response = await request.GetResponseAsync();
-
-        var reader = new StreamReader(response.GetResponseStream());
-
-        var json = reader.ReadToEnd().Trim();
-
-        var data = JsonConvert.DeserializeObject<List<SchipholPlanningInterface>>(json);
-
-        return new SchipholPlanningInterfaceData
-        {
-            DepartureRunways = data.Single().Start.Split(',').Select(s => s.Trim()).ToList(),
-            LandingRunways = data.Single().Landing.Split(',').Select(s => s.Trim()).ToList(),
-        };
-    }
-}
 }
