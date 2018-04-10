@@ -28,10 +28,10 @@ namespace DutchVACCATISGenerator.Test.Logic
             //Arrange
             var METAR = new METAR(METARHelper.METAR);
             applicationVariables.SelectedAirport = METAR.ICAO;
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+            ATISLogic.SetPhoneticAlphabet(false, false, true, true);
 
             //Act
-            var output = ATISLogic.Generate(METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false);
+            var output = ATISLogic.Generate(METAR, "18R", "24", true, true, "18C", "18L", "24", true, true, true, true, false);
 
             //Assert
             Assert.IsNotNull(output);
@@ -56,7 +56,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
                 applicationVariables.SelectedAirport = _METAR.ICAO;
 
-                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, true, true, true, false));
             }
 
             //Assert
@@ -83,7 +83,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
                 applicationVariables.SelectedAirport = _METAR.ICAO;
 
-                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, true, true, true, false));
             }
 
             //Assert
@@ -111,7 +111,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
                 applicationVariables.SelectedAirport = _METAR.ICAO;
 
-                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18C", "24", true, true, secondRunway.Shuffle(1).First(), "18L", "24", true, false, false, true, false));
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18C", "24", true, true, secondRunway.Shuffle(1).First(), "18L", "24", true, true, true, true, false));
             }
 
             //Assert

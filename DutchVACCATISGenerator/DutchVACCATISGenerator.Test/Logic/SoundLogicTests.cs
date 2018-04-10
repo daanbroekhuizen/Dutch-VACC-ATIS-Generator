@@ -3,6 +3,7 @@ using DutchVACCATISGenerator.Test.Helpers;
 using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace DutchVACCATISGenerator.Test.Logic
@@ -166,6 +167,49 @@ namespace DutchVACCATISGenerator.Test.Logic
 
             //Assert
             Assert.IsTrue(playbackStopped);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void Play_NonExisitingFile_ThrowsException()
+        {
+            //Act
+            soundLogic.Play("NonExisitingPath");
+        }
+
+        [TestMethod]
+        public void Play_IsPlaying_NoPlayback()
+        {
+            //Arrange
+            bool playbackStarted = false;
+            bool playbackStopped = false;
+
+            ApplicationEvents.PlaybackStartedEvent += (sender, args) =>
+            {
+                playbackStarted = true;
+            };
+
+            ApplicationEvents.PlaybackStoppedEvent += (sender, args) =>
+            {
+                playbackStopped = true;
+                playbackStarted = false;
+            };
+
+            //Act
+            soundLogic.Play(ATISEHAM);
+            soundLogic.Play(ATISEHAM);
+
+            //Assert
+            Assert.IsTrue(playbackStopped);
+            Assert.IsFalse(playbackStarted);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void Build_NonExisitingFile_ThrowsException()
+        {
+            //Act
+            soundLogic.Build("NonExisitingPath", new List<string>());
         }
     }
 }
