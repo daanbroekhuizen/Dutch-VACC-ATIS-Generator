@@ -54,7 +54,6 @@ namespace DutchVACCATISGenerator.Test.Logic
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHEH";
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var soundBuilds = new List<bool>();
 
@@ -66,6 +65,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             //Act
             foreach (var METAR in METARHelper.EHEHMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
                 soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }
@@ -81,7 +81,6 @@ namespace DutchVACCATISGenerator.Test.Logic
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHRD";
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var soundBuilds = new List<bool>();
 
@@ -93,6 +92,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             //Act
             foreach (var METAR in METARHelper.EHRDMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
                 soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }
@@ -108,7 +108,6 @@ namespace DutchVACCATISGenerator.Test.Logic
         {
             //Arrange
             applicationVariables.SelectedAirport = "EHAM";
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var soundBuilds = new List<bool>();
 
@@ -120,6 +119,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(false, false, true, false);
                 ATISBuilds.Add(ATISLogic.Generate(new METAR(METAR), "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
                 soundLogic.Build(ATISEHAM, applicationVariables.ATISSamples).Wait();
             }

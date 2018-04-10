@@ -40,13 +40,14 @@ namespace DutchVACCATISGenerator.Test.Logic
         public void Generate_EindhovenMETARs_Passes()
         {
             //Arrange
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHEHMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(false, false, true, false);
+
                 var _METAR = new METAR(METAR);
 
                 METARs.Add(_METAR);
@@ -66,13 +67,14 @@ namespace DutchVACCATISGenerator.Test.Logic
         public void Generate_RotterdamMETARs_Passes()
         {
             //Arrange
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHRDMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(false, true, true, false);
+
                 var _METAR = new METAR(METAR);
 
                 METARs.Add(_METAR);
@@ -92,13 +94,14 @@ namespace DutchVACCATISGenerator.Test.Logic
         public void Generate_SchipholMETARs_Passes()
         {
             //Arrange
-            ATISLogic.SetPhoneticAlphabet(false, false, true, false);
             var ATISBuilds = new List<string>();
             var METARs = new List<METAR>();
 
             //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
             {
+                ATISLogic.SetPhoneticAlphabet(true, false, true, false);
+
                 var _METAR = new METAR(METAR);
 
                 METARs.Add(_METAR);
