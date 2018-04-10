@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public static class ApplicationEvents
     {
         public static event EventHandler BuildAITSCompletedEvent;

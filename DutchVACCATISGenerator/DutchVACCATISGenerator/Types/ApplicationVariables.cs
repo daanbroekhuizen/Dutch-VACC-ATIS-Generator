@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationVariables
     {
         public int ATISIndex { get; set; }
