@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public class Trend
     {
         public bool CAVOK { get; set; }

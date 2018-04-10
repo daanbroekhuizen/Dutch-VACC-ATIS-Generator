@@ -1,5 +1,8 @@
-﻿namespace DutchVACCATISGenerator.Types
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public class Wind
     {
         public int? GustMax { get; set; }

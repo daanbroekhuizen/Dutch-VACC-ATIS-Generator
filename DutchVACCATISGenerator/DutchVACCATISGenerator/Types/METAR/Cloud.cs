@@ -1,5 +1,8 @@
-﻿namespace DutchVACCATISGenerator.Types
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public class Cloud
     {
         public bool AutoObservation { get; set; }
