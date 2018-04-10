@@ -71,6 +71,8 @@ namespace DutchVACCATISGenerator.Logic
 
             //Play the atis.wav file.
             wavePlayer.Play();
+
+            ApplicationEvents.PlaybackStarted();
         }
 
         public void Stop()

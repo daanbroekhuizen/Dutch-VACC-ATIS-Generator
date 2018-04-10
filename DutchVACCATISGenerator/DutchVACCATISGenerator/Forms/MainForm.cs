@@ -23,6 +23,7 @@ namespace DutchVACCATISGenerator.Forms
         private readonly IRunwayLogic runwayLogic;
         private readonly ISoundLogic soundLogic;
 
+        private bool ATISPlaying;
         private DateTime fetchMETARTime;
 
         /// <summary>
@@ -58,6 +59,8 @@ namespace DutchVACCATISGenerator.Forms
             ApplicationEvents.BuildAITSStartedEvent += BuildAITSStarted;
             ApplicationEvents.METARDownloadedEvent += METARDownloaded;
             ApplicationEvents.NewVersionEvent += NewVersion;
+            ApplicationEvents.PlaybackStartedEvent += PlaybackStarted;
+            ApplicationEvents.PlaybackStoppedEvent += PlaybackStopped;
             ApplicationEvents.SchipholRunwaysEvent += SchipholRunways;
             ApplicationEvents.TerminalAerodromeForecastFormClosingEvent += TerminalAerodromeForecastFormClosing;
 
@@ -354,13 +357,14 @@ namespace DutchVACCATISGenerator.Forms
             SetATISLabel();
 
             //Enable generate ATIS and runway info button.
-            generateATISButton.Enabled = true;
+            if(!ATISPlaying)
+                generateATISButton.Enabled = true;
+
             runwayInfoButton.Enabled =
                 runwayInfoToolStripMenuItem.Enabled = true;
 
             //Trigger METAR processed event.
             ApplicationEvents.METARProcessed(sender, e);
-
 
             //Check if selected ICAO tab matches the ICAO of the processed applicationVariables.METAR.
             if (!(applicationVariables.METAR.ICAO.Equals(applicationVariables.SelectedAirport)))
@@ -694,6 +698,24 @@ namespace DutchVACCATISGenerator.Forms
             {
                 formOpenerHelper.ShowModalForm<AutoUpdaterForm>();
             }
+        }
+
+        private void PlaybackStarted(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() =>
+            {
+                ATISPlaying = true;
+                generateATISButton.Enabled = false;
+            }));
+        }
+
+        private void PlaybackStopped(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() =>
+            {
+                ATISPlaying = false;
+                generateATISButton.Enabled = true;
+            }));
         }
 
         private void SchipholRunways(object sender, SchipholRunwaysEventArgs e)
