@@ -4,11 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DutchVACCATISGenerator.Test.Logic
 {
     [TestClass]
-    public class AutoUpdateTests
+    public class AutoUpdateLogicTests
     {
         private readonly IAutoUpdateLogic autoUpdateLogic;
 
-        public AutoUpdateTests()
+        public AutoUpdateLogicTests()
         {
             var fileLogic = new FileLogic();
             autoUpdateLogic = new AutoUpdateLogic(fileLogic);

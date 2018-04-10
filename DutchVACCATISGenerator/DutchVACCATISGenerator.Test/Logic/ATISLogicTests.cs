@@ -7,12 +7,12 @@ using System.Collections.Generic;
 namespace DutchVACCATISGenerator.Test.Logic
 {
     [TestClass]
-    public class ATISTests
+    public class ATISLogicTests
     {
         private readonly ApplicationVariables applicationVariables;
         private readonly IATISLogic ATISLogic;
 
-        public ATISTests()
+        public ATISLogicTests()
         {
             applicationVariables = new ApplicationVariables();
             var METARLogic = new METARLogic();

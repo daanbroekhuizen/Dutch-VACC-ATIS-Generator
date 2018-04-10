@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace DutchVACCATISGenerator.Test.Logic
 {
     [TestClass]
-    public class SoundTests
+    public class SoundLogicTests
     {
         private const string ATISEHAM = @"C:\Users\Virtual\Documents\EuroScope\atis\atiseham.txt";
 
@@ -15,7 +15,7 @@ namespace DutchVACCATISGenerator.Test.Logic
         private readonly IATISLogic ATISLogic;
         private readonly ISoundLogic soundLogic;
 
-        public SoundTests()
+        public SoundLogicTests()
         {
             applicationVariables = new ApplicationVariables();
             var METARLogic = new METARLogic();

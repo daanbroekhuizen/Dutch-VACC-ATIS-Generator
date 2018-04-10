@@ -5,11 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DutchVACCATISGenerator.Test.Logic
 {
     [TestClass]
-    public class RunwayTests
+    public class RunwayLogicTests
     {
         private readonly IRunwayLogic runwayLogic;
 
-        public RunwayTests()
+        public RunwayLogicTests()
         {
             runwayLogic = new RunwayLogic();
         }
