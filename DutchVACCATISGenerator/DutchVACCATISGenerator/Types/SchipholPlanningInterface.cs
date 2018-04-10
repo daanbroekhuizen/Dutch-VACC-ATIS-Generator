@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DutchVACCATISGenerator.Types
 {
+    [ExcludeFromCodeCoverage]
     public class SchipholPlanningInterface
     {
         [JsonProperty("lvnl_start")]
@@ -12,6 +14,7 @@ namespace DutchVACCATISGenerator.Types
         public string Landing { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class SchipholPlanningInterfaceData
     {
         public List<string> DepartureRunways { get; set; }
