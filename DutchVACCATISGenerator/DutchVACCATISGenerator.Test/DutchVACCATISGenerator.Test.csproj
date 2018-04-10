@@ -47,6 +47,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -67,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Extensions\FormExtensionsTests.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensionsTests.cs" />
+    <Compile Include="Extensions\ZipArchiveExtensionsTests.cs" />
     <Compile Include="Helpers\METARHelper.cs" />
     <Compile Include="Logic\ATISTests.cs" />
     <Compile Include="Logic\AutoUpdateTests.cs" />
