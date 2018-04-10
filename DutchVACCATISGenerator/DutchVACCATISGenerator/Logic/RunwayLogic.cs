@@ -112,7 +112,7 @@ namespace DutchVACCATISGenerator.Logic
             int crosswind;
 
             //If gust wind.
-            if (gustMin != null)
+            if (gustMin.HasValue)
                 //If gust is greater than 10 knots, include gust wind. Else do not include gust, calculate with min gust wind.
                 crosswind = Convert.ToInt32(Math.Sin(DegreeToRadian(Math.Abs(windHeading - runwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
             else
@@ -128,7 +128,7 @@ namespace DutchVACCATISGenerator.Logic
         public int CalculateTailwindComponent(int oppositeRunwayHeading, int windHeading, int windKnots, int? gustMin, int? gustMax)
         {
             //If gust wind.
-            if (gustMin != null)
+            if (gustMin.HasValue)
                 //If gust is greater than 10 knots, include gust wind. Else do not include gust, calculate with min gust wind.
                 return Convert.ToInt32(Math.Cos(DegreeToRadian(Math.Abs(windHeading - oppositeRunwayHeading))) * (Math.Abs(gustMax.Value - gustMin.Value) >= 10 ? gustMax.Value : gustMin.Value));
             else

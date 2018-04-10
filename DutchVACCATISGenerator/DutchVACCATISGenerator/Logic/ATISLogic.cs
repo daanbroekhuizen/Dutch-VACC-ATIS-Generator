@@ -660,7 +660,7 @@ namespace DutchVACCATISGenerator.Logic
                 output += " " + wind.Heading.ToString().PadLeft(3, '0') + " DEGREES";
 
                 //If wind is gusting.
-                if (wind.GustMin != null)
+                if (wind.GustMin.HasValue)
                 {
                     AddIndividualDigits(wind?.GustMin.Value.ToString());
 
@@ -682,7 +682,7 @@ namespace DutchVACCATISGenerator.Logic
             applicationVariables.ATISSamples.Add("kt");
 
             //Variable wind
-            if (wind.VariableLeft != null)
+            if (wind.VariableLeft.HasValue)
             {
                 applicationVariables.ATISSamples.Add("vrbbtn");
 
@@ -1108,7 +1108,7 @@ namespace DutchVACCATISGenerator.Logic
                     output += " FEET";
 
                     //If cloud type has addition (e.g. CB, TCU).
-                    if (cloud.Addition != null)
+                    if (cloud.Addition.HasValue)
                         output += CloudAddition(cloud.Addition.Value);
                 }
             }
