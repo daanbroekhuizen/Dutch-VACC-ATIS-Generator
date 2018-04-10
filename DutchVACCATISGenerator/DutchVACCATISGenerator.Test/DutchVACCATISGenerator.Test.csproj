@@ -74,6 +74,7 @@
     <Compile Include="Helpers\METARHelper.cs" />
     <Compile Include="Logic\ATISLogicTests.cs" />
     <Compile Include="Logic\AutoUpdateLogicTests.cs" />
+    <Compile Include="Logic\FileLogicTests.cs" />
     <Compile Include="Logic\METARLogicTests.cs" />
     <Compile Include="Logic\RunwayLogicTests.cs" />
     <Compile Include="Logic\SoundLogicTests.cs" />

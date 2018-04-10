@@ -20,7 +20,7 @@ namespace DutchVACCATISGenerator.Test.Extensions
         public void Initialize()
         {
             //Arrange
-            Directory.CreateDirectory($@"{executablePath}\ziptest");
+            Directory.CreateDirectory($@"{executablePath}ziptest");
             using (var stream = File.Create($@"{executablePath}ziptest\test.txt"))
             {
                 stream.Close();
@@ -28,7 +28,7 @@ namespace DutchVACCATISGenerator.Test.Extensions
 
             ZipFile.CreateFromDirectory($@"{executablePath}ziptest", $@"{executablePath}ziptest.zip");
 
-            Directory.Delete($@"{executablePath}\ziptest", true);
+            Directory.Delete($@"{executablePath}ziptest", true);
         }
 
         [TestMethod]
