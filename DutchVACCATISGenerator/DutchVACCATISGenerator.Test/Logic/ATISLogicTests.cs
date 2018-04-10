@@ -1,8 +1,10 @@
 ﻿using DutchVACCATISGenerator.Logic;
+using DutchVACCATISGenerator.Test.Extensions;
 using DutchVACCATISGenerator.Test.Helpers;
 using DutchVACCATISGenerator.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DutchVACCATISGenerator.Test.Logic
 {
@@ -96,6 +98,7 @@ namespace DutchVACCATISGenerator.Test.Logic
             //Arrange
             var ATISBuilds = new List<string>();
             var METARs = new List<METAR>();
+            var secondRunway = new List<string> { "18R", "27" };
 
             //Act
             foreach (var METAR in METARHelper.EHAMMETARs)
@@ -108,7 +111,7 @@ namespace DutchVACCATISGenerator.Test.Logic
 
                 applicationVariables.SelectedAirport = _METAR.ICAO;
 
-                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18R", "24", true, true, "18C", "18L", "24", true, false, false, true, false));
+                ATISBuilds.Add(ATISLogic.Generate(_METAR, "18C", "24", true, true, secondRunway.Shuffle(1).First(), "18L", "24", true, false, false, true, false));
             }
 
             //Assert
