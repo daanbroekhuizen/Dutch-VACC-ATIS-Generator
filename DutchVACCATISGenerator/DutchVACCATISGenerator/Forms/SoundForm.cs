@@ -3,12 +3,14 @@ using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
 {
+    [ExcludeFromCodeCoverage]
     public partial class SoundForm : Form
     {
         private readonly ApplicationVariables applicationVariables;

@@ -1,10 +1,12 @@
 ﻿using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
 {
+    [ExcludeFromCodeCoverage]
     public partial class TerminalAerodromeForecastForm : Form
     {
         private readonly ITerminalAerodromeForecastLogic terminalAerodromeForecastLogic;

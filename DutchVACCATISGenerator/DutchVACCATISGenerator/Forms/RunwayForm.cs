@@ -3,11 +3,13 @@ using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
 {
+    [ExcludeFromCodeCoverage]
     public partial class RunwayForm : Form
     {
         private readonly ApplicationVariables applicationVariables;

@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
 {
+    [ExcludeFromCodeCoverage]
     public partial class AboutForm : Form
     {
         public AboutForm()
