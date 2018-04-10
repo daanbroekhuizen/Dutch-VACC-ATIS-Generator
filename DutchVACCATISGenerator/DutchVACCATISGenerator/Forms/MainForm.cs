@@ -74,7 +74,7 @@ namespace DutchVACCATISGenerator.Forms
             DownloadMETAR();
 
             //Delete installer files.
-            fileLogic.DeleteInstallerFiles();
+            fileLogic.DeleteInstallerFiles(true);
 
             //If auto load EHAM runways is selected.
             if (autoLoadEHAMRunwayToolStripMenuItem.Checked)
@@ -127,7 +127,7 @@ namespace DutchVACCATISGenerator.Forms
             var regionalRunway = DetermineRegionalRunway();
 
             //Generate output.
-            string output = ATISLogic.GenerateOutput(applicationVariables.METAR,
+            string output = ATISLogic.Generate(applicationVariables.METAR,
                 SchipholMainLandingRunwayComboBox.Text,
                 SchipholMainDepartureRunwayComboBox.Text,
                 SchipholSecondaryLandingRunwayCheckBox.Checked,
