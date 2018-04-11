@@ -75,6 +75,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SimpleInjectorExtensionsTests.cs" />
     <Compile Include="Extensions\ZipArchiveExtensionsTests.cs" />
+    <Compile Include="Helpers\FormOpenerHelperTests.cs" />
     <Compile Include="Helpers\METARHelper.cs" />
     <Compile Include="Logic\ATISLogicTests.cs" />
     <Compile Include="Logic\AutoUpdateLogicTests.cs" />
@@ -95,6 +96,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".runsettings" />
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

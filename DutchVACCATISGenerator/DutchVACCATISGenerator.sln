@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator", "DutchVACCATISGenerator\DutchVACCATISGenerator.csproj", "{427ADEB6-4116-42A1-8FB6-06A4A5B33879}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator.Test", "DutchVACCATISGenerator.Test\DutchVACCATISGenerator.Test.csproj", "{0BA28619-60A4-420E-9159-81F4A41B069C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DutchVACCATISGenerator.Tests", "DutchVACCATISGenerator.Tests\DutchVACCATISGenerator.Tests.csproj", "{0BA28619-60A4-420E-9159-81F4A41B069C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
