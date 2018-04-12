@@ -1,12 +1,7 @@
 ﻿using DutchVACCATISGenerator.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DutchVACCATISGenerator.Test.Extensions
 {
@@ -40,11 +35,13 @@ namespace DutchVACCATISGenerator.Test.Extensions
         public void IsLocked_FileLockedThrowsException_IsTrue()
         {
             //Arrange
-            var stream = File.Create($@"{executablePath}test.txt");
+            bool result = false;
 
             //Act
-            var result = new FileInfo($@"{executablePath}test.txt").IsLocked();
-            stream.Close();
+            using (var stream = File.Create($@"{executablePath}test.txt"))
+            {
+                result = new FileInfo($@"{executablePath}test.txt").IsLocked();
+            }
 
             //Assert
             Assert.IsTrue(result);
