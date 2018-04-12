@@ -87,7 +87,9 @@ namespace DutchVACCATISGenerator.Logic
             ApplicationEvents.PlaybackStopped(sender, e);
 
             wavePlayer.Dispose();
+            wavePlayer = null;
             audioFileReader.Dispose();
+            audioFileReader = null;
         }
 
         private Dictionary<string, string> GetRecords(string atisFile)
