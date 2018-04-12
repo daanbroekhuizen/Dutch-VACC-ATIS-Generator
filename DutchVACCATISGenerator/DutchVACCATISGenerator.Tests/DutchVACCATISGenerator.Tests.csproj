@@ -6,8 +6,8 @@
     <ProjectGuid>{0BA28619-60A4-420E-9159-81F4A41B069C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DutchVACCATISGenerator.Test</RootNamespace>
-    <AssemblyName>DutchVACCATISGenerator.Test</AssemblyName>
+    <RootNamespace>DutchVACCATISGenerator.Tests</RootNamespace>
+    <AssemblyName>DutchVACCATISGenerator.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
