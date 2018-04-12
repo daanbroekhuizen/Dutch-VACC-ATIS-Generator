@@ -32,7 +32,6 @@ namespace DutchVACCATISGenerator.Extensions
             container.Register<IFileLogic, FileLogic>();
             container.Register<IMETARLogic, METARLogic>();
             container.Register<IRunwayLogic, RunwayLogic>();
-            container.Register<ISoundLogic, SoundLogic>();
             container.Register<ITerminalAerodromeForecastLogic, TerminalAerodromeForecastLogic>();
             container.Register<IVersionLogic, VersionLogic>();
         }
@@ -40,6 +39,7 @@ namespace DutchVACCATISGenerator.Extensions
         private static void RegisterSingletons(this Container container)
         {
             container.RegisterSingleton<ApplicationVariables>();
+            container.RegisterSingleton<ISoundLogic, SoundLogic>();
         }
     }
 }

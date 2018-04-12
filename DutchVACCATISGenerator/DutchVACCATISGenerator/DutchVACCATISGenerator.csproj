@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Types\ApplicationEvents.cs" />
     <Compile Include="Types\ApplicationVariables.cs" />
+    <Compile Include="Utilities\NativeMethods.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>

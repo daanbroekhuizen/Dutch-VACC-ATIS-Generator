@@ -31,10 +31,12 @@ namespace DutchVACCATISGenerator.Logic
         void Stop();
     }
 
-    public class SoundLogic : ISoundLogic
+    public class SoundLogic : ISoundLogic, IDisposable
     {
         private AudioFileReader audioFileReader;
         private IWavePlayer wavePlayer;
+
+        private bool disposed = false;
 
         public Task Build(string atisFile, List<string> ATISSamples)
         {
@@ -205,6 +207,40 @@ namespace DutchVACCATISGenerator.Logic
 
             //Update progress bar.
             ApplicationEvents.BuildAITSProgressChanged(percentage);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~SoundLogic()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                if (audioFileReader != null)
+                {
+                    audioFileReader.Dispose();
+                    audioFileReader = null;
+                }
+
+                if (wavePlayer != null)
+                {
+                    wavePlayer.Dispose();
+                    wavePlayer = null;
+                }
+            }
+
+            disposed = true;
         }
     }
 }

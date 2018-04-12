@@ -1,6 +1,7 @@
 ﻿using DutchVACCATISGenerator.Helpers;
 using DutchVACCATISGenerator.Logic;
 using DutchVACCATISGenerator.Types;
+using DutchVACCATISGenerator.Utilities;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -9,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Forms
@@ -27,13 +27,6 @@ namespace DutchVACCATISGenerator.Forms
 
         private bool ATISPlaying;
         private DateTime fetchMETARTime;
-
-        /// <summary>
-        /// Retrieves a handle to the foreground window (the window with which the user is currently working).
-        /// </summary>
-        /// <returns>IntPtr - Handle of foreground window</returns>
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
 
         public MainForm(ApplicationVariables applicationVariables,
             IATISLogic ATISLogic,
@@ -263,11 +256,11 @@ namespace DutchVACCATISGenerator.Forms
                 GetMetarButton_Click(null, null);
 
                 //Flash task bar.
-                if (this.Handle != GetForegroundWindow())
+                if (this.Handle != NativeMethods.GetForegroundWindow())
                 {
                     try
                     {
-                        FlashingWindow.FlashWindowEx(this);
+                        NativeMethods.FlashWindowEx(this);
                     }
                     catch (Exception) { }
                 }
