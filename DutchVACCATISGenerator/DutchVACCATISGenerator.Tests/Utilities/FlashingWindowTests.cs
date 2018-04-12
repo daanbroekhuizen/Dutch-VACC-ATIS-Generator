@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DutchVACCATISGenerator.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 
 namespace DutchVACCATISGenerator.Test.Utilities
@@ -13,7 +14,7 @@ namespace DutchVACCATISGenerator.Test.Utilities
             var form = new Form();
 
             //Act
-            var result = FlashingWindow.FlashWindowEx(form);
+            var result = NativeMethods.FlashWindowEx(form);
 
             //Assert
             Assert.IsTrue(result);
