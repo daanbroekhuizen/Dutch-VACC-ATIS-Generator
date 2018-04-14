@@ -119,5 +119,25 @@ namespace DutchVACCATISGenerator.Test.Logic
             Assert.AreEqual(METARs.Count, METARHelper.EHAMMETARs.Count);
             Assert.AreEqual(ATISBuilds.Count, METARs.Count);
         }
+
+        [TestMethod]
+        public void Generate_AllATISLetters_Passes()
+        {
+            //Arrange
+            var ATISBuilds = new List<string>();
+            var METAR = new METAR(METARHelper.METAR);
+            applicationVariables.SelectedAirport = METAR.ICAO;
+            ATISLogic.SetPhoneticAlphabet(false, false, false, true);
+
+            //Act
+            for (var i = 0; i < applicationVariables.PhoneticAlphabet.Count; i++)
+            {
+                applicationVariables.ATISIndex = i;
+                ATISBuilds.Add(ATISLogic.Generate(METAR, "18R", "24", true, true, "18C", "18L", "24", true, true, true, true, false));
+            }
+
+            //Assert
+            Assert.AreEqual(ATISBuilds.Count, applicationVariables.PhoneticAlphabet.Count);
+        }
     }
 }

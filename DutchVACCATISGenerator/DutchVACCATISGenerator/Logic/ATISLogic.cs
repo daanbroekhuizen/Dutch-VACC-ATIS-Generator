@@ -227,114 +227,135 @@ namespace DutchVACCATISGenerator.Logic
         /// <returns>Generated output</returns>
         private string ATISLetter(string ATISLetter)
         {
-            switch (ATISLetter)
+            if (string.Equals(ATISLetter, "A"))
             {
-                case "A":
-                    applicationVariables.ATISSamples.Add("a");
-                    return " ALPHA";
-
-                case "B":
-                    applicationVariables.ATISSamples.Add("b");
-                    return " BRAVO";
-
-                case "C":
-                    applicationVariables.ATISSamples.Add("c");
-                    return " CHARLIE";
-
-                case "D":
-                    applicationVariables.ATISSamples.Add("d");
-                    return " DELTA";
-
-                case "E":
-                    applicationVariables.ATISSamples.Add("e");
-                    return " ECHO";
-
-                case "F":
-                    applicationVariables.ATISSamples.Add("f");
-                    return " FOXTROT";
-
-                case "G":
-                    applicationVariables.ATISSamples.Add("g");
-                    return " GOLF";
-
-                case "H":
-                    applicationVariables.ATISSamples.Add("h");
-                    return " HOTEL";
-
-                case "I":
-                    applicationVariables.ATISSamples.Add("i");
-                    return " INDIA";
-
-                case "J":
-                    applicationVariables.ATISSamples.Add("j");
-                    return " JULIET";
-
-                case "K":
-                    applicationVariables.ATISSamples.Add("k");
-                    return " KILO";
-
-                case "L":
-                    applicationVariables.ATISSamples.Add("l");
-                    return " LIMA";
-
-                case "M":
-                    applicationVariables.ATISSamples.Add("m");
-                    return " MIKE";
-
-                case "N":
-                    applicationVariables.ATISSamples.Add("n");
-                    return " NOVEMBER";
-
-                case "O":
-                    applicationVariables.ATISSamples.Add("o");
-                    return " OSCAR";
-
-                case "P":
-                    applicationVariables.ATISSamples.Add("p");
-                    return " PAPA";
-
-                case "Q":
-                    applicationVariables.ATISSamples.Add("q");
-                    return " QUEBEC";
-
-                case "R":
-                    applicationVariables.ATISSamples.Add("r");
-                    return " ROMEO";
-
-                case "S":
-                    applicationVariables.ATISSamples.Add("s");
-                    return " SIERRA";
-
-                case "T":
-                    applicationVariables.ATISSamples.Add("t");
-                    return " TANGO";
-
-                case "U":
-                    applicationVariables.ATISSamples.Add("u");
-                    return " UNIFORM";
-
-                case "V":
-                    applicationVariables.ATISSamples.Add("v");
-                    return " VICTOR";
-
-                case "W":
-                    applicationVariables.ATISSamples.Add("w");
-                    return " WHISKEY";
-
-                case "X":
-                    applicationVariables.ATISSamples.Add("x");
-                    return " XRAY";
-
-                case "Y":
-                    applicationVariables.ATISSamples.Add("y");
-                    return " YANKEE";
-
-                case "Z":
-                    applicationVariables.ATISSamples.Add("z");
-                    return " ZULU";
-
-                default:
-                    return string.Empty;
+                applicationVariables.ATISSamples.Add("a");
+                return " ALPHA";
+            }
+            else if (string.Equals(ATISLetter, "B"))
+            {
+                applicationVariables.ATISSamples.Add("b");
+                return " BRAVO";
+            }
+            else if (string.Equals(ATISLetter, "C"))
+            {
+                applicationVariables.ATISSamples.Add("c");
+                return " CHARLIE";
+            }
+            else if (string.Equals(ATISLetter, "D"))
+            {
+                applicationVariables.ATISSamples.Add("d");
+                return " DELTA";
+            }
+            else if (string.Equals(ATISLetter, "E"))
+            {
+                applicationVariables.ATISSamples.Add("e");
+                return " ECHO";
+            }
+            else if (string.Equals(ATISLetter, "F"))
+            {
+                applicationVariables.ATISSamples.Add("f");
+                return " FOXTROT";
+            }
+            else if (string.Equals(ATISLetter, "G"))
+            {
+                applicationVariables.ATISSamples.Add("g");
+                return " GOLF";
+            }
+            else if (string.Equals(ATISLetter, "H"))
+            {
+                applicationVariables.ATISSamples.Add("h");
+                return " HOTEL";
+            }
+            else if (string.Equals(ATISLetter, "I"))
+            {
+                applicationVariables.ATISSamples.Add("i");
+                return " INDIA";
+            }
+            else if (string.Equals(ATISLetter, "J"))
+            {
+                applicationVariables.ATISSamples.Add("j");
+                return " JULIET";
+            }
+            else if (string.Equals(ATISLetter, "K"))
+            {
+                applicationVariables.ATISSamples.Add("k");
+                return " KILO";
+            }
+            else if (string.Equals(ATISLetter, "L"))
+            {
+                applicationVariables.ATISSamples.Add("l");
+                return " LIMA";
+            }
+            else if (string.Equals(ATISLetter, "M"))
+            {
+                applicationVariables.ATISSamples.Add("m");
+                return " MIKE";
+            }
+            else if (string.Equals(ATISLetter, "N"))
+            {
+                applicationVariables.ATISSamples.Add("n");
+                return " NOVEMBER";
+            }
+            else if (string.Equals(ATISLetter, "O"))
+            {
+                applicationVariables.ATISSamples.Add("o");
+                return " OSCAR";
+            }
+            else if (string.Equals(ATISLetter, "P"))
+            {
+                applicationVariables.ATISSamples.Add("p");
+                return " PAPA";
+            }
+            else if (string.Equals(ATISLetter, "Q"))
+            {
+                applicationVariables.ATISSamples.Add("q");
+                return " QUEBEC";
+            }
+            else if (string.Equals(ATISLetter, "R"))
+            {
+                applicationVariables.ATISSamples.Add("r");
+                return " ROMEO";
+            }
+            else if (string.Equals(ATISLetter, "S"))
+            {
+                applicationVariables.ATISSamples.Add("s");
+                return " SIERRA";
+            }
+            else if (string.Equals(ATISLetter, "T"))
+            {
+                applicationVariables.ATISSamples.Add("t");
+                return " TANGO";
+            }
+            else if (string.Equals(ATISLetter, "U"))
+            {
+                applicationVariables.ATISSamples.Add("u");
+                return " UNIFORM";
+            }
+            else if (string.Equals(ATISLetter, "V"))
+            {
+                applicationVariables.ATISSamples.Add("v");
+                return " VICTOR";
+            }
+            else if (string.Equals(ATISLetter, "W"))
+            {
+                applicationVariables.ATISSamples.Add("w");
+                return " WHISKEY";
+            }
+            else if (string.Equals(ATISLetter, "X"))
+            {
+                applicationVariables.ATISSamples.Add("x");
+                return " XRAY";
+            }
+            else if (string.Equals(ATISLetter, "Y"))
+            {
+                applicationVariables.ATISSamples.Add("y");
+                return " YANKEE";
+            }
+            else
+            {
+                applicationVariables.ATISSamples.Add("z");
+                return " ZULU";
             }
         }
 
